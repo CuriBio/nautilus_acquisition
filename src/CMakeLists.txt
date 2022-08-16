@@ -1,2 +1,2 @@
-#add_subdirectory(sub1)
 add_subdirectory(app)
+add_subdirectory(cameras)

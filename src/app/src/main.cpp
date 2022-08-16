@@ -1,13 +1,38 @@
 #include<iostream>
-//#include <boost/log/trivial.hpp>
-#include <spdlog/spdlog.h>
 
-#include <pvcam/master.h>
-#include <pvcam/pvcam.h>
+#include <spdlog/spdlog.h>
+#include <CameraInterface.h>
+#include <AcquisitionInterface.h>
+#include <FrameInterface.h>
+
+#include <pm/Camera.h>
+#include <pm/Frame.h>
+#include <pm/Acquisition.h>
+
+
+template<AcquisitionConcept A>
+void run(std::shared_ptr<A> acq) {
+    acq->Start();
+    acq->WaitForStop();
+}
+
+using pmCamera = Camera<pm::Camera, pm::Frame>;
+using pmAcquisition = Acquisition<pm::Acquisition, pm::Camera, pm::Frame>;
 
 int main(int argc, char* argv[]) {
-    //BOOST_LOG_TRIVIAL(info) << "Running";
     spdlog::info("Running");
-    rs_bool result = pl_pvcam_init();
-    spdlog::info("pl_pvcam_init: {}", result);
+    ExpSettings cs {
+        .expTimeMS = 2,
+        .acqMode = AcqMode::LiveCircBuffer,
+        .trigMode = TIMED_MODE,
+        .expMode = TIMED_MODE,
+        .frameCount = 10,
+    };
+
+    std::shared_ptr<pmCamera> camera = std::make_shared<pmCamera>();
+    camera->Open(0);
+    camera->SetupExp(cs);
+
+    std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera);
+    run(acquisition);
 }

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
-project(foo LANGUAGES CXX C VERSION 1.0)
-set(PROJECT_BRIEF "Foo app")
+project(nautilus LANGUAGES CXX C VERSION 0.1)
+set(PROJECT_BRIEF "Nautilus Acquisition")
 
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -32,9 +32,6 @@ conan_cmake_run(
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-
-# set(THREADS_PREFER_PTHREAD_FLAG ON)
-# find_package(Threads REQUIRED)
 
 message("########## ${PROJECT_NAME}:${PROJECT_VERSION} ##########")
 

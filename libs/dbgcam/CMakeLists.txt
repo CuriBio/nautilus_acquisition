@@ -19,8 +19,6 @@ target_link_libraries(dbgcam
     project_warnings
     pvcam_incl
     spdlog::spdlog)
-#Boost::log)
-
 
 install(TARGETS dbgcam
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
@@ -28,4 +26,4 @@ install(TARGETS dbgcam
     LIBRARY DESTINATION       ${CMAKE_INSTALL_LIBDIR}
     INCLUDES DESTINATION      ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
     ARCHIVE DESTINATION       ${CMAKE_INSTALL_SHAREDSTATEDIR})
-ENDIF()
+ENDIF() #WIN32

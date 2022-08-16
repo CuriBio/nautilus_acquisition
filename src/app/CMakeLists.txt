@@ -2,7 +2,6 @@
 add_executable(${PROJECT_NAME} ./src/main.cpp)
 
 # Dependencies
-#find_package(Boost COMPONENTS log REQUIRED)
 find_package(spdlog)
 
 # linking against the desired targets
@@ -14,7 +13,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     spdlog::spdlog
     pvcam_incl
-    pvcam64)
+    PvCam)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
@@ -23,8 +22,8 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     spdlog::spdlog
     pvcam_incl
-    dbgcam)
-ENDIF()
+    PvCamD)
+ENDIF() #WIN32
 
 message(CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR})
 install(TARGETS ${PROJECT_NAME}
