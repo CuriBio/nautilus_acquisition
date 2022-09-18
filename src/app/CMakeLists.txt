@@ -13,6 +13,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     spdlog::spdlog
     pvcam_incl
+    Common
     PvCam)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
@@ -22,6 +23,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     spdlog::spdlog
     pvcam_incl
+    Common
     PvCamD)
 ENDIF() #WIN32
 

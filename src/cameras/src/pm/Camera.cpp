@@ -595,6 +595,7 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         ctx->frames.push_back(frame);
     }
     ctx->frames.shrink_to_fit();
+    spdlog::info("Allocated frames ready");
 
     return true;
 }

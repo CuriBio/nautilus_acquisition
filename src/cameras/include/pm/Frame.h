@@ -4,13 +4,14 @@
 
 #include <Allocator.h>
 #include <FrameInterface.h>
+#include <PMemCopy.h>
 
 static FrameInfo sEmptyFrameInfo = FrameInfo();
 
 namespace pm {
     class Frame {
         private:
-            std::recursive_mutex m_recursive_mutex{};
+            mutable std::shared_mutex m_mutex{};
             void* m_data{nullptr};
             void* m_dataSrc{nullptr};
 
@@ -19,6 +20,7 @@ namespace pm {
 
             size_t m_frameBytes{0};
             bool m_deepCopy{false};
+            PMemCopy m_PMemCopy{4};
 
             FrameInfo* m_info{&sEmptyFrameInfo};
 
@@ -33,6 +35,11 @@ namespace pm {
 
             FrameInfo* GetInfo() const;
             void SetInfo(const FrameInfo& info);
+
+        private:
+            void setInfo(const FrameInfo& info);
+            void setData(void* data);
+            bool copyData();
     };
 };
 static_assert(FrameConcept<pm::Frame>);

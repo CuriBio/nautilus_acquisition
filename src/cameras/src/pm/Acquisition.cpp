@@ -1,9 +1,11 @@
+#include <chrono>
 #include <spdlog/spdlog.h>
 
 #include <FrameInterface.h>
 
 #include <pm/Frame.h>
 #include <pm/Acquisition.h>
+#include <PMemCopy.h>
 
 /* THREADS */
 
@@ -21,12 +23,11 @@ void PV_DECL pm::Acquisition<F>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
     const uint32_t cbFrameNr = frameInfo->FrameNr;
     cls->checkLostFrame(cbFrameNr, cls->m_lastFrameInCallback);
 
-
-    //TODO check for lost frames
     std::shared_ptr<F> frame = cls->m_unusedFramePool->Acquire();
+
     if (!frame) {
         //TODO handle error
-        spdlog::error("Could not acuire unused frame from frame pool");
+        spdlog::error("Could not acquire unused frame from frame pool");
         return;
     }
 
@@ -35,7 +36,6 @@ void PV_DECL pm::Acquisition<F>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
       spdlog::error("GetLatestFrame failed");
       return;
     }
-
 
     //queue frame for processing
     {
@@ -48,6 +48,7 @@ void PV_DECL pm::Acquisition<F>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
     } // release lock
 
     cls->m_acquireFrameCond.notify_one();
+
     return;
 }
 
@@ -70,7 +71,7 @@ bool pm::Acquisition<F>::ProcessNewFrame(std::shared_ptr<F> frame) {
     const uint32_t frameNr = frame->GetInfo()->frameNr;
 
     if (frameNr <= m_lastFrameInProcessing) {
-        //m_outOfOrderFrameCount++;
+        //TODO log stats on dropped frame
 
         spdlog::error("Frame number out of order: {}, last frame number was {}, ignoring", frameNr, m_lastFrameInProcessing);
 
@@ -85,17 +86,28 @@ bool pm::Acquisition<F>::ProcessNewFrame(std::shared_ptr<F> frame) {
     if (!frame->CopyData()) {
         return false;
     }
-    m_unusedFramePool->Release(frame);
+
+    {
+        std::unique_lock<std::mutex> lock(m_frameWriterLock);
+
+        //TODO check queue capacity
+        m_frameWriterQueue.push(frame);
+        //TODO handle not enough RAM
+    }
+    // Notify disk waiter about new queued frame
+    m_frameWriterCond.notify_one();
+
     return true;
 }
 
 template<FrameConcept F>
-void pm::Acquisition<F>::AcquireThread() {
+void pm::Acquisition<F>::acquireThread() {
     m_lastFrameInCallback = 0;
     m_lastFrameInProcessing = 0;
 
     {
         std::unique_lock<std::mutex> lock(m_acquireLock);
+        //TODO add conidtion variable to signal when acquireThread is running
         /* if (m_running) { */
         /*   spdlog::warn("Acquisition already running"); */
         /*   return; */
@@ -109,15 +121,16 @@ void pm::Acquisition<F>::AcquireThread() {
     } //release lock
 
     auto nFrames = 0;
+
     do {
         std::shared_ptr<F> frame{nullptr};
         {
             std::unique_lock<std::mutex> lock(m_acquireLock);
-            const bool timedOut = !(m_acquireFrameCond.wait_for(
+            const bool timedOut = !m_acquireFrameCond.wait_for(
                         lock,
                         std::chrono::milliseconds(5000),
-                        [this]() { return (!m_acquireFrameQueue.empty()); }
-                        ));
+                        [this]() { return !m_acquireFrameQueue.empty(); }
+                        );
 
             if (timedOut) {
                 //TODO handle timeout
@@ -125,26 +138,67 @@ void pm::Acquisition<F>::AcquireThread() {
                 continue;
             }
 
-            //spdlog::info("m_acquireFrameQueue size: {}", m_acquireFrameQueue.size());
             frame = m_acquireFrameQueue.front();
             m_acquireFrameQueue.pop();
             nFrames++;
+
         } //release lock
 
         if (!ProcessNewFrame(frame)) {
             //TODO handle error
         }
+
+        //m_unusedFramePool->EnsurePoolSize(3);
     } while (true || nFrames < m_camera->ctx->curExp->frameCount);
 
     spdlog::info("Acquisition finished");
     m_camera->StopExp();
 }
 
+
+template<FrameConcept F>
+void pm::Acquisition<F>::frameWriterThread() {
+    spdlog::info("Starting frame writer thread");
+
+    size_t frameIndex = 0;
+    std::shared_ptr<F> frame{nullptr};
+
+    do {
+        {
+            std::unique_lock<std::mutex> lock(m_frameWriterLock);
+            //m_frameWriterCond.wait(lock);
+            const bool timedOut = !m_frameWriterCond.wait_for(
+                        lock,
+                        std::chrono::milliseconds(5000),
+                        [this]() { return !m_frameWriterQueue.empty(); }
+                        );
+
+            if (timedOut) {
+                //TODO handle timeout
+                spdlog::info("m_frameWriterCond timeout");
+                continue;
+            }
+
+            frame = m_frameWriterQueue.front();
+            m_frameWriterQueue.pop();
+        } //release lock
+
+        //TODO write frame
+        frameIndex += 1;
+
+        //Release frame
+        m_unusedFramePool->Release(frame);
+
+    //TODO isAcqModeLive && m_frameWriterAbortFlag
+    } while ((true || frameIndex < m_camera->ctx->curExp->frameCount)); // && !m_diskThreadAbortFlag);
+}
+
+
 template<FrameConcept F>
 pm::Acquisition<F>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
     spdlog::info("calling Acquisition");
     //TODO preallocate unused frame pool size based on acquisition size
-    m_unusedFramePool = std::make_shared<ObjPool<F>>(10, camera->ctx->frameBytes, true);
+    m_unusedFramePool = std::make_shared<ObjPool<F, uns32, bool>>(20, camera->ctx->frameBytes, true);
 }
 
 template<FrameConcept F>
@@ -156,7 +210,9 @@ pm::Acquisition<F>::~Acquisition() {
 template<FrameConcept F>
 bool pm::Acquisition<F>::Start() {
     spdlog::info("Starting acquisition: frameCount {}", m_camera->ctx->curExp->frameCount);
-    m_acquireThread = new std::thread(&Acquisition<F>::AcquireThread, this);
+    m_frameWriterThread = new std::thread(&Acquisition<F>::frameWriterThread, this);
+    m_acquireThread = new std::thread(&Acquisition<F>::acquireThread, this);
+
     if (m_acquireThread) {
         m_running = true;
         return true;

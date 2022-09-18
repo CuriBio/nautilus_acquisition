@@ -12,6 +12,7 @@
 
 template<AcquisitionConcept A>
 void run(std::shared_ptr<A> acq) {
+    spdlog::info("Starting acquisition");
     acq->Start();
     acq->WaitForStop();
 }
@@ -24,9 +25,9 @@ int main(int argc, char* argv[]) {
     ExpSettings cs {
         .expTimeMS = 2,
         .acqMode = AcqMode::LiveCircBuffer,
-        .trigMode = TIMED_MODE,
-        .expMode = TIMED_MODE,
-        .frameCount = 10,
+        .trigMode = EXT_TRIG_INTERNAL,
+        .expMode = EXT_TRIG_INTERNAL,
+        .frameCount = 250,
     };
 
     std::shared_ptr<pmCamera> camera = std::make_shared<pmCamera>();

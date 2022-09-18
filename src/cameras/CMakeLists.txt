@@ -20,6 +20,7 @@ target_link_libraries(PvCamD
     project_warnings
     pvcam_incl
     dbgcam
+    Common
     spdlog::spdlog)
 
 install(TARGETS PvCamD
@@ -49,6 +50,7 @@ target_link_libraries(PvCam
     project_warnings
     pvcam_incl
     pvcam64
+    Common
     spdlog::spdlog)
 
 install(TARGETS PvCam

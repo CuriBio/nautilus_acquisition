@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <chrono>
 
 #include <spdlog/spdlog.h>
 #include <pvcam/master.h>
@@ -23,25 +24,19 @@ pm::Frame::~Frame() {
 }
 
 void pm::Frame::SetData(void* data) {
-    std::lock_guard<std::recursive_mutex> lock(m_recursive_mutex);
-    m_dataSrc = data;
+    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    setData(data);
 }
 
 void* pm::Frame::GetData() {
-    //std::recursive_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    std::shared_lock<std::shared_mutex> lock(m_mutex);
     return m_data;
 }
 
 bool pm::Frame::CopyData() {
-    std::lock_guard<std::recursive_mutex> lock(m_recursive_mutex);
+    std::lock_guard<std::shared_mutex> lock(m_mutex);
     if (m_deepCopy) {
-        if (m_data && m_dataSrc) {
-            //TODO parallel copy
-            /* spdlog::info("Copying {} bytes", m_frameBytes); */
-            std::memcpy(m_data, m_dataSrc, m_frameBytes);
-        } else {
-            return false;
-        }
+        return copyData();
     } else {
         m_data = m_dataSrc;
     }
@@ -49,32 +44,52 @@ bool pm::Frame::CopyData() {
 }
 
 FrameInfo* pm::Frame::GetInfo() const {
+    std::shared_lock<std::shared_mutex> lock(m_mutex);
     return m_info;
 }
 
 void pm::Frame::SetInfo(const FrameInfo& info) {
-    std::lock_guard<std::recursive_mutex> lock(m_recursive_mutex);
-    *m_info = info;
+    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    return setInfo(info);
 }
 
 bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
-    std::lock_guard<std::recursive_mutex> lock(m_recursive_mutex);
+    std::unique_lock<std::shared_mutex> wrLock(m_mutex, std::defer_lock);
+    std::shared_lock<std::shared_mutex> rdLock(from.m_mutex, std::defer_lock);
+    std::lock(wrLock, rdLock);
 
     //TODO check configuration matches
-    SetData(from.m_data);
+    setData(from.m_data);
 
     if (deepCopy) {
-        if(!CopyData()) {
+        if(!copyData()) {
             spdlog::error("Failed to deep copy data");
             return false;
         }
-        SetInfo(*from.GetInfo());
+        setInfo(*from.GetInfo());
         //TODO set trajectories
     } else {
         //TODO handle shallow copy? Doing this for now for testing
-        SetInfo(*from.GetInfo());
+        setInfo(*from.GetInfo());
     }
 
     return true;
+}
 
+void pm::Frame::setData(void* data) {
+    m_dataSrc = data;
+}
+
+void pm::Frame::setInfo(const FrameInfo& info) {
+    *m_info = info;
+}
+
+bool pm::Frame::copyData() {
+    /* auto start = std::chrono::high_resolution_clock::now(); */
+    m_PMemCopy.Copy(m_data, m_dataSrc, m_frameBytes);
+    //std::memcpy(m_data, m_dataSrc, m_frameBytes);
+    /* auto finish = std::chrono::high_resolution_clock::now(); */
+    /* auto timens = std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count(); */
+    /* spdlog::info("PMemCopy runtime: {}", timens); */
+    return true;
 }
