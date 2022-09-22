@@ -32,6 +32,14 @@ conan_cmake_run(
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+# Qt6 install
+IF (WIN32)
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/qt6/6.4.1/msvc2019_64/")
+ELSE()
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/qt6/6.4.1/")
+ENDIF()
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 
 message("########## ${PROJECT_NAME}:${PROJECT_VERSION} ##########")
 
@@ -43,6 +51,7 @@ target_compile_features(project_options INTERFACE cxx_std_20)
 # set(CMAKE_CXX_FLAGS "-Wall")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g")
 # set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+#link_libraries("-lm")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)

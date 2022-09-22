@@ -19,6 +19,8 @@ target_link_libraries(PvCamD
     project_options
     project_warnings
     pvcam_incl
+    libtiff
+    libtiff_incl
     dbgcam
     Common
     spdlog::spdlog)
@@ -49,6 +51,8 @@ target_link_libraries(PvCam
     project_options
     project_warnings
     pvcam_incl
+    libtiff
+    libtiff_incl
     pvcam64
     Common
     spdlog::spdlog)

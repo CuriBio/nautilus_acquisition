@@ -18,7 +18,6 @@ struct FrameInfo {
         return *this;
     }
 
-
     uint32_t frameNr{ 0 };
     uint64_t timestampBOF{ 0 };
     uint64_t timestampEOF{ 0 };

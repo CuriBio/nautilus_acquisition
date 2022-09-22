@@ -7,8 +7,8 @@
 #define PVCAM_HELPER_COLOR_H
 
 /* PVCAM */
-#include <master.h>
-#include <pvcam.h>
+#include "master.h"
+#include "pvcam.h"
 
 /**
 Major version number.

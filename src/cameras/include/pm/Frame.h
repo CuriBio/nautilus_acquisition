@@ -2,8 +2,8 @@
 #define PM_FRAME_H
 #include <shared_mutex>
 
+#include <interfaces/FrameInterface.h>
 #include <Allocator.h>
-#include <FrameInterface.h>
 #include <PMemCopy.h>
 
 static FrameInfo sEmptyFrameInfo = FrameInfo();

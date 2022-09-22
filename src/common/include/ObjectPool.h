@@ -29,15 +29,13 @@ class ObjPool {
             }
         }
 
-        ~ObjPool() {
-            spdlog::info("ObjPool Frame destructor called");
-        }
+        ~ObjPool() = default;
 
         std::shared_ptr<T> Acquire() noexcept {
             std::lock_guard<std::mutex> lock(m_poolLock);
 
             if (!m_pool.empty()) {
-                std::shared_ptr<T> obj = std::move(m_pool.front());
+                std::shared_ptr<T> obj = m_pool.front();
                 m_pool.pop();
                 return obj;
             } else {

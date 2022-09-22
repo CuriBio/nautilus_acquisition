@@ -1,8 +1,14 @@
 # setting up sources
-add_executable(${PROJECT_NAME} ./src/main.cpp)
+add_executable(${PROJECT_NAME}
+    ./src/main.cpp
+    ./src/mainwindow.cpp
+    )
 
 # Dependencies
 find_package(spdlog)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+qt_standard_project_setup()
+
 
 # linking against the desired targets
 IF (WIN32)
@@ -10,9 +16,13 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
     project_options
     project_warnings
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Gui
     PUBLIC
     spdlog::spdlog
     pvcam_incl
+    libtiff_incl
     Common
     PvCam)
 ELSE()
@@ -20,11 +30,16 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
     project_options
     project_warnings
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Gui
     PUBLIC
     spdlog::spdlog
     pvcam_incl
+    libtiff_incl
     Common
-    PvCamD)
+    PvCamD
+    )
 ENDIF() #WIN32
 
 message(CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR})

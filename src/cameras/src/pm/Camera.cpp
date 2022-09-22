@@ -9,10 +9,11 @@
 #include <pvcam/master.h>
 #include <pvcam/pvcam.h>
 
-#include <FrameInterface.h>
+#include <interfaces/FrameInterface.h>
 
 #include <pm/Frame.h>
 #include <pm/Camera.h>
+
 
 
 /**
@@ -179,14 +180,6 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
 
     spdlog::info("Sensor size: {}x{} px", ctx->info.sensorResX, ctx->info.sensorResY);
 
-    // Initialize the acquisition region to the full sensor size
-    ctx->region.s1 = 0;
-    ctx->region.s2 = ctx->info.sensorResX - 1;
-    ctx->region.sbin = 1;
-    ctx->region.p1 = 0;
-    ctx->region.p2 = ctx->info.sensorResY - 1;
-    ctx->region.pbin = 1;
-
     // Reset PP features to their default values.
     (void)pl_pp_reset(ctx->hcam);
 
@@ -195,37 +188,20 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
         spdlog::error("Failed to init speed table for camera {}", ctx->info.name);
     }
 
-    // Speed table has been created, print it out
-    for (const auto& port : ctx->spdtable) {
-        spdlog::info("speed table: port '{}', value {}", port.name.c_str(), port.value);
-        for (const auto& speed : port.speeds) {
-            spdlog::info("speed table: index {}, running at {} MHz", speed.index, 1000 / (float)speed.pixTimeNs);
-            for (const auto& gain : speed.gains) {
-                spdlog::info("speed table: gain index {}, {}bit-depth {} bpp",
-                        gain.index,
-                        (gain.name.empty()) ? "" : ("'" + gain.name + "', ").c_str(),
-                        gain.bitDepth);
-            }
-        }
-    }
+    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->spdtable[0].value)) { */
+    /*     spdlog::error("Readout port could not be set"); */
+    /*     return false; */
+    /* } */
 
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->spdtable[0].value)) {
-        spdlog::error("Readout port could not be set");
-        return false;
-    }
-    spdlog::info("Readout port set to '{}'", ctx->spdtable[0].name.c_str());
+    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->spdtable[0].speeds[0].index)) { */
+    /*     spdlog::error("Readout speed index could not be set"); */
+    /*     return false; */
+    /* } */
 
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->spdtable[0].speeds[0].index)) {
-        spdlog::error("Readout speed index could not be set");
-        return false;
-    }
-    spdlog::info("Readout speed index set to {}", ctx->spdtable[0].speeds[0].index);
-
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->spdtable[0].speeds[0].gains[0].index)) {
-        spdlog::info("Gain index could not be set");
-        return false;
-    }
-    spdlog::info("Gain index set to {}", ctx->spdtable[0].speeds[0].gains[0].index);
+    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->spdtable[0].speeds[0].gains[0].index)) { */
+    /*     spdlog::info("Gain index could not be set"); */
+    /*     return false; */
+    /* } */
 
     // Set the number of sensor clear cycles to 2 (default).
     // This is mostly relevant to CCD cameras only and it has
@@ -301,6 +277,12 @@ bool pm::Camera<F>::Close() {
 
 
 template<FrameConcept F>
+CameraInfo& pm::Camera<F>::GetInfo() {
+    return ctx->info;
+}
+
+
+template<FrameConcept F>
 bool pm::Camera<F>::StopExp() {
     if (PV_OK != pl_exp_abort(ctx->hcam, CCS_HALT)) {
         spdlog::error("Failed to abort acquisition, error ignored ({})", GetError());
@@ -337,7 +319,7 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
         return false;
     }
 
-    //clear out old settings if they exist
+    //TODO clear out old settings if they exist
     if (ctx->curExp) {
         spdlog::info("Deleting Exp settings for camera {}", ctx->info.name);
     }
@@ -450,7 +432,6 @@ uint32_t pm::Camera<F>::GetFrameExpTime(uint32_t frameNr) {
 
 template<FrameConcept F>
 bool pm::Camera<F>::initSpeedTable() {
-    std::vector<SpdtabPort> table;
     std::vector<NVP> ports;
 
     if(!ctx) {
@@ -478,8 +459,6 @@ bool pm::Camera<F>::initSpeedTable() {
             return false;
         }
 
-        SpdtabPort port { .value = ports[pi].value, .name = ports[pi].name };
-
         // Iterate through all the speeds
         for (int16 si = 0; si < (int16)speedCount; si++) {
             // Set camera to new speed index
@@ -500,7 +479,6 @@ bool pm::Camera<F>::initSpeedTable() {
                 return false;
             }
 
-            SpdtabSpeed speed { .index = si, .pixTimeNs = pixTime };
 
             // Iterate through all the gains, notice it starts at value 1!
             for (int16 gi = 1; gi <= (int16)gainCount; gi++) {
@@ -520,15 +498,21 @@ bool pm::Camera<F>::initSpeedTable() {
                     return false;
                 }
 
-                SpdtabGain gain { .index = gi, .name = gainName, .bitDepth = bitDepth };
-                speed.gains.push_back(gain);
+                SpdTable tbl {
+                    .gainIndex=gi,
+                    .bitDepth=bitDepth,
+                    .gainName=gainName,
+                    .spdIndex=si,
+                    .pixTimeNs=pixTime,
+                    .spdTabPort=ports[pi].value,
+                    .portName=ports[pi].name,
+                };
+                ctx->info.spdTable.push_back(tbl);
+
             }
-            port.speeds.push_back(speed);
         }
-        table.push_back(port);
     }
 
-    ctx->spdtable.swap(table);
     return true;
 }
 
@@ -546,21 +530,57 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
 
     //copy capture settings
     ctx->curExp.reset(new ExpSettings{
-            .expTimeMS = settings.expTimeMS,
             .acqMode = settings.acqMode,
+            .fileName = settings.fileName,
+            .region = settings.region,
+            .imgFormat = settings.imgFormat,
+            .spdTableIdx = settings.spdTableIdx,
+            .expTimeMS = settings.expTimeMS,
             .trigMode = settings.trigMode,
             .expMode = settings.expMode,
             .frameCount = settings.frameCount,
-            .bufferCount = settings.bufferCount
-            });
+            .bufferCount = settings.bufferCount,
+            .colorWbScaleRed = settings.colorWbScaleRed,
+            .colorWbScaleGreen = settings.colorWbScaleGreen,
+            .colorWbScaleBlue = settings.colorWbScaleBlue
+        });
+
+    auto stIdx = settings.spdTableIdx;
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->info.spdTable[stIdx].spdTabPort)) {
+        spdlog::error("Readout port could not be set");
+        return false;
+    }
+    spdlog::info("Readout port set to {}", ctx->info.spdTable[stIdx].portName);
+
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->info.spdTable[stIdx].spdIndex)) {
+        spdlog::error("Readout speed index could not be set");
+        return false;
+    }
+    spdlog::info("Readout speed index set to {}", ctx->info.spdTable[stIdx].spdIndex);
+
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->info.spdTable[stIdx].gainIndex)) {
+        spdlog::info("Gain index could not be set");
+        return false;
+    }
+    spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
+    spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
 
     uns32 exposure = (settings.trigMode == VARIABLE_TIMED_MODE) ? 1 : settings.expTimeMS;
+    rgn_type rgn = {
+        .s1 = settings.region.s1,
+        .s2 = settings.region.s2,
+        .sbin = settings.region.sbin,
+        .p1 = settings.region.p1,
+        .p2 = settings.region.p2,
+        .pbin = settings.region.pbin
+    };
 
     switch(settings.acqMode) {
         case AcqMode::SnapCircBuffer:
         case AcqMode::LiveCircBuffer:
+            //TODO allow multiple regions
             if (PV_OK != pl_exp_setup_cont(
-                        ctx->hcam, 1/*rgn_total*/, &ctx->region, settings.expMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
+                        ctx->hcam, 1/*rgn_total*/, &rgn, settings.expMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
                 spdlog::error("Failed to setup continuous acquisition");
                 return false;
             }

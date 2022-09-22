@@ -9,10 +9,9 @@
 #include <pvcam/master.h>
 #include <pvcam/pvcam.h>
 
-#include <CameraInterface.h>
-#include <FrameInterface.h>
+#include <interfaces/CameraInterface.h>
+#include <interfaces/FrameInterface.h>
 
-#include <pm/Config.h>
 #include <pm/Settings.h>
 
 
@@ -30,49 +29,6 @@ namespace pm {
     rs_bool pl_set_param_if_exists(int16 hcam, uns32 paramID, void* paramValue);
     bool pl_read_enum(int16 hcam, std::vector<NVP>* pNvpc, uns32 paramID);
 
-    struct SpdtabGain {
-        // In PVCAM, gain indexes are 1-based.
-        int32 index{ 1 };
-        // Not all cameras support named gains. If not supported, this
-        // string stays empty.
-        std::string name{};
-        // The bit-depth may be different for each gain, therefore it is stored
-        // within this structure. For example, the Prime BSI camera has gains
-        // with different bit-depths under the same speed.
-        int16 bitDepth{ 0 };
-    };
-
-    // This structure holds description of a speed entry.
-    struct SpdtabSpeed {
-        // In PVCAM, speed indexes are 0-based.
-        int32 index{ 0 };
-        // Pixel time can be used to calculate the overall readout rate. This is less
-        // relevant with sCMOS sensors, but the pix time is still reported to provide
-        // an approximate readout rate of a particular speed.
-        uns16 pixTimeNs{ 1 };
-        // List of gains under this particular speed.
-        std::vector<SpdtabGain> gains{};
-    };
-
-    // This structure holds description of a port entry.
-    struct SpdtabPort {
-        int32 value{ 0 };
-        std::string name{};
-        std::vector<SpdtabSpeed> speeds{};
-    };
-
-    struct CameraInfo {
-        std::string name{""};
-        std::string driver{""};
-        std::string firmware{""};
-        std::string chip{""};
-
-        // Camera sensor serial size (sensor width)
-        uns16 sensorResX{0};
-        // Camera sensor parallel size (sensor height)
-        uns16 sensorResY{0};
-    };
-
     template<FrameConcept F>
     struct CameraCtx {
         //Camera details
@@ -84,21 +40,18 @@ namespace pm {
         //current capture settings
         std::unique_ptr<ExpSettings> curExp{nullptr};
 
-        //speed table
-        std::vector<SpdtabPort> spdtable;
-
         // Frame info structure used to store data, for example, in EOF callback handlers
         FRAME_INFO* curFrameInfo{nullptr};
 
         // The address of latest frame stored, for example, in EOF callback handlers
         void* eofFrame{nullptr};
 
-        // Sensor region and binning factors to be used for the acquisition,
-        // initialized to full sensor size with 1x1 binning upon opening the camera.
-        rgn_type region { 0 };
+        /* // Sensor region and binning factors to be used for the acquisition, */
+        /* // initialized to full sensor size with 1x1 binning upon opening the camera. */
+        /* rgn_type region { 0 }; */
 
-        // Image format reported after acq. setup, value from PL_IMAGE_FORMATS
-        int32 imageFormat{PL_IMAGE_FORMAT_MONO16};
+        /* // Image format reported after acq. setup, value from PL_IMAGE_FORMATS */
+        /* int32 imageFormat{PL_IMAGE_FORMAT_MONO16}; */
 
         // Sensor type (if not Frame Transfer CCD then camera is Interline CCD or sCMOS).
         // Not relevant for sCMOS sensors.
@@ -134,6 +87,7 @@ namespace pm {
 
                 bool Open(int8_t cameraId);
                 bool Close();
+                CameraInfo& GetInfo();
                 bool SetupExp(const ExpSettings& settings);
                 bool StartExp(void* eofCallback, void* callbackCtx);
                 bool StopExp();

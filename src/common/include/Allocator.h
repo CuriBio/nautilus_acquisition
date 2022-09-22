@@ -2,15 +2,27 @@
 #define ALLOCATOR_H
 
 #ifdef _WIN32
+#include <Windows.h>
 #include <malloc.h> // _aligned_malloc
 #else
 #include <stdlib.h> // aligned_alloc
+#include <unistd.h>
 #endif
 
-template<int ALIGN>
+const static auto cPageBytes = []() -> size_t {
+#ifdef _WIN32
+    SYSTEM_INFO sysInfo;
+    ::GetSystemInfo(&sysInfo);
+    return sysInfo.dwPageSize;
+#else
+    return ::sysconf(_SC_PAGESIZE);
+#endif
+}();
+
+template<size_t ALIGN>
 class Allocator {
     public:
-        const uint16_t alignment{ALIGN};
+        const size_t alignment{ALIGN};
     public:
         Allocator() {};
         ~Allocator() {};
@@ -32,4 +44,5 @@ class Allocator {
 #endif
         };
 };
+
 #endif //ALLOCATOR_H

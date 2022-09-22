@@ -2,10 +2,14 @@
 find_package(spdlog)
 
 add_library(Common SHARED
-./src/PMemCopy.cpp)
+./src/PMemCopy.cpp
+./src/Bitmap.cpp
+./src/BitmapFormat.cpp
+./src/FileWriter.cpp)
 
 set_target_properties(Common PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Common PROPERTIES SOVERSION 1)
+add_definitions(-DTIFF_DISABLE_DEPRECATED)
 
 target_include_directories(Common
     PUBLIC include
@@ -15,7 +19,9 @@ target_link_libraries(Common
     PRIVATE
     project_options
     project_warnings
-    spdlog::spdlog)
+    spdlog::spdlog
+    libtiff_incl
+    libtiff)
 
 install(TARGETS Common
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/

@@ -8,22 +8,22 @@
 
 #include <pvcam/master.h>
 #include <pvcam/pvcam.h>
+#include <pvcam/pvcam_helper_color.h>
 
-#include <FrameInterface.h>
+#include <interfaces/FrameInterface.h>
+#include <interfaces/ColorConfigInterface.h>
+#include <ObjectPool.h>
+#include <TiffFile.h>
+
 #include <pm/Camera.h>
 #include <pm/Frame.h>
-#include <ObjectPool.h>
-
 
 namespace pm {
-    template<FrameConcept F>
+    template<FrameConcept F, ColorConfigConcept C>
         class Acquisition {
             private:
                 std::shared_ptr<pm::Camera<F>> m_camera;
                 bool m_running{ false };
-
-                std::counting_semaphore<200> m_acquireSem{0};
-                std::counting_semaphore<100> m_frameWriterSem{0};
 
                 std::mutex m_acquireLock;
                 std::condition_variable m_acquireFrameCond;
@@ -36,9 +36,8 @@ namespace pm {
                 std::thread* m_acquireThread{ nullptr };
                 std::thread* m_frameWriterThread{ nullptr };
 
-
-                std::mutex m_writerLock;
-                std::thread* m_writerThread{ nullptr };
+                /* std::mutex m_writerLock; */
+                /* std::thread* m_writerThread{ nullptr }; */
 
                 //TODO should be initialized with size after
                 //the number of frames needed is known
@@ -47,11 +46,14 @@ namespace pm {
                 uint32_t m_lastFrameInCallback{0};
                 uint32_t m_lastFrameInProcessing{0};
 
+                typename TiffFile<F>::ProcHelper m_tiffHelper{};
+                SpdTable m_spdTable{};
+
             public:
                 Acquisition(std::shared_ptr<pm::Camera<F>> c);
                 ~Acquisition();
 
-                bool Start();
+                bool Start(double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
                 bool Abort();
                 void WaitForStop();
                 bool IsRunning();

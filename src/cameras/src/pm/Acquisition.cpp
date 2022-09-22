@@ -1,16 +1,19 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
 
-#include <FrameInterface.h>
+#include <interfaces/FrameInterface.h>
+#include <interfaces/ColorConfigInterface.h>
 
 #include <pm/Frame.h>
 #include <pm/Acquisition.h>
+#include <pm/ColorConfig.h>
 #include <PMemCopy.h>
+#include <TiffFile.h>
 
 /* THREADS */
 
-template<FrameConcept F>
-void PV_DECL pm::Acquisition<F>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
+template<FrameConcept F, ColorConfigConcept C>
+void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
     Acquisition* cls = static_cast<Acquisition*>(ctx);
 
     if (!frameInfo) {
@@ -52,8 +55,8 @@ void PV_DECL pm::Acquisition<F>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
     return;
 }
 
-template<FrameConcept F>
-void pm::Acquisition<F>::checkLostFrame(uint32_t frameN, uint32_t& lastFrame) {
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t& lastFrame) {
     if (frameN > lastFrame + 1) {
         //m_toBeProcessedFramesStats.ReportFrameLost(frameNr - m_lastFrameInCallback - 1);
 
@@ -66,8 +69,8 @@ void pm::Acquisition<F>::checkLostFrame(uint32_t frameN, uint32_t& lastFrame) {
     lastFrame = frameN;
 }
 
-template<FrameConcept F>
-bool pm::Acquisition<F>::ProcessNewFrame(std::shared_ptr<F> frame) {
+template<FrameConcept F, ColorConfigConcept C>
+bool pm::Acquisition<F, C>::ProcessNewFrame(std::shared_ptr<F> frame) {
     const uint32_t frameNr = frame->GetInfo()->frameNr;
 
     if (frameNr <= m_lastFrameInProcessing) {
@@ -100,8 +103,8 @@ bool pm::Acquisition<F>::ProcessNewFrame(std::shared_ptr<F> frame) {
     return true;
 }
 
-template<FrameConcept F>
-void pm::Acquisition<F>::acquireThread() {
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::acquireThread() {
     m_lastFrameInCallback = 0;
     m_lastFrameInProcessing = 0;
 
@@ -113,7 +116,7 @@ void pm::Acquisition<F>::acquireThread() {
         /*   return; */
         /* } */
 
-        if (!m_camera->StartExp((void*)&pm::Acquisition<F>::EofCallback, this)) {
+        if (!m_camera->StartExp((void*)&pm::Acquisition<F, C>::EofCallback, this)) {
             //TODO handle error
             spdlog::error("StartExp failed");
         }
@@ -149,24 +152,31 @@ void pm::Acquisition<F>::acquireThread() {
         }
 
         //m_unusedFramePool->EnsurePoolSize(3);
-    } while (true || nFrames < m_camera->ctx->curExp->frameCount);
+    } while (nFrames < m_camera->ctx->curExp->frameCount);
 
     spdlog::info("Acquisition finished");
     m_camera->StopExp();
 }
 
 
-template<FrameConcept F>
-void pm::Acquisition<F>::frameWriterThread() {
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::frameWriterThread() {
     spdlog::info("Starting frame writer thread");
 
     size_t frameIndex = 0;
     std::shared_ptr<F> frame{nullptr};
+    TiffFile<F>* file = new TiffFile<F>(
+        m_camera->ctx->curExp->region,
+        m_camera->ctx->curExp->imgFormat,
+        m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
+        m_camera->ctx->curExp->frameCount
+    );
+
+    std::string fileName = m_camera->ctx->curExp->fileName;
 
     do {
         {
             std::unique_lock<std::mutex> lock(m_frameWriterLock);
-            //m_frameWriterCond.wait(lock);
             const bool timedOut = !m_frameWriterCond.wait_for(
                         lock,
                         std::chrono::milliseconds(5000),
@@ -183,35 +193,49 @@ void pm::Acquisition<F>::frameWriterThread() {
             m_frameWriterQueue.pop();
         } //release lock
 
+        //TODO support different storage types
+        if (frameIndex == 0) {
+            fileName += ".tiff";
+            file->Open(fileName);
+        }
+
         //TODO write frame
-        frameIndex += 1;
+        file->WriteFrame(frame);
+        frameIndex = frame->GetInfo()->frameNr;
 
         //Release frame
         m_unusedFramePool->Release(frame);
 
     //TODO isAcqModeLive && m_frameWriterAbortFlag
-    } while ((true || frameIndex < m_camera->ctx->curExp->frameCount)); // && !m_diskThreadAbortFlag);
+    } while ((frameIndex < m_camera->ctx->curExp->frameCount)); // && !m_diskThreadAbortFlag);
 }
 
 
-template<FrameConcept F>
-pm::Acquisition<F>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
-    spdlog::info("calling Acquisition");
+template<FrameConcept F, ColorConfigConcept C>
+pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
     //TODO preallocate unused frame pool size based on acquisition size
     m_unusedFramePool = std::make_shared<ObjPool<F, uns32, bool>>(20, camera->ctx->frameBytes, true);
-}
-
-template<FrameConcept F>
-pm::Acquisition<F>::~Acquisition() {
-    spdlog::info("calling ~Acquisition");
+    uint16_t spdTblIdx = camera->ctx->curExp->spdTableIdx;
+    m_spdTable = camera->ctx->info.spdTable[spdTblIdx];
 }
 
 
-template<FrameConcept F>
-bool pm::Acquisition<F>::Start() {
+template<FrameConcept F, ColorConfigConcept C>
+pm::Acquisition<F, C>::~Acquisition() {
+    //TODO cleanup
+}
+
+
+template<FrameConcept F, ColorConfigConcept C>
+bool pm::Acquisition<F, C>::Start(double tiffFillValue, const C* tiffColorCtx) {
+    m_tiffHelper.fillValue = tiffFillValue;
+    //m_tiffHelper.colorCtx = tiffColorCtx;
+
+    spdlog::info("Starting frame writer thread");
+    m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
+
     spdlog::info("Starting acquisition: frameCount {}", m_camera->ctx->curExp->frameCount);
-    m_frameWriterThread = new std::thread(&Acquisition<F>::frameWriterThread, this);
-    m_acquireThread = new std::thread(&Acquisition<F>::acquireThread, this);
+    m_acquireThread = new std::thread(&Acquisition<F, C>::acquireThread, this);
 
     if (m_acquireThread) {
         m_running = true;
@@ -223,23 +247,25 @@ bool pm::Acquisition<F>::Start() {
 }
 
 
-template<FrameConcept F>
-bool pm::Acquisition<F>::Abort() {
+template<FrameConcept F, ColorConfigConcept C>
+bool pm::Acquisition<F, C>::Abort() {
     return true;
 }
 
 
-template<FrameConcept F>
-void pm::Acquisition<F>::WaitForStop() {
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::WaitForStop() {
     m_acquireThread->join();
+    m_frameWriterThread->join();
+
     return;
 }
 
 
-template<FrameConcept F>
-bool pm::Acquisition<F>::IsRunning() {
-    return true;
+template<FrameConcept F, ColorConfigConcept C>
+bool pm::Acquisition<F, C>::IsRunning() {
+    return m_running;
 }
 
 //Avoid link errors
-template class pm::Acquisition<pm::Frame>;
+template class pm::Acquisition<pm::Frame, pm::ColorConfig<ph_color_context>>;
