@@ -20,7 +20,6 @@ class ObjPool {
 
     public:
         ObjPool(size_t size, Args const&... rest) {
-            spdlog::info("Initializing frame pool with {} objects", size);
             m_params = std::make_tuple(rest...);
             total_objs += size;
 

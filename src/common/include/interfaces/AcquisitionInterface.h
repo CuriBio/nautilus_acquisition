@@ -10,7 +10,7 @@
 
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
 concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, std::shared_ptr<F> pframe, const Color<Cfg>* cctx) {
-    { c.Start(double(), cctx) } -> std::same_as<bool>;
+    { c.Start(bool(), double(), cctx) } -> std::same_as<bool>;
     { c.Abort() } -> std::same_as<bool>;
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;

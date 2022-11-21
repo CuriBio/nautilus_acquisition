@@ -63,6 +63,10 @@ TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitD
 }
 
 template<FrameConcept F>
+TiffFile<F>::~TiffFile() {
+}
+
+template<FrameConcept F>
 bool TiffFile<F>::Open(std::string name) {
     m_name = name;
     const char* mode = (m_useBigTiff) ? "w8" : "w";
@@ -74,6 +78,10 @@ bool TiffFile<F>::Open(std::string name) {
 
 template<FrameConcept F>
 void TiffFile<F>::Close() {
+    spdlog::info("Closing file {}", m_name.c_str());
+    TIFFFlush(m_file);
+    TIFFClose(m_file);
+    m_file = nullptr;
 }
 
 template<FrameConcept F>

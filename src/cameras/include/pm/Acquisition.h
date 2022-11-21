@@ -23,7 +23,12 @@ namespace pm {
         class Acquisition {
             private:
                 std::shared_ptr<pm::Camera<F>> m_camera;
+                std::mutex m_lock;
+
                 bool m_running{ false };
+                bool m_diskThreadAbortFlag{ false };
+                bool m_acquireThreadAbortFlag{ false };
+                bool m_capture{ false };
 
                 std::mutex m_acquireLock;
                 std::condition_variable m_acquireFrameCond;
@@ -36,24 +41,24 @@ namespace pm {
                 std::thread* m_acquireThread{ nullptr };
                 std::thread* m_frameWriterThread{ nullptr };
 
+
                 /* std::mutex m_writerLock; */
                 /* std::thread* m_writerThread{ nullptr }; */
 
-                //TODO should be initialized with size after
-                //the number of frames needed is known
                 std::shared_ptr<ObjPool<F, uns32, bool>> m_unusedFramePool{nullptr};
 
                 uint32_t m_lastFrameInCallback{0};
                 uint32_t m_lastFrameInProcessing{0};
 
-                typename TiffFile<F>::ProcHelper m_tiffHelper{};
+                //TODO color context support
+                //typename TiffFile<F>::ProcHelper m_tiffHelper{};
                 SpdTable m_spdTable{};
 
             public:
                 Acquisition(std::shared_ptr<pm::Camera<F>> c);
                 ~Acquisition();
 
-                bool Start(double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+                bool Start(bool saveToDisk, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
                 bool Abort();
                 void WaitForStop();
                 bool IsRunning();

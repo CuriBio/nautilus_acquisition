@@ -37,7 +37,10 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow ui;
 
         std::shared_ptr<pmCamera> m_camera;
-        std::shared_ptr<pmAcquisition> m_acquisition{nullptr};
+        std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
+
+        int m_duration{0};
+        float m_fps{0.0};
 
         CameraInfo m_camInfo;
         ExpSettings m_expSettings {
@@ -46,10 +49,11 @@ class MainWindow : public QMainWindow {
             .region = {} ,
             .imgFormat = ImageFormat::Mono16,
             .spdTableIdx = 0,
-            .expTimeMS = 100,
+            .expTimeMS = 0,
             .trigMode = EXT_TRIG_INTERNAL,
-            .expMode = EXT_TRIG_INTERNAL,
-            .frameCount = 50,
+            .expModeOut = EXPOSE_OUT_GLOBAL_SHUTTER,
+            .frameCount = 0,
+            .bufferCount = 50 //TODO allow user setting
         };
 };
 

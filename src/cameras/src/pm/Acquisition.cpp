@@ -151,8 +151,8 @@ void pm::Acquisition<F, C>::acquireThread() {
             //TODO handle error
         }
 
-        //m_unusedFramePool->EnsurePoolSize(3);
-    } while (nFrames < m_camera->ctx->curExp->frameCount);
+        m_unusedFramePool->EnsurePoolSize(3);
+    } while (!m_acquireThreadAbortFlag && nFrames < m_camera->ctx->curExp->frameCount);
 
     spdlog::info("Acquisition finished");
     m_camera->StopExp();
@@ -161,9 +161,9 @@ void pm::Acquisition<F, C>::acquireThread() {
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::frameWriterThread() {
-    spdlog::info("Starting frame writer thread");
-
     size_t frameIndex = 0;
+    size_t startFrame = 0;
+
     std::shared_ptr<F> frame{nullptr};
     TiffFile<F>* file = new TiffFile<F>(
         m_camera->ctx->curExp->region,
@@ -173,6 +173,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     );
 
     std::string fileName = m_camera->ctx->curExp->fileName;
+    spdlog::info("Capture mode is enabled: {}", m_capture ? "true" : "false");
 
     do {
         {
@@ -189,6 +190,12 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 continue;
             }
 
+            if (!m_capture) {
+                //If user is only running live view then continue
+                //without writing frame to disk
+                continue;
+            }
+
             frame = m_frameWriterQueue.front();
             m_frameWriterQueue.pop();
         } //release lock
@@ -197,9 +204,11 @@ void pm::Acquisition<F, C>::frameWriterThread() {
         if (frameIndex == 0) {
             fileName += ".tiff";
             file->Open(fileName);
+
+            //Get start frame number
+            startFrame = frame->GetInfo()->frameNr;
         }
 
-        //TODO write frame
         file->WriteFrame(frame);
         frameIndex = frame->GetInfo()->frameNr;
 
@@ -207,14 +216,29 @@ void pm::Acquisition<F, C>::frameWriterThread() {
         m_unusedFramePool->Release(frame);
 
     //TODO isAcqModeLive && m_frameWriterAbortFlag
-    } while ((frameIndex < m_camera->ctx->curExp->frameCount)); // && !m_diskThreadAbortFlag);
+    } while (!m_diskThreadAbortFlag && (frameIndex < (startFrame + m_camera->ctx->curExp->frameCount)));
+
+    spdlog::info("Frame writer finished");
+
+    file->Close();
+    delete file;
+    file = nullptr;
 }
 
 
 template<FrameConcept F, ColorConfigConcept C>
 pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
     //TODO preallocate unused frame pool size based on acquisition size
-    m_unusedFramePool = std::make_shared<ObjPool<F, uns32, bool>>(20, camera->ctx->frameBytes, true);
+    const uint64_t bufferCount = camera->ctx->curExp->bufferCount;
+    const uint64_t frameCount = camera->ctx->curExp->frameCount;
+    const uint64_t frameBytes = camera->ctx->frameBytes;
+    const uint64_t framesMax = (frameBytes == 0) ? 0 : ((100 << 20) / frameBytes); //number of frames for 100MB buffer
+    const uint64_t recommendedFrameCount = std::min<uint64_t>(10 + std::min<uint64_t>(frameCount, framesMax), bufferCount);
+
+    spdlog::info("Initializing frame pool with {} objects of size {}", recommendedFrameCount, camera->ctx->frameBytes);
+    m_unusedFramePool = std::make_shared<ObjPool<F, uns32, bool>>(recommendedFrameCount, camera->ctx->frameBytes, true);
+
+    spdlog::info("Get speed table {}", camera->ctx->curExp->spdTableIdx);
     uint16_t spdTblIdx = camera->ctx->curExp->spdTableIdx;
     m_spdTable = camera->ctx->info.spdTable[spdTblIdx];
 }
@@ -227,19 +251,34 @@ pm::Acquisition<F, C>::~Acquisition() {
 
 
 template<FrameConcept F, ColorConfigConcept C>
-bool pm::Acquisition<F, C>::Start(double tiffFillValue, const C* tiffColorCtx) {
-    m_tiffHelper.fillValue = tiffFillValue;
-    //m_tiffHelper.colorCtx = tiffColorCtx;
+bool pm::Acquisition<F, C>::Start(bool saveToDisk, double tiffFillValue, const C* tiffColorCtx) {
+    //TODO implement colorCtx support
 
-    spdlog::info("Starting frame writer thread");
-    m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
+    if (!m_running) {
+        std::unique_lock<std::mutex> lock(m_lock);
+        m_capture = saveToDisk;
 
-    spdlog::info("Starting acquisition: frameCount {}", m_camera->ctx->curExp->frameCount);
-    m_acquireThread = new std::thread(&Acquisition<F, C>::acquireThread, this);
+        if (!m_frameWriterThread) {
+            spdlog::info("Starting frame writer thread");
+            m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
+        }
 
-    if (m_acquireThread) {
-        m_running = true;
+        if (!m_acquireThread) {
+            spdlog::info("Starting acquisition: frameCount {}", m_camera->ctx->curExp->frameCount);
+            m_acquireThread = new std::thread(&Acquisition<F, C>::acquireThread, this);
+        }
+
+        if (m_acquireThread && m_frameWriterThread) {
+            m_running = true;
+            return true;
+        }
+    } else if (m_running && !m_capture && saveToDisk) {
+        //live view is running but not capturing so enable capture
+        m_capture = true;
         return true;
+    } else if (m_running && m_capture) {
+        spdlog::error("Acquisition with capture is already running");
+        return false;
     }
 
     m_running = false;
@@ -249,14 +288,24 @@ bool pm::Acquisition<F, C>::Start(double tiffFillValue, const C* tiffColorCtx) {
 
 template<FrameConcept F, ColorConfigConcept C>
 bool pm::Acquisition<F, C>::Abort() {
+    m_acquireThreadAbortFlag = true;
+    m_diskThreadAbortFlag = true;
+    WaitForStop();
+
     return true;
 }
 
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::WaitForStop() {
-    m_acquireThread->join();
-    m_frameWriterThread->join();
+    if (m_acquireThread && m_frameWriterThread && m_running) {
+        m_acquireThread->join();
+        m_frameWriterThread->join();
+
+        m_acquireThread = nullptr;
+        m_frameWriterThread = nullptr;
+        m_running = false;
+    }
 
     return;
 }

@@ -37,8 +37,6 @@ void MainWindow::Initialize() {
     for(auto& i : m_camInfo.spdTable) {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
-
-    m_camera->SetupExp(m_expSettings);
 }
 
 /**
@@ -53,13 +51,17 @@ void MainWindow::on_frameRateEdit_valueChanged(int value) {
         spdlog::error("Acquisition running: FPS cannot be changed");
     } else {
         spdlog::info("frameRateEdit value changed: {}", value);
-        m_expSettings.expTimeMS = (1 / value) * 1000;
-        m_camera->SetupExp(m_expSettings);
+        m_fps = (float)value;
     }
 }
 
 void MainWindow::on_durationEdit_valueChanged(int value) {
     spdlog::info("durationEdit value changed: {}", value);
+    if(m_acquisition && m_acquisition->IsRunning()) {
+        spdlog::error("Acquistion running: duration cannot be changed");
+    } else {
+        m_duration = value;
+    }
 }
 
 void MainWindow::on_advancedSetupBtn_clicked() {
@@ -75,25 +77,43 @@ void MainWindow::on_settingsBtn_clicked() {
 }
 
 void MainWindow::on_startAcquisitionBtn_clicked() {
-    spdlog::info("Start Acquisition clicked");
-    if (!m_acquisition) {
-        spdlog::info("Creating acquisition");
-        m_acquisition = std::make_shared<pmAcquisition>(m_camera);
-    }
+    if (m_duration > 0 && m_fps > 0) {
+        m_expSettings.expTimeMS = (1 / m_fps) * 1000;
+        m_expSettings.frameCount = m_duration * m_fps;
 
-    if (!m_acquisition->IsRunning()) {
-        spdlog::info("Starting acquisition");
-        m_acquisition->Start(0.0, nullptr);
-        ui.startAcquisitionBtn->setText("Stop Acquisition");
-    } else {
-        spdlog::info("Stopping acquisition");
-        m_acquisition->Abort();
-        m_acquisition->WaitForStop();
-        ui.startAcquisitionBtn->setText("Start Acquisition");
+        if (!m_acquisition || !m_acquisition->IsRunning()) {
+            spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
+            ui.startAcquisitionBtn->setText("Stop Acquisition");
+
+            m_acquisition.reset();
+            m_acquisition = nullptr;
+
+            spdlog::info("Setup exposure");
+            m_camera->SetupExp(m_expSettings);
+
+            spdlog::info("Creating acquisition");
+            m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+
+            spdlog::info("Starting acquisition");
+            m_acquisition->Start(true, 0.0, nullptr);
+        } else {
+            spdlog::info("Stopping acquisition");
+            //stop acquisition
+            m_acquisition->Abort();
+            m_acquisition->WaitForStop();
+
+            //Stop camera exposure
+            m_camera->StopExp();
+
+            //reset acquisition
+            m_acquisition.reset();
+            m_acquisition = nullptr;
+
+            //update
+            ui.startAcquisitionBtn->setText("Start Acquisition");
+        }
     }
 }
-
-
 
 /* void MainWindow::on_inputSpinBox1_valueChanged(int value) { */
 /*     ui.outputWidget->setText(QString::number(value + ui.inputSpinBox2->value())); */

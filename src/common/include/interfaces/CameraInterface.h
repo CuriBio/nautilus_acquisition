@@ -59,7 +59,7 @@ struct ExpSettings {
 
     uint32_t expTimeMS{0};
     int16_t trigMode{0};
-    int16_t expMode{0};
+    int16_t expModeOut{0};
 
     uint64_t frameCount{0};
     uint64_t bufferCount{0};

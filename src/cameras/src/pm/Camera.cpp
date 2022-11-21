@@ -168,7 +168,7 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     spdlog::info("Found driver version {}", ctx->info.driver);
 
     // Read the camera sensor parallel size (sensor height/number of rows)
-    if (!pm::pl_get_param_if_exists(ctx->hcam, PARAM_PAR_SIZE, ATTR_CURRENT, (void*)&ctx->info.sensorResX)) {
+    if (!pm::pl_get_param_if_exists(ctx->hcam, PARAM_SER_SIZE, ATTR_CURRENT, (void*)&ctx->info.sensorResX)) {
         spdlog::warn("Could not read CCD X-resolution for camera {}", ctx->info.name);
         return false;
     }
@@ -373,7 +373,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
     switch(ctx->curExp->acqMode) {
         case AcqMode::LiveCircBuffer:
             if(PV_OK != pl_exp_start_cont(ctx->hcam, ctx->buffer.get(),
-                        ctx->curExp->frameCount * ctx->frameBytes)) {
+                        ctx->curExp->bufferCount * ctx->frameBytes)) {
                 //TODO: clean up
                 auto err = GetError();
                 spdlog::error("Failed to start continuous acquisition, {}", err);
@@ -537,7 +537,7 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
             .spdTableIdx = settings.spdTableIdx,
             .expTimeMS = settings.expTimeMS,
             .trigMode = settings.trigMode,
-            .expMode = settings.expMode,
+            .expModeOut = settings.expModeOut,
             .frameCount = settings.frameCount,
             .bufferCount = settings.bufferCount,
             .colorWbScaleRed = settings.colorWbScaleRed,
@@ -580,29 +580,39 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         case AcqMode::LiveCircBuffer:
             //TODO allow multiple regions
             if (PV_OK != pl_exp_setup_cont(
-                        ctx->hcam, 1/*rgn_total*/, &rgn, settings.expMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
+                        //TODO Support regions
+                        ctx->hcam, 1/*rgn_total*/, &rgn, settings.expModeOut | settings.trigMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
                 spdlog::error("Failed to setup continuous acquisition");
                 return false;
             }
+            spdlog::info("frameBytes: {}", ctx->frameBytes);
             break;
         default:
             spdlog::error("Acquisition mode not supported/implemented");
             return false;
     }
 
+    if (ctx->bufferBytes) { //need to deallocate old buffers first
+        ctx->frames.clear();
+        ctx->buffer.reset();
+
+        ctx->bufferBytes = 0;
+        ctx->buffer = nullptr;
+    }
+
     //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
     //to the buffer size, so going to do that here
-    ctx->bufferBytes = settings.frameCount * ctx->frameBytes + 16;
-    spdlog::info("Allocating bufferBytes ({}) for frameCount ({}) with frameBytes ({})", ctx->bufferBytes, settings.frameCount, ctx->frameBytes);
+    ctx->bufferBytes = settings.bufferCount * ctx->frameBytes + 16;
+    spdlog::info("Allocating bufferBytes ({}) for frameCount ({}) with frameBytes ({})", ctx->bufferBytes, settings.bufferCount, ctx->frameBytes);
 
-    //use 4k alignment, might parameterize later
+    //TODO use 4k alignment, might parameterize later
     const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
     ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
-    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, settings.frameCount);
+    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, settings.bufferCount);
 
     //setup frames over buffer
-    ctx->frames.reserve(settings.frameCount);
-    for(auto i = 0; i < settings.frameCount; i++) {
+    ctx->frames.reserve(settings.bufferCount);
+    for(auto i = 0; i < settings.bufferCount; i++) {
         std::shared_ptr<F> frame;
         frame = std::make_shared<F>(ctx->frameBytes, false);
 

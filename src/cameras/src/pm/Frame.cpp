@@ -85,11 +85,6 @@ void pm::Frame::setInfo(const FrameInfo& info) {
 }
 
 bool pm::Frame::copyData() {
-    /* auto start = std::chrono::high_resolution_clock::now(); */
     m_PMemCopy.Copy(m_data, m_dataSrc, m_frameBytes);
-    //std::memcpy(m_data, m_dataSrc, m_frameBytes);
-    /* auto finish = std::chrono::high_resolution_clock::now(); */
-    /* auto timens = std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count(); */
-    /* spdlog::info("PMemCopy runtime: {}", timens); */
     return true;
 }
