@@ -143,19 +143,31 @@ void pm::Acquisition<F, C>::acquireThread() {
 
             frame = m_acquireFrameQueue.front();
             m_acquireFrameQueue.pop();
-            nFrames++;
+
+            if (m_capture) {
+                nFrames++;
+            }
 
         } //release lock
 
-        if (!ProcessNewFrame(frame)) {
+        if (!m_capture) {
+            std::unique_lock<std::mutex> lock(m_lock);
+            m_latestFrame = frame;
+        }
+
+        if (m_capture && !ProcessNewFrame(frame)) {
             //TODO handle error
         }
 
         m_unusedFramePool->EnsurePoolSize(3);
     } while (!m_acquireThreadAbortFlag && nFrames < m_camera->ctx->curExp->frameCount);
 
+    if (!m_capture) { //if running live view only need to tell frameWriterThread to stop
+        m_diskThreadAbortFlag = true;
+    }
+
     spdlog::info("Acquisition finished");
-    m_camera->StopExp();
+    //m_camera->StopExp();
 }
 
 
@@ -190,12 +202,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 continue;
             }
 
-            if (!m_capture) {
-                //If user is only running live view then continue
-                //without writing frame to disk
-                continue;
-            }
-
             frame = m_frameWriterQueue.front();
             m_frameWriterQueue.pop();
         } //release lock
@@ -206,17 +212,23 @@ void pm::Acquisition<F, C>::frameWriterThread() {
             file->Open(fileName);
 
             //Get start frame number
-            startFrame = frame->GetInfo()->frameNr;
+            //startFrame = frame->GetInfo()->frameNr;
         }
 
         file->WriteFrame(frame);
-        frameIndex = frame->GetInfo()->frameNr;
+        frameIndex++; //= frame->GetInfo()->frameNr;
 
         //Release frame
         m_unusedFramePool->Release(frame);
+        spdlog::info("frameIndex: {}, startFrame: {}, startFrame + frameCount: {}",
+            frameIndex,
+            startFrame,
+            startFrame + m_camera->ctx->curExp->frameCount
+        );
 
     //TODO isAcqModeLive && m_frameWriterAbortFlag
-    } while (!m_diskThreadAbortFlag && (frameIndex < (startFrame + m_camera->ctx->curExp->frameCount)));
+    //} while (!m_diskThreadAbortFlag && (frameIndex < (startFrame + m_camera->ctx->curExp->frameCount - 1)));
+    } while (!m_diskThreadAbortFlag && (frameIndex < m_camera->ctx->curExp->frameCount));
 
     spdlog::info("Frame writer finished");
 
@@ -290,7 +302,9 @@ template<FrameConcept F, ColorConfigConcept C>
 bool pm::Acquisition<F, C>::Abort() {
     m_acquireThreadAbortFlag = true;
     m_diskThreadAbortFlag = true;
+
     WaitForStop();
+    m_camera->StopExp();
 
     return true;
 }
@@ -298,6 +312,7 @@ bool pm::Acquisition<F, C>::Abort() {
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::WaitForStop() {
+    std::unique_lock<std::mutex> lock(m_stopLock);
     if (m_acquireThread && m_frameWriterThread && m_running) {
         m_acquireThread->join();
         m_frameWriterThread->join();
@@ -308,6 +323,12 @@ void pm::Acquisition<F, C>::WaitForStop() {
     }
 
     return;
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+std::shared_ptr<F> pm::Acquisition<F,C>::GetLatestFrame() {
+    std::unique_lock<std::mutex> lock(m_lock);
+    return m_latestFrame;
 }
 
 

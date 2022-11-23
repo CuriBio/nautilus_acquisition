@@ -219,7 +219,7 @@ Autoupload</string>
     <zorder>settingsBtn</zorder>
     <zorder>advancedSetupBtn</zorder>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="rightframe">
     <property name="geometry">
      <rect>
       <x>960</x>
@@ -315,7 +315,7 @@ readouts</string>
      <number>10</number>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_2">
+   <widget class="QFrame" name="histogram_frame">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -330,7 +330,7 @@ readouts</string>
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="histogram" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -341,7 +341,7 @@ readouts</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="image">
+   <widget class="QFrame" name="liveviewframe">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -350,18 +350,84 @@ readouts</string>
       <height>650</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>650</width>
+      <height>650</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>650</width>
+      <height>650</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>650</width>
+      <height>650</height>
+     </size>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: solid;
+border-width: 1px;
+border-color: black;
+background-color: rgb(128,128,128);</string>
+    </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::StyledPanel</enum>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
+    <widget class="LiveView" name="liveView" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>650</width>
+       <height>650</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>650</width>
+       <height>650</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>650</width>
+       <height>650</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>650</width>
+       <height>650</height>
+      </size>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LiveView</class>
+   <extends>QWidget</extends>
+   <header>liveview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

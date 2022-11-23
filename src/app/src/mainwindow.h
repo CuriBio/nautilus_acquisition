@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <mutex>
+
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
 #include <interfaces/FrameInterface.h>
@@ -23,6 +25,9 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(QMainWindow *parent = nullptr);
         void Initialize();
 
+    signals:
+        void sig_acquisition_done();
+
     private slots:
         void on_ledIntensityEdit_valueChanged(int value);
         void on_frameRateEdit_valueChanged(int value);
@@ -33,11 +38,17 @@ class MainWindow : public QMainWindow {
         void on_settingsBtn_clicked();
         void on_startAcquisitionBtn_clicked();
 
+    public slots:
+        void acquisition_done();
+
     private:
         Ui::MainWindow ui;
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
+
+        QThread* m_acqusitionThread {nullptr};
+        std::mutex m_lock;
 
         int m_duration{0};
         float m_fps{0.0};

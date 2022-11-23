@@ -78,10 +78,12 @@ bool TiffFile<F>::Open(std::string name) {
 
 template<FrameConcept F>
 void TiffFile<F>::Close() {
-    spdlog::info("Closing file {}", m_name.c_str());
-    TIFFFlush(m_file);
-    TIFFClose(m_file);
-    m_file = nullptr;
+    if (m_file) {
+        spdlog::info("Closing file {}", m_name.c_str());
+        TIFFFlush(m_file);
+        TIFFClose(m_file);
+        m_file = nullptr;
+    }
 }
 
 template<FrameConcept F>

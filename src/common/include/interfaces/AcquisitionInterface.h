@@ -15,6 +15,7 @@ concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> 
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;
     { c.ProcessNewFrame(pframe) } -> std::same_as<bool>;
+    { c.GetLatestFrame() } -> std::same_as<std::shared_ptr<F>>;
 };
 
 template<

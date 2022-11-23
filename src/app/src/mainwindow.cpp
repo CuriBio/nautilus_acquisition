@@ -1,9 +1,10 @@
 #include <spdlog/spdlog.h>
-
+#include <QThread>
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
+    connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
 }
 
 void MainWindow::Initialize() {
@@ -70,10 +71,24 @@ void MainWindow::on_advancedSetupBtn_clicked() {
 
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked");
+    if (m_acquisition) {
+        std::shared_ptr<pm::Frame> frame = m_acquisition->GetLatestFrame();
+
+        if (frame) {
+            ui.liveView->updateImage((uint8_t*)frame->GetData());
+        }
+    }
 }
 
 void MainWindow::on_settingsBtn_clicked() {
     spdlog::info("settingsBtn clicked");
+}
+
+void MainWindow::acquisition_done() {
+    spdlog::info("Acquisition done signal");
+    ui.startAcquisitionBtn->setText("Start Acquisition");
+    delete m_acqusitionThread;
+    m_acqusitionThread = nullptr;
 }
 
 void MainWindow::on_startAcquisitionBtn_clicked() {
@@ -85,40 +100,37 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
             spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
             ui.startAcquisitionBtn->setText("Stop Acquisition");
 
-            m_acquisition.reset();
-            m_acquisition = nullptr;
+            {
+                std::unique_lock<std::mutex> lock(m_lock);
+                if (!m_acqusitionThread) {
+                    m_acqusitionThread = QThread::create([=] {
+                        m_acquisition.reset();
+                        m_acquisition = nullptr;
 
-            spdlog::info("Setup exposure");
-            m_camera->SetupExp(m_expSettings);
+                        spdlog::info("Setup exposure");
+                        m_camera->SetupExp(m_expSettings);
 
-            spdlog::info("Creating acquisition");
-            m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+                        spdlog::info("Creating acquisition");
+                        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
 
-            spdlog::info("Starting acquisition");
-            m_acquisition->Start(true, 0.0, nullptr);
+                        spdlog::info("Starting acquisition");
+                        if (!m_acquisition->Start(false, 0.0, nullptr)) {
+                            spdlog::error("Failed starting acquisition");
+                        }
+
+                        spdlog::info("Waiting for acquisition");
+                        m_acquisition->WaitForStop();
+
+                        spdlog::info("Acquisition done, sending signal");
+                        emit sig_acquisition_done();
+                    });
+                    m_acqusitionThread->start();
+                }
+            }
         } else {
             spdlog::info("Stopping acquisition");
             //stop acquisition
             m_acquisition->Abort();
-            m_acquisition->WaitForStop();
-
-            //Stop camera exposure
-            m_camera->StopExp();
-
-            //reset acquisition
-            m_acquisition.reset();
-            m_acquisition = nullptr;
-
-            //update
-            ui.startAcquisitionBtn->setText("Start Acquisition");
         }
     }
 }
-
-/* void MainWindow::on_inputSpinBox1_valueChanged(int value) { */
-/*     ui.outputWidget->setText(QString::number(value + ui.inputSpinBox2->value())); */
-/* } */
-
-/* void MainWindow::on_inputSpinBox2_valueChanged(int value) { */
-/*     ui.outputWidget->setText(QString::number(value + ui.inputSpinBox1->value())); */
-/* } */

@@ -24,6 +24,7 @@ namespace pm {
             private:
                 std::shared_ptr<pm::Camera<F>> m_camera;
                 std::mutex m_lock;
+                std::mutex m_stopLock;
 
                 bool m_running{ false };
                 bool m_diskThreadAbortFlag{ false };
@@ -41,7 +42,6 @@ namespace pm {
                 std::thread* m_acquireThread{ nullptr };
                 std::thread* m_frameWriterThread{ nullptr };
 
-
                 /* std::mutex m_writerLock; */
                 /* std::thread* m_writerThread{ nullptr }; */
 
@@ -49,6 +49,7 @@ namespace pm {
 
                 uint32_t m_lastFrameInCallback{0};
                 uint32_t m_lastFrameInProcessing{0};
+                std::shared_ptr<F> m_latestFrame{nullptr};
 
                 //TODO color context support
                 //typename TiffFile<F>::ProcHelper m_tiffHelper{};
@@ -64,6 +65,7 @@ namespace pm {
                 bool IsRunning();
 
                 bool ProcessNewFrame(std::shared_ptr<F> frame);
+                std::shared_ptr<F> GetLatestFrame();
             private:
                 static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* Acquisition_pointer);
 
