@@ -7,6 +7,11 @@
 #include "FrameInterface.h"
 #include "ColorConfigInterface.h"
 
+enum AcquisitionState {
+    AcqStopped,
+    AcqLiveScan,
+    AcqCapture
+};
 
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
 concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, std::shared_ptr<F> pframe, const Color<Cfg>* cctx) {
@@ -16,6 +21,7 @@ concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> 
     { c.IsRunning() } -> std::same_as<bool>;
     { c.ProcessNewFrame(pframe) } -> std::same_as<bool>;
     { c.GetLatestFrame() } -> std::same_as<std::shared_ptr<F>>;
+    { c.GetState() } -> std::same_as<AcquisitionState>;
 };
 
 template<

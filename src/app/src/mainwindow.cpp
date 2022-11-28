@@ -5,6 +5,7 @@
 MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
+    connect(this, &MainWindow::sig_livescan_stopped, this, &MainWindow::livescan_stopped);
 }
 
 void MainWindow::Initialize() {
@@ -71,12 +72,20 @@ void MainWindow::on_advancedSetupBtn_clicked() {
 
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked");
-    if (m_acquisition) {
-        std::shared_ptr<pm::Frame> frame = m_acquisition->GetLatestFrame();
+    if (!m_liveViewThread && !m_acqusitionThread) {
+        spdlog::info("Starting live scan");
+        ui.liveScanBtn->setText("Stop Live Scan");
+        m_stopLiveView = false;
 
-        if (frame) {
-            ui.liveView->updateImage((uint8_t*)frame->GetData());
-        }
+        m_liveViewThread = QThread::create(MainWindow::liveViewThreadFn, this);
+        m_liveViewThread->start();
+
+        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, false);
+        m_acqusitionThread->start();
+    } else if(m_acquisition && m_acquisition->IsRunning()) {
+        spdlog::info("Stopping live scan");
+        m_acquisition->Abort();
+        m_stopLiveView = true;
     }
 }
 
@@ -91,6 +100,17 @@ void MainWindow::acquisition_done() {
     m_acqusitionThread = nullptr;
 }
 
+void MainWindow::livescan_stopped() {
+    spdlog::info("Live scan stopped");
+    ui.liveScanBtn->setText("Start Live Scan");
+
+    delete m_liveViewThread;
+    m_liveViewThread = nullptr;
+    m_stopLiveView = true;
+
+    ui.liveView->clear();
+}
+
 void MainWindow::on_startAcquisitionBtn_clicked() {
     if (m_duration > 0 && m_fps > 0) {
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
@@ -103,30 +123,17 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
             {
                 std::unique_lock<std::mutex> lock(m_lock);
                 if (!m_acqusitionThread) {
-                    m_acqusitionThread = QThread::create([=] {
-                        m_acquisition.reset();
-                        m_acquisition = nullptr;
-
-                        spdlog::info("Setup exposure");
-                        m_camera->SetupExp(m_expSettings);
-
-                        spdlog::info("Creating acquisition");
-                        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
-
-                        spdlog::info("Starting acquisition");
-                        if (!m_acquisition->Start(false, 0.0, nullptr)) {
-                            spdlog::error("Failed starting acquisition");
-                        }
-
-                        spdlog::info("Waiting for acquisition");
-                        m_acquisition->WaitForStop();
-
-                        spdlog::info("Acquisition done, sending signal");
-                        emit sig_acquisition_done();
-                    });
+                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, true);
                     m_acqusitionThread->start();
+                } else {
+                    spdlog::info("Starting stream to disk");
+                    m_acquisition->Start(true, 0.0, nullptr);
                 }
             }
+        } else if (m_acquisition->GetState() == AcquisitionState::AcqLiveScan) {
+            spdlog::info("Starting stream to disk");
+            ui.startAcquisitionBtn->setText("Stop Acquisition");
+            m_acquisition->Start(true, 0.0, nullptr);
         } else {
             spdlog::info("Stopping acquisition");
             //stop acquisition
@@ -134,3 +141,52 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
         }
     }
 }
+
+/**
+ * Threads
+ */
+void MainWindow::acquisitionThread(MainWindow* cls, bool saveToDisk) {
+    if (cls->m_acquisition) {
+        cls->m_acquisition.reset();
+        cls->m_acquisition = nullptr;
+    }
+
+    cls->m_expSettings.expTimeMS = (1 / cls->m_fps) * 1000;
+    cls->m_expSettings.frameCount = cls->m_duration * cls->m_fps;
+
+    spdlog::info("Setup exposure");
+    cls->m_camera->SetupExp(cls->m_expSettings);
+
+    spdlog::info("Creating acquisition");
+    cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);
+
+    spdlog::info("Starting acquisition");
+    if (!cls->m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
+        spdlog::error("Failed starting acquisition");
+    }
+
+    spdlog::info("Waiting for acquisition");
+    cls->m_acquisition->WaitForStop();
+
+    spdlog::info("Acquisition done, sending signal");
+    emit cls->sig_acquisition_done();
+}
+
+void MainWindow::liveViewThreadFn(MainWindow* cls) {
+    float minFps = std::min<float>(cls->m_fps, 24.0);
+    uint32_t quiescence = uint32_t(1000 * (1 / minFps));
+
+    while (!cls->m_stopLiveView) {
+        QThread::msleep(quiescence);
+        if (cls->m_acquisition) {
+            std::shared_ptr<pm::Frame> frame = cls->m_acquisition->GetLatestFrame();
+
+            if (frame) {
+                cls->ui.liveView->updateImage((uint8_t*)frame->GetData());
+            }
+        }
+    }
+
+    emit cls->sig_livescan_stopped();
+}
+

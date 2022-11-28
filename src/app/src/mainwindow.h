@@ -27,6 +27,11 @@ class MainWindow : public QMainWindow {
 
     signals:
         void sig_acquisition_done();
+        void sig_livescan_stopped();
+
+    public slots:
+        void acquisition_done();
+        void livescan_stopped();
 
     private slots:
         void on_ledIntensityEdit_valueChanged(int value);
@@ -38,17 +43,16 @@ class MainWindow : public QMainWindow {
         void on_settingsBtn_clicked();
         void on_startAcquisitionBtn_clicked();
 
-    public slots:
-        void acquisition_done();
-
     private:
         Ui::MainWindow ui;
+        std::mutex m_lock;
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
 
         QThread* m_acqusitionThread {nullptr};
-        std::mutex m_lock;
+        QThread* m_liveViewThread {nullptr};
+        bool m_stopLiveView {false};
 
         int m_duration{0};
         float m_fps{0.0};
@@ -66,6 +70,10 @@ class MainWindow : public QMainWindow {
             .frameCount = 0,
             .bufferCount = 50 //TODO allow user setting
         };
+
+    private:
+        static void liveViewThreadFn(MainWindow* cls);
+        static void acquisitionThread(MainWindow* cls, bool saveToDisk);
 };
 
 #endif

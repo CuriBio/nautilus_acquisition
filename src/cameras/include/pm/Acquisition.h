@@ -29,7 +29,7 @@ namespace pm {
                 bool m_running{ false };
                 bool m_diskThreadAbortFlag{ false };
                 bool m_acquireThreadAbortFlag{ false };
-                bool m_capture{ false };
+                AcquisitionState m_state { AcquisitionState::AcqStopped };
 
                 std::mutex m_acquireLock;
                 std::condition_variable m_acquireFrameCond;
@@ -66,6 +66,7 @@ namespace pm {
 
                 bool ProcessNewFrame(std::shared_ptr<F> frame);
                 std::shared_ptr<F> GetLatestFrame();
+                AcquisitionState GetState();
             private:
                 static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* Acquisition_pointer);
 
