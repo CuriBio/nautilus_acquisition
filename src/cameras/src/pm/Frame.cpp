@@ -8,12 +8,12 @@
 #include <pm/Frame.h>
 
 
-pm::Frame::Frame(size_t frameBytes, bool deepCopy) :
-    m_frameBytes(frameBytes),
-    m_deepCopy(deepCopy) {
+pm::Frame::Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<PMemCopy> pCopy) :
+    m_frameBytes(frameBytes), m_deepCopy(deepCopy), m_PMemCopy(pCopy) {
     if (deepCopy && frameBytes > 0) { //allocate data if using deepcopy
         m_data = m_allocator.Allocate(frameBytes);
     }
+    m_info = new FrameInfo(); 
 }
 
 pm::Frame::~Frame() {
@@ -24,17 +24,17 @@ pm::Frame::~Frame() {
 }
 
 void pm::Frame::SetData(void* data) {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     setData(data);
 }
 
 void* pm::Frame::GetData() {
-    std::shared_lock<std::shared_mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     return m_data;
 }
 
 bool pm::Frame::CopyData() {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     if (m_deepCopy) {
         return copyData();
     } else {
@@ -44,19 +44,21 @@ bool pm::Frame::CopyData() {
 }
 
 FrameInfo* pm::Frame::GetInfo() const {
-    std::shared_lock<std::shared_mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     return m_info;
 }
 
 void pm::Frame::SetInfo(const FrameInfo& info) {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
     return setInfo(info);
 }
 
 bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
-    std::unique_lock<std::shared_mutex> wrLock(m_mutex, std::defer_lock);
-    std::shared_lock<std::shared_mutex> rdLock(from.m_mutex, std::defer_lock);
-    std::lock(wrLock, rdLock);
+    assert(&from != this);
+    /* std::unique_lock<std::shared_mutex> wrLock(m_mutex, std::defer_lock); */
+    /* std::shared_lock<std::shared_mutex> rdLock(from.m_mutex, std::defer_lock); */
+    /* std::lock(wrLock, rdLock); */
+    std::unique_lock<std::mutex> lock(m_mutex);
 
     //TODO check configuration matches
     setData(from.m_data);
@@ -72,7 +74,6 @@ bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
         //TODO handle shallow copy? Doing this for now for testing
         setInfo(*from.GetInfo());
     }
-
     return true;
 }
 
@@ -85,6 +86,6 @@ void pm::Frame::setInfo(const FrameInfo& info) {
 }
 
 bool pm::Frame::copyData() {
-    m_PMemCopy.Copy(m_data, m_dataSrc, m_frameBytes);
+    m_PMemCopy->Copy(m_data, m_dataSrc, m_frameBytes);
     return true;
 }

@@ -43,11 +43,11 @@ set(CMAKE_AUTOUIC ON)
 
 message("########## ${PROJECT_NAME}:${PROJECT_VERSION} ##########")
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 add_library(project_warnings INTERFACE)
 add_library(project_options INTERFACE)
 
-target_compile_features(project_options INTERFACE cxx_std_20)
+target_compile_features(project_options INTERFACE cxx_std_23)
 # set(CMAKE_CXX_FLAGS "-Wall")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g")
 # set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")

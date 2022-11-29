@@ -139,7 +139,7 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     }
 
     //lock mutex
-    std::lock_guard<std::mutex>(ctx->lock);
+    std::lock_guard<std::mutex> lock(ctx->lock);
 
     if (PV_OK != pl_create_frame_info_struct(&ctx->curFrameInfo)) {
         spdlog::error("Failed creating frame info structure");
@@ -250,7 +250,7 @@ bool pm::Camera<F>::Close() {
     }
 
     //lock mutex
-    std::lock_guard<std::mutex>(ctx->lock);
+    std::lock_guard<std::mutex> lock(ctx->lock);
 
     if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_CAM_REMOVED)) {
         spdlog::error("Failed to unregister camera removal callback for camera {}", ctx->info.name);
@@ -285,7 +285,7 @@ CameraInfo& pm::Camera<F>::GetInfo() {
 template<FrameConcept F>
 bool pm::Camera<F>::StopExp() {
     if (ctx->imaging) {
-        std::lock_guard<std::mutex>(ctx->lock); //lock mutex
+        std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
 
         if(ctx->imaging) {
             if (PV_OK != pl_exp_abort(ctx->hcam, CCS_HALT)) {
@@ -317,7 +317,7 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
     }
 
     //lock mutex
-    std::lock_guard<std::mutex>(ctx->lock);
+    std::lock_guard<std::mutex> lock(ctx->lock);
 
     //return if already imaging
     if (ctx->imaging) {
@@ -359,7 +359,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
         return false;
     }
 
-    std::lock_guard<std::mutex>(ctx->lock); //lock mutex
+    std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
     if (ctx->imaging) { 
         spdlog::error("Imaging already running for camera {}", ctx->info.name);
         return false;
@@ -401,7 +401,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
 }
 
 template<FrameConcept F>
-bool pm::Camera<F>::GetLatestFrame(std::shared_ptr<F> frame) {
+bool pm::Camera<F>::GetLatestFrame(F* frame) {
     //TODO implement
     size_t index;
     if (!getLatestFrameIndex(index))
@@ -537,7 +537,8 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     //copy capture settings
     ctx->curExp.reset(new ExpSettings{
             .acqMode = settings.acqMode,
-            .fileName = settings.fileName,
+            .filePath = settings.filePath,
+            .filePrefix = settings.filePrefix,
             .region = settings.region,
             .imgFormat = settings.imgFormat,
             .spdTableIdx = settings.spdTableIdx,
@@ -606,21 +607,26 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         ctx->buffer = nullptr;
     }
 
+    //PVCAM, at least the virtual cam, will only allow up to 4GB buffer
+    //so allocate as much as allowed here
+    uint32_t maxBuffers = uint32_t((0xFFFFFFFF - 1) / ctx->frameBytes);
+    spdlog::info("MaxBuffers {}", maxBuffers);
+    ctx->curExp->bufferCount = maxBuffers;
+
     //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
     //to the buffer size, so going to do that here
-    ctx->bufferBytes = settings.bufferCount * ctx->frameBytes + 16;
-    spdlog::info("Allocating bufferBytes ({}) for frameCount ({}) with frameBytes ({})", ctx->bufferBytes, settings.bufferCount, ctx->frameBytes);
+    ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
+    spdlog::info("Allocating bufferBytes ({}) for frameCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
 
     //TODO use 4k alignment, might parameterize later
     const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
     ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
-    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, settings.bufferCount);
+    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, ctx->curExp->bufferCount);
 
     //setup frames over buffer
-    ctx->frames.reserve(settings.bufferCount);
-    for(auto i = 0; i < settings.bufferCount; i++) {
-        std::shared_ptr<F> frame;
-        frame = std::make_shared<F>(ctx->frameBytes, false);
+    ctx->frames.reserve(ctx->curExp->bufferCount);
+    for(uint32_t i = 0; i < ctx->curExp->bufferCount; i++) {
+        F* frame = new F(ctx->frameBytes, false, nullptr);
 
         void* data = ctx->buffer.get() + i * ctx->frameBytes;
         frame->SetData(data);
@@ -640,7 +646,10 @@ template<FrameConcept F>
 void pm::Camera<F>::updateFrameIndexMap(uint32_t oldFrameNr, size_t index) const {
     ctx->framesMap.erase(oldFrameNr);
 
-    if (index >= ctx->frames.size()) { return; }
+    if (index >= ctx->frames.size()) {
+        spdlog::info("updateFrameIndex index out of range");
+        return;
+    }
 
     const uint32_t frameNr = ctx->frames.at(index)->GetInfo()->frameNr;
     ctx->framesMap[frameNr] = index;
@@ -710,14 +719,6 @@ bool pm::Camera<F>::getLatestFrameIndex(size_t& index) {
 /**
  * Camera callback methods
  */
-
-template<FrameConcept F>
-void pm::Camera<F>::eofHandler(FRAME_INFO* frameInfo, void* ctx) {
-    CameraCtx<F>* c = static_cast<CameraCtx<F>*>(ctx);
-    spdlog::info("EOF Handler called for camera {} - frame {}", c->info.name, frameInfo->FrameNr);
-    return;
-}
-
 
 template<FrameConcept F>
 void pm::Camera<F>::rmCamHandler(FRAME_INFO* frameInfo, void* ctx) {

@@ -14,13 +14,13 @@ enum AcquisitionState {
 };
 
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
-concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, std::shared_ptr<F> pframe, const Color<Cfg>* cctx) {
+concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx) {
     { c.Start(bool(), double(), cctx) } -> std::same_as<bool>;
     { c.Abort() } -> std::same_as<bool>;
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;
     { c.ProcessNewFrame(pframe) } -> std::same_as<bool>;
-    { c.GetLatestFrame() } -> std::same_as<std::shared_ptr<F>>;
+    { c.GetLatestFrame() } -> std::same_as<F*>;
     { c.GetState() } -> std::same_as<AcquisitionState>;
 };
 

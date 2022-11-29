@@ -3,6 +3,7 @@ add_executable(${PROJECT_NAME}
     ./src/main.cpp
     ./src/mainwindow.cpp
     ./src/liveview.cpp
+    ./src/settings.cpp
     )
 
 target_include_directories(${PROJECT_NAME}

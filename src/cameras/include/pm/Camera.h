@@ -20,21 +20,21 @@ namespace pm {
     using CbEx3Fn = void (PV_DECL *)(FRAME_INFO* frameInfo, void* context);
 
     struct NVP {
-        int32 value{ 0 };
+        int32_t value{ 0 };
         std::string name{};
     };
 
-    rs_bool pl_get_param_exists(int16 hcam, uns32 paramID);
-    rs_bool pl_get_param_if_exists(int16 hcam, uns32 paramID, int16 paramAttr, void* paramValue);
-    rs_bool pl_set_param_if_exists(int16 hcam, uns32 paramID, void* paramValue);
-    bool pl_read_enum(int16 hcam, std::vector<NVP>* pNvpc, uns32 paramID);
+    rs_bool pl_get_param_exists(int16_t hcam, uint32_t paramID);
+    rs_bool pl_get_param_if_exists(int16_t hcam, uint32_t paramID, int16_t paramAttr, void* paramValue);
+    rs_bool pl_set_param_if_exists(int16_t hcam, uint32_t paramID, void* paramValue);
+    bool pl_read_enum(int16_t hcam, std::vector<NVP>* pNvpc, uint32_t paramID);
 
     template<FrameConcept F>
     struct CameraCtx {
         //Camera details
         CameraInfo info{};
         // Camera handle
-        int16 hcam{-1};
+        int16_t hcam{-1};
         // is camera imaging
         bool imaging{false};
         //current capture settings
@@ -67,7 +67,7 @@ namespace pm {
         uint64_t bufferBytes{0};
 
         std::unique_ptr<uns8[]> buffer{ nullptr };
-        std::vector<std::shared_ptr<F>> frames;
+        std::vector<F*> frames;
         mutable std::map<uint32_t, size_t> framesMap{};
 
         std::mutex lock{};
@@ -78,7 +78,7 @@ namespace pm {
         class Camera {
             private:
                 std::string m_version;
-                int16 m_camCount{0};
+                int16_t m_camCount{0};
             public:
                 std::shared_ptr<CameraCtx<F>> ctx{nullptr};
             public:
@@ -92,7 +92,7 @@ namespace pm {
                 bool StartExp(void* eofCallback, void* callbackCtx);
                 bool StopExp();
 
-                bool GetLatestFrame(std::shared_ptr<F>);
+                bool GetLatestFrame(F* frame);
                 uint32_t GetFrameExpTime(uint32_t frameNr);
                 std::string GetError() const;
             private:

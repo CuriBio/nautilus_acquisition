@@ -14,6 +14,7 @@
 #include <interfaces/ColorConfigInterface.h>
 #include <ObjectPool.h>
 #include <TiffFile.h>
+#include <PMemCopy.h>
 
 #include <pm/Camera.h>
 #include <pm/Frame.h>
@@ -33,27 +34,28 @@ namespace pm {
 
                 std::mutex m_acquireLock;
                 std::condition_variable m_acquireFrameCond;
-                std::queue<std::shared_ptr<F>> m_acquireFrameQueue;
+                std::queue<F*> m_acquireFrameQueue;
 
                 std::mutex m_frameWriterLock;
                 std::condition_variable m_frameWriterCond;
-                std::queue<std::shared_ptr<F>> m_frameWriterQueue;
+                std::queue<F*> m_frameWriterQueue;
 
                 std::thread* m_acquireThread{ nullptr };
                 std::thread* m_frameWriterThread{ nullptr };
 
-                /* std::mutex m_writerLock; */
+                std::mutex m_cbLock;
                 /* std::thread* m_writerThread{ nullptr }; */
 
-                std::shared_ptr<ObjPool<F, uns32, bool>> m_unusedFramePool{nullptr};
+                std::unique_ptr<FramePool<F>> m_unusedFramePool{nullptr};
 
                 uint32_t m_lastFrameInCallback{0};
                 uint32_t m_lastFrameInProcessing{0};
-                std::shared_ptr<F> m_latestFrame{nullptr};
+                F* m_latestFrame{nullptr};
 
                 //TODO color context support
                 //typename TiffFile<F>::ProcHelper m_tiffHelper{};
                 SpdTable m_spdTable{};
+                std::shared_ptr<PMemCopy> m_pCopy;
 
             public:
                 Acquisition(std::shared_ptr<pm::Camera<F>> c);
@@ -64,15 +66,15 @@ namespace pm {
                 void WaitForStop();
                 bool IsRunning();
 
-                bool ProcessNewFrame(std::shared_ptr<F> frame);
-                std::shared_ptr<F> GetLatestFrame();
+                bool ProcessNewFrame(F* frame);
+                F* GetLatestFrame();
                 AcquisitionState GetState();
             private:
                 static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* Acquisition_pointer);
 
                 void acquireThread();
                 void frameWriterThread();
-                void checkLostFrame(uint32_t frameN, uint32_t& lastFrame);
+                void checkLostFrame(uint32_t frameN, uint32_t& lastFrame, uint8_t i);
         };
 }
 

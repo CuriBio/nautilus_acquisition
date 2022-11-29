@@ -1,30 +1,49 @@
+#include <stdlib.h>
+
 #include <spdlog/spdlog.h>
 #include <QThread>
+#include <QTimer>
+
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
+
+    m_path = getenv("USERPROFILE");
+    m_prefix = "default_";
+    m_settings = new Settings(this, m_path, m_prefix);
+
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
-    connect(this, &MainWindow::sig_livescan_stopped, this, &MainWindow::livescan_stopped);
+    connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
+
+    m_liveViewTimer = new QTimer(this);
+    connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
 }
 
 void MainWindow::Initialize() {
     spdlog::info("Initialize camera");
-
     m_camera = std::make_shared<pmCamera>();
 
     spdlog::info("Opening camera 0");
     if (!m_camera->Open(0)) {
+        //TODO how should the user be notified?
         spdlog::error("Failed to open camera 0");
     }
 
     spdlog::info("Get camera info");
     m_camInfo = m_camera->GetInfo();
 
+    //set exp region to complete sensor size
     m_expSettings.region = {
         .s1 = 0, .s2 = uns16(m_camInfo.sensorResX - 1), .sbin = 1,
         .p1 = 0, .p2 = uns16(m_camInfo.sensorResY - 1), .pbin = 1
     };
+
+    m_expSettings.filePath = m_path;
+    m_expSettings.filePrefix = m_prefix;
+
+    //Set sensor size for live view
+    ui.liveView->Init(m_camInfo.sensorResX, m_camInfo.sensorResY);
 
     spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
         m_expSettings.region.s1,
@@ -35,18 +54,21 @@ void MainWindow::Initialize() {
         m_expSettings.region.pbin
     );
 
+    //log speed table
     spdlog::info("Speed Table:");
     for(auto& i : m_camInfo.spdTable) {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
 }
 
+
 /**
- * Slots/Signals
+ * Slots
  */
 void MainWindow::on_ledIntensityEdit_valueChanged(int value) {
     spdlog::info("ledIntensityEdit value changed: {}", value);
 }
+
 
 void MainWindow::on_frameRateEdit_valueChanged(int value) {
     if (m_acquisition && m_acquisition->IsRunning()) {
@@ -57,7 +79,8 @@ void MainWindow::on_frameRateEdit_valueChanged(int value) {
     }
 }
 
-void MainWindow::on_durationEdit_valueChanged(int value) {
+
+void MainWindow::on_durationEdit_valueChanged(double value) {
     spdlog::info("durationEdit value changed: {}", value);
     if(m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquistion running: duration cannot be changed");
@@ -70,51 +93,38 @@ void MainWindow::on_advancedSetupBtn_clicked() {
     spdlog::info("advancedSetupBtn clicked");
 }
 
+
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked");
-    if (!m_liveViewThread && !m_acqusitionThread) {
+    if (!m_acqusitionThread) {
         spdlog::info("Starting live scan");
         ui.liveScanBtn->setText("Stop Live Scan");
-        m_stopLiveView = false;
 
-        m_liveViewThread = QThread::create(MainWindow::liveViewThreadFn, this);
-        m_liveViewThread->start();
+        double minFps = std::min<double>(m_fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1 / minFps)));
 
         m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, false);
         m_acqusitionThread->start();
     } else if(m_acquisition && m_acquisition->IsRunning()) {
         spdlog::info("Stopping live scan");
+        ui.liveScanBtn->setText("Live Scan");
+        m_liveViewTimer->stop();
+        ui.liveView->clear();
         m_acquisition->Abort();
-        m_stopLiveView = true;
     }
 }
 
+
 void MainWindow::on_settingsBtn_clicked() {
     spdlog::info("settingsBtn clicked");
+    m_settings->exec();
 }
 
-void MainWindow::acquisition_done() {
-    spdlog::info("Acquisition done signal");
-    ui.startAcquisitionBtn->setText("Start Acquisition");
-    delete m_acqusitionThread;
-    m_acqusitionThread = nullptr;
-}
-
-void MainWindow::livescan_stopped() {
-    spdlog::info("Live scan stopped");
-    ui.liveScanBtn->setText("Start Live Scan");
-
-    delete m_liveViewThread;
-    m_liveViewThread = nullptr;
-    m_stopLiveView = true;
-
-    ui.liveView->clear();
-}
 
 void MainWindow::on_startAcquisitionBtn_clicked() {
     if (m_duration > 0 && m_fps > 0) {
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-        m_expSettings.frameCount = m_duration * m_fps;
+        m_expSettings.frameCount = uint32_t(m_duration * m_fps);
 
         if (!m_acquisition || !m_acquisition->IsRunning()) {
             spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
@@ -140,6 +150,38 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
             m_acquisition->Abort();
         }
     }
+}
+
+
+void MainWindow::updateLiveView() {
+    spdlog::info("updating liveview");
+    if (m_acquisition) {
+        pm::Frame* frame = m_acquisition->GetLatestFrame();
+
+        if (frame) {
+            ui.liveView->updateImage((uint8_t*)frame->GetData());
+        }
+    }
+}
+
+/**
+ * Signals
+ */
+void MainWindow::acquisition_done() {
+    spdlog::info("Acquisition done signal");
+    ui.startAcquisitionBtn->setText("Start Acquisition");
+    delete m_acqusitionThread;
+    m_acqusitionThread = nullptr;
+}
+
+
+void MainWindow::settings_changed(std::filesystem::path path, std::string prefix) {
+    spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
+    m_path = path;
+    m_prefix = prefix;
+
+    m_expSettings.filePath = m_path;
+    m_expSettings.filePrefix = m_prefix;
 }
 
 /**
@@ -172,21 +214,4 @@ void MainWindow::acquisitionThread(MainWindow* cls, bool saveToDisk) {
     emit cls->sig_acquisition_done();
 }
 
-void MainWindow::liveViewThreadFn(MainWindow* cls) {
-    float minFps = std::min<float>(cls->m_fps, 24.0);
-    uint32_t quiescence = uint32_t(1000 * (1 / minFps));
-
-    while (!cls->m_stopLiveView) {
-        QThread::msleep(quiescence);
-        if (cls->m_acquisition) {
-            std::shared_ptr<pm::Frame> frame = cls->m_acquisition->GetLatestFrame();
-
-            if (frame) {
-                cls->ui.liveView->updateImage((uint8_t*)frame->GetData());
-            }
-        }
-    }
-
-    emit cls->sig_livescan_stopped();
-}
 

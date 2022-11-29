@@ -1,7 +1,8 @@
 #ifndef CAMERA_INTERFACE_H
 #define CAMERA_INTERFACE_H
-#include <string>
+#include <filesystem>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "FrameInterface.h"
@@ -14,6 +15,14 @@ enum class AcqMode : int32_t {
     LiveCircBuffer,
     LiveTimeLapse,
 };
+
+enum StorageType {
+    Tiff = 0,
+    TiffStack,
+    BigTiff,
+    Prd
+};
+
 
 struct Region {
     uint16_t s1{0};
@@ -29,7 +38,7 @@ struct SpdTable {
     int16_t bitDepth{0};
     std::string gainName{};
 
-    int32_t spdIndex{0};
+    int16_t spdIndex{0};
     uint16_t pixTimeNs{1};
 
     int32_t spdTabPort{0};
@@ -50,10 +59,12 @@ struct CameraInfo {
 
 struct ExpSettings {
     AcqMode acqMode;
-    std::string fileName;
+    std::filesystem::path filePath;
+    std::string filePrefix;
 
     Region region {0};
     ImageFormat imgFormat {ImageFormat::Mono16};
+    StorageType storageType {StorageType::Tiff};
 
     uint16_t spdTableIdx{0};
 
@@ -61,8 +72,8 @@ struct ExpSettings {
     int16_t trigMode{0};
     int16_t expModeOut{0};
 
-    uint64_t frameCount{0};
-    uint64_t bufferCount{0};
+    uint32_t frameCount{0};
+    uint32_t bufferCount{0};
 
     float colorWbScaleRed{ 1.0 };
     float colorWbScaleGreen{ 1.0 };
@@ -70,7 +81,7 @@ struct ExpSettings {
 };
 
 template<typename T, typename F>
-concept CameraConcept = FrameConcept<F> and requires(T c, std::shared_ptr<F> pframe, void* vptr, const ExpSettings& pExpSettings) {
+concept CameraConcept = FrameConcept<F> and requires(T c, F* pframe, void* vptr, const ExpSettings& pExpSettings) {
     { c.Open(int8_t()) } -> std::same_as<bool>;
     { c.Close() } -> std::same_as<bool>;
     { c.GetInfo() } -> std::same_as<CameraInfo&>;

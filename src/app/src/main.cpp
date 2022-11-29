@@ -8,7 +8,7 @@
 /* void run(std::shared_ptr<pmAcquisition> acq) { */
 /*     spdlog::info("Starting acquisition"); */
 /*     //TODO pass color context */
-/*     acq->Start(0.0, nullptr); */
+/*     acq->Start(true, 0.0, nullptr); */
 /*     acq->WaitForStop(); */
 /* } */
 
@@ -21,8 +21,9 @@ int main(int argc, char* argv[]) {
     win.Initialize();
 
     spdlog::info("Running");
+    return app.exec();
+
     /* std::shared_ptr<pmCamera> camera = std::make_shared<pmCamera>(); */
-    /* std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera); */
 
     /* ExpSettings m_expSettings; */
     /* CameraInfo m_camInfo; */
@@ -35,21 +36,22 @@ int main(int argc, char* argv[]) {
 
     /* camera->SetupExp(ExpSettings { */
     /*     .acqMode = AcqMode::LiveCircBuffer, */
-    /*     .fileName = "ss_stack", */
+    /*     .filePath = "C:/Users/Jason/test", */
+    /*     .filePrefix = "ss", */
     /*     .region = { */
     /*         .s1 = 0, .s2 = uns16(info.sensorResX - 1), .sbin = 1, */
     /*         .p1 = 0, .p2 = uns16(info.sensorResY - 1), .pbin = 1 */
     /*     }, */
     /*     .imgFormat = ImageFormat::Mono16, */
+    /*     .storageType = StorageType::Tiff, */
     /*     .spdTableIdx = 0, */
     /*     .expTimeMS = 2, */
     /*     .trigMode = EXT_TRIG_INTERNAL, */
-    /*     .expMode = EXT_TRIG_INTERNAL, */
-    /*     .frameCount = 50, */
+    /*     .expModeOut = EXPOSE_OUT_GLOBAL_SHUTTER, */
+    /*     .frameCount = 1000, */
+    /*     .bufferCount = 50 */
     /* }); */
 
     /* std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera); */
     /* run(acquisition); */
-
-    return app.exec();
 }

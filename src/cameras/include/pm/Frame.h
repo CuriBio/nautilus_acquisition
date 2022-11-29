@@ -11,7 +11,7 @@ static FrameInfo sEmptyFrameInfo = FrameInfo();
 namespace pm {
     class Frame {
         private:
-            mutable std::shared_mutex m_mutex{};
+            mutable std::mutex m_mutex{};
             void* m_data{nullptr};
             void* m_dataSrc{nullptr};
 
@@ -20,12 +20,12 @@ namespace pm {
 
             size_t m_frameBytes{0};
             bool m_deepCopy{false};
-            PMemCopy m_PMemCopy{4};
+            std::shared_ptr<PMemCopy> m_PMemCopy;
 
             FrameInfo* m_info{&sEmptyFrameInfo};
 
         public:
-            Frame(size_t frameBytes, bool deepCopy);
+            Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<PMemCopy> pCopy);
             ~Frame();
 
             void SetData(void* data);

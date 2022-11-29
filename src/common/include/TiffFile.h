@@ -46,7 +46,7 @@ class TiffFile {
         void Close();
         bool IsOpen() const;
         const std::string& Name() const;
-        bool WriteFrame(std::shared_ptr<F> frame);
+        bool WriteFrame(F* frame);
 };
 
 
@@ -79,7 +79,6 @@ bool TiffFile<F>::Open(std::string name) {
 template<FrameConcept F>
 void TiffFile<F>::Close() {
     if (m_file) {
-        spdlog::info("Closing file {}", m_name.c_str());
         TIFFFlush(m_file);
         TIFFClose(m_file);
         m_file = nullptr;
@@ -97,7 +96,7 @@ const std::string& TiffFile<F>::Name() const {
 }
 
 template<FrameConcept F>
-bool TiffFile<F>::WriteFrame(std::shared_ptr<F> frame) {
+bool TiffFile<F>::WriteFrame(F* frame) {
     if (!IsOpen()) {
         return false;
     }

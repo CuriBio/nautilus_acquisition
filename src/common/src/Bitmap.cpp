@@ -1,4 +1,3 @@
-#include <cassert>
 #include <stdexcept>
 #include "Bitmap.h"
 
@@ -43,14 +42,10 @@ void Bitmap::ChangeColorMask(BayerPattern colorMask) {
 }
 
 void* Bitmap::GetScanLine(uint16_t y) const {
-    assert(m_data != nullptr);
-    assert(y < height);
     return m_data + y * stride;
 }
 
 double Bitmap::GetSample(uint16_t x, uint16_t y, uint8_t sIdx) const {
-    assert(x < m_width);
-
     const uint8_t spp = m_format.GetSamplesPerPixel();
     const void* const scanLine = GetScanLine(y);
     const size_t pos = (size_t)x * spp + sIdx;
@@ -68,7 +63,6 @@ double Bitmap::GetSample(uint16_t x, uint16_t y, uint8_t sIdx) const {
 }
 
 size_t Bitmap::CalculateStrideBytes(uint32_t w, const BitmapFormat& fmt, uint16_t align) {
-    assert(align > 0);
     const size_t bytesPerPixel = fmt.GetBytesPerPixel();
     const size_t bytesPerLine = w * bytesPerPixel;
     return ((bytesPerLine + align - 1) / align) * align;

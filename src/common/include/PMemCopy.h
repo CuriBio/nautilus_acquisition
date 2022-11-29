@@ -27,17 +27,15 @@ class PMemCopy {
         size_t m_count;
 
         std::atomic_uint8_t m_runningCount;
-        /* size_t m_count; */
-        /* size_t m_runningCount; */
 
     public:
-        PMemCopy(uint16_t threads);
+        PMemCopy(uint8_t threads);
         ~PMemCopy();
 
         void Copy(void* dest, const void* src, size_t count);
 
     private:
-        void threadFunc(uint16_t taskNum);
+        void threadFunc(uint8_t taskNum);
 };
 
 #endif //THREAD_POOL_H
