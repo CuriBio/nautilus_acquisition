@@ -321,7 +321,7 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
 
     //return if already imaging
     if (ctx->imaging) {
-        spdlog::error("Imaging already running for camera {}", ctx->info.name);
+        spdlog::error("Camera:SetupExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
 
@@ -361,7 +361,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
 
     std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
     if (ctx->imaging) { 
-        spdlog::error("Imaging already running for camera {}", ctx->info.name);
+        spdlog::error("Camera::StartExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
 

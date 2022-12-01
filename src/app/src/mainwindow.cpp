@@ -95,26 +95,9 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     }
 }
 
+
 void MainWindow::on_advancedSetupBtn_clicked() {
     spdlog::info("advancedSetupBtn clicked");
-}
-
-
-void MainWindow::on_liveScanBtn_clicked() {
-    spdlog::info("liveScanBtn clicked");
-    if (!m_acqusitionThread) {
-        spdlog::info("Starting live scan");
-        ui.liveScanBtn->setText("Stop Live Scan");
-
-        double minFps = std::min<double>(m_fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1 / minFps)));
-
-        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, false);
-        m_acqusitionThread->start();
-    } else {
-        spdlog::info("Stopping live scan");
-        if (m_acquisition) { m_acquisition->Abort(); };
-    }
 }
 
 
@@ -124,35 +107,99 @@ void MainWindow::on_settingsBtn_clicked() {
 }
 
 
+void MainWindow::on_liveScanBtn_clicked() {
+    spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
+    if (!m_liveScanRunning && !m_acquisitionRunning) {
+        spdlog::info("Starting live scan");
+        StartAcquisition(false);
+
+        double minFps = std::min<double>(m_fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1 / minFps)));
+
+        ui.liveScanBtn->setText("Stop Live Scan");
+    } else if (m_liveScanRunning && !m_acquisitionRunning) {
+        spdlog::info("Stopping live scan");
+        StopAcquisition();
+    }
+}
+
+
 void MainWindow::on_startAcquisitionBtn_clicked() {
+    if (!m_acquisitionRunning) {
+        ui.startAcquisitionBtn->setText("Stop Acquisition");
+        StartAcquisition(true);
+    } else if (m_acquisitionRunning && !m_liveScanRunning) {
+        StopAcquisition();
+    }
+}
+
+
+void MainWindow::StartAcquisition(bool saveToDisk) {
+    std::unique_lock<std::mutex> lock(m_lock);
+
     if (m_duration > 0 && m_fps > 0) {
-        m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-        m_expSettings.frameCount = uint32_t(m_duration * m_fps);
+        if (!m_acquisition) {
+            spdlog::error("m_acquisition is invalid");
+            return;
+        }
 
-        if (!m_acquisition || !m_acquisition->IsRunning()) {
-            spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
-            ui.startAcquisitionBtn->setText("Stop Acquisition");
+        m_acquisitionRunning = saveToDisk;
+        m_liveScanRunning = !saveToDisk;
 
-            {
-                std::unique_lock<std::mutex> lock(m_lock);
+        switch (m_acquisition->GetState()) {
+            case AcquisitionState::AcqStopped:
+                spdlog::info("StartAcquisition, current state AcqStopped");
+                m_expSettings.expTimeMS = (1 / m_fps) * 1000;
+                m_expSettings.frameCount = uint32_t(m_duration * m_fps);
+
+                spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
+
                 if (!m_acqusitionThread) {
-                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, true);
+                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, saveToDisk);
                     m_acqusitionThread->start();
                 } else {
-                    spdlog::info("Starting stream to disk");
-                    m_acquisition->Start(true, 0.0, nullptr);
+                    m_acquisition->Start(saveToDisk, 0.0, nullptr);
                 }
-            }
-        } else if (m_acquisition->GetState() == AcquisitionState::AcqLiveScan) {
-            spdlog::info("Starting stream to disk");
-            ui.startAcquisitionBtn->setText("Stop Acquisition");
-            m_liveViewTimer->stop();
-            m_acquisition->Start(true, 0.0, nullptr);
-        } else {
-            spdlog::info("Stopping acquisition");
-            //stop acquisition
-            m_acquisition->Abort();
+                break;
+            case AcquisitionState::AcqLiveScan:
+                spdlog::info("StartAcquisition, current state AcqLiveScan");
+                m_acquisition->Start(saveToDisk, 0.0, nullptr);
+                break;
+            case AcquisitionState::AcqCapture:
+                spdlog::info("StartAcquisition, current state AcqCapture");
+                spdlog::warn("Acquisition is already running");
+                break;
+            default:
+                spdlog::error("Error: Invalid state");
+                break;
         }
+    }
+}
+
+
+void MainWindow::StopAcquisition() {
+    std::unique_lock<std::mutex> lock(m_lock);
+    if (!m_acquisition) {
+        spdlog::error("m_acquisition is invalid");
+        return;
+    }
+
+    switch (m_acquisition->GetState()) {
+        case AcquisitionState::AcqLiveScan:
+            spdlog::info("Stopping Live Scan");
+            m_liveViewTimer->stop();
+            m_acquisition->Abort();
+            break;
+        case AcquisitionState::AcqCapture:
+            spdlog::info("Stopping Capture");
+            m_acquisition->Abort();
+            break;
+        case AcquisitionState::AcqStopped:
+            spdlog::info("Acquisition not running");
+            break;
+        default:
+            spdlog::error("Error: Invalid state");
+            break;
     }
 }
 
@@ -161,7 +208,7 @@ void MainWindow::updateLiveView() {
     if (m_acquisition) {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
-        if (frame) {
+        if (frame != nullptr) {
             ui.liveView->updateImage((uint8_t*)frame->GetData());
         }
     }
@@ -175,8 +222,12 @@ void MainWindow::acquisition_done() {
     m_liveViewTimer->stop();
     ui.liveView->clear();
 
+    m_acquisitionRunning = false;
+    m_liveScanRunning = false;
+
     ui.startAcquisitionBtn->setText("Start Acquisition");
     ui.liveScanBtn->setText("Live Scan");
+
     delete m_acqusitionThread;
     m_acqusitionThread = nullptr;
 }

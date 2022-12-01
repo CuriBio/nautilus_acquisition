@@ -61,7 +61,6 @@ void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx
     }
 
 
-
     auto state = cls->GetState();
     //TODO if m_frameWriterQueue.size is valid
     if (state == AcquisitionState::AcqCapture) {
@@ -85,9 +84,9 @@ void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx
         cls->m_unusedFramePool->Release(frame);
     }
 
-
     return;
 }
+
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame, uint8_t i) {
@@ -256,9 +255,9 @@ pm::Acquisition<F, C>::~Acquisition() {
 template<FrameConcept F, ColorConfigConcept C>
 bool pm::Acquisition<F, C>::Start(bool saveToDisk, double tiffFillValue, const C* tiffColorCtx) {
     //TODO implement colorCtx support
+    std::unique_lock<std::mutex> lock(m_lock);
 
     if (!m_running) {
-        std::unique_lock<std::mutex> lock(m_lock);
         m_state = (saveToDisk) ? AcquisitionState::AcqCapture : AcquisitionState::AcqLiveScan;
 
         if (!m_frameWriterThread) {
@@ -305,7 +304,6 @@ void pm::Acquisition<F, C>::WaitForStop() {
     }
 
     m_capturedFrames = 0;
-    m_latestFrame = nullptr;
     m_state = AcquisitionState::AcqStopped;
     m_lastFrameInProcessing = 0;
     m_lastFrameInCallback = 0;

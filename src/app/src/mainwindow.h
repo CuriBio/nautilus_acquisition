@@ -79,7 +79,12 @@ class MainWindow : public QMainWindow {
             .bufferCount = 100 //TODO allow user setting
         };
 
+        bool m_acquisitionRunning {false};
+        bool m_liveScanRunning {false};
+
     private:
+        void StartAcquisition(bool saveToDisk);
+        void StopAcquisition();
         static void liveViewThreadFn(MainWindow* cls);
         static void acquisitionThread(MainWindow* cls, bool saveToDisk);
 };
