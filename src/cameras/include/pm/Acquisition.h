@@ -32,15 +32,10 @@ namespace pm {
                 bool m_acquireThreadAbortFlag{ false };
                 AcquisitionState m_state { AcquisitionState::AcqStopped };
 
-                std::mutex m_acquireLock;
-                std::condition_variable m_acquireFrameCond;
-                std::queue<F*> m_acquireFrameQueue;
-
                 std::mutex m_frameWriterLock;
                 std::condition_variable m_frameWriterCond;
                 std::queue<F*> m_frameWriterQueue;
 
-                std::thread* m_acquireThread{ nullptr };
                 std::thread* m_frameWriterThread{ nullptr };
 
                 std::mutex m_cbLock;
@@ -66,13 +61,16 @@ namespace pm {
                 void WaitForStop();
                 bool IsRunning();
 
-                bool ProcessNewFrame(F* frame);
+                void SetLatestFrame(F* frame);
                 F* GetLatestFrame();
                 AcquisitionState GetState();
+
+            public:
+                size_t m_capturedFrames{0};
+
             private:
                 static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* Acquisition_pointer);
 
-                void acquireThread();
                 void frameWriterThread();
                 void checkLostFrame(uint32_t frameN, uint32_t& lastFrame, uint8_t i);
         };

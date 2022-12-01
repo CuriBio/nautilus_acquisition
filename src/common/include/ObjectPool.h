@@ -48,7 +48,6 @@ class FramePool {
                 obj = m_pool.front();
                 m_pool.pop();
             } else {
-                //obj = std::apply(std::make_unique<T, std::add_lvalue_reference_t<Args>...>, m_params);
                 spdlog::info("Pool empty, allocating");
                 obj = new F(m_frameBytes, m_deepCopy, m_pCopy);
             }
@@ -76,8 +75,8 @@ class FramePool {
         }
 
         void Release(F* obj) noexcept {
-            /* std::lock_guard<std::mutex> lock(m_poolLock); */
-            /* m_pool.push(obj); */
+            std::lock_guard<std::mutex> lock(m_poolLock);
+            m_pool.push(obj);
         }
 };
 

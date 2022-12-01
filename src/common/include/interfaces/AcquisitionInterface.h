@@ -19,7 +19,6 @@ concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> 
     { c.Abort() } -> std::same_as<bool>;
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;
-    { c.ProcessNewFrame(pframe) } -> std::same_as<bool>;
     { c.GetLatestFrame() } -> std::same_as<F*>;
     { c.GetState() } -> std::same_as<AcquisitionState>;
 };
