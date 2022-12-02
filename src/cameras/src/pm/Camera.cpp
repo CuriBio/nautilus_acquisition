@@ -64,6 +64,7 @@ bool pm::pl_read_enum(int16 hcam, std::vector<NVP>* pNvpc, uns32 paramID) {
     return !pNvpc->empty();
 }
 
+
 rs_bool pm::pl_set_param_if_exists(int16 hcam, uns32 paramID, void* paramValue) {
     if(pm::pl_get_param_exists(hcam, paramID)) {
         return pl_set_param(hcam, paramID, paramValue);
@@ -126,7 +127,7 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     //open camera
     char camName[CAM_NAME_LEN];
     if (PV_OK != pl_cam_get_name(cameraId, &camName[0])) {
-        spdlog::error("Failed to get name for camera");
+        spdlog::error("Failed to get name for camera ({})", GetError());
         return false;
     }
 
@@ -142,12 +143,12 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     std::lock_guard<std::mutex> lock(ctx->lock);
 
     if (PV_OK != pl_create_frame_info_struct(&ctx->curFrameInfo)) {
-        spdlog::error("Failed creating frame info structure");
+        spdlog::error("Failed creating frame info structure, ({})", GetError());
         return false;
     }
 
     if (PV_OK != pl_cam_open((char*)ctx->info.name.c_str(), &ctx->hcam, OPEN_EXCLUSIVE)) {
-        spdlog::error("Failed opening camera {}", ctx->info.name.c_str());
+        spdlog::error("Failed opening camera {}, ({})", ctx->info.name.c_str(), GetError());
         ctx->hcam = -1;
 
         (void)pl_release_frame_info_struct(ctx->curFrameInfo);
@@ -158,6 +159,7 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     // Device Driver version
     uns16 ddVersion;
     if (PV_OK != pm::pl_get_param_if_exists(ctx->hcam, PARAM_DD_VERSION, ATTR_CURRENT, (void*)&ddVersion)) {
+        spdlog::error("Failed getting device driver version, ({})", GetError());
         return false;
     }
 
@@ -169,12 +171,12 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
 
     // Read the camera sensor parallel size (sensor height/number of rows)
     if (!pm::pl_get_param_if_exists(ctx->hcam, PARAM_SER_SIZE, ATTR_CURRENT, (void*)&ctx->info.sensorResX)) {
-        spdlog::warn("Could not read CCD X-resolution for camera {}", ctx->info.name);
+        spdlog::error("Could not read CCD X-resolution for camera {}, ({})", ctx->info.name, GetError());
         return false;
     }
 
     if (PV_OK != pl_get_param(ctx->hcam, PARAM_PAR_SIZE, ATTR_CURRENT, (void*)&ctx->info.sensorResY)) {
-        spdlog::warn("Could not read CCD Y-resolution for camera {}", ctx->info.name);
+        spdlog::error("Could not read CCD Y-resolution for camera {}, ({})", ctx->info.name, GetError());
         return false;
     }
 
@@ -209,16 +211,16 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     // typically used with sCMOS cameras.
     uns16 clearCycles = 2;
     if(!pm::pl_set_param_if_exists(ctx->hcam, PARAM_CLEAR_CYCLES, (void*)&clearCycles)) {
-        spdlog::error("Failed to set PARAM_CLEAR_CYCLES");
+        spdlog::error("Failed to set PARAM_CLEAR_CYCLES, ({})", GetError());
         return false;
     }
+    spdlog::info("Set CLEAR_CYCLES: {}", clearCycles);
 
     // Find out if the sensor is a frame transfer or other (typically interline)
     // type. This process is relevant for CCD cameras only.
     if(PV_OK != pm::pl_get_param_if_exists(ctx->hcam, PARAM_FRAME_CAPABLE, ATTR_CURRENT, (void*)&ctx->isFrameTransfer)) {
-        spdlog::info("Failed to get PARAM_FRAME_CAPABLE value");
+        spdlog::warn("Failed to get PARAM_FRAME_CAPABLE value");
     }
-
     spdlog::info("Camera supports Frame Transfer capability: {}", ctx->isFrameTransfer ? "true" : "false");
 
     int32 pMode = (ctx->isFrameTransfer)? PMODE_FT : PMODE_NORMAL;
@@ -230,12 +232,60 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     ctx->isSmartStreaming = pm::pl_get_param_exists(ctx->hcam, PARAM_SMART_STREAM_MODE);
     spdlog::info("Smart Streaming availability: {}", ctx->isSmartStreaming);
 
+    //get exposure modes
+    std::vector<NVP> exposureModes;
+    if(!pm::pl_read_enum(ctx->hcam, &exposureModes, PARAM_EXPOSE_OUT_MODE)) {
+        spdlog::error("Failed to read exposure modes");
+    } else {
+        spdlog::info("Exposure modes:");
+        for (auto n : exposureModes) {
+            spdlog::info("  {}: {}", n.name, n.value);
+        }
+    }
+
+
+    //get trigger modes
+    std::vector<NVP> triggerModes;
+    if(!pm::pl_read_enum(ctx->hcam, &triggerModes, PARAM_EXPOSURE_MODE)) {
+        spdlog::error("Failed to read trigger modes");
+    } else {
+        spdlog::info("Trigger modes:");
+        for (auto n : triggerModes) {
+            spdlog::info("  {}: {}", n.name, n.value);
+        }
+    }
+
+    //get clear modes
+    std::vector<NVP> clearModes;
+    if(!pm::pl_read_enum(ctx->hcam, &clearModes, PARAM_CLEAR_MODE)) {
+        spdlog::error("Failed to read clear modes");
+    } else {
+        spdlog::info("Clear modes:");
+        for (auto n : clearModes) {
+            spdlog::info("  {}: {}", n.name, n.value);
+        }
+    }
+
+    //get color modes
+    std::vector<NVP> colorModes;
+    if(!pm::pl_read_enum(ctx->hcam, &colorModes, PARAM_COLOR_MODE)) {
+        spdlog::error("Failed to read color modes");
+    } else {
+        spdlog::info("Clear modes:");
+        for (auto n : colorModes) {
+            spdlog::info("  {}: {}", n.name, n.value);
+        }
+    }
+
+
+    spdlog::info("Registering PL_CALLBACK_CAM_REMOVED handler");
     if (PV_OK != pl_cam_register_callback_ex3(
                 ctx->hcam,
                 PL_CALLBACK_CAM_REMOVED, (void*)&pm::Camera<F>::rmCamHandler,
                 &ctx
                 )) {
-        spdlog::warn("Unable to register camera removal callback");
+        spdlog::error("Unable to register camera removal callback, ({})", GetError());
+        return false;
     }
 
     return true;
@@ -378,11 +428,18 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
 
     switch(ctx->curExp->acqMode) {
         case AcqMode::LiveCircBuffer:
+            spdlog::info("Starting Continuous Acquisition, cam: {}, bufferCount: {}, frameBytes: {}, Exposure Mode: {}, Trigger Mode: {}",
+                ctx->hcam,
+                ctx->curExp->bufferCount,
+                ctx->frameBytes,
+                ctx->curExp->expModeOut,
+                ctx->curExp->trigMode
+            );
+
             if(PV_OK != pl_exp_start_cont(ctx->hcam, ctx->buffer.get(),
                         ctx->curExp->bufferCount * ctx->frameBytes)) {
                 //TODO: clean up
-                auto err = GetError();
-                spdlog::error("Failed to start continuous acquisition, {}", err);
+                spdlog::error("Failed to start continuous acquisition, {}", GetError());
                 return false;
             }
             break;
@@ -554,19 +611,19 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
 
     auto stIdx = settings.spdTableIdx;
     if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->info.spdTable[stIdx].spdTabPort)) {
-        spdlog::error("Readout port could not be set");
+        spdlog::error("Readout port could not be set, ({})", GetError());
         return false;
     }
     spdlog::info("Readout port set to {}", ctx->info.spdTable[stIdx].portName);
 
     if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->info.spdTable[stIdx].spdIndex)) {
-        spdlog::error("Readout speed index could not be set");
+        spdlog::error("Readout speed index could not be set, ({})", GetError());
         return false;
     }
     spdlog::info("Readout speed index set to {}", ctx->info.spdTable[stIdx].spdIndex);
 
     if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->info.spdTable[stIdx].gainIndex)) {
-        spdlog::info("Gain index could not be set");
+        spdlog::error("Gain index could not be set, ({})", GetError());
         return false;
     }
     spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
@@ -589,7 +646,7 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
             if (PV_OK != pl_exp_setup_cont(
                         //TODO Support regions
                         ctx->hcam, 1/*rgn_total*/, &rgn, settings.expModeOut | settings.trigMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
-                spdlog::error("Failed to setup continuous acquisition");
+                spdlog::error("Failed to setup continuous acquisition, ({})", GetError());
                 return false;
             }
             spdlog::info("frameBytes: {}", ctx->frameBytes);
@@ -611,12 +668,12 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     //so allocate as much as allowed here
     uint32_t maxBuffers = uint32_t((0xFFFFFFFF - 1) / ctx->frameBytes);
     spdlog::info("MaxBuffers {}", maxBuffers);
-    ctx->curExp->bufferCount = maxBuffers;
+    ctx->curExp->bufferCount = ctx->curExp->bufferCount; //maxBuffers;
 
     //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
     //to the buffer size, so going to do that here
     ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
-    spdlog::info("Allocating bufferBytes ({}) for frameCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
+    spdlog::info("Allocating bufferBytes ({}) for bufferCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
 
     //TODO use 4k alignment, might parameterize later
     const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);

@@ -25,7 +25,20 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
     public:
-        explicit MainWindow(QMainWindow* parent = nullptr);
+        explicit MainWindow(
+            std::string path,
+            std::string prefix,
+            uint32_t fps,
+            double duration,
+            uint16_t spdtable,
+            double ledIntensity,
+            uint32_t bufferCount,
+            uint32_t frameCount,
+            StorageType storageType,
+            uint16_t triggerMode,
+            uint16_t exposureMode,
+            QMainWindow* parent = nullptr
+        );
         void Initialize();
 
     signals:
@@ -59,8 +72,10 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
 
+        double m_ledIntensity{0.0};
+        uint32_t m_fps{0};
         double m_duration{0};
-        double m_fps{0.0};
+        uint16_t m_spdtable{0};
 
         std::filesystem::path m_path;
         std::string m_prefix;
@@ -76,7 +91,7 @@ class MainWindow : public QMainWindow {
             .trigMode = EXT_TRIG_INTERNAL,
             .expModeOut = EXPOSE_OUT_GLOBAL_SHUTTER,
             .frameCount = 0,
-            .bufferCount = 100 //TODO allow user setting
+            .bufferCount = 100
         };
 
         bool m_acquisitionRunning {false};

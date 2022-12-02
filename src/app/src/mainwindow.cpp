@@ -6,12 +6,38 @@
 
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(
+    std::string path,
+    std::string prefix,
+    uint32_t fps,
+    double duration,
+    uint16_t spdtable,
+    double ledIntensity,
+    uint32_t bufferCount,
+    uint32_t frameCount,
+    StorageType storageType,
+    uint16_t triggerMode,
+    uint16_t exposureMode,
+    QMainWindow *parent) : QMainWindow(parent)
+{
     ui.setupUi(this);
 
-    m_path = getenv("USERPROFILE");
-    m_prefix = "default_";
+    m_path = path;
+    m_prefix = prefix;
     m_settings = new Settings(this, m_path, m_prefix);
+
+    m_duration = duration;
+    m_fps = fps;
+    m_spdtable = spdtable;
+    m_ledIntensity = ledIntensity;
+
+    m_expSettings.spdTableIdx = spdtable;
+    m_expSettings.expTimeMS = m_duration;
+    m_expSettings.frameCount = frameCount;
+    m_expSettings.bufferCount = bufferCount;
+    m_expSettings.storageType = storageType;
+    m_expSettings.trigMode = triggerMode;
+    m_expSettings.expModeOut = exposureMode;
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);

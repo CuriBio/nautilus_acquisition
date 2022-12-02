@@ -12,6 +12,7 @@ target_include_directories(${PROJECT_NAME}
 
 # Dependencies
 find_package(spdlog)
+find_package(cxxopts)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 qt_standard_project_setup()
 
