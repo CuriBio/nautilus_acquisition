@@ -59,7 +59,7 @@ TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitD
     m_bitDepth(bitDepth),
     m_useBigTiff(false),
     m_bmpFormat(BitmapFormat(format, bitDepth)) {
-        m_bmp = std::make_unique<Bitmap>(m_width, m_height, m_bmpFormat);
+        //m_bmp = std::make_unique<Bitmap>(m_width, m_height, m_bmpFormat);
 }
 
 template<FrameConcept F>
@@ -78,11 +78,15 @@ bool TiffFile<F>::Open(std::string name) {
 
 template<FrameConcept F>
 void TiffFile<F>::Close() {
+    spdlog::info("Close tiff file");
     if (m_file) {
+        spdlog::info("TIFFFlush");
         TIFFFlush(m_file);
+        spdlog::info("TIFFClose");
         TIFFClose(m_file);
         m_file = nullptr;
     }
+    spdlog::info("TIFF Close done");
 }
 
 template<FrameConcept F>
@@ -105,6 +109,8 @@ bool TiffFile<F>::WriteFrame(F* frame) {
     if (m_width == 0 || m_height == 0) { //|| m_rawData == 0) {
         return false;
     }
+
+    Bitmap bmp(frame->GetData(), m_width, m_height, m_bmpFormat);
 
     TIFFSetField(m_file, TIFFTAG_IMAGEWIDTH, m_width);
     TIFFSetField(m_file, TIFFTAG_IMAGELENGTH, m_height);
@@ -129,20 +135,24 @@ bool TiffFile<F>::WriteFrame(F* frame) {
     /* // TODO Put the PVCAM metadata into the image description */
     TIFFSetField(m_file, TIFFTAG_IMAGEDESCRIPTION, m_name.c_str());
 
-    auto tiffData = m_bmp->GetData();
-    const auto tiffDataBytes = m_bmp->GetDataBytes();
+    auto tiffData = bmp.GetData();
+    const auto tiffDataBytes = bmp.GetDataBytes();
+    spdlog::info("Tiffdata: {}, tiffDataBytes: {}", fmt::ptr(tiffData), tiffDataBytes);
 
     // This is fastest streaming option, but it requires the TIFFTAG_ROWSPERSTRIP
     // tag is not set (or maybe requires well calculated value)
     if (tiffDataBytes != (size_t)TIFFWriteRawStrip(m_file, 0, tiffData, tiffDataBytes)) {
         return false;
     }
+    spdlog::info("TIFFWriteRawStrip done");
 
     if (m_frameCount > 1) {
         TIFFWriteDirectory(m_file);
+        spdlog::info("TIFFWriteDirectory");
     }
 
     m_frameIndex++;
+    spdlog::info("Wrote tiff file");
     return true;
 }
 #endif //TIFF_FILE_H

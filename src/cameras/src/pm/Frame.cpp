@@ -60,18 +60,17 @@ bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
     /* std::lock(wrLock, rdLock); */
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    //TODO check configuration matches
     setData(from.m_data);
 
     if (deepCopy) {
-        if(!copyData()) {
+        if(m_dataSrc && m_data && !copyData()) {
             spdlog::error("Failed to deep copy data");
             return false;
         }
         setInfo(*from.GetInfo());
         //TODO set trajectories
     } else {
-        //TODO handle shallow copy? Doing this for now for testing
+        //TODO check configuration matches
         setInfo(*from.GetInfo());
     }
     return true;
@@ -86,6 +85,7 @@ void pm::Frame::setInfo(const FrameInfo& info) {
 }
 
 bool pm::Frame::copyData() {
+    spdlog::info("copyData {} <- {}", fmt::ptr(m_data), fmt::ptr(m_dataSrc));
     m_PMemCopy->Copy(m_data, m_dataSrc, m_frameBytes);
     return true;
 }

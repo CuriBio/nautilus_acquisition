@@ -277,6 +277,15 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
         }
     }
 
+    std::vector<NVP> imageFormats;
+    if(!pm::pl_read_enum(ctx->hcam, &imageFormats, PARAM_IMAGE_FORMAT)) {
+        spdlog::error("Failed to read color modes");
+    } else {
+        spdlog::info("Image formats:");
+        for (auto n : imageFormats) {
+            spdlog::info("  {}: {}", n.name, n.value);
+        }
+    }
 
     spdlog::info("Registering PL_CALLBACK_CAM_REMOVED handler");
     if (PV_OK != pl_cam_register_callback_ex3(
@@ -461,8 +470,9 @@ template<FrameConcept F>
 bool pm::Camera<F>::GetLatestFrame(F* frame) {
     //TODO implement
     size_t index;
-    if (!getLatestFrameIndex(index))
+    if (!getLatestFrameIndex(index)) {
         return false;
+    }
 
     //TODO invalidate frame
     //frame.Invalidate();
@@ -629,6 +639,11 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
     spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
 
+    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->curExp->imgFormat)) {
+        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
+    }
+
+
     uns32 exposure = (settings.trigMode == VARIABLE_TIMED_MODE) ? 1 : settings.expTimeMS;
     rgn_type rgn = {
         .s1 = settings.region.s1,
@@ -666,9 +681,9 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
 
     //PVCAM, at least the virtual cam, will only allow up to 4GB buffer
     //so allocate as much as allowed here
-    uint32_t maxBuffers = uint32_t((0xFFFFFFFF - 1) / ctx->frameBytes);
+    uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
     spdlog::info("MaxBuffers {}", maxBuffers);
-    ctx->curExp->bufferCount = ctx->curExp->bufferCount; //maxBuffers;
+    ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
 
     //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
     //to the buffer size, so going to do that here

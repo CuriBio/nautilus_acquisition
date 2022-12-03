@@ -8,11 +8,11 @@ enum class ImageFormat : int32_t {
     Bayer16 = 1,    // 16bit bayer masked image, 2 bytes per pixel.
     Mono8 = 2,      // 8bit mono, 1 byte per pixel.
     Bayer8 = 3,     // 8bit bayer masked image, 1 byte per pixel.
-    //Mono24 = 4,   // 24bit mono, 3 bytes per pixel.
-    //Bayer24 = 5,  // 24bit bayer masked image, 3 bytes per pixel.
+    Mono24 = 4,   // 24bit mono, 3 bytes per pixel.
+    Bayer24 = 5,  // 24bit bayer masked image, 3 bytes per pixel.
     RGB24 = 6,      // 8bit RGB, 1 byte per sample, 3 bytes per pixel.
     RGB48 = 7,      // 16bit RGB, 2 bytes per sample, 6 bytes per pixel.
-    //RGB72 = 8,    // 24bit RGB, 3 bytes per sample, 9 bytes per pixel.
+    RGB72 = 8,    // 24bit RGB, 3 bytes per sample, 9 bytes per pixel.
     Mono32 = 9,     // 32bit mono, 4 bytes per pixel.
     Bayer32 = 10,   // 32bit bayer masked image, 4 bytes per pixel.
     // TODO: Fix the value once defined in pvcam.h

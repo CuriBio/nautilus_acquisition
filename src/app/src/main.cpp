@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
       ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
       ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
       ("p,prefix", "Output file prefix", cxxopts::value<std::string>()->default_value("default_"))
-      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>()->default_value("20"))
+      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>()->default_value("0"))
       ("l,led", "LED intensity", cxxopts::value<double>()->default_value("0.0"))
       ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
       ("s,storage_type", "Storage type", cxxopts::value<int>()->default_value("0"))

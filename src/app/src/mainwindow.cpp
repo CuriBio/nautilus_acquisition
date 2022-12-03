@@ -39,6 +39,10 @@ MainWindow::MainWindow(
     m_expSettings.trigMode = triggerMode;
     m_expSettings.expModeOut = exposureMode;
 
+    ui.ledIntensityEdit->setValue(m_ledIntensity);
+    ui.frameRateEdit->setValue(m_fps);
+    ui.durationEdit->setValue(m_duration);
+
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
 

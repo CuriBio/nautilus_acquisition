@@ -6,7 +6,8 @@ Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const BitmapFormat& fmt, uint
     height(h),
     m_data(static_cast<uint8_t*>(data)),
     alignment(align),
-    stride(CalculateStrideBytes(w, fmt, align))
+    stride(CalculateStrideBytes(w, fmt, align)),
+    m_deleteData(false)
 {
     m_size = stride * height;
 }
@@ -15,14 +16,17 @@ Bitmap::Bitmap(uint32_t w, uint32_t h, const BitmapFormat& fmt, uint16_t align)
     : width(w),
     height(h),
     alignment(align),
-    stride(CalculateStrideBytes(w, fmt, align))
+    stride(CalculateStrideBytes(w, fmt, align)),
+    m_deleteData(true)
 {
     m_size = stride * height;
     m_data = new uint8_t[m_size];
 }
 
 Bitmap::~Bitmap() {
-    delete m_data;
+    if (m_deleteData) {
+        delete m_data;
+    }
 }
 
 void* Bitmap::GetData() const {

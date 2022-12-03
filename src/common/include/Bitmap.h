@@ -6,6 +6,7 @@ class Bitmap {
     private:
         uint8_t* m_data{ nullptr };
         size_t m_size{ 0 };
+        bool m_deleteData{false};
 
         // Format not const just to allow override of color mask
         BitmapFormat m_format{}; ///< Bitmap format (pixel type, data type, ...)

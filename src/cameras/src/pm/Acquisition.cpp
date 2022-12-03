@@ -190,7 +190,9 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                             }
                             break;
                     }
+                    spdlog::info("Writing tiff file");
                     file->WriteFrame(frame);
+                    spdlog::info("Done writing tiff file");
                     frameIndex++;
                 }
                 break;
@@ -202,6 +204,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 break;
         }
 
+        spdlog::info("Release frame");
         m_unusedFramePool->Release(frame);
         frame = nullptr;
     } while (m_state == AcquisitionState::AcqLiveScan || (!m_diskThreadAbortFlag && (frameIndex < m_camera->ctx->curExp->frameCount)));
