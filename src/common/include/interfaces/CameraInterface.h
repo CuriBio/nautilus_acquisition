@@ -53,6 +53,7 @@ struct CameraInfo {
 
     uint16_t sensorResX{0}; //sensor width
     uint16_t sensorResY{0}; //sensor height
+    ImageFormat imageFormat{ImageFormat::Mono16};
 
     std::vector<SpdTable> spdTable{};
 };
@@ -63,9 +64,7 @@ struct ExpSettings {
     std::string filePrefix;
 
     Region region {0};
-    ImageFormat imgFormat {ImageFormat::Mono16};
     StorageType storageType {StorageType::Tiff};
-
     uint16_t spdTableIdx{0};
 
     uint32_t expTimeMS{0};

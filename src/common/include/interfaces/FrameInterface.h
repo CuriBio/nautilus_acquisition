@@ -1,7 +1,6 @@
 #ifndef FRAME_INTERFACE_H
 #define FRAME_INTERFACE_H
 #include <concepts>
-#include <spdlog/spdlog.h>
 
 struct FrameInfo {
     FrameInfo& operator=(const FrameInfo& other) {

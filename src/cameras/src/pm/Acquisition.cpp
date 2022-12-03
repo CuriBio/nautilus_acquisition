@@ -63,26 +63,44 @@ void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx
 
     auto state = cls->GetState();
     //TODO if m_frameWriterQueue.size is valid
+    {
+        std::unique_lock<std::mutex> lock(cls->m_frameWriterLock);
+        cls->m_frameWriterQueue.push(frame);
+    }
+
     if (state == AcquisitionState::AcqCapture) {
-        {
-            std::unique_lock<std::mutex> lock(cls->m_frameWriterLock);
-            cls->m_frameWriterQueue.push(frame);
+        //queue frame for processing
+        uint32_t frameCount = cls->m_camera->ctx->curExp->frameCount;
+        cls->m_capturedFrames++;
 
-            //queue frame for processing
-            uint32_t frameCount = cls->m_camera->ctx->curExp->frameCount;
-            cls->m_capturedFrames++;
-
-            if (cls->m_capturedFrames >= frameCount) {
-                //Got all requested frames
-                cls->m_camera->StopExp();
-            }
+        if (cls->m_capturedFrames >= frameCount) {
+            //Got all requested frames
+            cls->m_camera->StopExp();
         }
         //notify thread
-        cls->m_frameWriterCond.notify_one();
-    } else if (state == AcquisitionState::AcqLiveScan) {
-        cls->SetLatestFrame(frame);
-        cls->m_unusedFramePool->Release(frame);
     }
+
+    cls->m_frameWriterCond.notify_one();
+    /* else if (state == AcquisitionState::AcqLiveScan) { */
+    /*     uint32_t min, max; */
+    /*     cls->SetLatestFrame(frame); */
+
+    /*     Bitmap bmp( */
+    /*         frame->GetData(), */
+    /*         cls->m_camera->GetInfo().sensorResX, */
+    /*         cls->m_camera->GetInfo().sensorResY, */
+    /*         cls->m_camera->ctx->imgFormat, */
+    /*         cls->m_camera->ctx->bitDepth */
+    /*     ); */
+
+    /*     cls->m_taskFrameStats->Setup(&bmp); */
+    /*     cls->m_parTask->Start(cls->m_taskFrameStats); */
+    /*     cls->m_taskFrameStats->Results(min, max); */
+    /*     spdlog::info("################## min: {}, max: {}", min, max); */
+
+    /*     cls->m_unusedFramePool->Release(frame); */
+    /*     spdlog::info("Update latest frame"); */
+    /* } */
 
     return;
 }
@@ -114,7 +132,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
     TiffFile<F>* file = new TiffFile<F>(
         m_camera->ctx->curExp->region,
-        m_camera->ctx->curExp->imgFormat,
+        m_camera->ctx->info.imageFormat,
         m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
         (m_camera->ctx->curExp->storageType == StorageType::TiffStack) ? m_camera->ctx->curExp->frameCount : 1
     );
@@ -190,10 +208,35 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                             }
                             break;
                     }
-                    spdlog::info("Writing tiff file");
                     file->WriteFrame(frame);
-                    spdlog::info("Done writing tiff file");
                     frameIndex++;
+                }
+                break;
+            case AcquisitionState::AcqLiveScan:
+                {
+                    if (!frame->CopyData()) {
+                        spdlog::info("Failed to copy frame data");
+                        continue;
+                    }
+
+                    {
+                        std::unique_lock<std::mutex> lock(m_lock);
+                        /* uint32_t min, max; */
+
+                        /* Bitmap bmp( */
+                        /*     frame->GetData(), */
+                        /*     m_camera->GetInfo().sensorResX, */
+                        /*     m_camera->GetInfo().sensorResY, */
+                        /*     m_camera->ctx->imgFormat, */
+                        /*     m_camera->ctx->bitDepth */
+                        /* ); */
+
+                        /* m_taskFrameStats->Setup(&bmp); */
+                        /* m_parTask->Start(m_taskFrameStats); */
+                        /* m_taskFrameStats->Results(min, max); */
+                        /* spdlog::info("################## min: {}, max: {}", min, max); */
+                        m_latestFrame = frame;
+                    }
                 }
                 break;
             case AcquisitionState::AcqStopped:
@@ -204,7 +247,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 break;
         }
 
-        spdlog::info("Release frame");
         m_unusedFramePool->Release(frame);
         frame = nullptr;
     } while (m_state == AcquisitionState::AcqLiveScan || (!m_diskThreadAbortFlag && (frameIndex < m_camera->ctx->curExp->frameCount)));
@@ -222,7 +264,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
 template<FrameConcept F, ColorConfigConcept C>
 pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
-    m_pCopy = std::make_shared<PMemCopy>(4);
+    m_pCopy = std::make_shared<PMemCopy>();
+    m_taskFrameStats = std::make_shared<TaskFrameStats>();
+    m_parTask = std::make_shared<ParTask>(4);
+
     //TODO preallocate unused frame pool size based on acquisition size
     const uint64_t bufferCount = camera->ctx->curExp->bufferCount;
     const uint64_t frameCount = camera->ctx->curExp->frameCount;
@@ -239,13 +284,13 @@ pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_ca
     //const uint64_t recommendedFrameCount = std::min<uint64_t>(10 + std::min<uint64_t>(frameCount, framesMax), bufferCount);
 
     spdlog::info("Initializing frame pool with {} objects of size {}", framesMax, frameBytes);
-    m_unusedFramePool = std::make_unique<FramePool<F>>(framesMax, frameBytes, true, m_pCopy);
+    m_unusedFramePool = std::make_unique<FramePool<F>>(framesMax, frameBytes, true, m_parTask);
 
     spdlog::info("Get speed table {}", camera->ctx->curExp->spdTableIdx);
     uint16_t spdTblIdx = camera->ctx->curExp->spdTableIdx;
     m_spdTable = camera->ctx->info.spdTable[spdTblIdx];
 
-    m_latestFrame = new Frame(frameBytes, true, m_pCopy);
+    m_latestFrame = new Frame(frameBytes, true, m_parTask);
 }
 
 
@@ -324,7 +369,8 @@ F* pm::Acquisition<F,C>::GetLatestFrame() {
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F,C>::SetLatestFrame(F* frame) {
     std::unique_lock<std::mutex> lock(m_lock);
-    m_latestFrame->Copy(*frame, true);
+    //m_latestFrame->Copy(*frame, true);
+    m_latestFrame = frame;
 }
 
 

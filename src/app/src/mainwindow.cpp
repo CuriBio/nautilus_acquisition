@@ -9,8 +9,9 @@
 MainWindow::MainWindow(
     std::string path,
     std::string prefix,
-    uint32_t fps,
+    double fps,
     double duration,
+    double expTimeMs,
     uint16_t spdtable,
     double ledIntensity,
     uint32_t bufferCount,
@@ -28,11 +29,12 @@ MainWindow::MainWindow(
 
     m_duration = duration;
     m_fps = fps;
+    m_expTimeMS = expTimeMs;
     m_spdtable = spdtable;
     m_ledIntensity = ledIntensity;
 
     m_expSettings.spdTableIdx = spdtable;
-    m_expSettings.expTimeMS = m_duration;
+    m_expSettings.expTimeMS = expTimeMs,
     m_expSettings.frameCount = frameCount;
     m_expSettings.bufferCount = bufferCount;
     m_expSettings.storageType = storageType;
@@ -76,7 +78,7 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     //Set sensor size for live view
-    ui.liveView->Init(m_camInfo.sensorResX, m_camInfo.sensorResY);
+    ui.liveView->Init(m_camInfo.sensorResX, m_camInfo.sensorResY, m_camInfo.imageFormat);
 
     spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
         m_expSettings.region.s1,
@@ -101,17 +103,17 @@ void MainWindow::Initialize() {
 /**
  * Slots
  */
-void MainWindow::on_ledIntensityEdit_valueChanged(int value) {
+void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
     spdlog::info("ledIntensityEdit value changed: {}", value);
 }
 
 
-void MainWindow::on_frameRateEdit_valueChanged(int value) {
+void MainWindow::on_frameRateEdit_valueChanged(double value) {
     if (m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquisition running: FPS cannot be changed");
     } else {
         spdlog::info("frameRateEdit value changed: {}", value);
-        m_fps = (float)value;
+        m_fps = value;
     }
 }
 
@@ -144,7 +146,7 @@ void MainWindow::on_liveScanBtn_clicked() {
         StartAcquisition(false);
 
         double minFps = std::min<double>(m_fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1 / minFps)));
+        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
 
         ui.liveScanBtn->setText("Stop Live Scan");
     } else if (m_liveScanRunning && !m_acquisitionRunning) {
@@ -178,17 +180,23 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 
         switch (m_acquisition->GetState()) {
             case AcquisitionState::AcqStopped:
-                spdlog::info("StartAcquisition, current state AcqStopped");
-                m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-                m_expSettings.frameCount = uint32_t(m_duration * m_fps);
+                {
+                    spdlog::info("StartAcquisition, current state AcqStopped");
 
-                spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
+                    double expTimeMs = (1.0 / m_fps) * 1000;
+                    spdlog::info("Setting expTimeMS: {} ({})", static_cast<uint32_t>(expTimeMs), expTimeMs);
 
-                if (!m_acqusitionThread) {
-                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, saveToDisk);
-                    m_acqusitionThread->start();
-                } else {
-                    m_acquisition->Start(saveToDisk, 0.0, nullptr);
+                    m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
+                    m_expSettings.frameCount = uint32_t(m_duration * m_fps);
+
+                    spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
+
+                    if (!m_acqusitionThread) {
+                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, saveToDisk);
+                        m_acqusitionThread->start();
+                    } else {
+                        m_acquisition->Start(saveToDisk, 0.0, nullptr);
+                    }
                 }
                 break;
             case AcquisitionState::AcqLiveScan:
@@ -239,7 +247,7 @@ void MainWindow::updateLiveView() {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
         if (frame != nullptr) {
-            ui.liveView->updateImage((uint8_t*)frame->GetData());
+            ui.liveView->UpdateImage((uint8_t*)frame->GetData());
         }
     }
 }
@@ -250,7 +258,7 @@ void MainWindow::updateLiveView() {
 void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
     m_liveViewTimer->stop();
-    ui.liveView->clear();
+    ui.liveView->Clear();
 
     m_acquisitionRunning = false;
     m_liveScanRunning = false;

@@ -12,6 +12,18 @@ Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const BitmapFormat& fmt, uint
     m_size = stride * height;
 }
 
+Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const ImageFormat& fmt, int16_t bitDepth, uint16_t align)
+    : width(w),
+    height(h),
+    m_data(static_cast<uint8_t*>(data)),
+    alignment(align),
+    stride(CalculateStrideBytes(w, BitmapFormat(fmt, bitDepth), align)),
+    m_deleteData(false)
+{
+    m_size = stride * height;
+}
+
+
 Bitmap::Bitmap(uint32_t w, uint32_t h, const BitmapFormat& fmt, uint16_t align)
     : width(w),
     height(h),

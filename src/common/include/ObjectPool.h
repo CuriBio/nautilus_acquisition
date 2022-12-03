@@ -9,7 +9,7 @@
 
 #include <spdlog/spdlog.h>
 #include <interfaces/FrameInterface.h>
-#include <PMemCopy.h>
+#include <ParTask.h>
 
 template<FrameConcept F>
 class FramePool {
@@ -17,7 +17,7 @@ class FramePool {
         std::queue<F*> m_pool;
         std::mutex m_poolLock;
         //std::tuple<Args...> m_params;
-        std::shared_ptr<PMemCopy> m_pCopy;
+        std::shared_ptr<ParTask> m_pTask;
         size_t m_frameBytes;
         bool m_deepCopy;
         size_t m_size;
@@ -25,15 +25,15 @@ class FramePool {
         size_t total_objs{0};
 
     public:
-        FramePool(size_t poolSize, size_t frameBytes, bool deepCopy, std::shared_ptr<PMemCopy> pCopy) {
+        FramePool(size_t poolSize, size_t frameBytes, bool deepCopy, std::shared_ptr<ParTask> pTask) {
             m_frameBytes = frameBytes;
             m_deepCopy = deepCopy;
-            m_pCopy = pCopy;
+            m_pTask = pTask;
 
             total_objs += poolSize;
 
             for(size_t i = 0; i < poolSize; i++) {
-                m_pool.push(new F(m_frameBytes, m_deepCopy, m_pCopy));
+                m_pool.push(new F(m_frameBytes, m_deepCopy, m_pTask));
             }
             spdlog::info("Pool size: {}", total_objs);
         }
@@ -49,7 +49,7 @@ class FramePool {
                 m_pool.pop();
             } else {
                 spdlog::info("Pool empty, allocating");
-                obj = new F(m_frameBytes, m_deepCopy, m_pCopy);
+                obj = new F(m_frameBytes, m_deepCopy, m_pTask);
             }
             if (!obj) {
                 return nullptr;
@@ -69,7 +69,7 @@ class FramePool {
             std::lock_guard<std::mutex> lock(m_poolLock);
 
             while (m_pool.size() < size) {
-                m_pool.push(new F(m_frameBytes, m_deepCopy, m_pCopy));
+                m_pool.push(new F(m_frameBytes, m_deepCopy, m_pTask));
                 total_objs++;
             }
         }

@@ -78,15 +78,11 @@ bool TiffFile<F>::Open(std::string name) {
 
 template<FrameConcept F>
 void TiffFile<F>::Close() {
-    spdlog::info("Close tiff file");
     if (m_file) {
-        spdlog::info("TIFFFlush");
         TIFFFlush(m_file);
-        spdlog::info("TIFFClose");
         TIFFClose(m_file);
         m_file = nullptr;
     }
-    spdlog::info("TIFF Close done");
 }
 
 template<FrameConcept F>
@@ -137,22 +133,18 @@ bool TiffFile<F>::WriteFrame(F* frame) {
 
     auto tiffData = bmp.GetData();
     const auto tiffDataBytes = bmp.GetDataBytes();
-    spdlog::info("Tiffdata: {}, tiffDataBytes: {}", fmt::ptr(tiffData), tiffDataBytes);
 
     // This is fastest streaming option, but it requires the TIFFTAG_ROWSPERSTRIP
     // tag is not set (or maybe requires well calculated value)
     if (tiffDataBytes != (size_t)TIFFWriteRawStrip(m_file, 0, tiffData, tiffDataBytes)) {
         return false;
     }
-    spdlog::info("TIFFWriteRawStrip done");
 
     if (m_frameCount > 1) {
         TIFFWriteDirectory(m_file);
-        spdlog::info("TIFFWriteDirectory");
     }
 
     m_frameIndex++;
-    spdlog::info("Wrote tiff file");
     return true;
 }
 #endif //TIFF_FILE_H

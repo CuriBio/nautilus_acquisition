@@ -19,6 +19,7 @@ class Bitmap {
 
     public:
         Bitmap(void* data, uint32_t w, uint32_t h, const BitmapFormat& f, uint16_t lineAlign = 1);
+        Bitmap(void* data, uint32_t w, uint32_t h, const ImageFormat& fmt, int16_t bitDepth, uint16_t align=1);
         Bitmap(uint32_t w, uint32_t h, const BitmapFormat& f, uint16_t lineAlign = 1);
         ~Bitmap();
 

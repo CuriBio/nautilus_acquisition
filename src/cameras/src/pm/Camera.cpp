@@ -74,6 +74,7 @@ rs_bool pm::pl_set_param_if_exists(int16 hcam, uns32 paramID, void* paramValue) 
     }
 }
 
+
 template<FrameConcept F>
 pm::Camera<F>::Camera() {
     if (PV_OK != pl_pvcam_init()) {
@@ -179,8 +180,11 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
         spdlog::error("Could not read CCD Y-resolution for camera {}, ({})", ctx->info.name, GetError());
         return false;
     }
-
     spdlog::info("Sensor size: {}x{} px", ctx->info.sensorResX, ctx->info.sensorResY);
+
+    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->info.imageFormat)) {
+        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
+    }
 
     // Reset PP features to their default values.
     (void)pl_pp_reset(ctx->hcam);
@@ -189,21 +193,6 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
     if (!initSpeedTable()) {
         spdlog::error("Failed to init speed table for camera {}", ctx->info.name);
     }
-
-    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->spdtable[0].value)) { */
-    /*     spdlog::error("Readout port could not be set"); */
-    /*     return false; */
-    /* } */
-
-    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->spdtable[0].speeds[0].index)) { */
-    /*     spdlog::error("Readout speed index could not be set"); */
-    /*     return false; */
-    /* } */
-
-    /* if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->spdtable[0].speeds[0].gains[0].index)) { */
-    /*     spdlog::info("Gain index could not be set"); */
-    /*     return false; */
-    /* } */
 
     // Set the number of sensor clear cycles to 2 (default).
     // This is mostly relevant to CCD cameras only and it has
@@ -561,10 +550,11 @@ bool pm::Camera<F>::initSpeedTable() {
                 }
 
                 // Get bit depth for the current gain
-                int16 bitDepth;
+                int16_t bitDepth;
                 if (PV_OK != pl_get_param(ctx->hcam, PARAM_BIT_DEPTH, ATTR_CURRENT, (void*)&bitDepth)) {
                     return false;
                 }
+                ctx->bitDepth = bitDepth;
 
                 char gainName[MAX_GAIN_NAME_LEN];
                 if (PV_OK != pl_get_param(ctx->hcam, PARAM_GAIN_NAME, ATTR_CURRENT, (void*)gainName)) {
@@ -607,7 +597,6 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
             .filePath = settings.filePath,
             .filePrefix = settings.filePrefix,
             .region = settings.region,
-            .imgFormat = settings.imgFormat,
             .spdTableIdx = settings.spdTableIdx,
             .expTimeMS = settings.expTimeMS,
             .trigMode = settings.trigMode,
@@ -636,12 +625,15 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         spdlog::error("Gain index could not be set, ({})", GetError());
         return false;
     }
-    spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
-    spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
 
-    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->curExp->imgFormat)) {
-        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_BIT_DEPTH, ATTR_CURRENT, (void*)&ctx->bitDepth)) {
+        spdlog::error("Bitdepth could not be read, ({})", GetError());
+        return false;
     }
+
+    spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
+    spdlog::info("Bitdepth set to {}", ctx->bitDepth);
+    spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
 
 
     uns32 exposure = (settings.trigMode == VARIABLE_TIMED_MODE) ? 1 : settings.expTimeMS;
@@ -657,19 +649,36 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     switch(settings.acqMode) {
         case AcqMode::SnapCircBuffer:
         case AcqMode::LiveCircBuffer:
-            //TODO allow multiple regions
-            if (PV_OK != pl_exp_setup_cont(
-                        //TODO Support regions
-                        ctx->hcam, 1/*rgn_total*/, &rgn, settings.expModeOut | settings.trigMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
-                spdlog::error("Failed to setup continuous acquisition, ({})", GetError());
-                return false;
+            {
+                //TODO allow multiple regions
+                int16_t exposeMode = ctx->curExp->trigMode | ctx->curExp->expModeOut;
+                if (PV_OK != pl_exp_setup_cont(
+                            //TODO Support regions
+                            ctx->hcam, 1/*rgn_total*/, &rgn, exposeMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
+                    spdlog::error("Failed to setup continuous acquisition, ({})", GetError());
+                    return false;
+                }
+                spdlog::info("frameBytes: {}", ctx->frameBytes);
             }
-            spdlog::info("frameBytes: {}", ctx->frameBytes);
             break;
         default:
             spdlog::error("Acquisition mode not supported/implemented");
             return false;
     }
+
+    uint32_t exposeModeOut;
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSE_OUT_MODE, ATTR_CURRENT, (void*)&exposeModeOut)) {
+        spdlog::error("EXPOSE_MODE_OUT could not be read, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Expose mode out set to {}", exposeModeOut);
+
+    uint32_t triggerMode;
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSURE_MODE, ATTR_CURRENT, (void*)&triggerMode)) {
+        spdlog::error("EXPOSESURE_MODE could not be read, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Trigger mode set to {}", triggerMode);
 
     if (ctx->bufferBytes) { //need to deallocate old buffers first
         ctx->frames.clear();

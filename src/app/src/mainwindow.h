@@ -28,8 +28,9 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(
             std::string path,
             std::string prefix,
-            uint32_t fps,
+            double fps,
             double duration,
+            double expTimeMs,
             uint16_t spdtable,
             double ledIntensity,
             uint32_t bufferCount,
@@ -50,8 +51,8 @@ class MainWindow : public QMainWindow {
         void settings_changed(std::filesystem::path path, std::string prefix);
 
     private slots:
-        void on_ledIntensityEdit_valueChanged(int value);
-        void on_frameRateEdit_valueChanged(int value);
+        void on_ledIntensityEdit_valueChanged(double value);
+        void on_frameRateEdit_valueChanged(double value);
         void on_durationEdit_valueChanged(double value);
 
         void on_advancedSetupBtn_clicked();
@@ -73,8 +74,9 @@ class MainWindow : public QMainWindow {
         QTimer* m_liveViewTimer {nullptr};
 
         double m_ledIntensity{0.0};
-        uint32_t m_fps{0};
-        double m_duration{0};
+        double m_fps{0.0};
+        double m_expTimeMS{0.0};
+        double m_duration{0.0};
         uint16_t m_spdtable{0};
 
         std::filesystem::path m_path;
@@ -84,7 +86,6 @@ class MainWindow : public QMainWindow {
         ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
             .region = {} ,
-            .imgFormat = ImageFormat::Mono16,
             .storageType = StorageType::Tiff,
             .spdTableIdx = 0,
             .expTimeMS = 0,

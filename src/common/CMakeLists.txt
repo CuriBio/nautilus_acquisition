@@ -5,7 +5,8 @@ add_library(Common SHARED
 ./src/PMemCopy.cpp
 ./src/Bitmap.cpp
 ./src/BitmapFormat.cpp
-./src/FileWriter.cpp)
+./src/FileWriter.cpp
+./src/PMemCopy.cpp)
 
 set_target_properties(Common PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Common PROPERTIES SOVERSION 1)

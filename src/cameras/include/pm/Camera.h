@@ -12,6 +12,7 @@
 #include <interfaces/CameraInterface.h>
 #include <interfaces/FrameInterface.h>
 
+#include <BitmapFormat.h>
 #include <pm/Settings.h>
 
 
@@ -52,6 +53,10 @@ namespace pm {
 
         /* // Image format reported after acq. setup, value from PL_IMAGE_FORMATS */
         /* int32 imageFormat{PL_IMAGE_FORMAT_MONO16}; */
+        ImageFormat imgFormat {ImageFormat::Mono16};
+
+        //current bitdepth
+        uint16_t bitDepth;
 
         // Sensor type (if not Frame Transfer CCD then camera is Interline CCD or sCMOS).
         // Not relevant for sCMOS sensors.

@@ -8,12 +8,13 @@
 #include <pm/Frame.h>
 
 
-pm::Frame::Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<PMemCopy> pCopy) :
-    m_frameBytes(frameBytes), m_deepCopy(deepCopy), m_PMemCopy(pCopy) {
+pm::Frame::Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<ParTask> pTask) :
+    m_frameBytes(frameBytes), m_deepCopy(deepCopy), m_pTask(pTask) {
     if (deepCopy && frameBytes > 0) { //allocate data if using deepcopy
         m_data = m_allocator.Allocate(frameBytes);
     }
     m_info = new FrameInfo(); 
+    m_PMemCopy = std::make_shared<PMemCopy>();
 }
 
 pm::Frame::~Frame() {
@@ -60,7 +61,7 @@ bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
     /* std::lock(wrLock, rdLock); */
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    setData(from.m_data);
+    setData(from.m_dataSrc);
 
     if (deepCopy) {
         if(m_dataSrc && m_data && !copyData()) {
@@ -85,7 +86,7 @@ void pm::Frame::setInfo(const FrameInfo& info) {
 }
 
 bool pm::Frame::copyData() {
-    spdlog::info("copyData {} <- {}", fmt::ptr(m_data), fmt::ptr(m_dataSrc));
     m_PMemCopy->Copy(m_data, m_dataSrc, m_frameBytes);
+    m_pTask->Start<PMemCopy>(m_PMemCopy);
     return true;
 }

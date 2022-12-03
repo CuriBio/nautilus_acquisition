@@ -5,6 +5,7 @@
 #include <interfaces/FrameInterface.h>
 #include <Allocator.h>
 #include <PMemCopy.h>
+#include <ParTask.h>
 
 static FrameInfo sEmptyFrameInfo = FrameInfo();
 
@@ -20,12 +21,14 @@ namespace pm {
 
             size_t m_frameBytes{0};
             bool m_deepCopy{false};
+
             std::shared_ptr<PMemCopy> m_PMemCopy;
+            std::shared_ptr<ParTask> m_pTask;
 
             FrameInfo* m_info{&sEmptyFrameInfo};
 
         public:
-            Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<PMemCopy> pCopy);
+            Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<ParTask> pTask);
             ~Frame();
 
             void SetData(void* data);

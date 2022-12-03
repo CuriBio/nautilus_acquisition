@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
       ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
-      ("f,fps", "Frames Per Second", cxxopts::value<uint32_t>()->default_value("10"))
+      ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
       ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
       ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
       ("p,prefix", "Output file prefix", cxxopts::value<std::string>()->default_value("default_"))
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     std::string prefix = userargs["prefix"].as<std::string>();
     spdlog::info("File prefix: {}", prefix);
 
-    uint32_t fps = userargs["fps"].as<uint32_t>();
+    double fps = userargs["fps"].as<double>();
     spdlog::info("FPS: {}", fps);
 
     double duration = userargs["duration"].as<double>();
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     double ledIntensity = userargs["led"].as<double>();
     spdlog::info("LED Intensity: {}", ledIntensity);
 
-    uint32_t expTimeMS = 1000 * (1.0 / fps);
+    double expTimeMS = 1000 * (1.0 / fps);
     spdlog::info("Exposure Time (ms): {}", expTimeMS);
 
 
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
         spdlog::info("Gui Mode: {}", true);
         QApplication app(argc, argv);
 
-        MainWindow win(path, prefix, fps, duration, spdtable, ledIntensity, bufferCount, frameCount, storageType, triggerMode, exposureMode);
+        MainWindow win(path, prefix, fps, duration, expTimeMS, spdtable, ledIntensity, bufferCount, frameCount, storageType, triggerMode, exposureMode);
         win.resize(800, 640);
         win.setVisible(true);
         win.Initialize();
@@ -195,10 +195,9 @@ int main(int argc, char* argv[]) {
                 .s1 = 0, .s2 = uns16(info.sensorResX - 1), .sbin = 1,
                 .p1 = 0, .p2 = uns16(info.sensorResY - 1), .pbin = 1
             },
-            .imgFormat = ImageFormat::Mono16,
             .storageType = storageType,
             .spdTableIdx = spdtable,
-            .expTimeMS = expTimeMS,
+            .expTimeMS = static_cast<uint32_t>(expTimeMS),
             .trigMode = triggerMode,
             .expModeOut = exposureMode,
             .frameCount = frameCount,
