@@ -8,6 +8,7 @@
 #include <interfaces/AcquisitionInterface.h>
 #include <interfaces/FrameInterface.h>
 
+#include <NIDAQmx_wrapper.h>
 #include <pm/Camera.h>
 #include <pm/Frame.h>
 #include <pm/Acquisition.h>
@@ -73,11 +74,16 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
 
-        double m_ledIntensity{0.0};
+        double m_ledIntensity{0.500};
         double m_fps{0.0};
         double m_expTimeMS{0.0};
         double m_duration{0.0};
         uint16_t m_spdtable{0};
+
+        NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
+        std::string m_taskAO, m_devAO;
+        std::string m_taskDO, m_devDO;
+        bool m_led{false};
 
         std::filesystem::path m_path;
         std::string m_prefix;
@@ -101,6 +107,11 @@ class MainWindow : public QMainWindow {
     private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
+
+        bool ledON(double voltage);
+        bool ledOFF();
+        bool ledSetVoltage(double voltage);
+
         static void liveViewThreadFn(MainWindow* cls);
         static void acquisitionThread(MainWindow* cls, bool saveToDisk);
 };

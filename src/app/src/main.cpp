@@ -2,19 +2,22 @@
 #include<iostream>
 #include <stdlib.h>
 
-#include <spdlog/spdlog.h>
 #include <cxxopts.hpp>
+#include <QtWidgets/QApplication>
+#include <spdlog/spdlog.h>
 
-#include<QtWidgets/QApplication>
+#ifdef _WIN
+#include <Windows.h>
+#endif
+
 #include "banner.h"
 #include "mainwindow.h"
+#include <NIDAQmx_wrapper.h>
 
 #define VERSION "0.0.2"
 
-int main(int argc, char* argv[]) {
-    std::cout << banner << std::endl;
-    spdlog::info("Nautilus Version: {}", VERSION);
 
+int main(int argc, char* argv[]) {
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
@@ -24,6 +27,7 @@ int main(int argc, char* argv[]) {
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
       ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
+      ("debug", "Enable debug console", cxxopts::value<bool>()->default_value("false"))
       ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
       ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
       ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
@@ -36,8 +40,20 @@ int main(int argc, char* argv[]) {
       ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
       ("h,help", "Usage")
       ;
-
     auto userargs = options.parse(argc, argv);
+
+#ifdef _WIN32
+    if (!userargs["debug"].as<bool>()) {
+        if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+            freopen("CONOUT$", "w", stdout);
+            freopen("CONOUT$", "w", stderr);
+        }
+    }
+#endif
+    std::cout << banner << std::endl;
+    spdlog::info("Nautilus Version: {}", VERSION);
+
+
     if (userargs.count("help")) {
       std::cout << options.help() << std::endl;
       exit(0);
@@ -211,3 +227,10 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
+#ifdef _WIN
+int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd) {
+    return main(__argc, __argv);
+}
+#endif
+

@@ -19,9 +19,9 @@ target_link_libraries(PvCamD
     project_options
     project_warnings
     pvcam_incl
+    dbgcam
     libtiff
     libtiff_incl
-    dbgcam
     Common
     spdlog::spdlog)
 

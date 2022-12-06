@@ -97,6 +97,19 @@ void MainWindow::Initialize() {
 
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+
+    //Setup NIDAQmx controller for LED
+    m_taskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
+    m_devAO = "Dev2/ao0"; //Device name for analog output
+
+    m_taskDO = "Digital_Out"; //Task for setting Digital Output
+    m_devDO = "Dev2/port0/line0:7"; //Device for digital output
+
+    m_DAQmx.CreateTask(m_taskAO);
+    m_DAQmx.CreateTask(m_taskDO);
+
+    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
+    m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
 }
 
 
@@ -130,6 +143,14 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 
 void MainWindow::on_advancedSetupBtn_clicked() {
     spdlog::info("advancedSetupBtn clicked");
+    if(!m_led) {
+        //TODO calculate voltage from m_ledIntensity
+        ledON(0.500);
+    } else {
+        ledOFF();
+    }
+    m_led = !m_led;
+
 }
 
 
@@ -173,6 +194,11 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
         if (!m_acquisition) {
             spdlog::error("m_acquisition is invalid");
             return;
+        }
+
+        if (!m_led) {
+            m_led = !m_led;
+            ledON(0.500);
         }
 
         m_acquisitionRunning = saveToDisk;
@@ -257,6 +283,13 @@ void MainWindow::updateLiveView() {
  */
 void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
+    std::unique_lock<std::mutex> lock(m_lock);
+
+    if (m_led) {
+        m_led = !m_led;
+        ledOFF();
+    }
+
     m_liveViewTimer->stop();
     ui.liveView->Clear();
 
@@ -279,6 +312,64 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
     m_expSettings.filePath = m_path;
     m_expSettings.filePrefix = m_prefix;
 }
+
+bool MainWindow::ledON(double voltage) {
+    const double data[1] = { voltage };
+    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
+    bool rtnval = true;
+
+    bool taskAO_result = (
+        m_DAQmx.StartTask(m_taskAO) && \
+        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_taskAO)
+    );
+
+    if (!taskAO_result) {
+        spdlog::error("Failed to run taskAO");
+    }
+
+   bool taskDO_result = (
+        m_DAQmx.StartTask(m_taskDO) && \
+        m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+        m_DAQmx.StopTask(m_taskDO)
+    );
+
+    if (!taskDO_result) {
+        spdlog::error("Failed to run taskDO");
+        m_DAQmx.StopTask(m_taskDO);
+        rtnval = false;
+    }
+
+    spdlog::info("led ON");
+    return rtnval;
+}
+
+bool MainWindow::ledOFF() {
+    spdlog::info("led OFF");
+    uint8_t lines[8] = {0,0,0,0,0,0,0,0};
+    bool taskDO_result = (
+        m_DAQmx.StartTask(m_taskDO) && \
+        m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+        m_DAQmx.StopTask(m_taskDO)
+    );
+
+    if (!taskDO_result) {
+        spdlog::error("Failed to run taskDO");
+        return m_DAQmx.StopTask(m_taskDO);
+    }
+    return true;
+}
+
+
+bool MainWindow::ledSetVoltage(double voltage) {
+    const double data[1] = { voltage };
+    return (
+        m_DAQmx.StartTask(m_taskAO) && \
+        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_taskAO)
+    );
+}
+
 
 /**
  * Threads
