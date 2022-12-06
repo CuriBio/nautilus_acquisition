@@ -17,7 +17,7 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.7z",
+            name: "Nautilus Latest Windows MSVC", artifact: "Nautilus.zip",
             os: windows-latest,
             cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
@@ -91,6 +91,14 @@ jobs:
             COMMAND chmod +x ${cmake_dir}/cmake
           )
         endif()
+
+    - name: Install QT
+      shell: bash
+      run: |
+        mkdir -p ./libs/qt6
+        pushd ./libs/qt6
+        aqt install-qt windows desktop 6.4.1 win64_msvc2019_64
+        popd
 
     - name: Download ccache
       id: ccache
@@ -229,14 +237,18 @@ jobs:
           message(FATAL_ERROR "Running tests failed!")
         endif()
 
+
     - name: Install Strip
       run: cmake --install build --prefix instdir --strip
 
+    - name: Install QT Deps
+      shell: bash
+      run: |
+        ./libs/qt6/6.4.1/msvc2019_64/bin/windeployqt.exe ./instdir/bin/nautilus.exe
 
     - name: Pack
       working-directory: instdir
-      run: cmake -E tar cfv ../${{ matrix.config.artifact }} --format=7zip .
-
+      run: cmake -E tar cfv ../${{ matrix.config.artifact }} --format=zip .
 
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -279,7 +291,7 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.7z",
+            name: "Nautilius Latest MSVC", artifact: "Nautilius.zip",
             os: ubuntu-latest
           }
         - {
