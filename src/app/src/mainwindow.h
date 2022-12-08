@@ -39,6 +39,7 @@ class MainWindow : public QMainWindow {
             StorageType storageType,
             uint16_t triggerMode,
             uint16_t exposureMode,
+            double maxVoltage,
             QMainWindow* parent = nullptr
         );
         void Initialize();
@@ -74,7 +75,8 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
 
-        double m_ledIntensity{0.500};
+        double m_ledIntensity{50.0};
+        double m_maxVoltage{1.4};
         double m_fps{0.0};
         double m_expTimeMS{0.0};
         double m_duration{0.0};

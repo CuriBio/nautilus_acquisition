@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
       ("s,storage_type", "Storage type", cxxopts::value<int>()->default_value("0"))
       ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>()->default_value("0"))
       ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
+      ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
       ("h,help", "Usage")
       ;
     auto userargs = options.parse(argc, argv);
@@ -75,30 +76,33 @@ int main(int argc, char* argv[]) {
     spdlog::info("Buffer count: {}", bufferCount);
 
     uint32_t frameCount = static_cast<uint32_t>(duration * fps);
-    spdlog::info("Frame Count: {}", frameCount);
+    spdlog::info("Frame count: {}", frameCount);
 
     uint16_t spdtable = userargs["spdtable"].as<uint16_t>();
-    spdlog::info("Speed Table Index: {}", spdtable);
+    spdlog::info("Speed table index: {}", spdtable);
 
     double ledIntensity = userargs["led"].as<double>();
-    spdlog::info("LED Intensity: {}", ledIntensity);
+    spdlog::info("LED intensity: {}", ledIntensity);
 
     double expTimeMS = 1000 * (1.0 / fps);
-    spdlog::info("Exposure Time (ms): {}", expTimeMS);
+    spdlog::info("Exposure time (ms): {}", expTimeMS);
+
+    double maxVoltage = userargs["max_voltage"].as<double>();
+    spdlog::info("Max voltage: {}", maxVoltage);
 
 
     StorageType storageType;
     switch (userargs["storage_type"].as<int>()) {
         case 0:
-            spdlog::info("Storage Type: {}", "tiff");
+            spdlog::info("Storage type: {}", "tiff");
             storageType = StorageType::Tiff;
             break;
         case 1:
-            spdlog::info("Storage Type: {}", "tiff stack");
+            spdlog::info("Storage type: {}", "tiff stack");
             storageType = StorageType::TiffStack;
             break;
         case 2:
-            spdlog::info("Storage Type: {}", "big tiff");
+            spdlog::info("Storage type: {}", "big tiff");
             storageType = StorageType::BigTiff;
             break;
         default:
@@ -109,35 +113,35 @@ int main(int argc, char* argv[]) {
     int16_t triggerMode;
     switch (userargs["trigger_mode"].as<int>()) {
         case 0:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_INTERNAL");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_INTERNAL");
             triggerMode = EXT_TRIG_INTERNAL;
             break;
         case 1:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_TRIG_FIRST");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_TRIG_FIRST");
             triggerMode = EXT_TRIG_TRIG_FIRST;
             break;
         case 2:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_EDGE_RISING");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_EDGE_RISING");
             triggerMode = EXT_TRIG_EDGE_RISING;
             break;
         case 3:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_LEVEL");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_LEVEL");
             triggerMode = EXT_TRIG_LEVEL;
             break;
         case 4:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_SOFTWARE_FIRST");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_SOFTWARE_FIRST");
             triggerMode = EXT_TRIG_SOFTWARE_FIRST;
             break;
         case 5:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_SOFTWARE_EDGE");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_SOFTWARE_EDGE");
             triggerMode = EXT_TRIG_SOFTWARE_EDGE;
             break;
         case 6:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_LEVEL_OVERLAP");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_LEVEL_OVERLAP");
             triggerMode = EXT_TRIG_LEVEL_OVERLAP;
             break;
         case 7:
-            spdlog::info("Trigger Mode: {}", "EXT_TRIG_LEVEL_PULSED");
+            spdlog::info("Trigger mode: {}", "EXT_TRIG_LEVEL_PULSED");
             triggerMode = EXT_TRIG_LEVEL_PULSED;
             break;
         default:
@@ -148,31 +152,31 @@ int main(int argc, char* argv[]) {
     int16_t exposureMode;
     switch (userargs["exposure_mode"].as<int>()) {
         case 0:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_FIRST_ROW");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_FIRST_ROW");
             exposureMode = EXPOSE_OUT_FIRST_ROW;
             break;
         case 1:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_ALL_ROWS");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_ALL_ROWS");
             exposureMode = EXPOSE_OUT_ALL_ROWS;
             break;
         case 2:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_ANY_ROW");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_ANY_ROW");
             exposureMode = EXPOSE_OUT_ANY_ROW;
             break;
         case 3:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_ROLLING_SHUTTER");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_ROLLING_SHUTTER");
             exposureMode = EXPOSE_OUT_ROLLING_SHUTTER;
             break;
         case 4:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_LINE_TRIGGER");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_LINE_TRIGGER");
             exposureMode = EXPOSE_OUT_LINE_TRIGGER;
             break;
         case 5:
-            spdlog::info("Exposure Out Mode: {}", "EXPOSE_OUT_GLOBAL_SHUTTER");
+            spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_GLOBAL_SHUTTER");
             exposureMode = EXPOSE_OUT_GLOBAL_SHUTTER;
             break;
         case 6:
-            spdlog::info("Exposure Out Mode: {}", "MAX_EXPOSE_OUT_MODE");
+            spdlog::info("Exposure out mode: {}", "MAX_EXPOSE_OUT_MODE");
             exposureMode = MAX_EXPOSE_OUT_MODE;
             break;
         default:
@@ -181,10 +185,25 @@ int main(int argc, char* argv[]) {
     }
 
     if (!userargs["no_gui"].as<bool>()) {
-        spdlog::info("Gui Mode: {}", true);
+        spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
 
-        MainWindow win(path, prefix, fps, duration, expTimeMS, spdtable, ledIntensity, bufferCount, frameCount, storageType, triggerMode, exposureMode);
+        MainWindow win(
+            path,
+            prefix,
+            fps,
+            duration,
+            expTimeMS,
+            spdtable,
+            ledIntensity,
+            bufferCount,
+            frameCount,
+            storageType,
+            triggerMode,
+            exposureMode,
+            maxVoltage
+        );
+
         win.resize(800, 640);
         win.setVisible(true);
         win.Initialize();

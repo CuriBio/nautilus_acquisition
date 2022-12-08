@@ -19,6 +19,7 @@ MainWindow::MainWindow(
     StorageType storageType,
     uint16_t triggerMode,
     uint16_t exposureMode,
+    double maxVoltage,
     QMainWindow *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -31,6 +32,7 @@ MainWindow::MainWindow(
     m_fps = fps;
     m_expTimeMS = expTimeMs;
     m_spdtable = spdtable;
+    m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
 
     m_expSettings.spdTableIdx = spdtable;
@@ -145,7 +147,7 @@ void MainWindow::on_advancedSetupBtn_clicked() {
     spdlog::info("advancedSetupBtn clicked");
     if(!m_led) {
         //TODO calculate voltage from m_ledIntensity
-        ledON(0.500);
+        ledON((m_ledIntensity / 100.0) * m_maxVoltage);
     } else {
         ledOFF();
     }
@@ -198,7 +200,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 
         if (!m_led) {
             m_led = !m_led;
-            ledON(0.500);
+            ledON(m_maxVoltage * (m_ledIntensity / 100.0));
         }
 
         m_acquisitionRunning = saveToDisk;
