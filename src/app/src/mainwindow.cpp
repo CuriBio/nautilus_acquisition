@@ -4,6 +4,7 @@
 #include <QThread>
 #include <QTimer>
 
+#include <Timer.h>
 #include "mainwindow.h"
 
 MainWindow::MainWindow(
@@ -20,6 +21,7 @@ MainWindow::MainWindow(
     uint16_t triggerMode,
     uint16_t exposureMode,
     double maxVoltage,
+    bool noAutoConBright,
     QMainWindow *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -27,6 +29,7 @@ MainWindow::MainWindow(
     m_path = path;
     m_prefix = prefix;
     m_settings = new Settings(this, m_path, m_prefix);
+    m_autoConBright = !noAutoConBright;
 
     m_duration = duration;
     m_fps = fps;
@@ -52,7 +55,18 @@ MainWindow::MainWindow(
 
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
+
+    m_hist = new uint32_t[(1<<16) - 1];
+    memset((void*)m_hist, 0, sizeof(uint32_t)*((1<<16)-1));
+
+    m_lut16 = new uint8_t[(1<<16) - 1];
+    memset((void*)m_lut16, 0, (1<<16)-1);
+
+    m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
+    m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
+    m_taskApplyLut = std::make_shared<TaskApplyLut16>();
 }
+
 
 void MainWindow::Initialize() {
     spdlog::info("Initialize camera");
@@ -66,6 +80,8 @@ void MainWindow::Initialize() {
 
     spdlog::info("Get camera info");
     m_camInfo = m_camera->GetInfo();
+    m_width = m_camInfo.sensorResX;
+    m_height = m_camInfo.sensorResY;
 
     //set exp region to complete sensor size
     m_expSettings.region = {
@@ -79,8 +95,12 @@ void MainWindow::Initialize() {
     //initial camera setup, need this to allocate buffers
     m_camera->SetupExp(m_expSettings);
 
+    //for 8 bit image conversion for liveview, might not need it anymore
+    m_img8 = new uint8_t[m_width*m_height];
+
     //Set sensor size for live view
-    ui.liveView->Init(m_camInfo.sensorResX, m_camInfo.sensorResY, m_camInfo.imageFormat);
+    ui.liveView->Init(m_width, m_height, ImageFormat::Mono8);
+    ui.histView->Init(m_hist, m_width*m_height);
 
     spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
         m_expSettings.region.s1,
@@ -119,7 +139,7 @@ void MainWindow::Initialize() {
  * Slots
  */
 void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
-    spdlog::info("ledIntensityEdit value changed: {}", value);
+    //spdlog::info("ledIntensityEdit value changed: {}", value);
 }
 
 
@@ -127,14 +147,14 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     if (m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquisition running: FPS cannot be changed");
     } else {
-        spdlog::info("frameRateEdit value changed: {}", value);
+        //spdlog::info("frameRateEdit value changed: {}", value);
         m_fps = value;
     }
 }
 
 
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    spdlog::info("durationEdit value changed: {}", value);
+    //spdlog::info("durationEdit value changed: {}", value);
     if(m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquistion running: duration cannot be changed");
     } else {
@@ -275,10 +295,34 @@ void MainWindow::updateLiveView() {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
         if (frame != nullptr) {
-            ui.liveView->UpdateImage((uint8_t*)frame->GetData());
+            uint16_t* data = static_cast<uint16_t*>(frame->GetData());
+            AutoConBright(data);
+
+            ui.liveView->UpdateImage((uint8_t*)m_img8);
+            ui.histView->Update(m_hmax, m_min, m_max);
         }
     }
 }
+
+
+void MainWindow::AutoConBright(const uint16_t* data) {
+    //Calculate histogram
+    m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
+    m_parTask.Start(m_taskFrameStats);
+    m_taskFrameStats->Results(m_min, m_max, m_hmax);
+
+    if (m_autoConBright) {
+        /* //Update lut */
+        m_taskUpdateLut->Setup(m_min, m_max);
+        m_parTask.Start(m_taskUpdateLut);
+        uint8_t* lut = m_taskUpdateLut->Results();
+
+        //Apply lut
+        m_taskApplyLut->Setup(data, m_img8, lut, m_width * m_height);
+        m_parTask.Start(m_taskApplyLut);
+    }
+}
+
 
 /**
  * Signals
@@ -293,7 +337,7 @@ void MainWindow::acquisition_done() {
     }
 
     m_liveViewTimer->stop();
-    ui.liveView->Clear();
+    //ui.liveView->Clear();
 
     m_acquisitionRunning = false;
     m_liveScanRunning = false;

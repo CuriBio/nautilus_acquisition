@@ -221,25 +221,14 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         spdlog::info("Failed to copy frame data");
                         continue;
                     }
+                    m_latestFrame = frame;
 
-                    {
-                        std::unique_lock<std::mutex> lock(m_lock);
-                        uint16_t min, max;
+                    /* uint16_t min = 0; */
+                    /* uint16_t max = 0; */
 
-                        /* Bitmap bmp( */
-                        /*     frame->GetData(), */
-                        /*     m_camera->GetInfo().sensorResX, */
-                        /*     m_camera->GetInfo().sensorResY, */
-                        /*     m_camera->ctx->imgFormat, */
-                        /*     m_camera->ctx->bitDepth */
-                        /* ); */
-
-                        m_taskFrameStats->Setup(static_cast<uint16_t*>(frame->GetData()), width, height);
-                        m_parTask->Start(m_taskFrameStats);
-                        m_taskFrameStats->Results(min, max);
-                        spdlog::info("################## min: {}, max: {}", min, max);
-                        m_latestFrame = frame;
-                    }
+                    /* m_taskFrameStats->Setup(static_cast<uint16_t*>(frame->GetData()), width, height); */
+                    /* m_parTask->Start(m_taskFrameStats); */
+                    /* m_taskFrameStats->Results(min, max); */
                 }
                 break;
             case AcquisitionState::AcqStopped:
@@ -268,8 +257,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 template<FrameConcept F, ColorConfigConcept C>
 pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
     m_pCopy = std::make_shared<PMemCopy>();
-    m_taskFrameStats = std::make_shared<TaskFrameStats>();
-    m_parTask = std::make_shared<ParTask>(4);
+    m_parTask = std::make_shared<ParTask>(8);
 
     //TODO preallocate unused frame pool size based on acquisition size
     const uint64_t bufferCount = camera->ctx->curExp->bufferCount;

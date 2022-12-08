@@ -4,43 +4,55 @@
 #include <mutex>
 #include <vector>
 #include <ranges>
-
-#include <Bitmap.h>
-#include <BitmapFormat.h>
+#include <stdlib.h>
 
 class TaskFrameStats {
     private:
         std::mutex m_lock;
 
         uint32_t m_width, m_height;
-        uint16_t m_min, m_max;
-        uint16_t* m_data;
+        uint32_t m_min, m_max;
+        uint32_t m_hmax;
+        uint32_t* m_hist{nullptr};
+        const uint16_t* m_data;
 
-        /* std::vector<std::tuple<uint32_t, uint32_t>> m_stats; */
-        /* Bitmap* m_bmp; */
+        std::vector<uint32_t*> m_taskHists{};
 
     public:
-        TaskFrameStats() {
-            m_width = 0; m_height = 0;
-            m_min = (1 << 16) - 1; m_max = 0;
+        TaskFrameStats(uint8_t numTasks) {
+            m_width = m_height = 0;
             m_data = nullptr;
+
+            for (size_t i = 0; i < numTasks; i++) {
+                m_taskHists.push_back(new uint32_t[(1<<16)-1]);
+            }
         };
 
-        ~TaskFrameStats() = default;
+        ~TaskFrameStats() {
+            for (auto& h : m_taskHists) { delete h; }
+        }
 
-        void Setup(uint16_t* data, uint32_t width, uint32_t height) {
+        void Setup(const uint16_t* data, uint32_t* hist, uint32_t width, uint32_t height) {
             std::unique_lock<std::mutex> lock(m_lock);
-            m_width = width;
-            m_height = height;
+            m_min = (1 << 16) - 1; m_max = 0; m_hmax = 0;
+
+            m_hist = hist;
+            memset((void*)m_hist, 0, sizeof(uint32_t)*((1<<16)-1));
+
+            m_width = width; m_height = height;
             m_data = data;
         };
 
-        void Results(uint16_t& min, uint16_t& max) {
+        void Results(uint32_t& min, uint32_t& max, uint32_t& hmax) {
             std::unique_lock<std::mutex> lock(m_lock);
-            min = m_min; max = m_max;
+            min = m_min; max = m_max; hmax = m_hmax;
         }
 
         void Run(uint8_t threadCount, uint8_t taskNum) {
+            //uint32_t hist[((1<<16) - 1)] = {0};
+            uint32_t* hist = m_taskHists[taskNum];
+            memset((void*)hist, 0, sizeof(uint32_t)*((1<<16)-1));
+
             uint16_t min = (1 << 16) - 1;
             uint16_t max = 0;
             size_t rem = 0;
@@ -53,48 +65,25 @@ class TaskFrameStats {
             const size_t rowOffset = taskNum * rows;
             const size_t offset = rowOffset * m_width;
 
+            const uint16_t* start = m_data+offset;
+            const uint16_t* end = m_data+offset+(rows*m_width);
 
-            for (uint16_t* start = m_data+offset; start < m_data+offset+(rows*m_width); start++) {
+            for (; start < end; start++) {
                 if (*start > max) { max = *start; }
                 if (*start < min) { min = *start; }
+
+                hist[*start] += 1;
             }
 
-            std::unique_lock<std::mutex> lock(m_lock);
-            if (min < m_min) { m_min = min; }
-            if (max > m_max) { m_max = max; }
-        }
+            {
+                std::unique_lock<std::mutex> lock(m_lock);
+                if (min < m_min) { m_min = min; }
+                if (max > m_max) { m_max = max; }
 
-        /* void Run(uint8_t threadCount, uint8_t taskNum) { */
-        /*     const uint32_t lineStep = static_cast<uint32_t>(threadCount); */
-        /*     const uint32_t lineOff = static_cast<uint32_t>(taskNum); */
-
-        /*     switch (m_bmp->GetFormat().GetImageFormat()) { */
-        /*         case ImageFormat::Mono16: */
-        /*             { */
-        /*                 uint16_t min = (1 << 16) - 1; */
-        /*                 uint16_t max = 0; */ 
-
-        /*                 for (uint32_t y = lineOff; y < m_height; y += lineStep) { */
-        /*                     const uint16_t* const srcLine = static_cast<const uint16_t*>(m_bmp->GetScanLine((uint16_t)y)); */
-        /*                     minmax<uint16_t>(srcLine, min, max); */
-        /*                 } */
-        /*                 { */
-        /*                     std::unique_lock<std::mutex> lock(m_lock); */
-        /*                     //m_stats.push_back(std::make_tuple<uint32_t, uint32_t>(static_cast<uint32_t>(min), static_cast<uint32_t>(max))); */
-        /*                 } */
-        /*             } */
-        /*             break; */
-        /*         default: */
-        /*             break; */
-        /*     }; */
-        /* } */
-
-    private:
-        template<typename T>
-        void minmax(const T* const scanLine, T& min, T& max) {
-            for (size_t n = 0; n < m_width; n++) {
-                if (scanLine[n] > max) { max = scanLine[n]; }
-                if (scanLine[n] < min) { min = scanLine[n]; }
+                for (size_t i=0; i < ((1<<16) - 1); i++) {
+                    m_hist[i] += hist[i];
+                    if (m_hist[i] > m_hmax) { m_hmax = m_hist[i]; }
+                }
             }
         }
 };

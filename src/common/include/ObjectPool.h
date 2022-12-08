@@ -69,6 +69,7 @@ class FramePool {
             std::lock_guard<std::mutex> lock(m_poolLock);
 
             while (m_pool.size() < size) {
+                spdlog::info("Pool low, allocating");
                 m_pool.push(new F(m_frameBytes, m_deepCopy, m_pTask));
                 total_objs++;
             }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>850</height>
+    <width>1400</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1230</width>
-    <height>850</height>
+    <width>1400</width>
+    <height>900</height>
    </size>
   </property>
   <property name="baseSize">
@@ -42,7 +42,7 @@
     <property name="leftMargin">
      <number>12</number>
     </property>
-    <item row="0" column="2">
+    <item row="0" column="2" alignment="Qt::AlignRight">
      <widget class="QFrame" name="rightframe">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
@@ -146,68 +146,6 @@ readouts</string>
       </layout>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QFrame" name="histogram_frame">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>100</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>650</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="baseSize">
-       <size>
-        <width>650</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <widget class="QWidget" name="histogram" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>675</width>
-         <height>100</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>675</width>
-         <height>100</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>100</height>
-        </size>
-       </property>
-      </widget>
-     </widget>
-    </item>
     <item row="1" column="2">
      <spacer name="verticalSpacer">
       <property name="orientation">
@@ -224,7 +162,7 @@ readouts</string>
       </property>
      </spacer>
     </item>
-    <item row="0" column="0">
+    <item row="0" column="0" alignment="Qt::AlignLeft">
      <widget class="QFrame" name="settings_frame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
@@ -348,6 +286,9 @@ readouts</string>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
               <property name="stepType">
                <enum>QAbstractSpinBox::DefaultStepType</enum>
               </property>
@@ -367,6 +308,9 @@ readouts</string>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
               </property>
+              <property name="maximum">
+               <double>500.000000000000000</double>
+              </property>
              </widget>
             </item>
             <item row="0" column="1">
@@ -382,6 +326,12 @@ readouts</string>
               </property>
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::NoButtons</enum>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
               </property>
              </widget>
             </item>
@@ -496,14 +446,14 @@ Autoupload</string>
       </property>
       <property name="minimumSize">
        <size>
-        <width>650</width>
-        <height>650</height>
+        <width>768</width>
+        <height>768</height>
        </size>
       </property>
       <property name="baseSize">
        <size>
-        <width>650</width>
-        <height>650</height>
+        <width>768</width>
+        <height>768</height>
        </size>
       </property>
       <property name="autoFillBackground">
@@ -517,6 +467,37 @@ background-color: rgb(128,128,128);</string>
       </property>
      </widget>
     </item>
+    <item row="1" column="1" alignment="Qt::AlignHCenter">
+     <widget class="HistView" name="histView" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>100</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>768</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>768</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>768</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 120, 110);</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
@@ -525,6 +506,12 @@ background-color: rgb(128,128,128);</string>
    <class>LiveView</class>
    <extends>QWidget</extends>
    <header>liveview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>HistView</class>
+   <extends>QWidget</extends>
+   <header>histview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

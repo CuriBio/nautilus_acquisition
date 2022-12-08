@@ -87,22 +87,20 @@ class ParTask {
         void executor(uint8_t taskNum) {
             size_t rem = 0;
 
+            {
+                std::unique_lock<std::mutex> lock(m_queueMutex);
+                m_mutexCond.wait(lock);
+            }
+
             while (!m_stopFlag) {
-                {
-                    std::unique_lock<std::mutex> lock(m_queueMutex);
-                    m_mutexCond.wait(lock);
-
-                    if (m_stopFlag) {
-                        break;
-                    }
-                }
-
+                //run task
                 m_task(m_threadCount, taskNum);
                 {
-                    std::unique_lock<std::mutex> update(m_lock);
+                    std::unique_lock<std::mutex> lock(m_queueMutex);
                     m_running--;
 
                     if (m_running == 0) { m_waitCond.notify_one(); }
+                    m_mutexCond.wait(lock);
                 }
             }
         }

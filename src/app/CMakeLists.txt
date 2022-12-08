@@ -4,6 +4,7 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/mainwindow.cpp
     ./src/liveview.cpp
     ./src/settings.cpp
+    ./src/histview.cpp
     )
 
 target_include_directories(${PROJECT_NAME}
@@ -14,7 +15,7 @@ target_include_directories(${PROJECT_NAME}
 find_package(spdlog)
 find_package(cxxopts)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets)
 qt_standard_project_setup()
 
 
@@ -27,6 +28,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Core
     Qt6::Widgets
     Qt6::Gui
+    Qt6::OpenGLWidgets
     PUBLIC
     spdlog::spdlog
     pvcam_incl
@@ -50,6 +52,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Core
     Qt6::Widgets
     Qt6::Gui
+    Qt6::OpenGLWidgets
     PUBLIC
     spdlog::spdlog
     pvcam_incl

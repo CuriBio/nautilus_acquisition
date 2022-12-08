@@ -15,8 +15,16 @@
 #include <pm/ColorConfig.h>
 #include <pvcam/pvcam_helper_color.h>
 
+#include <ParTask.h>
+#include <TaskFrameStats.h>
+#include <TaskFrameLut16.h>
+#include <TaskApplyLut16.h>
+
+
 #include "settings.h"
 #include "ui_mainwindow.h"
+
+#define TASKS 8
 
 using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
@@ -40,8 +48,21 @@ class MainWindow : public QMainWindow {
             uint16_t triggerMode,
             uint16_t exposureMode,
             double maxVoltage,
+            bool noAutoConBright,
             QMainWindow* parent = nullptr
         );
+
+        ~MainWindow() {
+            delete m_lut16;
+            m_lut16 = nullptr;
+
+            delete m_hist;
+            m_hist = nullptr;
+
+            delete m_img8;
+            m_img8 = nullptr;
+        }
+
         void Initialize();
 
     signals:
@@ -105,11 +126,28 @@ class MainWindow : public QMainWindow {
 
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
+        bool m_autoConBright{true};
+
+        uint8_t* m_img8;
+
+        uint32_t m_width, m_height;
+        uint32_t m_min, m_max;
+        uint32_t m_hmax;
+
+        uint8_t* m_lut16{nullptr};
+        uint32_t* m_hist{nullptr};
+
+        ParTask m_parTask{TASKS};
+        std::shared_ptr<TaskFrameStats> m_taskFrameStats;
+        std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
+        std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
+
 
     private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
 
+        void AutoConBright(const uint16_t* data);
         bool ledON(double voltage);
         bool ledOFF();
         bool ledSetVoltage(double voltage);

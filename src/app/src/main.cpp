@@ -26,19 +26,20 @@ int main(int argc, char* argv[]) {
 
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
-      ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
-      ("debug", "Enable debug console", cxxopts::value<bool>()->default_value("false"))
-      ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
+      ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>()->default_value("false"))
+      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>()->default_value("0"))
       ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
+      ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
+      ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
+      ("l,led", "LED intensity", cxxopts::value<double>()->default_value("0.0"))
+      ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>()->default_value("0"))
+      ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
       ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
       ("p,prefix", "Output file prefix", cxxopts::value<std::string>()->default_value("default_"))
-      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>()->default_value("0"))
-      ("l,led", "LED intensity", cxxopts::value<double>()->default_value("0.0"))
-      ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
       ("s,storage_type", "Storage type", cxxopts::value<int>()->default_value("0"))
-      ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>()->default_value("0"))
-      ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
+      ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
       ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
+      ("debug", "Enable debug console", cxxopts::value<bool>()->default_value("false"))
       ("h,help", "Usage")
       ;
     auto userargs = options.parse(argc, argv);
@@ -89,6 +90,9 @@ int main(int argc, char* argv[]) {
 
     double maxVoltage = userargs["max_voltage"].as<double>();
     spdlog::info("Max voltage: {}", maxVoltage);
+
+    bool noAutoConBright = userargs["no_autocb"].as<bool>();
+    spdlog::info("Disable auto contrast/brightness: {}", noAutoConBright);
 
 
     StorageType storageType;
@@ -201,7 +205,8 @@ int main(int argc, char* argv[]) {
             storageType,
             triggerMode,
             exposureMode,
-            maxVoltage
+            maxVoltage,
+            noAutoConBright
         );
 
         win.resize(800, 640);

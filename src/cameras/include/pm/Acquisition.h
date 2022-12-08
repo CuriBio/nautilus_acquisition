@@ -15,7 +15,6 @@
 #include <ObjectPool.h>
 #include <TiffFile.h>
 #include <PMemCopy.h>
-#include <TaskFrameStats.h>
 
 #include <pm/Camera.h>
 #include <pm/Frame.h>
@@ -52,7 +51,6 @@ namespace pm {
                 //typename TiffFile<F>::ProcHelper m_tiffHelper{};
                 SpdTable m_spdTable{};
                 std::shared_ptr<PMemCopy> m_pCopy;
-                std::shared_ptr<TaskFrameStats> m_taskFrameStats;
                 std::shared_ptr<ParTask> m_parTask;
                 //std::shared_ptr<PMemCopy> m_pCopy;
 
