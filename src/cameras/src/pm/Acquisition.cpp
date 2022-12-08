@@ -130,6 +130,9 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     std::string fileName = m_camera->ctx->curExp->filePrefix;
     std::filesystem::path filePath = m_camera->ctx->curExp->filePath;
 
+    uint16_t width = m_camera->ctx->info.sensorResX;
+    uint16_t height = m_camera->ctx->info.sensorResY; 
+
     TiffFile<F>* file = new TiffFile<F>(
         m_camera->ctx->curExp->region,
         m_camera->ctx->info.imageFormat,
@@ -221,7 +224,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
                     {
                         std::unique_lock<std::mutex> lock(m_lock);
-                        /* uint32_t min, max; */
+                        uint16_t min, max;
 
                         /* Bitmap bmp( */
                         /*     frame->GetData(), */
@@ -231,10 +234,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         /*     m_camera->ctx->bitDepth */
                         /* ); */
 
-                        /* m_taskFrameStats->Setup(&bmp); */
-                        /* m_parTask->Start(m_taskFrameStats); */
-                        /* m_taskFrameStats->Results(min, max); */
-                        /* spdlog::info("################## min: {}, max: {}", min, max); */
+                        m_taskFrameStats->Setup(static_cast<uint16_t*>(frame->GetData()), width, height);
+                        m_parTask->Start(m_taskFrameStats);
+                        m_taskFrameStats->Results(min, max);
+                        spdlog::info("################## min: {}, max: {}", min, max);
                         m_latestFrame = frame;
                     }
                 }

@@ -43,3 +43,15 @@ int32 __CFUNC DAQmxWriteAnalogF64(TaskHandle taskHandle, int32 numSampsPerChan, 
 int32 __CFUNC DAQmxGetExtendedErrorInfo(char errorString[], uInt32 bufferSize) {
     spdlog::info("DAQmxGetExtendedErrorInfo - error: {}, bufferSize: {}", errorString, bufferSize);
 }
+
+int32 __CFUNC DAQmxWaitUntilTaskDone(TaskHandle taskHandle, float64 timeToWait) {
+    spdlog::info("DAQmxWaitUntilTaskDone");
+}
+
+int32 __CFUNC DAQmxWriteDigitalLines (TaskHandle taskHandle, int32 numSampsPerChan, bool32 autoStart, float64 timeout, bool32 dataLayout, const uInt8 writeArray[], int32 *sampsPerChanWritten, bool32 *reserved) {
+    spdlog::info("DAQmxWriteDigitalLines");
+}
+
+int32 __CFUNC DAQmxCreateDOChan(TaskHandle taskHandle, const char lines[], const char nameToAssignToLines[], int32 lineGrouping) {
+    spdlog::info("DAQmxCreateDOChan");
+}
