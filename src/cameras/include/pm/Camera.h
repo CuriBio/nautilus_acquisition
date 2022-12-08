@@ -101,7 +101,6 @@ namespace pm {
                 uint32_t GetFrameExpTime(uint32_t frameNr);
                 std::string GetError() const;
             private:
-                static void eofHandler(FRAME_INFO* frameInfo, void* ctx);
                 static void rmCamHandler(FRAME_INFO* frameInfo, void* ctx);
 
                 bool initSpeedTable();
