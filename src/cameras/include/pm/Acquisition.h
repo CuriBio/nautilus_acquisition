@@ -4,6 +4,7 @@
 #include <condition_variable>
 #include <semaphore>
 #include <memory>
+#include <filesystem>
 #include <thread>
 
 #include <pvcam/master.h>
@@ -54,6 +55,9 @@ namespace pm {
                 std::shared_ptr<ParTask> m_parTask;
                 //std::shared_ptr<PMemCopy> m_pCopy;
 
+                uint16_t* m_fakeData{nullptr};
+                std::string m_testImgPath{};
+
             public:
                 Acquisition(std::shared_ptr<pm::Camera<F>> c);
                 ~Acquisition();
@@ -66,6 +70,8 @@ namespace pm {
                 void SetLatestFrame(F* frame);
                 F* GetLatestFrame();
                 AcquisitionState GetState();
+
+                void LoadTestData(std::string testImgPath);
 
             public:
                 size_t m_capturedFrames{0};

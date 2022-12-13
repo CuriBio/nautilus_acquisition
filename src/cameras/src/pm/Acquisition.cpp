@@ -145,6 +145,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
         //TODO handle error
         spdlog::error("StartExp failed");
     }
+
+    if (m_fakeData) {
+        spdlog::warn("Using test image data from {}", m_testImgPath);
+    }
     m_running = true;
 
     do {
@@ -186,6 +190,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
         switch (m_state) {
             case AcquisitionState::AcqCapture:
                 {
+                    if (m_fakeData) {
+                        frame->SetData((void*)m_fakeData);
+                    }
+
                     //copy frame
                     if (!frame->CopyData()) {
                         spdlog::info("Failed to copy frame data");
@@ -217,18 +225,15 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 break;
             case AcquisitionState::AcqLiveScan:
                 {
+                    if (m_fakeData) {
+                        frame->SetData((void*)m_fakeData);
+                    }
+
                     if (!frame->CopyData()) {
                         spdlog::info("Failed to copy frame data");
                         continue;
                     }
                     m_latestFrame = frame;
-
-                    /* uint16_t min = 0; */
-                    /* uint16_t max = 0; */
-
-                    /* m_taskFrameStats->Setup(static_cast<uint16_t*>(frame->GetData()), width, height); */
-                    /* m_parTask->Start(m_taskFrameStats); */
-                    /* m_taskFrameStats->Results(min, max); */
                 }
                 break;
             case AcquisitionState::AcqStopped:
@@ -373,6 +378,14 @@ bool pm::Acquisition<F, C>::IsRunning() {
 template<FrameConcept F, ColorConfigConcept C>
 AcquisitionState pm::Acquisition<F, C>::GetState() {
     return m_state;
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F,C>::LoadTestData(std::string testImgPath) {
+    uint32_t width, height;
+    m_testImgPath = testImgPath;
+    std::filesystem::path p = testImgPath.c_str();
+    m_fakeData = TiffFile<F>::LoadTIFF(p.string().c_str(), width, height);
 }
 
 //Avoid link errors

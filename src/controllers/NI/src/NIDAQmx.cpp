@@ -104,7 +104,7 @@ bool NIDAQmx::CreateAnalogOutpuVoltageChan(std::string& taskName, const char phy
         float64 minv = static_cast<float64>(minVal);
         float64 maxv = static_cast<float64>(maxVal);
         spdlog::info("CreateAnalogOutpuVoltageChan: taskHandle {}", fmt::ptr(m_tasks[taskName]));
-        if (DAQmxCreateAOVoltageChan(m_tasks[taskName], physicalChan, "", minv, maxv, DAQmx_Val_Volts, "") < 0) {
+        if (DAQmxCreateAOVoltageChan(m_tasks[taskName], physicalChan, "", minv, maxv, DAQmx_Val_Volts, NULL) < 0) {
             spdlog::error("Failed to create Analog Output voltage channel for task {} (handle {}), ({})", taskName, m_tasks[taskName], GetExtendedErrorInfo());
             return false;
         }

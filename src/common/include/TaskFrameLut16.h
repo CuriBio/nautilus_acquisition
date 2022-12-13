@@ -21,7 +21,7 @@ class TaskFrameLut16 {
         void Setup(uint32_t min, uint32_t max) {
             std::unique_lock<std::mutex> lock(m_lock);
             m_min = min; m_max = max;
-            m_scale = 256.0 / (max-min+1);
+            m_scale = (max == min) ? 255.0 : 255.0 / static_cast<double>(max-min);
         };
 
         uint8_t* Results() {
@@ -40,18 +40,15 @@ class TaskFrameLut16 {
             size_t start = taskNum * chunkSize;
             size_t end = start + chunkSize+rem;
 
-            for (size_t i = start; i < end; i++) {
+            for (size_t i = start; i <= end; i++) {
                 if (i < m_min) {
                     m_lut16[i] = 0;
-                    continue;
-                }
-                if (i > m_max) {
+                } else if (i > m_max) {
                     m_lut16[i] = 255;
-                    continue;
+                } else {
+                    double value = static_cast<double>(m_scale * (i - m_min));
+                    m_lut16[i] = static_cast<uint8_t>(value);
                 }
-                //double value = (i & 0xFFFF) - m_min;
-                double value = static_cast<double>(i - m_min);
-                m_lut16[i] = static_cast<uint16_t>(value*m_scale+0.5);
             }
         }
 };

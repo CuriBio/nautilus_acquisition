@@ -631,8 +631,13 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         return false;
     }
 
+    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->info.imageFormat)) {
+        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
+    }
+
     spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
     spdlog::info("Bitdepth set to {}", ctx->bitDepth);
+    spdlog::info("Image format set to {}", int(ctx->info.imageFormat));
     spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
 
 

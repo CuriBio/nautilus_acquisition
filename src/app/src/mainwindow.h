@@ -37,6 +37,8 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(
             std::string path,
             std::string prefix,
+            std::string niDev,
+            std::string testImgPath,
             double fps,
             double duration,
             double expTimeMs,
@@ -104,12 +106,14 @@ class MainWindow : public QMainWindow {
         uint16_t m_spdtable{0};
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
+        std::string m_niDev; //NI-DAQmx device name
         std::string m_taskAO, m_devAO;
         std::string m_taskDO, m_devDO;
         bool m_led{false};
 
         std::filesystem::path m_path;
         std::string m_prefix;
+        std::string m_testImgPath;
 
         CameraInfo m_camInfo;
         ExpSettings m_expSettings {
@@ -141,7 +145,6 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<TaskFrameStats> m_taskFrameStats;
         std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
         std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
-
 
     private:
         void StartAcquisition(bool saveToDisk);

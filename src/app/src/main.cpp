@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
       ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
       ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
       ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
-      ("l,led", "LED intensity", cxxopts::value<double>()->default_value("0.0"))
+      ("l,led", "LED intensity", cxxopts::value<double>()->default_value("50.0"))
       ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>()->default_value("0"))
       ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
       ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
@@ -39,7 +39,9 @@ int main(int argc, char* argv[]) {
       ("s,storage_type", "Storage type", cxxopts::value<int>()->default_value("0"))
       ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
       ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
+      ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>()->default_value("Dev2"))
       ("debug", "Enable debug console", cxxopts::value<bool>()->default_value("false"))
+      ("test_img", "Use test image", cxxopts::value<std::string>())
       ("h,help", "Usage")
       ;
     auto userargs = options.parse(argc, argv);
@@ -94,6 +96,13 @@ int main(int argc, char* argv[]) {
     bool noAutoConBright = userargs["no_autocb"].as<bool>();
     spdlog::info("Disable auto contrast/brightness: {}", noAutoConBright);
 
+    std::string testImgPath = "";
+    if (userargs.count("test_img")) {
+        testImgPath = userargs["test_img"].as<std::string>();
+    }
+
+    std::string niDev = userargs["ni_dev"].as<std::string>();
+    spdlog::info("NI Dev: {}", niDev);
 
     StorageType storageType;
     switch (userargs["storage_type"].as<int>()) {
@@ -195,6 +204,8 @@ int main(int argc, char* argv[]) {
         MainWindow win(
             path,
             prefix,
+            niDev,
+            testImgPath,
             fps,
             duration,
             expTimeMS,

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <format>
 
 #include <spdlog/spdlog.h>
 #include <QThread>
@@ -10,6 +11,8 @@
 MainWindow::MainWindow(
     std::string path,
     std::string prefix,
+    std::string niDev,
+    std::string testImgPath,
     double fps,
     double duration,
     double expTimeMs,
@@ -28,8 +31,11 @@ MainWindow::MainWindow(
 
     m_path = path;
     m_prefix = prefix;
-    m_settings = new Settings(this, m_path, m_prefix);
+    m_niDev = niDev;
+    m_testImgPath = testImgPath;
     m_autoConBright = !noAutoConBright;
+
+    m_settings = new Settings(this, m_path, m_prefix);
 
     m_duration = duration;
     m_fps = fps;
@@ -45,10 +51,6 @@ MainWindow::MainWindow(
     m_expSettings.storageType = storageType;
     m_expSettings.trigMode = triggerMode;
     m_expSettings.expModeOut = exposureMode;
-
-    ui.ledIntensityEdit->setValue(m_ledIntensity);
-    ui.frameRateEdit->setValue(m_fps);
-    ui.durationEdit->setValue(m_duration);
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
@@ -119,19 +121,28 @@ void MainWindow::Initialize() {
 
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+    if (m_testImgPath != "") {
+        m_acquisition->LoadTestData(m_testImgPath);
+    }
 
     //Setup NIDAQmx controller for LED
     m_taskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
-    m_devAO = "Dev2/ao0"; //Device name for analog output
+    m_devAO = fmt::format("{}/ao0", m_niDev); //Device name for analog output
+    spdlog::info("Using NI device {} for analog output", m_devAO);
 
     m_taskDO = "Digital_Out"; //Task for setting Digital Output
-    m_devDO = "Dev2/port0/line0:7"; //Device for digital output
+    m_devDO = fmt::format("{}/port0/line0:7", m_niDev); //Device for digital output
+    spdlog::info("Using NI device {} for digital output", m_devDO);
 
     m_DAQmx.CreateTask(m_taskAO);
     m_DAQmx.CreateTask(m_taskDO);
 
     m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
+
+    ui.ledIntensityEdit->setValue(m_ledIntensity);
+    ui.frameRateEdit->setValue(m_fps);
+    ui.durationEdit->setValue(m_duration);
 }
 
 
@@ -140,6 +151,10 @@ void MainWindow::Initialize() {
  */
 void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
     //spdlog::info("ledIntensityEdit value changed: {}", value);
+    m_ledIntensity = value;
+    double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
+    spdlog::info("Setting led voltage to {}", voltage);
+    ledSetVoltage(voltage);
 }
 
 
@@ -147,7 +162,14 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     if (m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquisition running: FPS cannot be changed");
     } else {
-        //spdlog::info("frameRateEdit value changed: {}", value);
+        if (value * m_duration < 1.0) {
+            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+            ui.frameRateEdit->setStyleSheet("background-color: red");
+            ui.durationEdit->setStyleSheet("background-color: red");
+        } else {
+            ui.frameRateEdit->setStyleSheet("background-color: white");
+            ui.durationEdit->setStyleSheet("background-color: white");
+        }
         m_fps = value;
     }
 }
@@ -158,6 +180,14 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     if(m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquistion running: duration cannot be changed");
     } else {
+        if (value * m_fps < 1.0) {
+            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+            ui.frameRateEdit->setStyleSheet("background-color: red");
+            ui.durationEdit->setStyleSheet("background-color: red");
+        } else {
+            ui.frameRateEdit->setStyleSheet("background-color: white");
+            ui.durationEdit->setStyleSheet("background-color: white");
+        }
         m_duration = value;
     }
 }
@@ -166,8 +196,9 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 void MainWindow::on_advancedSetupBtn_clicked() {
     spdlog::info("advancedSetupBtn clicked");
     if(!m_led) {
-        //TODO calculate voltage from m_ledIntensity
-        ledON((m_ledIntensity / 100.0) * m_maxVoltage);
+        double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
+        spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
+        ledON(voltage);
     } else {
         ledOFF();
     }
@@ -220,7 +251,9 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 
         if (!m_led) {
             m_led = !m_led;
-            ledON(m_maxVoltage * (m_ledIntensity / 100.0));
+            double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
+            spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
+            ledON(voltage);
         }
 
         m_acquisitionRunning = saveToDisk;
@@ -359,18 +392,13 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
     m_expSettings.filePrefix = m_prefix;
 }
 
+
 bool MainWindow::ledON(double voltage) {
     const double data[1] = { voltage };
     uint8_t lines[8] = {1,1,1,1,1,1,1,1};
     bool rtnval = true;
 
-    bool taskAO_result = (
-        m_DAQmx.StartTask(m_taskAO) && \
-        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-        m_DAQmx.StopTask(m_taskAO)
-    );
-
-    if (!taskAO_result) {
+    if (!ledSetVoltage(voltage)) {
         spdlog::error("Failed to run taskAO");
     }
 

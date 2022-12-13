@@ -47,7 +47,45 @@ class TiffFile {
         bool IsOpen() const;
         const std::string& Name() const;
         bool WriteFrame(F* frame);
+
+        static uint16_t* LoadTIFF(const char* path, uint32_t& width, uint32_t& height);
 };
+
+template<FrameConcept F>
+uint16_t* TiffFile<F>::LoadTIFF(const char* path, uint32_t& width, uint32_t& height) {
+    // Temporary variables
+    uint16_t* data;
+
+    //Loads tiff file
+    TIFF* tiff = TIFFOpen(path, "r");
+    if(!tiff) {
+    spdlog::error("Failed to read TIFF: {}", path);
+        return nullptr;
+    }
+
+    // Read dimensions of image
+    if (TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width) != 1) {
+        spdlog::error("Failed to read width of TIFF: {}", path);
+    }
+    if (TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height) != 1) {
+        spdlog::error("Failed to read height of TIFF: {}", path);
+    }
+
+    //allocate data buffer
+    data = new uint16_t[width*height];
+    memset((void*)data, 0, sizeof(uint16_t)*width*height);
+
+    for (uint32_t y=0; y<height; ++y) {
+         TIFFReadScanline(tiff, data+(y*width), y, 0);
+         uint16_t* end = data+(y*width)+width;
+    }
+
+    //close tiff file
+    TIFFClose(tiff);
+
+  return data;
+}
+
 
 
 template<FrameConcept F>
