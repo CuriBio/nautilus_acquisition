@@ -97,7 +97,6 @@ TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitD
     m_bitDepth(bitDepth),
     m_useBigTiff(false),
     m_bmpFormat(BitmapFormat(format, bitDepth)) {
-        //m_bmp = std::make_unique<Bitmap>(m_width, m_height, m_bmpFormat);
 }
 
 template<FrameConcept F>

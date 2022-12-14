@@ -5,6 +5,7 @@
 #include <cxxopts.hpp>
 #include <QtWidgets/QApplication>
 #include <spdlog/spdlog.h>
+#include "spdlog/sinks/basic_file_sink.h"
 
 #ifdef _WIN
 #include <Windows.h>
@@ -19,6 +20,10 @@
 
 int main(int argc, char* argv[]) {
     std::filesystem::path userProfile{"/Users"};
+
+    auto logger = spdlog::basic_logger_mt("nautilus_logger", "nautilus.log", true);
+    spdlog::set_default_logger(logger);
+
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
         userProfile = std::string(up);

@@ -130,9 +130,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     std::string fileName = m_camera->ctx->curExp->filePrefix;
     std::filesystem::path filePath = m_camera->ctx->curExp->filePath;
 
-    uint16_t width = m_camera->ctx->info.sensorResX;
-    uint16_t height = m_camera->ctx->info.sensorResY; 
-
     TiffFile<F>* file = new TiffFile<F>(
         m_camera->ctx->curExp->region,
         m_camera->ctx->info.imageFormat,
@@ -233,7 +230,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         spdlog::info("Failed to copy frame data");
                         continue;
                     }
-                    m_latestFrame = frame;
+                    {
+                        std::unique_lock<std::mutex> lock(m_lock);
+                        m_latestFrame = frame;
+                    }
                 }
                 break;
             case AcquisitionState::AcqStopped:

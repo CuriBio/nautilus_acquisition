@@ -2,6 +2,7 @@
 #include <format>
 
 #include <spdlog/spdlog.h>
+#include <QMessageBox>
 #include <QThread>
 #include <QTimer>
 
@@ -78,17 +79,28 @@ void MainWindow::Initialize() {
     if (!m_camera->Open(0)) {
         //TODO how should the user be notified?
         spdlog::error("Failed to open camera 0");
+
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Camera could not be found, please plug in camera and restart application");
+        messageBox.setFixedSize(500,200);
+        exit(1);
     }
 
     spdlog::info("Get camera info");
     m_camInfo = m_camera->GetInfo();
-    m_width = m_camInfo.sensorResX;
-    m_height = m_camInfo.sensorResY;
+
+    //Using default dimensions of 1600x1200 for now
+    m_width = 1600; //m_camInfo.sensorResX;
+    m_height = 1200; //m_camInfo.sensorResY;
 
     //set exp region to complete sensor size
     m_expSettings.region = {
-        .s1 = 0, .s2 = uns16(m_camInfo.sensorResX - 1), .sbin = 1,
-        .p1 = 0, .p2 = uns16(m_camInfo.sensorResY - 1), .pbin = 1
+        /* .s1 = 0, .s2 = uns16(m_camInfo.sensorResX - 1), .sbin = 1, */
+        /* .p1 = 0, .p2 = uns16(m_camInfo.sensorResY - 1), .pbin = 1 */
+
+        //Default to coords 800, 1000 for now
+        .s1 = uns16(800), .s2 = uns16(800 + m_width - 1), .sbin = 1,
+        .p1 = uns16(1000), .p2 = uns16(1000 + m_height - 1), .pbin = 1
     };
 
     m_expSettings.filePath = m_path;
