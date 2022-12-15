@@ -22,22 +22,6 @@ jobs:
             cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
           }
-        # - {
-        #     name: "Windows Latest MinGW", artifact: "Windows-MinGW.7z",
-        #     os: windows-latest,
-        #     cc: "gcc", cxx: "g++"
-        #   }
-        # - {
-        #     name: "Ubuntu Latest GCC", artifact: "Linux.7z",
-        #     os: ubuntu-latest,
-        #     cc: "gcc", cxx: "g++"
-        #   }
-        # - {
-        #     name: "macOS Latest Clang", artifact: "macOS.7z",
-        #     os: macos-latest,
-        #     cc: "clang", cxx: "clang++"
-        #   }
-
     steps:
     - uses: actions/checkout@v2
 
@@ -46,6 +30,7 @@ jobs:
       run: |
         pip3 install wheel setuptools
         pip3 install -r requirements.txt
+
 
     - name: Download Ninja and CMake
       shell: cmake -P {0}
@@ -237,7 +222,6 @@ jobs:
           message(FATAL_ERROR "Running tests failed!")
         endif()
 
-
     - name: Install Strip
       run: cmake --install build --prefix instdir --strip
 
@@ -251,11 +235,36 @@ jobs:
       run: cpack -C Release 
         #run: cmake -E tar cfv ../${{ matrix.config.artifact }} .
 
+    - name: Init git config
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email noreply@github.com
+
+    - name: Get/check version
+      shell: bash
+      run: |
+        NAUTILUS_VERSION=$(cat ./src/app/src/banner.h | sed -nE 's/.*"(.*)";/\1/p')
+        echo "NAUTILUS_VERSION=${NAUTILUS_VERSION}" >> $GITHUB_ENV
+        if [[ $(git  ls-remote --tags origin | grep -e 'refs/tags/${NAUTILUS_VERSION}$') != "" ]]; then echo "Tag ${NAUTILUS_VERSION} already exists" && exit 1; fi;
+
+    - name: Tag
+      shell: bash
+      run: |
+        echo "Tagging ${NAUTILUS_VERSION}"
+        git tag -a "${NAUTILUS_VERSION}" -m "release ${NAUTILUS_VERSION}"
+        git push origin ${NAUTILUS_VERSION}
+
     - name: Upload installer
       uses: actions/upload-artifact@v2
       with:
-        path: ./build/Nautilus-1.0.0-win64.exe
-        name: ${{ matrix.config.artifact }}
+        path: ./build/Nautilus-${{env.NAUTILUS_VERSION}}-win64.exe
+        name: "Nautilus-${{env.NAUTILUS_VERSION}}.exe"
+
+    - name: Upload zip
+      uses: actions/upload-artifact@v2
+      with:
+        path: ./build/Nautilus-${{env.NAUTILUS_VERSION}}-win64.zip
+        name: "Nautilus-${{env.NAUTILUS_VERSION}}.zip"
 
   release:
     if: contains(github.ref, 'tags/v')

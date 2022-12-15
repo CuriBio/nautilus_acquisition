@@ -53,18 +53,27 @@ int main(int argc, char* argv[]) {
       ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
       ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>()->default_value("Dev2"))
       ("test_img", "Use test image", cxxopts::value<std::string>())
+      ("version", "Nautilus version")
       ("h,help", "Usage")
       ;
     auto userargs = options.parse(argc, argv);
+
+    //Return version only, this needs to happen before anything
+    //else is printed because github action will use it to 
+    //get the current built version for tagging
+    if (userargs.count("version")) {
+        std::cout << version << std::endl;
+        exit(0);
+    }
 
     std::cout << banner << std::endl;
     spdlog::info("Nautilus Version: {}", version);
 
     if (userargs.count("help")) {
         std::cout << options.help() << std::endl;
-
         exit(0);
     }
+
 
 
     std::string path = userargs["outdir"].as<std::string>();
