@@ -117,8 +117,9 @@ void BitmapFormat::SetupPixelAndDataType(ImageFormat imageFormat) {
             m_dataType = BitmapDataType::UInt32;
             m_pixelType = BitmapPixelType::RGB;
             return;
+        default:
+            throw std::invalid_argument("Unsupported image format");
     }
-    throw std::invalid_argument("Unsupported image format");
 }
 
 void BitmapFormat::SetupImageFormat(BitmapPixelType pixelType, BitmapDataType dataType) {

@@ -1,11 +1,15 @@
 #include <filesystem>
-#include<iostream>
+#include <fmt/chrono.h>
+#include <iostream>
 #include <stdlib.h>
 
 #include <cxxopts.hpp>
 #include <QtWidgets/QApplication>
+
 #include <spdlog/spdlog.h>
+#include <spdlog/logger.h>
 #include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 #ifdef _WIN
 #include <Windows.h>
@@ -20,14 +24,20 @@
 
 int main(int argc, char* argv[]) {
     std::filesystem::path userProfile{"/Users"};
-
-    auto logger = spdlog::basic_logger_mt("nautilus_logger", "nautilus.log", true);
-    spdlog::set_default_logger(logger);
-
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
         userProfile = std::string(up);
     }
+
+    std::time_t ts = std::time(nullptr);
+    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", userProfile.string(), fmt::localtime(ts));
+
+    auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
+
+    std::vector<spdlog::sink_ptr> sinks{stderr_sink, file_sink};
+    auto logger = std::make_shared<spdlog::logger>("nautilus", std::begin(sinks), std::end(sinks));
+    spdlog::set_default_logger(logger);
 
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
@@ -45,28 +55,20 @@ int main(int argc, char* argv[]) {
       ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
       ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
       ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>()->default_value("Dev2"))
-      ("debug", "Enable debug console", cxxopts::value<bool>()->default_value("false"))
       ("test_img", "Use test image", cxxopts::value<std::string>())
       ("h,help", "Usage")
       ;
     auto userargs = options.parse(argc, argv);
 
-#ifdef _WIN32
-    if (!userargs["debug"].as<bool>()) {
-        if (AttachConsole(ATTACH_PARENT_PROCESS)) {
-            freopen("CONOUT$", "w", stdout);
-            freopen("CONOUT$", "w", stderr);
-        }
-    }
-#endif
     std::cout << banner << std::endl;
     spdlog::info("Nautilus Version: {}", VERSION);
 
-
     if (userargs.count("help")) {
-      std::cout << options.help() << std::endl;
-      exit(0);
+        std::cout << options.help() << std::endl;
+
+        exit(0);
     }
+
 
     std::string path = userargs["outdir"].as<std::string>();
     spdlog::info("Output directory: {}", path);

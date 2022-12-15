@@ -81,26 +81,6 @@ void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx
     }
 
     cls->m_frameWriterCond.notify_one();
-    /* else if (state == AcquisitionState::AcqLiveScan) { */
-    /*     uint32_t min, max; */
-    /*     cls->SetLatestFrame(frame); */
-
-    /*     Bitmap bmp( */
-    /*         frame->GetData(), */
-    /*         cls->m_camera->GetInfo().sensorResX, */
-    /*         cls->m_camera->GetInfo().sensorResY, */
-    /*         cls->m_camera->ctx->imgFormat, */
-    /*         cls->m_camera->ctx->bitDepth */
-    /*     ); */
-
-    /*     cls->m_taskFrameStats->Setup(&bmp); */
-    /*     cls->m_parTask->Start(cls->m_taskFrameStats); */
-    /*     cls->m_taskFrameStats->Results(min, max); */
-    /*     spdlog::info("################## min: {}, max: {}", min, max); */
-
-    /*     cls->m_unusedFramePool->Release(frame); */
-    /*     spdlog::info("Update latest frame"); */
-    /* } */
 
     return;
 }

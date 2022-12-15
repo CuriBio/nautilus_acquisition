@@ -2,7 +2,7 @@
 find_package(spdlog)
 
 IF (NOT WIN32)
-add_library(PvCamD SHARED
+add_library(PvCamD STATIC
     ./src/pm/Camera.cpp
     ./src/pm/Frame.cpp
     ./src/pm/Acquisition.cpp)
@@ -34,7 +34,7 @@ install(TARGETS PvCamD
 ENDIF() #NOT WIN32
 
 IF (WIN32)
-add_library(PvCam SHARED
+add_library(PvCam STATIC
     ./src/pm/Camera.cpp
     ./src/pm/Frame.cpp
     ./src/pm/Acquisition.cpp)

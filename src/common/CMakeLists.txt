@@ -1,7 +1,7 @@
 #find logging library
 find_package(spdlog)
 
-add_library(Common SHARED
+add_library(Common STATIC
 ./src/PMemCopy.cpp
 ./src/Bitmap.cpp
 ./src/BitmapFormat.cpp

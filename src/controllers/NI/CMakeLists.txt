@@ -1,7 +1,7 @@
 #find logging library
 find_package(spdlog)
 
-add_library(NIDAQmx_wrapper SHARED
+add_library(NIDAQmx_wrapper STATIC
     ./src/NIDAQmx.cpp)
 
 set_target_properties(NIDAQmx_wrapper PROPERTIES VERSION ${PROJECT_VERSION})
