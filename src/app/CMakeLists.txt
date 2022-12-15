@@ -1,3 +1,6 @@
+# Configure version
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h)
+
 # setting up sources
 add_executable(${PROJECT_NAME} WIN32
     ./src/main.cpp
@@ -10,6 +13,7 @@ add_executable(${PROJECT_NAME} WIN32
 target_include_directories(${PROJECT_NAME}
     PUBLIC include
     PRIVATE src)
+
 
 # Dependencies
 find_package(spdlog)

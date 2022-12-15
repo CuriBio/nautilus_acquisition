@@ -19,9 +19,6 @@
 #include "mainwindow.h"
 #include <NIDAQmx_wrapper.h>
 
-#define VERSION "0.0.2"
-
-
 int main(int argc, char* argv[]) {
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");
@@ -61,7 +58,7 @@ int main(int argc, char* argv[]) {
     auto userargs = options.parse(argc, argv);
 
     std::cout << banner << std::endl;
-    spdlog::info("Nautilus Version: {}", VERSION);
+    spdlog::info("Nautilus Version: {}", version);
 
     if (userargs.count("help")) {
         std::cout << options.help() << std::endl;
