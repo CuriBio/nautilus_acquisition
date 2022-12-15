@@ -244,17 +244,17 @@ jobs:
     - name: Install QT Deps
       shell: bash
       run: |
-        ./libs/qt6/6.4.1/msvc2019_64/bin/windeployqt.exe ./instdir/bin/nautilus.exe
+        ./libs/qt6/6.4.1/msvc2019_64/bin/windeployqt.exe ./instdir/nautilus.exe
 
     - name: Pack
-      working-directory: instdir
-      run: cmake -E tar cfv ../${{ matrix.config.artifact }} --format=zip .
+      working-directory: build
+      run: cpack -C Release 
         #run: cmake -E tar cfv ../${{ matrix.config.artifact }} .
 
-    - name: Upload
+    - name: Upload installer
       uses: actions/upload-artifact@v2
       with:
-        path: ./${{ matrix.config.artifact }}
+        path: ./build/Nautilus-1.0.0-win64.exe
         name: ${{ matrix.config.artifact }}
 
   release:

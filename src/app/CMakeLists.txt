@@ -36,14 +36,6 @@ target_link_libraries(${PROJECT_NAME}
     Common
     PvCam
     NIDAQmx_wrapper)
-
-# qt_standard_project_setup()
-# # create qt deploy script
-# qt_generate_deploy_app_script(
-#     TARGET ${PROJECT_NAME}
-#     FILENAME_VARIABLE deploy_script
-#     NO_UNSUPPORTED_PLATFORM_ERROR
-#)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
@@ -66,10 +58,7 @@ message(CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR})
 install(
     TARGETS ${PROJECT_NAME}
     COMPONENT ${PROJECT_NAME}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
     RUNTIME DESTINATION       ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION       ${CMAKE_INSTALL_LIBDIR}
-    INCLUDES DESTINATION      ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
     ARCHIVE DESTINATION       ${CMAKE_INSTALL_SHAREDSTATEDIR})
 
 
@@ -81,6 +70,7 @@ set(CPACK_PACKAGE_NAME "Nautilus")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Nautilus Installation")
 set(CPACK_PACKAGE_VERSION "1.0.0") # Version of installer
 
+message("###### CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nautilus")
