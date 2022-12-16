@@ -68,5 +68,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(PROJECT_BUILD ${CMAKE_CURRENT_BINARY_DIR})
 
+#Install license.txt
+install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
+
 add_subdirectory(libs)
 add_subdirectory(src)
