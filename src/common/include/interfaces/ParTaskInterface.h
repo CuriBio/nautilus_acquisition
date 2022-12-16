@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  ParTaskInterface.h
+ * 
+ * @brief Definition of the Parallel Task concept.
+ *********************************************************************/
 #ifndef PARTASK_INTERFACE_H
 #define PARTASK_INTERFACE_H
 #include <concepts>

@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  CameraInterface.h
+ * 
+ * @brief Definition of the CameraInterface concept.
+ *********************************************************************/
 #ifndef CAMERA_INTERFACE_H
 #define CAMERA_INTERFACE_H
 #include <filesystem>

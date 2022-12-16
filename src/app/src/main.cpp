@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  main.cpp
+ * 
+ * @brief Main entrypoint into the nautilus application.
+ *********************************************************************/
 #include <filesystem>
 #include <fmt/chrono.h>
 #include <iostream>

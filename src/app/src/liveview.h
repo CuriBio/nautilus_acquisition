@@ -21,11 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  liveview.h
+ *
+ * @brief Definition of the liveview widget class.
+ *********************************************************************/
 #ifndef LIVEVIEW_H
 #define LIVEVIEW_H
 
 #include <mutex>
-//#include <QWidget>
 #include <QOpenGLWidget>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>

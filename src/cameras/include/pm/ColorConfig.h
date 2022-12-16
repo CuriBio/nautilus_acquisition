@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  ColorConfig.h
+ * 
+ * @brief Definition of the ColorConfig class.
+ *********************************************************************/
 #ifndef PM_COLOR_CONFIG_H
 #define PM_COLOR_CONFIG_H
 #include <pvcam/pvcam_helper_color.h>

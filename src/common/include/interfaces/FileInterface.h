@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  FileInterface.h
+ * 
+ * @brief Definition of the FileInterface concept.
+ *********************************************************************/
 #ifndef FILE_INTERFACE_H
 #define FILE_INTERFACE_H
 #include <concepts>

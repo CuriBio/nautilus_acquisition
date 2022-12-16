@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  NIDAQmx_wrapper.h
+ * 
+ * @brief Definition of the NIDAQmx_wrapper class.
+ *********************************************************************/
 #ifndef _NIDAQMX_WRAPPER_H
 #define _NIDAQMX_WRAPPER_H
 

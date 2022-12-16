@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  NIDAQmx.cpp
+ * 
+ * @brief Implementation of the NIDAQmx wrapper class.
+ *********************************************************************/
 #include <stdint.h>
 #include <map>
 

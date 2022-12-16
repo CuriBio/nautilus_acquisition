@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  TiffFile.h
+ * 
+ * @brief Definition of the TiffFile class.
+ *********************************************************************/
 #ifndef TIFF_FILE_H
 #define TIFF_FILE_H
 #include <string>

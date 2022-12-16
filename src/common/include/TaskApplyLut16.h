@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  TaskApplyLut16.h
+ * 
+ * @brief Definition of ApplyLut16 task class.
+ *********************************************************************/
 #ifndef TASK_APPLYLUT16_H
 #define TASK_APPLYLUT16_H
 

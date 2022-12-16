@@ -21,6 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+/*********************************************************************
+ * @file  histview.h
+ *
+ * @brief Definition of the histogram widget class.
+ *********************************************************************/
 #ifndef HISTVIEW_H
 #define HISTVIEW_H
 

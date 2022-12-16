@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  AcquisitionInterface.h
+ * 
+ * @brief Definition of the AcquisitionInterface concept.
+ *********************************************************************/
 #ifndef ACQUISITION_INTERFACE_H
 #define ACQUISITION_INTERFACE_H
 #include <concepts>

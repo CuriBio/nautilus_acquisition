@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  ColorConfigInterface.h
+ * 
+ * @brief Definition of the ColorConfig concept.
+ *********************************************************************/
 #ifndef COLOR_CONFIG_INTERFACE_H
 #define COLOR_CONFIG_INTERFACE_H
 #include <concepts>

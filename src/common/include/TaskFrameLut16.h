@@ -21,6 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+/*********************************************************************
+ * @file  TaskFrameLut16.h
+ * 
+ * @brief Definition of FrameLut16 task class.
+ *********************************************************************/
 #ifndef TASK_FRAMELUT16_H
 #define TASK_FRAMELUT16_H
 

@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  ParTask.h
+ * 
+ * @brief Definition of the ParTask class.
+ *********************************************************************/
 #ifndef PAR_TASK_H
 #define PAR_TASK_H
 

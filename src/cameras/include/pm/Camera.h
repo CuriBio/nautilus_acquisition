@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Camera.h
+ * 
+ * @brief Definition of the Camera class.
+ *********************************************************************/
 #ifndef PMCAMERA_H
 #define PMCAMERA_H
 #include <cstdint>

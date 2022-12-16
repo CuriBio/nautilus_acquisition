@@ -21,6 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+/*********************************************************************
+ * @file  BitmapFormat.cpp
+ * 
+ * @brief Implementation of the BitmapFormat class.
+ *********************************************************************/
 #include <stdexcept>
 #include <BitmapFormat.h>
 

@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  mainwindow.cpp
+ * 
+ * @brief Implementation of the mainwindow widget.
+ *********************************************************************/
 #include <stdlib.h>
 #include <format>
 

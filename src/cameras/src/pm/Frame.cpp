@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Frame.cpp
+ * 
+ * @brief Implementation of the Frame class.
+ *********************************************************************/
 #include <cstdint>
 #include <chrono>
 

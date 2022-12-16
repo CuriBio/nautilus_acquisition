@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  mainwindow.h
+ * 
+ * @brief Definition of the mainwindow widget.
+ *********************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <mutex>

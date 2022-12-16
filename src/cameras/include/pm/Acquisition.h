@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Acquistion.h
+ * 
+ * @brief Definition of the Acquistion class.
+ *********************************************************************/
 #ifndef PM_ACQUISITION_H
 #define PM_ACQUISITION_H
 #include <chrono>
@@ -36,7 +42,7 @@
 
 #include <interfaces/FrameInterface.h>
 #include <interfaces/ColorConfigInterface.h>
-#include <ObjectPool.h>
+#include <FramePool.h>
 #include <TiffFile.h>
 #include <PMemCopy.h>
 

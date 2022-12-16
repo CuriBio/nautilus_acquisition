@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Frame.h
+ * 
+ * @brief Definition of the Frame class.
+ *********************************************************************/
 #ifndef PM_FRAME_H
 #define PM_FRAME_H
 #include <shared_mutex>

@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Bitmap.h
+ * 
+ * @brief Definition of the Bitmap class.
+ *********************************************************************/
 #ifndef BITMAP_H
 #define BITMAP_H
 #include "BitmapFormat.h"

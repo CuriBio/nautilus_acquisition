@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Acquistion.cpp
+ * 
+ * @brief Implementation of the Acquistion class.
+ *********************************************************************/
 #include <cassert>
 #include <chrono>
 #include <thread>

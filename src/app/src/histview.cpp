@@ -24,6 +24,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  histview.cpp
+ *
+ * @brief Implementation of the histogram view widget.
+ *********************************************************************/
 #include "qpainter.h"
 
 /*

@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Allocator.h
+ * 
+ * @brief Definition of the Allocator class.
+ *********************************************************************/
 #ifndef ALLOCATOR_H
 #define ALLOCATOR_H
 
