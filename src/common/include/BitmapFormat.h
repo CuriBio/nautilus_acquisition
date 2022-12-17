@@ -25,13 +25,20 @@
 /*********************************************************************
  * @file  BitmapFormat.h
  * 
- * @brief Definition of the BitmapFormat class.
+ * Definition of the BitmapFormat class.
  *********************************************************************/
 #ifndef BITMAP_FORMAT_H
 #define BITMAP_FORMAT_H
 #include <cstdint>
 #include <cstddef>
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 enum class ImageFormat : int32_t {
     Mono16 = 0,     //16bit mono, 2 bytes per pixel.
     Bayer16 = 1,    // 16bit bayer masked image, 2 bytes per pixel.
@@ -48,11 +55,26 @@ enum class ImageFormat : int32_t {
     RGB96 = 11,     // 32bit RGB, 4 bytes per sample, 12 bytes per pixel.
 };
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 enum class BitmapPixelType : int32_t {
     Mono = 0, // Each pixel contains only one sample
     RGB,      // Each pixel consists of 3 samples, Red, Green, Blue, in this order
 };
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 enum class BitmapDataType : int32_t {
     UInt8 = 0,  // Each sample takes 1 byte, 8-bit unsigned value
     UInt16,     // Each sample takes 2 bytes, 16-bit unsigned value
@@ -71,6 +93,14 @@ G B G B G B ...
 ...
 @endcode
 The values correspond to PL_COLOR_MODES from PVCAM.
+*/
+
+/*
+* @breif
+*
+*
+*
+* @param
 */
 enum class BayerPattern : int32_t {
     None = 0, // No Bayer pattern, the image is plain monochrome bitmap
@@ -102,6 +132,10 @@ PIXELS:  |        0        |        1        |   |
          |_________________|_________________|   |
 BYTES:   |0 |1 |2 |3 |4 |5 |6 |7 |8 |9 |10|11|...|
 */
+
+/*
+* Bitmap format class.
+*/
 class BitmapFormat {
     private:
         ImageFormat m_imageFormat{ ImageFormat::Mono16 };
@@ -111,20 +145,81 @@ class BitmapFormat {
         BayerPattern m_colorMask{ BayerPattern::None };
 
     public:
+
+        /*
+        * BitmapFormat constructor.
+        */
         BitmapFormat();
+
+        /*
+         * BitmapFormat constructor.
+         *
+         * @param imageFormat Image format.
+         * @param bitDepth Image bit depth.
+         */
         BitmapFormat(ImageFormat imageFormat, uint16_t bitDepth);
+
+        /*
+        * BitmapFormat constructor.
+        *
+        * @param pixelType Bitmap pixel type.
+        * @param dataType Bitmap datatype.
+        * @param bitDepth Pixel bitdepth.
+        */
         BitmapFormat(BitmapPixelType pixelType, BitmapDataType dataType, uint16_t bitDepth);
 
+        /*
+        * Gets bitmap image format.
+        *
+        * @return ImageFormat
+        */
         ImageFormat GetImageFormat() const;
+
+        /*
+        * Sets image format.
+        *
+        * @param imageFormat
+        */
         void SetImageFormat(ImageFormat imageFormat);
 
+        /*
+        * Gets pixel type.
+        *
+        * @return BitmapPixelType
+        */
         BitmapPixelType GetPixelType() const;
+
+        /*
+        * Set pixel type.
+        *
+        * @param pixelType BitmapPixelType.
+        */
         void SetPixelType(BitmapPixelType pixelType);
 
+        /*
+        * Get bitmap data type.
+        *
+        * @return BitmapDataType.
+        */
         BitmapDataType GetDataType() const;
+
+        /*
+        * Set bitmap data type.
+        *
+        * @param dataType BitmapDataType.
+        */
         void SetDataType(BitmapDataType dataType);
 
+        /*
+        * Get pixel bit depth.
+        *
+        * @return uint16_t pixel bit depth.
+        */
         uint16_t GetBitDepth() const;
+
+        /*
+        * BitmapFormat constructor.
+        */
         void SetBitDepth(uint16_t bitDepth);
 
         /**
@@ -136,19 +231,54 @@ class BitmapFormat {
           different from normal gray-scale bitmap but in order to properly display the
           bitmap it has to be demosaiced. The BayerPattern value is used to properly
           represent the bitmap on the screen.
-          @return Bitmap color mask.
+
+          @return BayerPatther Bitmap color mask.
           */
         BayerPattern GetColorMask() const;
+
+        /*
+        * Set bitmap color mask.
+        *
+        * @param colorMask.
+        */
         void SetColorMask(BayerPattern colorMask);
 
+        /*
+        * Get bytes per pixel.
+        *
+        * @return size_t Bytes per pixel.
+        */
         size_t GetBytesPerPixel() const;
+
+        /*
+        *  Get bytes per sample.
+        *
+        * @return size_t bytes per sample.
+        */
         size_t GetBytesPerSample() const;
+
+        /*
+        * Get samples per pixel.
+        *
+        * @return uint8_t Samples per pixel.
+        */
         uint8_t GetSamplesPerPixel() const;
 
     private:
+        /*
+        * Setup pixel and data types.
+        *
+        * @param imageFormat Bitmap image format.
+        */
         void SetupPixelAndDataType(ImageFormat imageFormat);
-        void SetupImageFormat(BitmapPixelType pixelType, BitmapDataType dataType);
 
+        /*
+        * Setup image format.
+        *
+        * @param pixelType Bitmap pixel type.
+        * @param dataType Bitmap data type.
+        */
+        void SetupImageFormat(BitmapPixelType pixelType, BitmapDataType dataType);
 };
 
 #endif //BITMAP_FORMAT_H

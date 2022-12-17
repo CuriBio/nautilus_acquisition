@@ -39,6 +39,14 @@
 static FrameInfo sEmptyFrameInfo = FrameInfo();
 
 namespace pm {
+
+   /*
+    * @breif
+    *
+    *
+    *
+    * @param
+    */
     class Frame {
         private:
             mutable std::mutex m_mutex{};
@@ -57,20 +65,96 @@ namespace pm {
             FrameInfo* m_info{&sEmptyFrameInfo};
 
         public:
+           /*
+            * @brief Frame constructor.
+            *
+            *  Constructs new image frame object.
+            *
+            * @param frameBytes The size of the frame.
+            * @param deepCopy Flag to control deep or shallow copy.
+            * @param pTask Pointer to parallel task executor.
+            */
             Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<ParTask> pTask);
+
+           /*
+            * @brief Frame destructor.
+            */
             ~Frame();
 
+           /*
+            * @brief Set frame data pointer.
+            *
+            * Sets the internal data pointer for this frame.
+            *
+            * @param data Pointer to data.
+            */
             void SetData(void* data);
+
+           /*
+            * @brief Gets pointer to internal frame data.
+            */
             void* GetData();
+
+            /*
+             * @brief Copy internal frame data.
+             *
+             *  Copies internal frame data source to frame object.
+             *  Frame takes ownership of copied data.
+             *
+             * @return true if successful, false otherwise.
+             */
             bool CopyData();
+
+            /*
+             * @brief Copy data from one frame to this frame.
+             *
+             *  Does deep or shallow copy of from frame data to this frame.
+             *
+             * @param from The frame to copy data from.
+             * @param deepCopy Flag to control deep or shallow copy.
+             *
+             * @return true if successful, false otherwise.
+             */
             bool Copy(const Frame& from, bool deepCopy);
 
+            /*
+             * @brief Get this frame info.
+             *
+             *  Gets pointer to internal frame info.
+             *
+             * @return Pointer to internal frame info.
+             */
             FrameInfo* GetInfo() const;
+
+            /*
+             * @brief Set frame info.
+             *
+             *  Sets internal frame info.
+             *
+             * @param info The frame info to set in this frame.
+             */
             void SetInfo(const FrameInfo& info);
 
         private:
+            /*
+             * @brief Internal set info method.
+             *
+             * @param info The frame info to set in this frame.
+             */
             void setInfo(const FrameInfo& info);
+
+            /*
+             * @brief Sets internal frame data pointer.
+             *
+             * @param data The data to set in internal frame.
+             */
             void setData(void* data);
+
+            /*
+             * @brief Copies internal data in frame.
+             *
+             * @return true if successful, false otherwise.
+             */
             bool copyData();
     };
 };

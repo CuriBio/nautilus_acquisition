@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  CameraInterface.h
  * 
- * @brief Definition of the CameraInterface concept.
+ * Definition of the CameraInterface concept.
  *********************************************************************/
 #ifndef CAMERA_INTERFACE_H
 #define CAMERA_INTERFACE_H
@@ -37,6 +37,9 @@
 #include "FrameInterface.h"
 #include "BitmapFormat.h"
 
+/*
+* Acquisition mode enum.
+*/
 enum class AcqMode : int32_t {
     SnapSequence,
     SnapCircBuffer,
@@ -45,6 +48,10 @@ enum class AcqMode : int32_t {
     LiveTimeLapse,
 };
 
+
+/*
+* Defines different storage types for an acquisition.
+*/
 enum StorageType {
     Tiff = 0,
     TiffStack,
@@ -53,6 +60,9 @@ enum StorageType {
 };
 
 
+/*
+* Defines a capture region for an exposure.
+*/
 struct Region {
     uint16_t s1{0};
     uint16_t s2{0};
@@ -62,6 +72,10 @@ struct Region {
     uint16_t pbin{1};
 };
 
+
+/*
+* Structure to hold camera speed table entries.
+*/
 struct SpdTable {
     int32_t gainIndex{1};
     int16_t bitDepth{0};
@@ -74,6 +88,10 @@ struct SpdTable {
     std::string portName{};
 };
 
+
+/*
+* Structure to hold specific values for a given camera instance.
+*/
 struct CameraInfo {
     std::string name{""};
     std::string driver{""};
@@ -87,6 +105,10 @@ struct CameraInfo {
     std::vector<SpdTable> spdTable{};
 };
 
+
+/*
+* Structure to hold settings specific to a running exposure.
+*/
 struct ExpSettings {
     AcqMode acqMode;
     std::filesystem::path filePath;
@@ -108,6 +130,14 @@ struct ExpSettings {
     float colorWbScaleBlue{ 1.0 };
 };
 
+
+/*
+* Defines camera concept, any class that needs to fulfill this interface must
+* implement all of the methods.
+*
+* @tparam T Type param.
+* @tparam F FrameConcept type.
+*/
 template<typename T, typename F>
 concept CameraConcept = FrameConcept<F> and requires(T c, F* pframe, void* vptr, const ExpSettings& pExpSettings) {
     { c.Open(int8_t()) } -> std::same_as<bool>;

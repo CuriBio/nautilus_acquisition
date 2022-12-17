@@ -50,6 +50,15 @@
 #include <pm/Frame.h>
 
 namespace pm {
+
+    /*
+     * @breif Acquisition controller class.
+     *
+     * Acquisition class for starting/stopping image acquisition.
+     *
+     * @tparam F FrameConcept type
+     * @tparam C ColorConfigConcept type
+     */
     template<FrameConcept F, ColorConfigConcept C>
         class Acquisition {
             private:
@@ -88,27 +97,120 @@ namespace pm {
                 std::string m_testImgPath{};
 
             public:
+
+                /*
+                 * @brief Acquisition constructor.
+                 *
+                 * Constructs a new acquisition class.
+                 *
+                 * @param c Pointer to camera instance to use for acquisition.
+                 */
                 Acquisition(std::shared_ptr<pm::Camera<F>> c);
+
+                /*
+                 * @brief Acquisition destructor.
+                 */
                 ~Acquisition();
 
+                /*
+                 * @brief Starts acquisition.
+                 *
+                 * Starts this acquisition with configured params.
+                 *
+                 * @param saveToDisk Flag to control streaming to disk.
+                 * @param tiffFillValue Value to use as fill value if enabled.
+                 * @param tiffColorCtx Color context, nullptr if not needed.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool Start(bool saveToDisk, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
-                bool Abort();
+
+                /*
+                 * @brief Stops this acquisition.
+                 *
+                 * Stops this acquisition, does not block.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
+                bool Stop();
+
+                /*
+                 * @brief Waits for acquisition to stop.
+                 *
+                 * Blocks until acquisition is finished.
+                 */
                 void WaitForStop();
+
+                /*
+                 * @brief Checks if acquisition is running.
+                 *
+                 * @return true if running, false otherwise.
+                 */
                 bool IsRunning();
 
+                /*
+                 * @brief Sets the latest frame for live view.
+                 *
+                 * Sets latest frame acquired by camera for use in live view.
+                 *
+                 * @param F Pointer to frame concept.
+                 */
                 void SetLatestFrame(F* frame);
+
+                /*
+                 * @brief Get latest frame
+                 *
+                 * Gets latest frame acquired by camera.
+                 *
+                 * @return Pointer to latest frame captured.
+                 */
                 F* GetLatestFrame();
+
+                /*
+                 * @brief Get current acquisition state.
+                 *
+                 * @return The current acquisition state.
+                 */
                 AcquisitionState GetState();
 
+                /*
+                 * @brief Loads test data for debugging.
+                 *
+                 * Takes path to tiff file, the data for each captured frame is replaced with
+                 * the raw pixel data from the test image.
+                 *
+                 * @param testImgPath The path to a tiff file.
+                 */
                 void LoadTestData(std::string testImgPath);
 
             public:
                 size_t m_capturedFrames{0};
 
             private:
-                static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* Acquisition_pointer);
+                /*
+                 * @brief The eof camera callback.
+                 *
+                 * Called by PVCAM for each frame captured. This callback must not block.
+                 *
+                 * @param frameInfo The captured frame info struct.
+                 * @param ctx The acquisition context.
+                 */
+                static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* ctx);
 
+                /*
+                 * @brief Thread for processing incoming frames.
+                 */
                 void frameWriterThread();
+
+                /*
+                 * @brief Checks for lost frames.
+                 *
+                 * Helper function to check if any frames have been lost.
+                 *
+                 * @param frameN The current frame number.
+                 * @param lastFrame The last captured frame number.
+                 * @param i Frame index value.
+                 */
                 void checkLostFrame(uint32_t frameN, uint32_t& lastFrame, uint8_t i);
         };
 }

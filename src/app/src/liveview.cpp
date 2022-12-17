@@ -21,19 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+
+/*********************************************************************
+ * @file  liveview.cpp
+ *
+ * @brief Implemetation of the liveview widget.
+ *********************************************************************/
 #include <spdlog/spdlog.h>
 
 #include "liveview.h"
 #include "qpainter.h"
 
-
+/*
+ * @breif Constructs live view widget.
+ *
+ * @param parent QWidget pointer to parent widget.
+ */
 LiveView::LiveView(QWidget* parent) : QOpenGLWidget(parent) {
 }
 
+
+/*
+ * @breif Deconstructs a live view widget.
+ */
 LiveView::~LiveView() {
-    //delete m_imageData;
 }
 
+
+/*
+ * @breif Initialize live view widget.
+ *
+ * Initializes LiveView widget with image width, height and pixel format.
+ *
+ * @param width Width of the image.
+ * @param height Height of the image.
+ * @param fmt ImageFormat type.
+ */
 void LiveView::Init(uint32_t width, uint32_t height, ImageFormat fmt) {
     m_width = width;
     m_height = height;
@@ -45,6 +69,14 @@ void LiveView::Init(uint32_t width, uint32_t height, ImageFormat fmt) {
     memset(m_imageData, 128, m_totalPx);
 }
 
+
+/*
+ * @breif Set live view image format.
+ *
+ * Sets the LiveView image format after the widget is created.
+ *
+ * @param fmt The ImageFormat for pixel data being displayed.
+ */
 void LiveView::SetImageFormat(ImageFormat fmt) {
     m_imageInFmt = fmt;
     switch (m_imageInFmt) {
@@ -65,6 +97,12 @@ void LiveView::SetImageFormat(ImageFormat fmt) {
     }
 }
 
+
+/*
+ * @breif Clears the live view display.
+ *
+ * Resets the LiveView memory to 50% gray.
+ */
 void LiveView::Clear() {
     std::unique_lock<std::mutex> lock(m_lock);
     if (m_imageData) {
@@ -73,6 +111,14 @@ void LiveView::Clear() {
     }
 }
 
+
+/*
+ * @breif Update live view image.
+ *
+ * Updates the displayed image in LiveView.
+ *
+ * @param data The raw pixel data to display.
+ */
 void LiveView::UpdateImage(uint8_t* data) {
     std::unique_lock<std::mutex> lock(m_lock);
     if (m_imageData) {
@@ -86,11 +132,18 @@ void LiveView::UpdateImage(uint8_t* data) {
 }
 
 
+/*
+ * @breif Initalizes openGL for live view.
+ */
 void LiveView::initializeGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 }
 
+
+/*
+ * @breif Draws the pixel data to the screen.
+ */
 void LiveView::paintGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClear(GL_COLOR_BUFFER_BIT);

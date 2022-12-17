@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  TaskApplyLut16.h
  * 
- * @brief Definition of ApplyLut16 task class.
+ * Definition of ApplyLut16 task class.
  *********************************************************************/
 #ifndef TASK_APPLYLUT16_H
 #define TASK_APPLYLUT16_H
@@ -34,6 +34,9 @@
 #include <vector>
 #include <ranges>
 
+/*
+* Parallel lut processing task.
+*/
 class TaskApplyLut16 {
     private:
         std::mutex m_lock;
@@ -43,10 +46,24 @@ class TaskApplyLut16 {
         size_t m_size;
 
     public:
+        /*
+         * Parallel lut processing class constructor.
+         */
         TaskApplyLut16() { };
 
+        /*
+         * Parallel lut processing class destructor.
+         */
         ~TaskApplyLut16() = default;
 
+        /*
+         * Setup parallel lut processing task.
+         *
+         * @param data Source image data.
+         * @param out Output image data location.
+         * @param lut Lut being applied.
+         * @param size Data in bytes.
+         */
         void Setup(const uint16_t* data, uint8_t* out, const uint8_t* lut, size_t size) {
             std::unique_lock<std::mutex> lock(m_lock);
             m_data = data;
@@ -55,11 +72,22 @@ class TaskApplyLut16 {
             m_size = size;
         };
 
+        /*
+         * Returns results for task.
+         *
+         * @return uint8_t Pointer to output data.
+         */
         uint8_t* Results() {
             std::unique_lock<std::mutex> lock(m_lock);
             return &m_out[0];
         }
 
+        /*
+         * Run task.
+         *
+         * @param threadCount The number of threads running in parallel.
+         * @param taskNum The id of this task.
+         */
         void Run(uint8_t threadCount, uint8_t taskNum) {
             size_t rem = 0;
             size_t chunkSize = m_size / threadCount;

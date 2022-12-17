@@ -34,19 +34,42 @@
 #include <interfaces/ColorConfigInterface.h>
 
 namespace pm {
+   /*
+    * @breif Color Config class.
+    *
+    * Implements ColorConfig concept.
+    *
+    * @tparam ColorCtx type param.
+    */
     template<typename ColorCtx>
     class ColorConfig {
         private:
             ColorCtx* m_colorCtx{nullptr};
         public:
+            /*
+             * @breif Color Config constructor.
+             *
+             * Constructs color config class.
+             *
+             * @param colorCtx Pointer to color context.
+             */
             ColorConfig(ColorCtx* colorCtx) : m_colorCtx(colorCtx) { }
+
+            /*
+             * @breif Color Config destructor.
+             */
             ~ColorConfig() = default;
 
+
+            /*
+             * @breif Debayer method.
+             *
+             * TODO implement when needed.
+             */
             void Debayer() {
                 return;
             }
     };
 };
 
-/* static_assert(ColorConfigConcept<pm::ColorConfig<ph_color_context>, ph_color_context>); */
 #endif //PM_COLOR_CONFIG_H

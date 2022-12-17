@@ -44,19 +44,82 @@
 
 
 namespace pm {
-    //pvcam callback type
+    /*
+     * @brief PVCAM callback type.
+     */
     using CbEx3Fn = void (PV_DECL *)(FRAME_INFO* frameInfo, void* context);
 
+
+    /*
+     * @brief NPV struct.
+     *
+     * Struct used for reading PVCAM enum values.
+     */
     struct NVP {
         int32_t value{ 0 };
         std::string name{};
     };
 
+
+   /*
+    * @brief PVCAM get param exists helper function.
+    *
+    * Helper function to check if a param exists for connected camera.
+    *
+    * @param hcam Camera handle.
+    * @param paramID The id of the param.
+    */
     rs_bool pl_get_param_exists(int16_t hcam, uint32_t paramID);
+
+
+   /*
+    * @brief PVCAM get param helper function.
+    *
+    * Helper function to get a parameter if it exists for connected camera.
+    *
+    * @param hcam Camera handle.
+    * @param paramID The ID of the parameter.
+    * @param paramValue The output param value.
+    *
+    * @return true if successful, false otherwise.
+    */
     rs_bool pl_get_param_if_exists(int16_t hcam, uint32_t paramID, int16_t paramAttr, void* paramValue);
+
+
+   /*
+    * @brief PVCAM set param helper function.
+    *
+    * Helper function to set PVCAM value if the parameter exists for connected camera.
+    *
+    * @param hcam Camera handle.
+    * @param paramID The parameter ID.
+    * @param paramValue The value to set.
+    *
+    * @return true if successful, false otherwise.
+    */
     rs_bool pl_set_param_if_exists(int16_t hcam, uint32_t paramID, void* paramValue);
+
+   /*
+    * @brief PVCAM read enum helper function
+    *
+    * Helper function of reading enumeration from PVCAM.
+    *
+    * @param hcam Handle to active camera.
+    * @param pNvpc Pointer to vector of NVP structs, holds enum values.
+    * @param paramID The id of the enum parameter to read.
+    *
+    * @return true if successful, false otherwise.
+    */
     bool pl_read_enum(int16_t hcam, std::vector<NVP>* pNvpc, uint32_t paramID);
 
+
+   /*
+    * @brief Camera context struct
+    *
+    * Struct used for context of each connected camera.
+    *
+    * @tparam F FrameConcept type
+    */
     template<FrameConcept F>
     struct CameraCtx {
         //Camera details
@@ -106,6 +169,13 @@ namespace pm {
     };
 
 
+    /*
+     * @brief Camera controller class.
+     *
+     * Camera class interfacing with camera hardware.
+     *
+     * @tparam F FrameConcept type
+     */
     template<FrameConcept F>
         class Camera {
             private:
@@ -114,25 +184,156 @@ namespace pm {
             public:
                 std::shared_ptr<CameraCtx<F>> ctx{nullptr};
             public:
+
+                /*
+                 * @brief Camera constructor.
+                 */
                 Camera();
+
+                /*
+                 * @brief Camera destructor.
+                 */
                 ~Camera();
 
+                /*
+                 * @brief Opens a camera.
+                 *
+                 * Opens a connected camera for the given camera id.
+                 *
+                 * @param cameraId The camera id.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool Open(int8_t cameraId);
+
+                /*
+                 * @brief Close the camera.
+                 *
+                 * Closes the currently opened camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool Close();
+
+                /*
+                 * @brief Get connected camera info.
+                 *
+                 * Gets camera info for connected camera.
+                 *
+                 * @return CameraInfo structure reference for this camera.
+                 */
                 CameraInfo& GetInfo();
+
+                /*
+                 * @brief Set camera exposure.
+                 *
+                 * Updates/sets the connected camera exposure settings.
+                 *
+                 * @param settings Exposure settings structure.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool SetupExp(const ExpSettings& settings);
+
+                /*
+                 * @brief Start exposure.
+                 *
+                 * Starts exposure for this camera using provided eof callback and context.
+                 *
+                 * @param eofCallback Callback function PVCAM will call for each new frame.
+                 * @param callbackCtx Context passed to each eofCallback call.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool StartExp(void* eofCallback, void* callbackCtx);
+
+                /*
+                 * @brief Stops running exposure.
+                 *
+                 * Stops running exposure for this camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool StopExp();
 
+                /*
+                 * @brief Get latest captured frame.
+                 *
+                 * Gets latest frame captured for running exposure.
+                 *
+                 * @param F Pointer to class that implements the FrameConcept.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool GetLatestFrame(F* frame);
+
+                /*
+                 * @brief Get frame exposure time.
+                 *
+                 * Gets the exposure time for a given frame number
+                 *
+                 * @param frameNr The frame to get exp time for.
+                 *
+                 * @return The exposure time for given frame.
+                 */
                 uint32_t GetFrameExpTime(uint32_t frameNr);
+
+                /*
+                 * @brief Get last error.
+                 *
+                 * Gets the error string for last error in PVCAM.
+                 *
+                 * @return The error string.
+                 */
                 std::string GetError() const;
             private:
+                /*
+                 * @brief Removed camera handler.
+                 *
+                 * Callback handler for when the camera is removed.
+                 *
+                 * @param frameInfo Frame info pointer???
+                 * @param ctx Callback camera context.
+                 */
                 static void rmCamHandler(FRAME_INFO* frameInfo, void* ctx);
 
+                /*
+                 * @brief Initializes speed table.
+                 *
+                 * Initalize internal speed table for this camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool initSpeedTable();
+
+                /*
+                 * @brief Set exposure settings.
+                 *
+                 * Set exposure values for this camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool setExp(const ExpSettings& settings);
+
+                /*
+                 * @brief Get latest frame index.
+                 *
+                 * Gets the index value of the latest frame.
+                 *
+                 * @param index The latest index.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
                 bool getLatestFrameIndex(size_t& index);
+
+                /*
+                 * @brief Updates frame index map.
+                 *
+                 * Used internally, updates the map pointer to latest frame index.
+                 *
+                 * @param oldFrameNr The old frame number in the index map.
+                 * @param index The index value.
+                 */
                 void updateFrameIndexMap(uint32_t oldFrameNr, size_t index) const;
         };
 }

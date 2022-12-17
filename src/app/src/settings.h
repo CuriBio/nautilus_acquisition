@@ -31,6 +31,10 @@
 
 #include "ui_settings.h"
 
+
+/*
+ * Settings dialog class.
+ */
 class Settings : public QDialog {
     Q_OBJECT
 

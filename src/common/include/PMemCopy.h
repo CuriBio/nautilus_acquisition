@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  PMemCopy.h
  * 
- * @brief Definition of the PMemCopy class.
+ * Definition of the PMemCopy class.
  *********************************************************************/
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
@@ -37,6 +37,10 @@
 #include <thread>
 #include <vector>
 
+
+/*
+* Parallel memory copy.
+*/
 class PMemCopy {
     private:
         std::mutex m_copyMutex{};
@@ -46,12 +50,25 @@ class PMemCopy {
         size_t m_count;
 
     public:
+        /*
+         * Parallel memory class constructor.
+         */
         PMemCopy() : m_dest(nullptr), m_src(nullptr), m_count(0) {
         }
 
+        /*
+         * Parallel memory class destructor.
+         */
         ~PMemCopy() {
         }
 
+        /*
+         * Setup parallel copy task.
+         *
+         * @param dest The destination memory location.
+         * @param src The source memory location.
+         * @param count The number of bytes to copy.
+         */
         void Copy(void* dest, const void* src, size_t count) {
             std::unique_lock<std::mutex> copyLock(m_copyMutex);
 
@@ -60,6 +77,12 @@ class PMemCopy {
             m_count = count;
         }
 
+        /*
+         * Run task.
+         *
+         * @param threadCount The number of threads running in parallel.
+         * @param taskNum The id of this task.
+         */
         void Run(uint8_t threadCount, uint8_t taskNum) {
             size_t rem = 0;
 

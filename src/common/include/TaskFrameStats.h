@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  TaskFrameStats.h
  * 
- * @brief Definition of the Frame Stats task class.
+ * Definition of the Frame Stats task class.
  *********************************************************************/
 #ifndef TASK_FRAMESTATS_H
 #define TASK_FRAMESTATS_H
@@ -35,6 +35,10 @@
 #include <ranges>
 #include <stdlib.h>
 
+
+/*
+* Parallel frame histogram/stats processing.
+*/
 class TaskFrameStats {
     private:
         std::mutex m_lock;
@@ -48,6 +52,9 @@ class TaskFrameStats {
         std::vector<uint32_t*> m_taskHists{};
 
     public:
+        /*
+         * Parallel frame processing class constructor.
+         */
         TaskFrameStats(uint8_t numTasks) {
             m_width = m_height = 0;
             m_data = nullptr;
@@ -57,10 +64,32 @@ class TaskFrameStats {
             }
         };
 
+        /*
+         * Parallel frame processing class destructor.
+         */
         ~TaskFrameStats() {
             for (auto& h : m_taskHists) { delete h; }
         }
 
+        /*
+         * Returns results for task.
+         *
+         * @param min Min histogram value.
+         * @param max Max histogram value.
+         */
+        void Results(uint32_t& min, uint32_t& max, uint32_t& hmax) {
+            std::unique_lock<std::mutex> lock(m_lock);
+            min = m_min; max = m_max; hmax = m_hmax;
+        }
+
+        /*
+         * Setup parallel lut processing task.
+         *
+         * @param data Source image data.
+         * @param hist Histogram output.
+         * @param width Image width.
+         * @param height Image height.
+         */
         void Setup(const uint16_t* data, uint32_t* hist, uint32_t width, uint32_t height) {
             std::unique_lock<std::mutex> lock(m_lock);
             m_min = (1 << 16) - 1; m_max = 0; m_hmax = 0;
@@ -72,11 +101,12 @@ class TaskFrameStats {
             m_data = data;
         };
 
-        void Results(uint32_t& min, uint32_t& max, uint32_t& hmax) {
-            std::unique_lock<std::mutex> lock(m_lock);
-            min = m_min; max = m_max; hmax = m_hmax;
-        }
-
+        /*
+         * Run task.
+         *
+         * @param threadCount The number of threads running in parallel.
+         * @param taskNum The id of this task.
+         */
         void Run(uint8_t threadCount, uint8_t taskNum) {
             //uint32_t hist[((1<<16) - 1)] = {0};
             uint32_t* hist = m_taskHists[taskNum];

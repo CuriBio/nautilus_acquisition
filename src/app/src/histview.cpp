@@ -33,22 +33,47 @@
 #include "qpainter.h"
 
 /*
- * Histogram View constructor
+ * @brief Histogram View constructor.
+ *
+ * Constructs a new HistView widget class.
+ *
+ * @param parent Pointer to QWidget parent.
  * */
 HistView::HistView(QWidget* parent) : QOpenGLWidget(parent) {
 }
 
 
+/*
+ * @brief Histogram View destructor.
+ *
+ * Destructs a HistView widget class.
+ * */
 HistView::~HistView() {
 }
 
 
+/*
+ * @brief Initialize HistView widget.
+ *
+ * Init widget with pointer to histogram and size of histogram.
+ *
+ * @param hist Pointer to histogram values.
+ * @param size The total size of the histogram.
+ * */
 void HistView::Init(uint32_t* hist, size_t size) {
     m_size = size;
     m_hist = hist;
 }
 
-
+/*
+ * @breif
+ *
+ * Update histogram
+ *
+ * @param histMax The max value for the updated histogram.
+ * @param imgMin The minimum pixel value in the new image.
+ * @param imgMax The maximum pixel value in the new image.
+ */
 void HistView::Update(uint32_t histMax, uint32_t imgMin, uint32_t imgMax) {
     m_max = histMax;
     m_imin = imgMin;
@@ -57,12 +82,24 @@ void HistView::Update(uint32_t histMax, uint32_t imgMin, uint32_t imgMax) {
 }
 
 
+/*
+ * @breif Initializes OpenGL.
+ *
+ * Initializes opengl for Qt widget, does not need to be called by user.
+ */
 void HistView::initializeGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 
+/*
+ * @breif Draws the updated histgram.
+ *
+ * Draws the histgram values to the screen.
+ *
+ * @param p QPainter pointer context.
+ */
 void HistView::drawHistogram(QPainter* p) {
     auto w = this->size().width();
     auto h = this->size().height();
@@ -95,6 +132,12 @@ void HistView::drawHistogram(QPainter* p) {
 }
 
 
+/*
+ * @breif Paints the widget to the screen.
+ *
+ * Called when widget updates, paints the opengl FBO to screen.
+ * Does not need to be called by user.
+ */
 void HistView::paintGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClear(GL_COLOR_BUFFER_BIT);

@@ -43,14 +43,13 @@
 #include <pm/Frame.h>
 #include <pm/Camera.h>
 
-/**
- * PVCAM HELPER FUNCTIONS
- */
+//PVCAM HELPER FUNCTIONS
 rs_bool pm::pl_get_param_exists(int16 hcam, uns32 paramID) {
     rs_bool available = false;
     if(PV_OK != pl_get_param(hcam, paramID, ATTR_AVAIL, (void*)&available)) { return false; }
     return available;
 }
+
 
 rs_bool pm::pl_get_param_if_exists(int16 hcam, uns32 paramID, int16 paramAttr, void* paramValue) {
     if (PV_OK != pm::pl_get_param_exists(hcam, paramID)) {
@@ -58,6 +57,7 @@ rs_bool pm::pl_get_param_if_exists(int16 hcam, uns32 paramID, int16 paramAttr, v
     }
     return pl_get_param(hcam, paramID, paramAttr, (void*)paramValue);
 }
+
 
 bool pm::pl_read_enum(int16 hcam, std::vector<NVP>* pNvpc, uns32 paramID) {
     if (!pNvpc) { return false; }
@@ -482,6 +482,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
     return true;
 }
 
+
 template<FrameConcept F>
 bool pm::Camera<F>::GetLatestFrame(F* frame) {
     //TODO implement
@@ -494,6 +495,7 @@ bool pm::Camera<F>::GetLatestFrame(F* frame) {
     //frame.Invalidate();
     return frame->Copy(*ctx->frames[index], false);
 }
+
 
 template<FrameConcept F>
 uint32_t pm::Camera<F>::GetFrameExpTime(uint32_t frameNr) {
@@ -515,10 +517,7 @@ uint32_t pm::Camera<F>::GetFrameExpTime(uint32_t frameNr) {
     return ctx->curExp->expTimeMS;
 }
 
-/**
- * Camera private methods
- */
-
+// Camera private methods
 template<FrameConcept F>
 bool pm::Camera<F>::initSpeedTable() {
     std::vector<NVP> ports;
@@ -755,6 +754,7 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     return true;
 }
 
+
 template<FrameConcept F>
 void pm::Camera<F>::updateFrameIndexMap(uint32_t oldFrameNr, size_t index) const {
     ctx->framesMap.erase(oldFrameNr);
@@ -767,6 +767,7 @@ void pm::Camera<F>::updateFrameIndexMap(uint32_t oldFrameNr, size_t index) const
     const uint32_t frameNr = ctx->frames.at(index)->GetInfo()->frameNr;
     ctx->framesMap[frameNr] = index;
 }
+
 
 template<FrameConcept F>
 bool pm::Camera<F>::getLatestFrameIndex(size_t& index) {
@@ -829,10 +830,7 @@ bool pm::Camera<F>::getLatestFrameIndex(size_t& index) {
 }
 
 
-/**
- * Camera callback methods
- */
-
+// Camera callback methods
 template<FrameConcept F>
 void pm::Camera<F>::rmCamHandler(FRAME_INFO* frameInfo, void* ctx) {
     spdlog::info("RM Handler called");

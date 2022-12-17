@@ -48,6 +48,13 @@
 #include "mainwindow.h"
 #include <NIDAQmx_wrapper.h>
 
+
+/*
+ * Entry point for nautilus, creates camera/acquisition and sets initial settings.
+ *
+ * @param argc The number of cli arguments.
+ * @param argv Array of pointers to cli arguments.
+ */
 int main(int argc, char* argv[]) {
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");

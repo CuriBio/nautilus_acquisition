@@ -37,6 +37,13 @@
 #include <pm/Frame.h>
 
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 pm::Frame::Frame(size_t frameBytes, bool deepCopy, std::shared_ptr<ParTask> pTask) :
     m_frameBytes(frameBytes), m_deepCopy(deepCopy), m_pTask(pTask) {
     if (deepCopy && frameBytes > 0) { //allocate data if using deepcopy
@@ -53,16 +60,40 @@ pm::Frame::~Frame() {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void pm::Frame::SetData(void* data) {
     std::unique_lock<std::mutex> lock(m_mutex);
     setData(data);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void* pm::Frame::GetData() {
     std::unique_lock<std::mutex> lock(m_mutex);
     return m_data;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool pm::Frame::CopyData() {
     std::unique_lock<std::mutex> lock(m_mutex);
     if (m_deepCopy) {
@@ -73,21 +104,41 @@ bool pm::Frame::CopyData() {
     return true;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 FrameInfo* pm::Frame::GetInfo() const {
     std::unique_lock<std::mutex> lock(m_mutex);
     return m_info;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void pm::Frame::SetInfo(const FrameInfo& info) {
     std::unique_lock<std::mutex> lock(m_mutex);
     return setInfo(info);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
-    assert(&from != this);
-    /* std::unique_lock<std::shared_mutex> wrLock(m_mutex, std::defer_lock); */
-    /* std::shared_lock<std::shared_mutex> rdLock(from.m_mutex, std::defer_lock); */
-    /* std::lock(wrLock, rdLock); */
     std::unique_lock<std::mutex> lock(m_mutex);
 
     setData(from.m_dataSrc);
@@ -106,14 +157,36 @@ bool pm::Frame::Copy(const Frame& from, bool deepCopy) {
     return true;
 }
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void pm::Frame::setData(void* data) {
     m_dataSrc = data;
 }
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void pm::Frame::setInfo(const FrameInfo& info) {
     *m_info = info;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool pm::Frame::copyData() {
     m_PMemCopy->Copy(m_data, m_dataSrc, m_frameBytes);
     m_pTask->Start<PMemCopy>(m_PMemCopy);

@@ -31,6 +31,11 @@
 #define PARTASK_INTERFACE_H
 #include <concepts>
 
+/*
+* Task concept for any class that needs to fulfill the task concept.
+*
+* @tparam T class type.
+*/
 template<typename T>
 concept TaskConcept = requires(T c) {
     { c.Run(uint8_t(), uint8_t()) } -> std::same_as<void>;

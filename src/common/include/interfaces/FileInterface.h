@@ -33,6 +33,13 @@
 
 #include "FrameInterface.h"
 
+/*
+* Defines File concept for any class that needs to fulfill the
+* file interface.
+*
+* @tparam T Class type.
+* @param F FrameConcept type.
+*/
 template<typename T, typename F>
 concept FileConcept = FrameConcept<F> and requires(T c, T const cc, F* pframe) {
     { c.Open(std::string()) } -> std::same_as<bool>;

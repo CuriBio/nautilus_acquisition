@@ -21,9 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+/*********************************************************************
+ * @file  Bitmap.cpp
+ * 
+ * @brief Implementation of the Bitmap class.
+ *********************************************************************/
 #include <stdexcept>
 #include "Bitmap.h"
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const BitmapFormat& fmt, uint16_t align)
     : width(w),
     height(h),
@@ -35,6 +49,14 @@ Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const BitmapFormat& fmt, uint
     m_size = stride * height;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const ImageFormat& fmt, int16_t bitDepth, uint16_t align)
     : width(w),
     height(h),
@@ -47,6 +69,13 @@ Bitmap::Bitmap(void* data, uint32_t w, uint32_t h, const ImageFormat& fmt, int16
 }
 
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 Bitmap::Bitmap(uint32_t w, uint32_t h, const BitmapFormat& fmt, uint16_t align)
     : width(w),
     height(h),
@@ -58,32 +87,88 @@ Bitmap::Bitmap(uint32_t w, uint32_t h, const BitmapFormat& fmt, uint16_t align)
     m_data = new uint8_t[m_size];
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 Bitmap::~Bitmap() {
     if (m_deleteData) {
         delete m_data;
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void* Bitmap::GetData() const {
     return m_data;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 size_t Bitmap::GetDataBytes() const {
     return m_size;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 const BitmapFormat& Bitmap::GetFormat() const {
     return m_format;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void Bitmap::ChangeColorMask(BayerPattern colorMask) {
     m_format.SetColorMask(colorMask);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void* Bitmap::GetScanLine(uint16_t y) const {
     return m_data + y * stride;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 double Bitmap::GetSample(uint16_t x, uint16_t y, uint8_t sIdx) const {
     const uint8_t spp = m_format.GetSamplesPerPixel();
     const void* const scanLine = GetScanLine(y);
@@ -101,6 +186,14 @@ double Bitmap::GetSample(uint16_t x, uint16_t y, uint8_t sIdx) const {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 size_t Bitmap::CalculateStrideBytes(uint32_t w, const BitmapFormat& fmt, uint16_t align) {
     const size_t bytesPerPixel = fmt.GetBytesPerPixel();
     const size_t bytesPerLine = w * bytesPerPixel;

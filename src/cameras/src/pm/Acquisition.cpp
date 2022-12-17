@@ -47,6 +47,10 @@
 
 #ifdef _WIN64
 #include <windows.h>
+/*
+* @brief Gets total system memory available.
+* @return Total system memory in bytes.
+*/
 unsigned long long getTotalSystemMemory()
 {
     MEMORYSTATUSEX status;
@@ -338,7 +342,7 @@ bool pm::Acquisition<F, C>::Start(bool saveToDisk, double tiffFillValue, const C
 
 
 template<FrameConcept F, ColorConfigConcept C>
-bool pm::Acquisition<F, C>::Abort() {
+bool pm::Acquisition<F, C>::Stop() {
     m_diskThreadAbortFlag = true;
     m_state = AcquisitionState::AcqStopped;
 
@@ -365,16 +369,17 @@ void pm::Acquisition<F, C>::WaitForStop() {
     return;
 }
 
+
 template<FrameConcept F, ColorConfigConcept C>
 F* pm::Acquisition<F,C>::GetLatestFrame() {
     std::unique_lock<std::mutex> lock(m_lock);
     return m_latestFrame;
 }
 
+
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F,C>::SetLatestFrame(F* frame) {
     std::unique_lock<std::mutex> lock(m_lock);
-    //m_latestFrame->Copy(*frame, true);
     m_latestFrame = frame;
 }
 
@@ -384,10 +389,12 @@ bool pm::Acquisition<F, C>::IsRunning() {
     return m_running;
 }
 
+
 template<FrameConcept F, ColorConfigConcept C>
 AcquisitionState pm::Acquisition<F, C>::GetState() {
     return m_state;
 }
+
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F,C>::LoadTestData(std::string testImgPath) {

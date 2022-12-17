@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  ParTask.h
  * 
- * @brief Definition of the ParTask class.
+ * Definition of the ParTask class.
  *********************************************************************/
 #ifndef PAR_TASK_H
 #define PAR_TASK_H
@@ -42,6 +42,9 @@
 #include <spdlog/spdlog.h>
 #include <interfaces/ParTaskInterface.h>
 
+/*
+* Parallel task executor class.
+*/
 class ParTask {
     private:
         static inline uint32_t taskCount;
@@ -68,10 +71,14 @@ class ParTask {
         uint8_t m_running{0};
 
         bool m_stopFlag{false};
-
         std::function<void(uint8_t, uint8_t)> m_task;
 
     public:
+        /*
+        * Parallel task executor class constructor.
+        *
+        * @param threads Number of threads to run the executor.
+        */
         ParTask(uint8_t threads) : m_threadCount(threads) {
             m_threads.reserve(m_threadCount);
             m_running = 0;
@@ -85,6 +92,9 @@ class ParTask {
             }
         }
 
+        /*
+         * Parallel task executor destructor.
+         */
         ~ParTask() {
             m_stopFlag = true;
             m_mutexCond.notify_all();
@@ -94,6 +104,12 @@ class ParTask {
             }
         }
 
+        /*
+         * Start task.
+         *
+         * @tparam T Task concept type.
+         * @param task Pointer to the task object.
+         */
         template<TaskConcept T>
         void Start(std::shared_ptr<T> task) {
             std::unique_lock<std::mutex> lock(m_taskLock);
@@ -102,6 +118,9 @@ class ParTask {
         }
 
     private:
+        /*
+         * Starts task on all threads.
+         */
         void start() {
             m_running = m_threadCount;
             {
@@ -113,6 +132,11 @@ class ParTask {
             m_waitCond.wait(lock, [&]() { return (m_running == 0); });
         }
 
+        /*
+         * Executor thread function.
+         *
+         * @param taskNum The thread id.
+         */
         void executor(uint8_t taskNum) {
             size_t rem = 0;
 

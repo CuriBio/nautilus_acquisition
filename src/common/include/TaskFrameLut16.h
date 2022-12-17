@@ -26,7 +26,7 @@
 /*********************************************************************
  * @file  TaskFrameLut16.h
  * 
- * @brief Definition of FrameLut16 task class.
+ * Definition of FrameLut16 task class.
  *********************************************************************/
 #ifndef TASK_FRAMELUT16_H
 #define TASK_FRAMELUT16_H
@@ -35,6 +35,10 @@
 #include <vector>
 #include <ranges>
 
+
+/*
+* Parallel LUT construction for frame image data.
+*/
 class TaskFrameLut16 {
     private:
         std::mutex m_lock;
@@ -44,21 +48,44 @@ class TaskFrameLut16 {
         double m_scale;
 
     public:
+        /*
+         * Parallel lut class constructor.
+         */
         TaskFrameLut16() { };
 
+        /*
+         * Parallel lut class destructor.
+         */
         ~TaskFrameLut16() = default;
 
+        /*
+         * Setup parallel lut task.
+         *
+         * @param min The min pixel value.
+         * @param max The max pixel value.
+         */
         void Setup(uint32_t min, uint32_t max) {
             std::unique_lock<std::mutex> lock(m_lock);
             m_min = min; m_max = max;
             m_scale = (max == min) ? 255.0 : 255.0 / static_cast<double>(max-min);
         };
 
+        /*
+         * Returns results for task.
+         *
+         * @return uint16_t Pointer to output data.
+         */
         uint8_t* Results() {
             std::unique_lock<std::mutex> lock(m_lock);
             return &m_lut16[0];
         }
 
+        /*
+         * Run task.
+         *
+         * @param threadCount The number of threads running in parallel.
+         * @param taskNum The id of this task.
+         */
         void Run(uint8_t threadCount, uint8_t taskNum) {
             size_t rem = 0;
             size_t chunkSize = ((1<<16) - 1) / threadCount;

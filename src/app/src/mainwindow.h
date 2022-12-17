@@ -59,6 +59,10 @@ using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
 using pmColorConfig = pm::ColorConfig<ph_color_context>;
 
+
+/*
+ * Nautilus main window class.
+ */
 class MainWindow : public QMainWindow {
     Q_OBJECT
 

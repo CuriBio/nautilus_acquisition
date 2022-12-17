@@ -37,6 +37,28 @@
 
 #include "mainwindow.h"
 
+
+/*
+ * Instance of the main Nautilus application window.
+ *
+ * @param path The output path for captured images.
+ * @param prefix The prefix value for captured image names.
+ * @param niDev The name of the NIDAQmx device controlling the LED light.
+ * @param testImgPath The path to a test image used for testing acquisition software.
+ * @param fps The initial frames per second setting.
+ * @param duration The initial capture duration setting.
+ * @param expTimeMs The initial exposure time.
+ * @param spdtable The initial speed table index.
+ * @param ledIntensity The initial led intensity settings.
+ * @param bufferCount The size of circular buffer to use for acquisition.
+ * @param frameCount The initial frame count for acquisition.
+ * @param storageType The initial image storage type.
+ * @param triggerMode The camera trigger mode.
+ * @param exposureMode The camera exposure mode.
+ * @param maxVoltage The max voltage for the LED controller.
+ * @param noAutoConBright Flag to disable auto contrast/brightness for live view.
+ * @param parent Pointer to parent widget.
+ */
 MainWindow::MainWindow(
     std::string path,
     std::string prefix,
@@ -99,6 +121,9 @@ MainWindow::MainWindow(
 }
 
 
+/*
+ * Initializes main window and camera/acquisition objects.
+ */
 void MainWindow::Initialize() {
     spdlog::info("Initialize camera");
     m_camera = std::make_shared<pmCamera>();
@@ -186,18 +211,23 @@ void MainWindow::Initialize() {
 }
 
 
-/**
- * Slots
+/*
+ * Led Intensity edit box slot, called when user changes the led intensity value.
+ *
+ * @param value The updated led intensity value.
  */
 void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
-    //spdlog::info("ledIntensityEdit value changed: {}", value);
     m_ledIntensity = value;
     double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
-    spdlog::info("Setting led voltage to {}", voltage);
     ledSetVoltage(voltage);
 }
 
 
+/*
+ * Frame Rate edit box slot, called when users changes the FPS value.
+ *
+ * @param value The updated FPS value.
+ */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
     if (m_acquisition && m_acquisition->IsRunning()) {
         spdlog::error("Acquisition running: FPS cannot be changed");
@@ -215,6 +245,11 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
 }
 
 
+/*
+ * Duration edit box slot, called when users changes duration value.
+ *
+ * @param value The updated duration value in seconds.
+ */
 void MainWindow::on_durationEdit_valueChanged(double value) {
     //spdlog::info("durationEdit value changed: {}", value);
     if(m_acquisition && m_acquisition->IsRunning()) {
@@ -233,26 +268,28 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 }
 
 
+/*
+ * Advanced setup button slot, called when user clicks on advanced setup button.
+ * Currently does nothing.
+ */
 void MainWindow::on_advancedSetupBtn_clicked() {
-    spdlog::info("advancedSetupBtn clicked");
-    if(!m_led) {
-        double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
-        spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
-        ledON(voltage);
-    } else {
-        ledOFF();
-    }
-    m_led = !m_led;
-
 }
 
 
+/*
+ * Settings button slot, called when user clicks on settings button.
+ * Currently displays settings dialog.
+ */
 void MainWindow::on_settingsBtn_clicked() {
-    spdlog::info("settingsBtn clicked");
     m_settings->exec();
 }
 
 
+/*
+ * Live Scan button slot, called when user clicks on live scan button.
+ * Will toggle live scan from stopped to running or running to stopped
+ * depending on the current state.
+ */
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
     if (!m_liveScanRunning && !m_acquisitionRunning) {
@@ -270,6 +307,9 @@ void MainWindow::on_liveScanBtn_clicked() {
 }
 
 
+/*
+ * Start Acquisition button slot, called when user clicks on start acquisition.
+ */
 void MainWindow::on_startAcquisitionBtn_clicked() {
     if (!m_acquisitionRunning) {
         ui.startAcquisitionBtn->setText("Stop Acquisition");
@@ -280,6 +320,15 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
 }
 
 
+/*
+ * Starts a new acquisition only if acquisition is currently stopped.
+ * This method will first start the LED, update the exposure settings
+ * based on user input (fps, duration, output dir) and then start the
+ * acquisition. If `saveToDisk` is false then not images will be captured.
+ *
+ * @param saveToDisk Flag to tell acquisition if images should be streamed
+ * to disk or only to live view.
+ */
 void MainWindow::StartAcquisition(bool saveToDisk) {
     std::unique_lock<std::mutex> lock(m_lock);
 
@@ -336,6 +385,9 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 }
 
 
+/*
+ * Stops a running acquisition and turns off LED.
+ */
 void MainWindow::StopAcquisition() {
     std::unique_lock<std::mutex> lock(m_lock);
     if (!m_acquisition) {
@@ -347,11 +399,11 @@ void MainWindow::StopAcquisition() {
         case AcquisitionState::AcqLiveScan:
             spdlog::info("Stopping Live Scan");
             m_liveViewTimer->stop();
-            m_acquisition->Abort();
+            m_acquisition->Stop();
             break;
         case AcquisitionState::AcqCapture:
             spdlog::info("Stopping Capture");
-            m_acquisition->Abort();
+            m_acquisition->Stop();
             break;
         case AcquisitionState::AcqStopped:
             spdlog::info("Acquisition not running");
@@ -363,6 +415,10 @@ void MainWindow::StopAcquisition() {
 }
 
 
+/*
+ * Updates live view with latest image, this is called
+ * by a timer at ~24 FPS.
+ */
 void MainWindow::updateLiveView() {
     if (m_acquisition) {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
@@ -378,6 +434,12 @@ void MainWindow::updateLiveView() {
 }
 
 
+/*
+ * Applies the auto contrast and brightness algorithm
+ * to the current live view image if enabled.
+ *
+ * @param data Raw pixel data to run auto contrast/brightness on.
+ */
 void MainWindow::AutoConBright(const uint16_t* data) {
     //Calculate histogram
     m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
@@ -397,8 +459,8 @@ void MainWindow::AutoConBright(const uint16_t* data) {
 }
 
 
-/**
- * Signals
+/*
+ * Signal to indicate acquisition has finished.
  */
 void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
@@ -423,6 +485,12 @@ void MainWindow::acquisition_done() {
 }
 
 
+/*
+ * Signal to indicate the user has modified the settings.
+ *
+ * @param path The path to save captured images to.
+ * @param prefix The file prefix to use for captured images.
+ */
 void MainWindow::settings_changed(std::filesystem::path path, std::string prefix) {
     spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
     m_path = path;
@@ -433,6 +501,13 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
 }
 
 
+/*
+ * Turns on LED with given voltage.
+ *
+ * @param voltage The value to set analog output voltage to.
+ *
+ * @return True if successful, false otherwise.
+ */
 bool MainWindow::ledON(double voltage) {
     const double data[1] = { voltage };
     uint8_t lines[8] = {1,1,1,1,1,1,1,1};
@@ -458,6 +533,12 @@ bool MainWindow::ledON(double voltage) {
     return rtnval;
 }
 
+
+/*
+ * Turns off LED.
+ *
+ * @return true if successful, false otherwise.
+ */
 bool MainWindow::ledOFF() {
     spdlog::info("led OFF");
     uint8_t lines[8] = {0,0,0,0,0,0,0,0};
@@ -475,6 +556,13 @@ bool MainWindow::ledOFF() {
 }
 
 
+/*
+ * Sets analog output voltage for LED controller.
+ *
+ * @param voltage The voltage value to set on analog output channel.
+ *
+ * @return true is successufl, false otherwise.
+ */
 bool MainWindow::ledSetVoltage(double voltage) {
     const double data[1] = { voltage };
     return (
@@ -485,13 +573,15 @@ bool MainWindow::ledSetVoltage(double voltage) {
 }
 
 
-/**
- * Threads
+/*
+ * Thread that starts actual acquisition and waits for acquisition to finish.
+ *
+ * @param cls Main window object pointer.
+ * @param saveToDisk Flag to enable/disable streaming to disk.
  */
 void MainWindow::acquisitionThread(MainWindow* cls, bool saveToDisk) {
     if (cls->m_acquisition) {
         spdlog::info("Reusing existing acquistion");
-        //cls->m_acquisition = nullptr;
     } else {
         spdlog::info("Creating acquisition");
         cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);

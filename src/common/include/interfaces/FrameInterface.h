@@ -31,6 +31,12 @@
 #define FRAME_INTERFACE_H
 #include <concepts>
 
+
+/*
+* Frame info struct.
+*
+* Struct to hold info about each captured frame.
+*/
 struct FrameInfo {
     FrameInfo& operator=(const FrameInfo& other) {
         if (&other != this)
@@ -58,6 +64,11 @@ struct FrameInfo {
     float colorWbScaleBlue{ 1.0 };
 };
 
+/*
+* Frame concept for any class that needs to fulfill the frame concept.
+*
+* @tparam T Class type.
+*/
 template<typename T>
 concept FrameConcept = requires(T c, const T& f, T const cc, void* vptr, const FrameInfo& pFrameInfo) {
     { c.SetData(vptr) } -> std::same_as<void>;

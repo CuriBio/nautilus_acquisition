@@ -37,6 +37,13 @@
 
 #include <BitmapFormat.h>
 
+
+/*
+ *  LiveView display widget.
+ *
+ * LiveView display widget for painting raw pixel data to screen
+ * using openGL.
+ */
 class LiveView : public QOpenGLWidget {
     Q_OBJECT
 
@@ -50,7 +57,6 @@ class LiveView : public QOpenGLWidget {
         void SetImageFormat(ImageFormat fmt);
 
         //QT Overrides
-        /* void paintEvent(QPaintEvent* event); */
         void initializeGL();
         void paintGL();
 

@@ -38,6 +38,7 @@
 #include <unistd.h>
 #endif
 
+//get page table size in bytes
 const static auto cPageBytes = []() -> size_t {
 #ifdef _WIN32
     SYSTEM_INFO sysInfo;
@@ -48,14 +49,34 @@ const static auto cPageBytes = []() -> size_t {
 #endif
 }();
 
+
+/*
+* Creates new aligned memory allocations for a given alignment.
+*
+* @tparam ALIGN The memory alignment size.
+*/
 template<size_t ALIGN>
 class Allocator {
     public:
         const size_t alignment{ALIGN};
     public:
+        /*
+        * Allocator constructor.
+        */
         Allocator() {};
+
+        /*
+        * Allocator destructor.
+        */
         ~Allocator() {};
 
+        /*
+        * Allocate memory region.
+        *
+        * @param size The size of the new aligned memory region.
+        *
+        * @return Pointer to new memory.
+        */
         void* Allocate(size_t size) {
 #ifdef _WIN32
             return ::_aligned_malloc(size, alignment);
@@ -65,6 +86,11 @@ class Allocator {
 #endif
         };
 
+        /*
+        * Free memory
+        *
+        * @param ptr Pointer to the memory to free.
+        */
         void Free(void* ptr) {
 #ifdef _WIN32
             ::_aligned_free(ptr);

@@ -35,9 +35,24 @@
 #include "NIDAQmx_wrapper.h"
 
 
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 NIDAQmx::NIDAQmx() {
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 NIDAQmx::~NIDAQmx() {
     for (const auto & [taskName, taskHandle] : m_tasks) {
         if (DAQmxStopTask(taskHandle) < 0) {
@@ -52,6 +67,14 @@ NIDAQmx::~NIDAQmx() {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::CreateTask(std::string& taskName) {
     if (!m_tasks.contains(taskName)) {
         TaskHandle handle = (TaskHandle)malloc(sizeof(void*));
@@ -76,6 +99,14 @@ bool NIDAQmx::CreateTask(std::string& taskName) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::ClearTask(std::string& taskName) {
     if(m_tasks.contains(taskName)) {
         if (DAQmxClearTask(m_tasks[taskName]) < 0) {
@@ -89,6 +120,14 @@ bool NIDAQmx::ClearTask(std::string& taskName) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::StartTask(std::string& taskName) {
     if(m_tasks.contains(taskName)) {
         if (DAQmxStartTask(m_tasks[taskName]) < 0) {
@@ -102,6 +141,14 @@ bool NIDAQmx::StartTask(std::string& taskName) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::StopTask(std::string& taskName) {
     if(m_tasks.contains(taskName)) {
         if (DAQmxStopTask(m_tasks[taskName]) < 0) {
@@ -115,6 +162,14 @@ bool NIDAQmx::StopTask(std::string& taskName) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::WaitForTask(std::string& taskName, double waitTimeS) {
     if(m_tasks.contains(taskName)) {
         if (DAQmxWaitUntilTaskDone(m_tasks[taskName], static_cast<float64>(waitTimeS)) < 0) {
@@ -128,6 +183,14 @@ bool NIDAQmx::WaitForTask(std::string& taskName, double waitTimeS) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::CreateAnalogOutpuVoltageChan(std::string& taskName, const char physicalChan[], double minVal, double maxVal, int32_t units) {
     if(m_tasks.contains(taskName)) {
         float64 minv = static_cast<float64>(minVal);
@@ -144,6 +207,14 @@ bool NIDAQmx::CreateAnalogOutpuVoltageChan(std::string& taskName, const char phy
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::CreateDigitalOutputChan(std::string& taskName, const char lines[], int32_t lineGrouping) {
     if(m_tasks.contains(taskName)) {
         if (DAQmxCreateDOChan(m_tasks[taskName], lines, "",  static_cast<int32>(lineGrouping)) < 0) {
@@ -157,6 +228,14 @@ bool NIDAQmx::CreateDigitalOutputChan(std::string& taskName, const char lines[],
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::WriteAnalogF64(
     std::string& taskName,
     int32_t numSampsPerChan,
@@ -185,6 +264,14 @@ bool NIDAQmx::WriteAnalogF64(
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 bool NIDAQmx::WriteDigitalLines(
     std::string& taskName,
     int32_t numSampsPerChan,
@@ -213,6 +300,14 @@ bool NIDAQmx::WriteDigitalLines(
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 std::string NIDAQmx::GetExtendedErrorInfo() {
     char buf[2048];
     DAQmxGetExtendedErrorInfo(buf, 2048);

@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  TiffFile.h
  * 
- * @brief Definition of the TiffFile class.
+ * Definition of the TiffFile class.
  *********************************************************************/
 #ifndef TIFF_FILE_H
 #define TIFF_FILE_H
@@ -39,6 +39,12 @@
 #include <interfaces/AcquisitionInterface.h>
 #include <Bitmap.h>
 
+
+/*
+* Tiff file writer.
+*
+* @tparam F FrameConcept implementation.
+*/
 template<FrameConcept F>
 class TiffFile {
     public:
@@ -64,17 +70,70 @@ class TiffFile {
         uint32_t m_frameIndex{0};
 
     public:
+        /*
+         * TiffFile constructor.
+         *
+         * @params rgn The image capture region.
+         * @param format The image format.
+         * @param bitDepth Image pixel bitdepth.
+         * @param frameCount The number of frames in this image, 1 unless using tiffstack.
+         */
         TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitDepth, uint32_t frameCount);
+
+        /*
+         * TiffFile destructor.
+         */
         ~TiffFile();
 
+        /*
+         * Open tiff file.
+         *
+         * @param name File name.
+         *
+         * @return true if successful, false otherwise.
+         */
         bool Open(std::string name);
+
+        /*
+         * Close tiff file, will flush to disk.
+         */
         void Close();
+
+        /*
+         * Check if file is open.
+         *
+         * @return true if open, false otherwise.
+         */
         bool IsOpen() const;
+
+        /*
+         * File name.
+         *
+         * @return Name of file.
+         */
         const std::string& Name() const;
+
+        /*
+         * Write frame data to file.
+         *
+         * @param frame Pointer to frame.
+         *
+         * @return true if successful, false otherwise.
+         */
         bool WriteFrame(F* frame);
 
+        /*
+         * Helper function to load tiff file data.
+         *
+         * @param path Path to tiff file.
+         * @param width returns width of image.
+         * @param height returns height of image.
+         *
+         * @return uint16_t Pointer to image data.
+         */
         static uint16_t* LoadTIFF(const char* path, uint32_t& width, uint32_t& height);
 };
+
 
 template<FrameConcept F>
 uint16_t* TiffFile<F>::LoadTIFF(const char* path, uint32_t& width, uint32_t& height) {
@@ -112,7 +171,6 @@ uint16_t* TiffFile<F>::LoadTIFF(const char* path, uint32_t& width, uint32_t& hei
 }
 
 
-
 template<FrameConcept F>
 TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitDepth, uint32_t frameCount) :
     m_width((rgn.sbin == 0) ? 0 : (rgn.s2 + 1 - rgn.s1) / rgn.sbin),
@@ -124,9 +182,11 @@ TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitD
     m_bmpFormat(BitmapFormat(format, bitDepth)) {
 }
 
+
 template<FrameConcept F>
 TiffFile<F>::~TiffFile() {
 }
+
 
 template<FrameConcept F>
 bool TiffFile<F>::Open(std::string name) {
@@ -138,6 +198,7 @@ bool TiffFile<F>::Open(std::string name) {
     return true;
 }
 
+
 template<FrameConcept F>
 void TiffFile<F>::Close() {
     if (m_file) {
@@ -147,15 +208,18 @@ void TiffFile<F>::Close() {
     }
 }
 
+
 template<FrameConcept F>
 bool TiffFile<F>::IsOpen() const {
     return !!m_file;
 }
 
+
 template<FrameConcept F>
 const std::string& TiffFile<F>::Name() const {
     return m_name;
 }
+
 
 template<FrameConcept F>
 bool TiffFile<F>::WriteFrame(F* frame) {

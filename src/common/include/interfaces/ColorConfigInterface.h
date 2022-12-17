@@ -31,6 +31,12 @@
 #define COLOR_CONFIG_INTERFACE_H
 #include <concepts>
 
+/*
+* Defines Color Config concept for any class that needs to 
+* fulfill the color config interface.
+*
+* @tparam T Class type param.
+*/
 template<typename T>
 concept ColorConfigConcept = requires(T c) {
     { c.Debayer() } -> std::same_as<void>;

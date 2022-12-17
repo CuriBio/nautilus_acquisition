@@ -36,16 +36,29 @@
 #include "FrameInterface.h"
 #include "ColorConfigInterface.h"
 
+/*
+* @brief Acquisition state
+*/
 enum AcquisitionState {
     AcqStopped,
     AcqLiveScan,
     AcqCapture
 };
 
+
+/*
+* Defines acquisition concept, any class that needs to fulfill this interface must
+* implement all of the methods.
+*
+* @tparam T Type param.
+* @tparam F FrameConcept type.
+* @tparam Color Template type for color config concept.
+* @tparam Cfg Color config type.
+*/
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
 concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx) {
     { c.Start(bool(), double(), cctx) } -> std::same_as<bool>;
-    { c.Abort() } -> std::same_as<bool>;
+    { c.Stop() } -> std::same_as<bool>;
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;
     { c.GetLatestFrame() } -> std::same_as<F*>;

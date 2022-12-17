@@ -28,6 +28,13 @@
 #include <QString>
 #include "settings.h"
 
+/*
+ * Constructs the settings dialog modal.
+ *
+ * @param parent The parent widget.
+ * @param path The initial output path value.
+ * @param prefix The initial file prefix value.
+ */
 Settings::Settings(QWidget* parent, std::filesystem::path path, std::string prefix) : QDialog(parent) {
     ui.setupUi(this);
 
@@ -38,19 +45,30 @@ Settings::Settings(QWidget* parent, std::filesystem::path path, std::string pref
     ui.filePrefix->setPlainText(prefix.c_str());
 }
 
+
+/*
+ * Settings destructor.
+ */
 Settings::~Settings() {
 }
 
+
+/*
+ * Directory choice button slot, called when user clicks on directory selector.
+ * Sets the output directory path.
+ */
 void Settings::on_dirChoiceBtn_clicked() {
-    spdlog::info("Dir Choice button clicked");
     auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", "C:\\Users");
 
     ui.dirChoice->setPlainText(dir);
     spdlog::info("Selected dir: {}", dir.toStdString());
 }
 
+
+/*
+ * Emits signal for when a user accepts changes to settings.
+ */
 void Settings::on_modalChoice_accepted() {
-    spdlog::info("Accepted");
     emit sig_settings_changed(
         ui.dirChoice->toPlainText().toStdString(),
         ui.filePrefix->toPlainText().toStdString()
@@ -58,7 +76,11 @@ void Settings::on_modalChoice_accepted() {
     this->accept();
 }
 
+
+/*
+ *
+ * Cancels updating settings dialog value when user clicks cancel.
+ */
 void Settings::on_modalChoice_rejected() {
-    spdlog::info("Rejected");
     this->reject();
 }

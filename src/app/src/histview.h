@@ -37,6 +37,11 @@
 #include <QOpenGLFunctions>
 
 
+/*
+ * Histogram view widget.
+ *
+ * Displays an 8bit histogram for the current image in live view.
+ */
 class HistView : public QOpenGLWidget {
     Q_OBJECT
 

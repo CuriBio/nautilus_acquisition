@@ -31,66 +31,177 @@
 #include <stdexcept>
 #include <BitmapFormat.h>
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BitmapFormat::BitmapFormat() {
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BitmapFormat::BitmapFormat(ImageFormat imageFormat, uint16_t bitDepth)
     : m_imageFormat(imageFormat), m_bitDepth(bitDepth)
 {
     SetupPixelAndDataType(imageFormat);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BitmapFormat::BitmapFormat(BitmapPixelType pixelType, BitmapDataType dataType, uint16_t bitDepth)
  : m_pixelType(pixelType), m_dataType(dataType), m_bitDepth(bitDepth)
 {
     SetupImageFormat(pixelType, dataType);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 ImageFormat BitmapFormat::GetImageFormat() const {
     return m_imageFormat;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetImageFormat(ImageFormat imageFormat) {
     SetupPixelAndDataType(imageFormat);
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BitmapPixelType BitmapFormat::GetPixelType() const {
     return m_pixelType;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetPixelType(BitmapPixelType pixelType) {
     SetupImageFormat(pixelType, m_dataType);
     m_pixelType = pixelType;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BitmapDataType BitmapFormat::GetDataType() const {
     return m_dataType;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetDataType(BitmapDataType dataType) {
     SetupImageFormat(m_pixelType, dataType);
     m_dataType = dataType;
 }
 
-uint16_t BitmapFormat::GetBitDepth() const
-{
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
+uint16_t BitmapFormat::GetBitDepth() const {
     return m_bitDepth;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 BayerPattern BitmapFormat::GetColorMask() const {
     return m_colorMask;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetColorMask(BayerPattern colorMask) {
     m_colorMask = colorMask;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 size_t BitmapFormat::GetBytesPerPixel() const {
     const uint8_t samplesPerPixel = GetSamplesPerPixel();
     const size_t bytesPerSample = GetBytesPerSample();
     return samplesPerPixel * bytesPerSample;
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 size_t BitmapFormat::GetBytesPerSample() const {
     switch (m_dataType)
     {
@@ -105,6 +216,14 @@ size_t BitmapFormat::GetBytesPerSample() const {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 uint8_t BitmapFormat::GetSamplesPerPixel() const {
     switch (m_pixelType)
     {
@@ -117,6 +236,14 @@ uint8_t BitmapFormat::GetSamplesPerPixel() const {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetupPixelAndDataType(ImageFormat imageFormat) {
     switch (imageFormat)
     {
@@ -152,6 +279,14 @@ void BitmapFormat::SetupPixelAndDataType(ImageFormat imageFormat) {
     }
 }
 
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
 void BitmapFormat::SetupImageFormat(BitmapPixelType pixelType, BitmapDataType dataType) {
     switch (dataType)
     {
