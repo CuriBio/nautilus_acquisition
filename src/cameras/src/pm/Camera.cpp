@@ -719,7 +719,7 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
         ctx->buffer = nullptr;
     }
 
-    //PVCAM, at least the virtual cam, will only allow up to 4GB buffer
+    //PVCAM, at least the virtual cam, will only allow up to 2GB buffer for PCIE
     //so allocate as much as allowed here
     uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
     spdlog::info("MaxBuffers {}", maxBuffers);

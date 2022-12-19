@@ -18,10 +18,10 @@ target_include_directories(${PROJECT_NAME}
 # Dependencies
 find_package(spdlog)
 find_package(cxxopts)
+find_package(toml11)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets)
 qt_standard_project_setup()
-
 
 # linking against the desired targets
 IF (WIN32)
@@ -35,6 +35,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::OpenGLWidgets
     PUBLIC
     spdlog::spdlog
+    toml11::toml11
     pvcam_incl
     libtiff_incl
     Common
@@ -51,6 +52,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::OpenGLWidgets
     PUBLIC
     spdlog::spdlog
+    toml11::toml11
     pvcam_incl
     libtiff_incl
     Common

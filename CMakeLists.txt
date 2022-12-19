@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.0.1)
+set(NAUTILUS_VERSION 0.0.2)
 
 project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
 set(PROJECT_BRIEF "Nautilus Acquisition")
@@ -70,6 +70,9 @@ set(PROJECT_BUILD ${CMAKE_CURRENT_BINARY_DIR})
 
 #Install license.txt
 install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+#Install config file
+install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilus.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 add_subdirectory(libs)
 add_subdirectory(src)

@@ -35,6 +35,7 @@
 #include <cxxopts.hpp>
 #include <QtWidgets/QApplication>
 
+#include <toml.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/logger.h>
 #include "spdlog/sinks/basic_file_sink.h"
@@ -62,6 +63,8 @@ int main(int argc, char* argv[]) {
         userProfile = std::string(up);
     }
 
+    auto config = toml::parse("nautilus.toml");
+
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", userProfile.string(), fmt::localtime(ts));
 
@@ -74,20 +77,20 @@ int main(int argc, char* argv[]) {
 
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
-      ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>()->default_value("false"))
-      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>()->default_value("0"))
-      ("d,duration", "Acquisition duration", cxxopts::value<double>()->default_value("1.0"))
-      ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>()->default_value("5"))
-      ("f,fps", "Frames Per Second", cxxopts::value<double>()->default_value("10.0"))
-      ("l,led", "LED intensity", cxxopts::value<double>()->default_value("50.0"))
-      ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>()->default_value("0"))
-      ("n,no_gui", "Disable GUI", cxxopts::value<bool>()->default_value("false")) // a bool parameter
-      ("o,outdir", "Output directory", cxxopts::value<std::string>()->default_value(userProfile.string()))
-      ("p,prefix", "Output file prefix", cxxopts::value<std::string>()->default_value("default_"))
-      ("s,storage_type", "Storage type", cxxopts::value<int>()->default_value("0"))
-      ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>()->default_value("1"))
-      ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>()->default_value("1.4"))
-      ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>()->default_value("Dev2"))
+      ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>())
+      ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>())
+      ("d,duration", "Acquisition duration", cxxopts::value<double>())
+      ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>())
+      ("f,fps", "Frames Per Second", cxxopts::value<double>())
+      ("l,led", "LED intensity", cxxopts::value<double>())
+      ("m,trigger_mode", "Camera trigger mode", cxxopts::value<int>())
+      ("o,outdir", "Output directory", cxxopts::value<std::string>())
+      ("p,prefix", "Output file prefix", cxxopts::value<std::string>())
+      ("s,storage_type", "Storage type", cxxopts::value<int>())
+      ("t,spdtable", "Speed table index", cxxopts::value<uint16_t>())
+      ("v,max_voltage", "LED controller max voltage", cxxopts::value<double>())
+      ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>())
+      ("n,no_gui", "Disable GUI")
       ("test_img", "Use test image", cxxopts::value<std::string>())
       ("version", "Nautilus version")
       ("h,help", "Usage")
@@ -111,50 +114,97 @@ int main(int argc, char* argv[]) {
     }
 
 
-
-    std::string path = userargs["outdir"].as<std::string>();
+    std::string path = toml::find_or<std::string>(config, "nautilus", "outdir", userProfile.string());
+    if (userargs.count("outdir")) {
+        path = userargs["outdir"].as<std::string>();
+    }
     spdlog::info("Output directory: {}", path);
 
-    std::string prefix = userargs["prefix"].as<std::string>();
+
+    auto prefix = toml::find_or<std::string>(config, "nautilus", "prefix", std::string("default_"));
+    if (userargs.count("prefix")) {
+        prefix = userargs["prefix"].as<std::string>();
+    }
     spdlog::info("File prefix: {}", prefix);
 
-    double fps = userargs["fps"].as<double>();
+
+    double fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
+    if (userargs.count("fps")) {
+        fps = userargs["fps"].as<double>();
+    }
     spdlog::info("FPS: {}", fps);
 
-    double duration = userargs["duration"].as<double>();
+
+    double duration = toml::find_or<double>(config, "acquisition", "duration", 1.0);
+    if (userargs.count("duration")) {
+        duration = userargs["duration"].as<double>();
+    }
     spdlog::info("Duration (s): {}", duration);
 
-    uint32_t bufferCount = userargs["buffers"].as<uint32_t>();
+
+    uint32_t bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
+    if (userargs.count("buffers")) {
+        bufferCount = userargs["buffers"].as<uint32_t>();
+    }
     spdlog::info("Buffer count: {}", bufferCount);
+
 
     uint32_t frameCount = static_cast<uint32_t>(duration * fps);
     spdlog::info("Frame count: {}", frameCount);
 
-    uint16_t spdtable = userargs["spdtable"].as<uint16_t>();
+
+    uint16_t spdtable = toml::find_or<uint16_t>(config, "device", "photometrics", "speed_table_index", 0);
+    if (userargs.count("spdtable")) {
+        spdtable = userargs["spdtable"].as<uint16_t>();
+    }
     spdlog::info("Speed table index: {}", spdtable);
 
-    double ledIntensity = userargs["led"].as<double>();
+
+    double ledIntensity = toml::find_or<double>(config, "acquisition", "led_intensity", 50.0);
+    if (userargs.count("led")) {
+        ledIntensity = userargs["led"].as<double>();
+    }
     spdlog::info("LED intensity: {}", ledIntensity);
+
 
     double expTimeMS = 1000 * (1.0 / fps);
     spdlog::info("Exposure time (ms): {}", expTimeMS);
 
-    double maxVoltage = userargs["max_voltage"].as<double>();
+
+    double maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
+    if (userargs.count("max_voltage")) {
+        maxVoltage = userargs["max_voltage"].as<double>();
+    }
     spdlog::info("Max voltage: {}", maxVoltage);
 
-    bool noAutoConBright = userargs["no_autocb"].as<bool>();
-    spdlog::info("Disable auto contrast/brightness: {}", noAutoConBright);
+
+    std::string nidaqmx = toml::find_or<std::string>(config, "device", "nidaqmx", "device", std::string("Dev2"));
+    if (userargs.count("ni_dev")) {
+        nidaqmx = userargs["ni_dev"].as<std::string>();
+    }
+    spdlog::info("NI Dev: {}", nidaqmx);
+
+
+    bool autoConBright = toml::find_or<bool>(config, "nautilus", "auto_contrast_brightness", true);
+    if (userargs.count("no_autocb")) {
+        autoConBright = false;
+    }
+    spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
+
 
     std::string testImgPath = "";
     if (userargs.count("test_img")) {
         testImgPath = userargs["test_img"].as<std::string>();
     }
 
-    std::string niDev = userargs["ni_dev"].as<std::string>();
-    spdlog::info("NI Dev: {}", niDev);
+
+    int storage_type = toml::find_or<int>(config, "acquisition", "storage_type", 0);
+    if (userargs.count("storage_type")) {
+        storage_type = userargs["storage_type"].as<int>();
+    }
 
     StorageType storageType;
-    switch (userargs["storage_type"].as<int>()) {
+    switch (storage_type) {
         case 0:
             spdlog::info("Storage type: {}", "tiff");
             storageType = StorageType::Tiff;
@@ -172,8 +222,13 @@ int main(int argc, char* argv[]) {
             exit(0);
     }
 
-    int16_t triggerMode;
-    switch (userargs["trigger_mode"].as<int>()) {
+
+    int16_t triggerMode = toml::find_or<int16_t>(config, "device", "photometrics", "trigger_mode", 0);
+    if (userargs.count("trigger_mode")) {
+        triggerMode = userargs["trigger_mode"].as<int16_t>();
+    }
+
+    switch (triggerMode) {
         case 0:
             spdlog::info("Trigger mode: {}", "EXT_TRIG_INTERNAL");
             triggerMode = EXT_TRIG_INTERNAL;
@@ -211,8 +266,13 @@ int main(int argc, char* argv[]) {
             exit(0);
     }
 
-    int16_t exposureMode;
-    switch (userargs["exposure_mode"].as<int>()) {
+
+    int16_t exposureMode = toml::find_or<int16_t>(config, "device", "photometrics", "exposure_mode", 5);
+    if (userargs.count("exposure_mode")) {
+        exposureMode = userargs["exposure_mode"].as<int16_t>();
+    }
+
+    switch (exposureMode) {
         case 0:
             spdlog::info("Exposure out mode: {}", "EXPOSE_OUT_FIRST_ROW");
             exposureMode = EXPOSE_OUT_FIRST_ROW;
@@ -246,14 +306,14 @@ int main(int argc, char* argv[]) {
             break;
     }
 
-    if (!userargs["no_gui"].as<bool>()) {
+    if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
 
         MainWindow win(
             path,
             prefix,
-            niDev,
+            nidaqmx,
             testImgPath,
             fps,
             duration,
@@ -266,7 +326,7 @@ int main(int argc, char* argv[]) {
             triggerMode,
             exposureMode,
             maxVoltage,
-            noAutoConBright
+            autoConBright
         );
 
         win.resize(800, 640);

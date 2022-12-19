@@ -56,7 +56,7 @@
  * @param triggerMode The camera trigger mode.
  * @param exposureMode The camera exposure mode.
  * @param maxVoltage The max voltage for the LED controller.
- * @param noAutoConBright Flag to disable auto contrast/brightness for live view.
+ * @param autoConBright Flag to disable auto contrast/brightness for live view.
  * @param parent Pointer to parent widget.
  */
 MainWindow::MainWindow(
@@ -75,7 +75,7 @@ MainWindow::MainWindow(
     uint16_t triggerMode,
     uint16_t exposureMode,
     double maxVoltage,
-    bool noAutoConBright,
+    bool autoConBright,
     QMainWindow *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -84,7 +84,7 @@ MainWindow::MainWindow(
     m_prefix = prefix;
     m_niDev = niDev;
     m_testImgPath = testImgPath;
-    m_autoConBright = !noAutoConBright;
+    m_autoConBright = autoConBright;
 
     m_settings = new Settings(this, m_path, m_prefix);
 
