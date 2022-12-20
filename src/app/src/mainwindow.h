@@ -33,6 +33,8 @@
 #include <filesystem>
 #include <string>
 
+#include <toml.hpp>
+
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
 #include <interfaces/FrameInterface.h>
@@ -84,6 +86,8 @@ class MainWindow : public QMainWindow {
             uint16_t exposureMode,
             double maxVoltage,
             bool noAutoConBright,
+            std::vector<std::pair<int,int>> stageLocations,
+            toml::value& config,
             QMainWindow* parent = nullptr
         );
 
@@ -118,12 +122,92 @@ class MainWindow : public QMainWindow {
         void on_settingsBtn_clicked();
         void on_startAcquisitionBtn_clicked();
 
+        void on_stageRightBtn_clicked() {
+            ui.curPosX->setValue(m_curPosX+1);
+        };
+
+        void on_stageLeftBtn_clicked() {
+            ui.curPosX->setValue(m_curPosX-1);
+        };
+
+        void on_stageUpBtn_clicked() {
+            ui.curPosY->setValue(m_curPosY+1);
+        };
+
+        void on_stageDownBtn_clicked() {
+            ui.curPosY->setValue(m_curPosY-1);
+        };
+
+        void on_curPosBtn_clicked() {
+            spdlog::info("Setting stage position x: {}, y: {}", m_curPosX, m_curPosY);
+        }
+
+
+        void on_savePos1Btn_clicked() {
+            ui.xPos1->setValue(m_curPosX);
+            ui.yPos1->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_savePos2Btn_clicked() {
+            ui.xPos2->setValue(m_curPosX);
+            ui.yPos2->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_savePos3Btn_clicked() {
+            ui.xPos3->setValue(m_curPosX);
+            ui.yPos3->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_savePos4Btn_clicked() {
+            ui.xPos4->setValue(m_curPosX);
+            ui.yPos4->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_savePos5Btn_clicked() {
+            ui.xPos5->setValue(m_curPosX);
+            ui.yPos5->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_savePos6Btn_clicked() {
+            ui.xPos6->setValue(m_curPosX);
+            ui.yPos6->setValue(m_curPosY);
+            updateConfig();
+        };
+
+        void on_curPosX_valueChanged(int value) { m_curPosX = value; };
+        void on_curPosY_valueChanged(int value) { m_curPosY = value; };
+
+        void on_xPos1_valueChanged(int value) { m_stageLocations[0].first = value; };
+        void on_yPos1_valueChanged(int value) { m_stageLocations[0].second = value; };
+
+        void on_xPos2_valueChanged(int value) { m_stageLocations[1].first = value; };
+        void on_yPos2_valueChanged(int value) { m_stageLocations[1].second = value; };
+
+        void on_xPos3_valueChanged(int value) { m_stageLocations[2].first = value; };
+        void on_yPos3_valueChanged(int value) { m_stageLocations[2].second = value; };
+
+        void on_xPos4_valueChanged(int value) { m_stageLocations[3].first = value; };
+        void on_yPos4_valueChanged(int value) { m_stageLocations[3].second = value; };
+
+        void on_xPos5_valueChanged(int value) { m_stageLocations[4].first = value; };
+        void on_yPos5_valueChanged(int value) { m_stageLocations[4].second = value; };
+
+        void on_xPos6_valueChanged(int value) { m_stageLocations[5].first = value; };
+        void on_yPos6_valueChanged(int value) { m_stageLocations[5].second = value; };
+
         void updateLiveView();
 
     private:
         Ui::MainWindow ui;
         Settings* m_settings {nullptr};
         std::mutex m_lock;
+
+        toml::value m_config{};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
@@ -148,19 +232,6 @@ class MainWindow : public QMainWindow {
         std::string m_prefix;
         std::string m_testImgPath;
 
-        CameraInfo m_camInfo;
-        ExpSettings m_expSettings {
-            .acqMode = AcqMode::LiveCircBuffer,
-            .region = {} ,
-            .storageType = StorageType::Tiff,
-            .spdTableIdx = 0,
-            .expTimeMS = 0,
-            .trigMode = EXT_TRIG_INTERNAL,
-            .expModeOut = EXPOSE_OUT_GLOBAL_SHUTTER,
-            .frameCount = 0,
-            .bufferCount = 100
-        };
-
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
         bool m_autoConBright{true};
@@ -179,6 +250,22 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
         std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
 
+        std::vector<std::pair<int,int>> m_stageLocations;
+        int m_curPosX{0}, m_curPosY{0};
+
+        CameraInfo m_camInfo;
+        ExpSettings m_expSettings {
+            .acqMode = AcqMode::LiveCircBuffer,
+            .region = {} ,
+            .storageType = StorageType::Tiff,
+            .spdTableIdx = 0,
+            .expTimeMS = 0,
+            .trigMode = EXT_TRIG_INTERNAL,
+            .expModeOut = EXPOSE_OUT_GLOBAL_SHUTTER,
+            .frameCount = 0,
+            .bufferCount = 100
+        };
+
     private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
@@ -190,6 +277,8 @@ class MainWindow : public QMainWindow {
 
         static void liveViewThreadFn(MainWindow* cls);
         static void acquisitionThread(MainWindow* cls, bool saveToDisk);
+
+        void updateConfig();
 };
 
 #endif

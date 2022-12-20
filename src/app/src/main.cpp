@@ -192,6 +192,14 @@ int main(int argc, char* argv[]) {
     spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
 
 
+    std::vector<std::pair<int,int>> stageLocations{};
+    for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) {
+        auto x = v.at("x").as_integer();
+        auto y = v.at("y").as_integer();
+        stageLocations.push_back(std::pair<int,int>(x,y));
+    }
+
+
     std::string testImgPath = "";
     if (userargs.count("test_img")) {
         testImgPath = userargs["test_img"].as<std::string>();
@@ -326,7 +334,9 @@ int main(int argc, char* argv[]) {
             triggerMode,
             exposureMode,
             maxVoltage,
-            autoConBright
+            autoConBright,
+            stageLocations,
+            config
         );
 
         win.resize(800, 640);

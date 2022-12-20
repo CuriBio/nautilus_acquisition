@@ -76,6 +76,8 @@ MainWindow::MainWindow(
     uint16_t exposureMode,
     double maxVoltage,
     bool autoConBright,
+    std::vector<std::pair<int,int>> stageLocations,
+    toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -85,6 +87,7 @@ MainWindow::MainWindow(
     m_niDev = niDev;
     m_testImgPath = testImgPath;
     m_autoConBright = autoConBright;
+    m_stageLocations = stageLocations;
 
     m_settings = new Settings(this, m_path, m_prefix);
 
@@ -94,6 +97,7 @@ MainWindow::MainWindow(
     m_spdtable = spdtable;
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
+    m_config = config;
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -208,6 +212,28 @@ void MainWindow::Initialize() {
     ui.ledIntensityEdit->setValue(m_ledIntensity);
     ui.frameRateEdit->setValue(m_fps);
     ui.durationEdit->setValue(m_duration);
+
+    //set starting stage locations
+    ui.xPos1->setValue(m_stageLocations[0].first);
+    ui.yPos1->setValue(m_stageLocations[0].second);
+
+    ui.xPos2->setValue(m_stageLocations[1].first);
+    ui.yPos2->setValue(m_stageLocations[1].second);
+
+    ui.xPos3->setValue(m_stageLocations[2].first);
+    ui.yPos3->setValue(m_stageLocations[2].second);
+
+    ui.xPos4->setValue(m_stageLocations[3].first);
+    ui.yPos4->setValue(m_stageLocations[3].second);
+
+    ui.xPos5->setValue(m_stageLocations[4].first);
+    ui.yPos5->setValue(m_stageLocations[4].second);
+
+    ui.xPos6->setValue(m_stageLocations[5].first);
+    ui.yPos6->setValue(m_stageLocations[5].second);
+
+    ui.curPosX->setValue(m_curPosX);
+    ui.curPosY->setValue(m_curPosY);
 }
 
 
@@ -319,6 +345,23 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
     }
 }
 
+
+void MainWindow::updateConfig() {
+    int i = 0;
+    for (auto& v : m_stageLocations) {
+        m_config["stage"]["location"][i]["x"] = toml::value(v.first);
+        m_config["stage"]["location"][i]["y"] = toml::value(v.second);
+        i++;
+    }
+    spdlog::info("updated stage locations vector");
+
+    std::ofstream outf;
+    outf.open("nautilus.toml");
+    outf << m_config << std::endl;
+    outf.close();
+
+    spdlog::info("wrote config");
+}
 
 /*
  * Starts a new acquisition only if acquisition is currently stopped.
