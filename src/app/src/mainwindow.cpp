@@ -356,7 +356,12 @@ void MainWindow::updateConfig() {
     spdlog::info("updated stage locations vector");
 
     std::ofstream outf;
+#ifdef _WIN
+    std::filesystem::path install{"/Program\ Files/Nautilus/nautilus.toml"};
+    outf.open(install.string());
+#else
     outf.open("nautilus.toml");
+#endif
     outf << m_config << std::endl;
     outf.close();
 
