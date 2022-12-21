@@ -77,6 +77,7 @@ MainWindow::MainWindow(
     double maxVoltage,
     bool autoConBright,
     std::vector<std::pair<int,int>> stageLocations,
+    std::string configPath,
     toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)
 {
@@ -98,6 +99,7 @@ MainWindow::MainWindow(
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
     m_config = config;
+    m_configPath = configPath;
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -353,19 +355,11 @@ void MainWindow::updateConfig() {
         m_config["stage"]["location"][i]["y"] = toml::value(v.second);
         i++;
     }
-    spdlog::info("updated stage locations vector");
 
     std::ofstream outf;
-#ifdef _WIN
-    std::filesystem::path install{"/Program\ Files/Nautilus/nautilus.toml"};
-    outf.open(install.string());
-#else
-    outf.open("nautilus.toml");
-#endif
+    outf.open(m_configPath);
     outf << m_config << std::endl;
     outf.close();
-
-    spdlog::info("wrote config");
 }
 
 /*

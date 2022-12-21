@@ -361,6 +361,7 @@ int main(int argc, char* argv[]) {
             maxVoltage,
             autoConBright,
             stageLocations,
+            configPath,
             config
         );
 

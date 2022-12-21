@@ -87,6 +87,7 @@ class MainWindow : public QMainWindow {
             double maxVoltage,
             bool noAutoConBright,
             std::vector<std::pair<int,int>> stageLocations,
+            std::string configPath,
             toml::value& config,
             QMainWindow* parent = nullptr
         );
@@ -208,6 +209,7 @@ class MainWindow : public QMainWindow {
         std::mutex m_lock;
 
         toml::value m_config{};
+        std::string configPath{};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
