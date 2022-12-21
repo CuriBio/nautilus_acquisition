@@ -57,13 +57,40 @@
  * @param argv Array of pointers to cli arguments.
  */
 int main(int argc, char* argv[]) {
+    std::cout << banner << std::endl;
+    spdlog::info("Nautilus Version: {}", version);
+
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
         userProfile = std::string(up);
     }
 
-    auto config = toml::parse("nautilus.toml");
+/* #ifdef _WIN */
+/*     std::filesystem::path install{"/Program\ Files/Nautilus/nautilus.toml"}; */
+/*     auto config = toml::parse(install.string()); */
+/* #else */
+//#endif
+
+    std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
+    std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
+
+    if (!std::filesystem::exists(configPath.string())) {
+        spdlog::info("Creating {}", configPath.string());
+        std::filesystem::create_directory(configPath.string());
+    }
+
+    if (!std::filesystem::exists(configFile)) {
+        spdlog::info("Creating {}", configFile.string());
+        auto cfg = toml::parse("nautilus.toml");
+        std::ofstream outf;
+        outf.open(configFile.string());
+        outf << cfg << std::endl;
+    }
+    spdlog::info("Reading config file {}", configFile.string());
+    auto config = toml::parse(configFile.string());
+
+
 
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", userProfile.string(), fmt::localtime(ts));
@@ -105,8 +132,6 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-    std::cout << banner << std::endl;
-    spdlog::info("Nautilus Version: {}", version);
 
     if (userargs.count("help")) {
         std::cout << options.help() << std::endl;
@@ -336,6 +361,7 @@ int main(int argc, char* argv[]) {
             maxVoltage,
             autoConBright,
             stageLocations,
+            configFile.string(),
             config
         );
 
