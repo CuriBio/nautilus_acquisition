@@ -63,7 +63,12 @@ int main(int argc, char* argv[]) {
         userProfile = std::string(up);
     }
 
+#ifdef _WIN
+    std::filesystem::path install{"/Program\ Files/Nautilus/nautilus.toml"};
+    auto config = toml::parse(install.string());
+#else
     auto config = toml::parse("nautilus.toml");
+#endif
 
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", userProfile.string(), fmt::localtime(ts));
