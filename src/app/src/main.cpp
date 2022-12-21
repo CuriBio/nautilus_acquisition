@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
 /* #else */
 //#endif
 
-#ifdef _WIN
     std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
     std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilius.toml", userProfile.string())};
 
@@ -85,10 +84,8 @@ int main(int argc, char* argv[]) {
         outf.open(configFile.string());
         outf << cfg << std::endl;
     }
+    spdlog::info("Reading config file {}", configFile.string());
     auto config = toml::parse(configFile.string());
-#else
-    auto config = toml::parse("nautilus.toml");
-#endif
 
 
 
