@@ -58,22 +58,30 @@
  */
 int main(int argc, char* argv[]) {
     std::cout << banner << std::endl;
-    spdlog::info("Nautilus Version: {}", version);
 
+    //get user profile path
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
         userProfile = std::string(up);
     }
 
-/* #ifdef _WIN */
-/*     std::filesystem::path install{"/Program\ Files/Nautilus/nautilus.toml"}; */
-/*     auto config = toml::parse(install.string()); */
-/* #else */
-//#endif
-
+    //create AppData directory for log files/config
     std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
     std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
+
+    std::time_t ts = std::time(nullptr);
+    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", configPath.string(), fmt::localtime(ts));
+
+    auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
+
+    std::vector<spdlog::sink_ptr> sinks{stderr_sink, file_sink};
+    auto logger = std::make_shared<spdlog::logger>("nautilus", std::begin(sinks), std::end(sinks));
+    spdlog::set_default_logger(logger);
+
+    spdlog::info("Nautilus Version: {}", version);
+
 
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());
@@ -92,15 +100,6 @@ int main(int argc, char* argv[]) {
 
 
 
-    std::time_t ts = std::time(nullptr);
-    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", userProfile.string(), fmt::localtime(ts));
-
-    auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
-
-    std::vector<spdlog::sink_ptr> sinks{stderr_sink, file_sink};
-    auto logger = std::make_shared<spdlog::logger>("nautilus", std::begin(sinks), std::end(sinks));
-    spdlog::set_default_logger(logger);
 
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
@@ -217,11 +216,11 @@ int main(int argc, char* argv[]) {
     spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
 
 
-    std::vector<std::pair<int,int>> stageLocations{};
+    std::vector<std::pair<double,double>> stageLocations{};
     for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) {
-        auto x = v.at("x").as_integer();
-        auto y = v.at("y").as_integer();
-        stageLocations.push_back(std::pair<int,int>(x,y));
+        auto x = static_cast<double>(v.at("x").as_floating());
+        auto y = static_cast<double>(v.at("y").as_floating());
+        stageLocations.push_back(std::pair<double, double>(x,y));
     }
 
 

@@ -76,7 +76,7 @@ MainWindow::MainWindow(
     uint16_t exposureMode,
     double maxVoltage,
     bool autoConBright,
-    std::vector<std::pair<int,int>> stageLocations,
+    std::vector<std::pair<double,double>> stageLocations,
     std::string configFile,
     toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)

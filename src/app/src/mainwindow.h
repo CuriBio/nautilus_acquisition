@@ -86,7 +86,7 @@ class MainWindow : public QMainWindow {
             uint16_t exposureMode,
             double maxVoltage,
             bool noAutoConBright,
-            std::vector<std::pair<int,int>> stageLocations,
+            std::vector<std::pair<double,double>> stageLocations,
             std::string configFile,
             toml::value& config,
             QMainWindow* parent = nullptr
@@ -180,26 +180,26 @@ class MainWindow : public QMainWindow {
             updateConfig();
         };
 
-        void on_curPosX_valueChanged(int value) { m_curPosX = value; };
-        void on_curPosY_valueChanged(int value) { m_curPosY = value; };
+        void on_curPosX_valueChanged(double value) { m_curPosX = value; };
+        void on_curPosY_valueChanged(double value) { m_curPosY = value; };
 
-        void on_xPos1_valueChanged(int value) { m_stageLocations[0].first = value; };
-        void on_yPos1_valueChanged(int value) { m_stageLocations[0].second = value; };
+        void on_xPos1_valueChanged(double value) { m_stageLocations[0].first = value; };
+        void on_yPos1_valueChanged(double value) { m_stageLocations[0].second = value; };
 
-        void on_xPos2_valueChanged(int value) { m_stageLocations[1].first = value; };
-        void on_yPos2_valueChanged(int value) { m_stageLocations[1].second = value; };
+        void on_xPos2_valueChanged(double value) { m_stageLocations[1].first = value; };
+        void on_yPos2_valueChanged(double value) { m_stageLocations[1].second = value; };
 
-        void on_xPos3_valueChanged(int value) { m_stageLocations[2].first = value; };
-        void on_yPos3_valueChanged(int value) { m_stageLocations[2].second = value; };
+        void on_xPos3_valueChanged(double value) { m_stageLocations[2].first = value; };
+        void on_yPos3_valueChanged(double value) { m_stageLocations[2].second = value; };
 
-        void on_xPos4_valueChanged(int value) { m_stageLocations[3].first = value; };
-        void on_yPos4_valueChanged(int value) { m_stageLocations[3].second = value; };
+        void on_xPos4_valueChanged(double value) { m_stageLocations[3].first = value; };
+        void on_yPos4_valueChanged(double value) { m_stageLocations[3].second = value; };
 
-        void on_xPos5_valueChanged(int value) { m_stageLocations[4].first = value; };
-        void on_yPos5_valueChanged(int value) { m_stageLocations[4].second = value; };
+        void on_xPos5_valueChanged(double value) { m_stageLocations[4].first = value; };
+        void on_yPos5_valueChanged(double value) { m_stageLocations[4].second = value; };
 
-        void on_xPos6_valueChanged(int value) { m_stageLocations[5].first = value; };
-        void on_yPos6_valueChanged(int value) { m_stageLocations[5].second = value; };
+        void on_xPos6_valueChanged(double value) { m_stageLocations[5].first = value; };
+        void on_yPos6_valueChanged(double value) { m_stageLocations[5].second = value; };
 
         void updateLiveView();
 
@@ -252,8 +252,8 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
         std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
 
-        std::vector<std::pair<int,int>> m_stageLocations;
-        int m_curPosX{0}, m_curPosY{0};
+        std::vector<std::pair<double, double>> m_stageLocations;
+        double m_curPosX{0}, m_curPosY{0};
 
         CameraInfo m_camInfo;
         ExpSettings m_expSettings {
