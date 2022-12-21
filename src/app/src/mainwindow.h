@@ -209,7 +209,7 @@ class MainWindow : public QMainWindow {
         std::mutex m_lock;
 
         toml::value m_config{};
-        std::string configPath{};
+        std::string m_configPath{};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
