@@ -70,9 +70,16 @@ int main(int argc, char* argv[]) {
 //#endif
 
 #ifdef _WIN
-    namespace fs = std::filesystem;
+    std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
     std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilius.toml", userProfile.string())};
-    if (!fs::exists(configFile)) {
+
+    if (!std::filesystem::exists(configPath.string())) {
+        spdlog::info("Creating {}", configPath.string());
+        std::filesystem::create_directory(configPath.string());
+    }
+
+    if (!std::filesystem::exists(configFile)) {
+        spdlog::info("Creating {}", configFile.string());
         auto cfg = toml::parse("nautilus.toml");
         std::ofstream outf;
         outf.open(configFile.string());
