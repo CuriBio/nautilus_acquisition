@@ -77,7 +77,7 @@ MainWindow::MainWindow(
     double maxVoltage,
     bool autoConBright,
     std::vector<std::pair<int,int>> stageLocations,
-    std::string configPath,
+    std::string configFile,
     toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)
 {
@@ -99,7 +99,7 @@ MainWindow::MainWindow(
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
     m_config = config;
-    m_configPath = configPath;
+    m_configFile = configFile;
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -356,8 +356,9 @@ void MainWindow::updateConfig() {
         i++;
     }
 
+    spdlog::info("Writing config {}", m_configFile);
     std::ofstream outf;
-    outf.open(m_configPath);
+    outf.open(m_configFile);
     outf << m_config << std::endl;
     outf.close();
 }
