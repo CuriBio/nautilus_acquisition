@@ -57,6 +57,9 @@
  * @param argv Array of pointers to cli arguments.
  */
 int main(int argc, char* argv[]) {
+    std::cout << banner << std::endl;
+    spdlog::info("Nautilus Version: {}", version);
+
     std::filesystem::path userProfile{"/Users"};
     char* up = getenv("USERPROFILE");
     if (up != nullptr) {
@@ -70,7 +73,7 @@ int main(int argc, char* argv[]) {
 //#endif
 
     std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
-    std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilius.toml", userProfile.string())};
+    std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
 
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());
@@ -129,8 +132,6 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-    std::cout << banner << std::endl;
-    spdlog::info("Nautilus Version: {}", version);
 
     if (userargs.count("help")) {
         std::cout << options.help() << std::endl;
