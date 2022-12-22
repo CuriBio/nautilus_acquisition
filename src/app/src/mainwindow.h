@@ -54,6 +54,7 @@
 
 #include "settings.h"
 #include "ui_mainwindow.h"
+#include "stagecontrol.h"
 
 #define TASKS 8
 
@@ -122,6 +123,10 @@ class MainWindow : public QMainWindow {
         void on_liveScanBtn_clicked();
         void on_settingsBtn_clicked();
         void on_startAcquisitionBtn_clicked();
+
+        void on_stageNavigationBtn_clicked() {
+            m_stageControl->show();
+        }
 
         void on_stageRightBtn_clicked() {
             ui.curPosX->setValue(m_curPosX+1);
@@ -205,6 +210,8 @@ class MainWindow : public QMainWindow {
 
     private:
         Ui::MainWindow ui;
+        StageControl* m_stageControl{nullptr};
+
         Settings* m_settings {nullptr};
         std::mutex m_lock;
 

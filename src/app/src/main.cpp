@@ -99,8 +99,6 @@ int main(int argc, char* argv[]) {
     auto config = toml::parse(configFile.string());
 
 
-
-
     cxxopts::Options options("Nautilus", "CuriBio");
     options.add_options()
       ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>())

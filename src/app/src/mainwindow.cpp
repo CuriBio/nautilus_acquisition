@@ -91,6 +91,7 @@ MainWindow::MainWindow(
     m_stageLocations = stageLocations;
 
     m_settings = new Settings(this, m_path, m_prefix);
+    m_stageControl = new StageControl(this);
 
     m_duration = duration;
     m_fps = fps;
