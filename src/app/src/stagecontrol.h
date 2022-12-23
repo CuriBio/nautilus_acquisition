@@ -37,6 +37,13 @@ class StageControl : public QDialog {
 
         void SetRelativePosition(double x, double y);
         void SetAbsolutePosition(double x, double y);
+
+        void SetRelativeX(double x);
+        void SetAbsoluteX(double x);
+
+        void SetRelativeY(double y);
+        void SetAbsoluteY(double y);
+
         const std::vector<LocationData*>& GetLocations() const;
 
     private slots:

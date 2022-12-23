@@ -215,28 +215,6 @@ void MainWindow::Initialize() {
     ui.ledIntensityEdit->setValue(m_ledIntensity);
     ui.frameRateEdit->setValue(m_fps);
     ui.durationEdit->setValue(m_duration);
-
-    //set starting stage locations
-    ui.xPos1->setValue(m_stageLocations[0].first);
-    ui.yPos1->setValue(m_stageLocations[0].second);
-
-    ui.xPos2->setValue(m_stageLocations[1].first);
-    ui.yPos2->setValue(m_stageLocations[1].second);
-
-    ui.xPos3->setValue(m_stageLocations[2].first);
-    ui.yPos3->setValue(m_stageLocations[2].second);
-
-    ui.xPos4->setValue(m_stageLocations[3].first);
-    ui.yPos4->setValue(m_stageLocations[3].second);
-
-    ui.xPos5->setValue(m_stageLocations[4].first);
-    ui.yPos5->setValue(m_stageLocations[4].second);
-
-    ui.xPos6->setValue(m_stageLocations[5].first);
-    ui.yPos6->setValue(m_stageLocations[5].second);
-
-    ui.curPosX->setValue(m_curPosX);
-    ui.curPosY->setValue(m_curPosY);
 }
 
 

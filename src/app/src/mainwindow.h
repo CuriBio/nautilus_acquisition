@@ -62,6 +62,10 @@ using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
 using pmColorConfig = pm::ColorConfig<ph_color_context>;
 
+#define STAGE_MOVE1 5
+#define STAGE_MOVE2 15
+#define STAGE_MOVE3 25
+
 
 /*
  * Nautilus main window class.
@@ -128,83 +132,21 @@ class MainWindow : public QMainWindow {
             m_stageControl->show();
         }
 
-        void on_stageRightBtn_clicked() {
-            ui.curPosX->setValue(m_curPosX+1);
-        };
+        void on_stageRightBtn1_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE1); };
+        void on_stageRightBtn2_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE2); };
+        void on_stageRightBtn3_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE3); };
 
-        void on_stageLeftBtn_clicked() {
-            ui.curPosX->setValue(m_curPosX-1);
-        };
+        void on_stageLeftBtn1_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE1); };
+        void on_stageLeftBtn2_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE2); };
+        void on_stageLeftBtn3_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE3); };
 
-        void on_stageUpBtn_clicked() {
-            ui.curPosY->setValue(m_curPosY+1);
-        };
+        void on_stageUpBtn1_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE1); };
+        void on_stageUpBtn2_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE2); };
+        void on_stageUpBtn3_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE3); };
 
-        void on_stageDownBtn_clicked() {
-            ui.curPosY->setValue(m_curPosY-1);
-        };
-
-        void on_curPosBtn_clicked() {
-            spdlog::info("Setting stage position x: {}, y: {}", m_curPosX, m_curPosY);
-        }
-
-
-        void on_savePos1Btn_clicked() {
-            ui.xPos1->setValue(m_curPosX);
-            ui.yPos1->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_savePos2Btn_clicked() {
-            ui.xPos2->setValue(m_curPosX);
-            ui.yPos2->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_savePos3Btn_clicked() {
-            ui.xPos3->setValue(m_curPosX);
-            ui.yPos3->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_savePos4Btn_clicked() {
-            ui.xPos4->setValue(m_curPosX);
-            ui.yPos4->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_savePos5Btn_clicked() {
-            ui.xPos5->setValue(m_curPosX);
-            ui.yPos5->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_savePos6Btn_clicked() {
-            ui.xPos6->setValue(m_curPosX);
-            ui.yPos6->setValue(m_curPosY);
-            updateConfig();
-        };
-
-        void on_curPosX_valueChanged(double value) { m_curPosX = value; };
-        void on_curPosY_valueChanged(double value) { m_curPosY = value; };
-
-        void on_xPos1_valueChanged(double value) { m_stageLocations[0].first = value; };
-        void on_yPos1_valueChanged(double value) { m_stageLocations[0].second = value; };
-
-        void on_xPos2_valueChanged(double value) { m_stageLocations[1].first = value; };
-        void on_yPos2_valueChanged(double value) { m_stageLocations[1].second = value; };
-
-        void on_xPos3_valueChanged(double value) { m_stageLocations[2].first = value; };
-        void on_yPos3_valueChanged(double value) { m_stageLocations[2].second = value; };
-
-        void on_xPos4_valueChanged(double value) { m_stageLocations[3].first = value; };
-        void on_yPos4_valueChanged(double value) { m_stageLocations[3].second = value; };
-
-        void on_xPos5_valueChanged(double value) { m_stageLocations[4].first = value; };
-        void on_yPos5_valueChanged(double value) { m_stageLocations[4].second = value; };
-
-        void on_xPos6_valueChanged(double value) { m_stageLocations[5].first = value; };
-        void on_yPos6_valueChanged(double value) { m_stageLocations[5].second = value; };
+        void on_stageDownBtn1_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE1); };
+        void on_stageDownBtn2_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE2); };
+        void on_stageDownBtn3_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE3); };
 
         void updateLiveView();
 
