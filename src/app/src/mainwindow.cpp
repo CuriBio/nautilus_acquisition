@@ -613,11 +613,13 @@ void MainWindow::acquisitionThread(MainWindow* cls, const std::vector<LocationDa
     cls->m_expSettings.expTimeMS = (1 / cls->m_fps) * 1000;
     cls->m_expSettings.frameCount = cls->m_duration * cls->m_fps;
 
-    spdlog::info("Setup exposure");
-    cls->m_camera->SetupExp(cls->m_expSettings);
-
+    int pos = 1;
     for (auto& loc : locations) {
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+
+        spdlog::info("Setup exposure");
+        cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_prefix, pos);
+        cls->m_camera->SetupExp(cls->m_expSettings);
 
         spdlog::info("Starting acquisition");
         if (!cls->m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
