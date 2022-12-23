@@ -15,12 +15,20 @@ StageControl::~StageControl() {
 }
 
 void StageControl::SetRelativePosition(double x, double y) {
-    m_curX += x; m_curY += y;
+    m_curX += x;
+    m_curY += y;
 }
 
 void StageControl::SetAbsolutePosition(double x, double y) {
-    m_curX = x; m_curY = y;
+    m_curX = x;
+    m_curY = y;
 }
+
+void StageControl::SetRelativeX(double x) { m_curX += x; }
+void StageControl::SetAbsoluteX(double x) { m_curX = x; }
+
+void StageControl::SetRelativeY(double y) { m_curY += y; }
+void StageControl::SetAbsoluteY(double y) { m_curY = y; }
 
 const std::vector<LocationData*>& StageControl::GetLocations() const {
     return m_locations;

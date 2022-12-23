@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1988</width>
-    <height>1352</height>
+    <width>1600</width>
+    <height>975</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,8 +24,8 @@
   </property>
   <property name="baseSize">
    <size>
-    <width>250</width>
-    <height>0</height>
+    <width>1500</width>
+    <height>975</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -259,6 +259,40 @@ background-color: rgb(128,128,128);</string>
        </item>
        <item row="1" column="0">
         <layout class="QGridLayout" name="gridLayout_6">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>15</number>
+         </property>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="settingsBtn">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Save Directory,
+Format, Name,
+Autoupload</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="startAcquisitionBtn">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Start Acquisition</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="advancedSetupBtn">
            <property name="minimumSize">
@@ -301,945 +335,556 @@ background-color: rgb(128,128,128);</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="startAcquisitionBtn">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Start Acquisition</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="settingsBtn">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>100</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Save Directory,
-Format, Name,
-Autoupload</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QWidget" name="stageControlWidget" native="true">
+         <item row="6" column="0">
+          <widget class="QWidget" name="stageControl" native="true">
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
-           <widget class="QWidget" name="stateControl" native="true">
+           <widget class="QWidget" name="stageUp" native="true">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>321</width>
-              <height>391</height>
+              <x>142</x>
+              <y>0</y>
+              <width>41</width>
+              <height>150</height>
              </rect>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <widget class="QWidget" name="widget" native="true">
-             <property name="geometry">
-              <rect>
-               <x>138</x>
-               <y>0</y>
-               <width>41</width>
-               <height>150</height>
-              </rect>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>-1</number>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout">
-              <property name="spacing">
-               <number>-1</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetFixedSize</enum>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_3">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>55</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>55</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▲
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>2</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
+             </property>
+             <property name="rightMargin">
+              <number>2</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="stageUpBtn3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>55</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>55</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▲
 ▲
 ▲</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_4">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▲
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageUpBtn2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▲
 ▲</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▲</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="widget_2" native="true">
-             <property name="geometry">
-              <rect>
-               <x>138</x>
-               <y>191</y>
-               <width>41</width>
-               <height>150</height>
-              </rect>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <property name="spacing">
-               <number>-1</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetFixedSize</enum>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_2">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▼</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_5">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▼
-▼</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_6">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>55</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>55</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▼
-▼
-▼</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="widget_3" native="true">
-             <property name="geometry">
-              <rect>
-               <x>3</x>
-               <y>148</y>
-               <width>150</width>
-               <height>50</height>
-              </rect>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <property name="spacing">
-               <number>-1</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetFixedSize</enum>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_9">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>45</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>45</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">◀ ◀ ◀</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_8">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>35</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">◀ ◀</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_7">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">◀</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="widget_4" native="true">
-             <property name="geometry">
-              <rect>
-               <x>181</x>
-               <y>148</y>
-               <width>150</width>
-               <height>50</height>
-              </rect>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <property name="spacing">
-               <number>-1</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetFixedSize</enum>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_10">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▶</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_11">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>35</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▶ ▶</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="stageUpBtn_12">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>45</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>45</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string notr="true">▶ ▶ ▶</string>
-                </property>
-                <property name="autoRepeat">
-                 <bool>true</bool>
-                </property>
-                <property name="autoRepeatDelay">
-                 <number>100</number>
-                </property>
-                <property name="autoRepeatInterval">
-                 <number>200</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </widget>
-           <widget class="QWidget" name="verticalLayoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>465</y>
-              <width>223</width>
-              <height>261</height>
-             </rect>
-            </property>
-            <layout class="QGridLayout" name="stageControlLayout">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="savePos1Btn">
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageUpBtn1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
                <property name="text">
-                <string>Save Pos 1</string>
+                <string notr="true">▲</string>
                </property>
-               <property name="autoDefault">
-                <bool>false</bool>
+               <property name="autoRepeat">
+                <bool>true</bool>
                </property>
-               <property name="default">
-                <bool>false</bool>
+               <property name="autoRepeatDelay">
+                <number>100</number>
                </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QPushButton" name="savePos2Btn">
-               <property name="text">
-                <string>Save Pos 2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QPushButton" name="savePos5Btn">
-               <property name="text">
-                <string>Save Pos 5</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QPushButton" name="savePos4Btn">
-               <property name="text">
-                <string>Save Pos 4</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QPushButton" name="savePos6Btn">
-               <property name="text">
-                <string>Save Pos 6</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="savePos3Btn">
-               <property name="text">
-                <string>Save Pos 3</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="xPos2">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QDoubleSpinBox" name="xPos1">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="xPos3">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="xPos4">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QDoubleSpinBox" name="xPos5">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="1">
-              <widget class="QDoubleSpinBox" name="xPos6">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QDoubleSpinBox" name="yPos1">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QDoubleSpinBox" name="yPos2">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QDoubleSpinBox" name="yPos3">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="2">
-              <widget class="QDoubleSpinBox" name="yPos4">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="2">
-              <widget class="QDoubleSpinBox" name="yPos5">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="2">
-              <widget class="QDoubleSpinBox" name="yPos6">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <double>99999.000000000000000</double>
+               <property name="autoRepeatInterval">
+                <number>200</number>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
-           <widget class="QPushButton" name="curPosBtn">
+           <widget class="QWidget" name="stageRight" native="true">
             <property name="geometry">
              <rect>
-              <x>29</x>
-              <y>417</y>
-              <width>90</width>
-              <height>32</height>
+              <x>186</x>
+              <y>148</y>
+              <width>150</width>
+              <height>50</height>
              </rect>
             </property>
-            <property name="text">
-             <string>Current Pos</string>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="spacing">
+              <number>-1</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>2</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
+             </property>
+             <property name="rightMargin">
+              <number>2</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="stageRightBtn1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▶</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageRightBtn2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>35</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>35</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▶ ▶</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageRightBtn3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>45</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>45</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▶ ▶ ▶</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
-           <widget class="QDoubleSpinBox" name="curPosX">
+           <widget class="QWidget" name="stageLeft" native="true">
             <property name="geometry">
              <rect>
-              <x>140</x>
-              <y>420</y>
-              <width>40</width>
-              <height>22</height>
+              <x>6</x>
+              <y>148</y>
+              <width>150</width>
+              <height>50</height>
              </rect>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="maximum">
-             <double>99999.000000000000000</double>
-            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="spacing">
+              <number>-1</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>2</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
+             </property>
+             <property name="rightMargin">
+              <number>2</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="stageLeftBtn3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>45</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>45</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">◀ ◀ ◀</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageLeftBtn2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>35</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>35</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">◀ ◀</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageLeftBtn1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">◀</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
-           <widget class="QDoubleSpinBox" name="curPosY">
+           <widget class="QWidget" name="stageDown" native="true">
             <property name="geometry">
              <rect>
-              <x>199</x>
-              <y>420</y>
-              <width>40</width>
-              <height>22</height>
+              <x>142</x>
+              <y>191</y>
+              <width>41</width>
+              <height>150</height>
              </rect>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="maximum">
-             <double>99999.000000000000000</double>
-            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>-1</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>2</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
+             </property>
+             <property name="rightMargin">
+              <number>2</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="stageDownBtn1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▼</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageDownBtn2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▼
+▼</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="stageDownBtn3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>55</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>55</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true">▼
+▼
+▼</string>
+               </property>
+               <property name="autoRepeat">
+                <bool>true</bool>
+               </property>
+               <property name="autoRepeatDelay">
+                <number>100</number>
+               </property>
+               <property name="autoRepeatInterval">
+                <number>200</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
          </item>
@@ -1294,7 +939,13 @@ Autoupload</string>
          </property>
          <property name="maximumSize">
           <size>
-           <width>250</width>
+           <width>325</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>325</width>
            <height>200</height>
           </size>
          </property>
@@ -1313,13 +964,13 @@ Autoupload</string>
         <widget class="QLabel" name="readout">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>325</width>
            <height>470</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>250</width>
+           <width>325</width>
            <height>470</height>
           </size>
          </property>

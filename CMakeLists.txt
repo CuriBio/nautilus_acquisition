@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.0.13)
+set(NAUTILUS_VERSION 0.0.15)
 
 project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
 set(PROJECT_BRIEF "Nautilus Acquisition")
