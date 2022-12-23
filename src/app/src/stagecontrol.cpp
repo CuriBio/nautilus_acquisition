@@ -8,27 +8,44 @@
 
 StageControl::StageControl(QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
+    m_tango = new TangoStage();
 }
 
 StageControl::~StageControl() {
+    delete m_tango;
     delete ui;
 }
 
 void StageControl::SetRelativePosition(double x, double y) {
     m_curX += x;
     m_curY += y;
+    m_tango->SetRelativePos(x, y, true);
 }
 
 void StageControl::SetAbsolutePosition(double x, double y) {
-    m_curX = x;
-    m_curY = y;
+    m_curX = x; m_curY = y;
+    m_tango->SetAbsolutePos(x, y, true);
 }
 
-void StageControl::SetRelativeX(double x) { m_curX += x; }
-void StageControl::SetAbsoluteX(double x) { m_curX = x; }
+void StageControl::SetRelativeX(double x) {
+    m_curX += x;
+    m_tango->SetRelativePos(x, 0, true);
+}
 
-void StageControl::SetRelativeY(double y) { m_curY += y; }
-void StageControl::SetAbsoluteY(double y) { m_curY = y; }
+void StageControl::SetAbsoluteX(double x) {
+    m_curX = x;
+    m_tango->SetAbsolutePos(m_curX, m_curY, true);
+}
+
+void StageControl::SetRelativeY(double y) {
+    m_curY += y;
+    m_tango->SetRelativePos(0, m_curY, true);
+}
+
+void StageControl::SetAbsoluteY(double y) {
+    m_curY = y;
+    m_tango->SetAbsolutePos(m_curX, m_curY, true);
+}
 
 const std::vector<LocationData*>& StageControl::GetLocations() const {
     return m_locations;

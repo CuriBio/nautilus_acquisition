@@ -8,6 +8,8 @@
 #include <QListWidgetItem>
 #include <toml.hpp>
 
+#include <TangoStage.h>
+
 namespace Ui {
 class StageControl;
 }
@@ -58,6 +60,8 @@ class StageControl : public QDialog {
     private:
         Ui::StageControl *ui;
         std::vector<LocationData*> m_locations;
+
+        TangoStage* m_tango;
 
         double m_curX{0.0}, m_curY{0.0};
 };

@@ -1,6 +1,7 @@
 # Configure version
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h)
 
+
 # setting up sources
 add_executable(${PROJECT_NAME} WIN32
     ./src/main.cpp
@@ -9,11 +10,12 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/settings.cpp
     ./src/histview.cpp
     ./src/stagecontrol.cpp
+    ./tango/TangoStage.cpp
     )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC include
-    PRIVATE src)
+    PUBLIC include tango
+    PRIVATE src tango)
 
 
 # Dependencies
@@ -39,6 +41,8 @@ target_link_libraries(${PROJECT_NAME}
     toml11::toml11
     pvcam_incl
     libtiff_incl
+    tango_incl
+    tango_lib
     Common
     PvCam
     NIDAQmx_wrapper)
@@ -56,6 +60,8 @@ target_link_libraries(${PROJECT_NAME}
     toml11::toml11
     pvcam_incl
     libtiff_incl
+    tango_incl
+    tango_lib
     Common
     PvCamD
     NIDAQmx_wrapper)
