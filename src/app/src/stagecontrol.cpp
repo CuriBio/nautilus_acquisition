@@ -15,12 +15,20 @@ StageControl::~StageControl() {
 }
 
 void StageControl::SetRelativePosition(double x, double y) {
-    m_curX += x; m_curY += y;
+    m_curX += x;
+    m_curY += y;
 }
 
 void StageControl::SetAbsolutePosition(double x, double y) {
-    m_curX = x; m_curY = y;
+    m_curX = x;
+    m_curY = y;
 }
+
+void StageControl::SetRelativeX(double x) { m_curX += x; }
+void StageControl::SetAbsoluteX(double x) { m_curX = x; }
+
+void StageControl::SetRelativeY(double y) { m_curY += y; }
+void StageControl::SetAbsoluteY(double y) { m_curY = y; }
 
 const std::vector<LocationData*>& StageControl::GetLocations() const {
     return m_locations;
@@ -75,12 +83,10 @@ void StageControl::on_loadListBtn_clicked() {
 
     if (!file.isEmpty()) {
         spdlog::info("Selected file: {}", file.toStdString());
-        ui->stageLocations->clear();
 
-        for (auto v : m_locations) { 
-            delete v;
-        }
+        for (auto v : m_locations) { delete v; }
         m_locations.clear();
+        ui->stageLocations->clear();
 
         size_t n = 1;
 
