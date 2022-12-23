@@ -14,6 +14,18 @@ StageControl::~StageControl() {
     delete ui;
 }
 
+void StageControl::SetRelativePosition(double x, double y) {
+    m_curX += x; m_curY += y;
+}
+
+void StageControl::SetAbsolutePosition(double x, double y) {
+    m_curX = x; m_curY = y;
+}
+
+const std::vector<LocationData*>& StageControl::GetLocations() const {
+    return m_locations;
+}
+
 //slots
 void StageControl::on_deleteBtn_clicked() {
     int row = ui->stageLocations->currentRow();
@@ -83,4 +95,18 @@ void StageControl::on_loadListBtn_clicked() {
             ui->stageLocations->addItem(item);
         }
     }
+}
+
+
+void StageControl::on_gotoPosBtn_clicked() {
+    int row = ui->stageLocations->currentRow();
+
+    if (row >= 0) {
+        LocationData* item = static_cast<LocationData*>(ui->stageLocations->item(row));
+        spdlog::info("Setting stage to position x: {}, y: {}", item->x, item->y);
+        m_curX = item->x; m_curY = item->y;
+    } else {
+        spdlog::info("Invalid selection");
+    }
+
 }

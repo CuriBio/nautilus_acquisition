@@ -280,13 +280,13 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         path: ./build/Nautilus-${{env.NAUTILUS_VERSION}}-win64.exe
-        name: "Nautilus-${{env.NAUTILUS_VERSION}}.exe"
+        name: "Nautilus-${{env.NAUTILUS_VERSION}}-nsis"
 
     - name: Upload zip
       uses: actions/upload-artifact@v3
       with:
         path: ./build/Nautilus-${{env.NAUTILUS_VERSION}}-win64.zip
-        name: "Nautilus-${{env.NAUTILUS_VERSION}}.zip"
+        name: "Nautilus-${{env.NAUTILUS_VERSION}}"
 
   release:
     if: contains(github.ref, 'tags/v')

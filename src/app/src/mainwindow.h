@@ -285,7 +285,7 @@ class MainWindow : public QMainWindow {
         bool ledSetVoltage(double voltage);
 
         static void liveViewThreadFn(MainWindow* cls);
-        static void acquisitionThread(MainWindow* cls, bool saveToDisk);
+        static void acquisitionThread(MainWindow* cls, const std::vector<LocationData*>& locations, bool saveToDisk);
 
         void updateConfig();
 };

@@ -406,7 +406,8 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                     spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
 
                     if (!m_acqusitionThread) {
-                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, saveToDisk);
+                        const std::vector<LocationData*> locations = m_stageControl->GetLocations();
+                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, locations, saveToDisk);
                         m_acqusitionThread->start();
                     } else {
                         m_acquisition->Start(saveToDisk, 0.0, nullptr);
@@ -623,7 +624,7 @@ bool MainWindow::ledSetVoltage(double voltage) {
  * @param cls Main window object pointer.
  * @param saveToDisk Flag to enable/disable streaming to disk.
  */
-void MainWindow::acquisitionThread(MainWindow* cls, bool saveToDisk) {
+void MainWindow::acquisitionThread(MainWindow* cls, const std::vector<LocationData*>& locations, bool saveToDisk) {
     if (cls->m_acquisition) {
         spdlog::info("Reusing existing acquistion");
     } else {
@@ -637,13 +638,19 @@ void MainWindow::acquisitionThread(MainWindow* cls, bool saveToDisk) {
     spdlog::info("Setup exposure");
     cls->m_camera->SetupExp(cls->m_expSettings);
 
-    spdlog::info("Starting acquisition");
-    if (!cls->m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
-        spdlog::error("Failed starting acquisition");
-    }
+    for (auto& loc : locations) {
+        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
 
-    spdlog::info("Waiting for acquisition");
-    cls->m_acquisition->WaitForStop();
+        spdlog::info("Starting acquisition");
+        if (!cls->m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
+            spdlog::error("Failed starting acquisition");
+        }
+
+        spdlog::info("Waiting for acquisition");
+        cls->m_acquisition->WaitForStop();
+        spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
+
+    }
 
     spdlog::info("Acquisition done, sending signal");
     emit cls->sig_acquisition_done();

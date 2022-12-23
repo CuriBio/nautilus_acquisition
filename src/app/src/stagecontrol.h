@@ -35,12 +35,18 @@ class StageControl : public QDialog {
         explicit StageControl(QWidget *parent = nullptr);
         ~StageControl();
 
+        void SetRelativePosition(double x, double y);
+        void SetAbsolutePosition(double x, double y);
+        const std::vector<LocationData*>& GetLocations() const;
+
     private slots:
         void on_addBtn_clicked();
         void on_deleteBtn_clicked();
 
         void on_saveListBtn_clicked();
         void on_loadListBtn_clicked();
+
+        void on_gotoPosBtn_clicked();
 
     private:
         Ui::StageControl *ui;
