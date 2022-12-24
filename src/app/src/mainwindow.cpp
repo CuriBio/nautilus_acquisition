@@ -384,7 +384,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                     spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
 
                     if (!m_acqusitionThread) {
-                        const std::vector<LocationData*> locations = m_stageControl->GetLocations();
+                        const std::vector<StagePosition*> locations = m_stageControl->GetPositions();
                         m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, locations, saveToDisk);
                         m_acqusitionThread->start();
                     } else {
@@ -602,7 +602,7 @@ bool MainWindow::ledSetVoltage(double voltage) {
  * @param cls Main window object pointer.
  * @param saveToDisk Flag to enable/disable streaming to disk.
  */
-void MainWindow::acquisitionThread(MainWindow* cls, const std::vector<LocationData*>& locations, bool saveToDisk) {
+void MainWindow::acquisitionThread(MainWindow* cls, const std::vector<StagePosition*>& locations, bool saveToDisk) {
     if (cls->m_acquisition) {
         spdlog::info("Reusing existing acquistion");
     } else {

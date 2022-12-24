@@ -19,24 +19,33 @@ TangoStage::~TangoStage() {
 }
 
 bool TangoStage::GetCurrentPos(double& x, double& y) {
-    spdlog::info("TangoStage::GetCurrentPos");
-
     double z, a;
-    return m_tango->GetPos(&m_x, &m_y, &z, &a) == 0;
+    if (m_tango->GetPos(&m_x, &m_y, &z, &a) != 0) {
+        spdlog::info("GetPos error: {}", GetError());
+        return false;
+    }
+    return true;
 }
 
 bool TangoStage::SetRelativePos(double x, double y, bool block) {
     spdlog::info("TangoStage::SetRelativePos x: {}, y: {}", x, y);
-    return m_tango->MoveRel(x, y, 0.0, 0.0, block) == 0;
+    if (m_tango->MoveRel(x, y, 0.0, 0.0, block) != 0) {
+        spdlog::info("SetRelativePos error: {}", GetError());
+        return false;
+    }
+    return true;
 }
 
 bool TangoStage::SetAbsolutePos(double x, double y, bool block) {
     spdlog::info("TangoStage::SetAbsolutePos");
-    return m_tango->MoveAbs(x, y, 0.0, 0.0, block) == 0;
+    if (m_tango->MoveAbs(x, y, 0.0, 0.0, block) != 0) {
+        spdlog::info("SetAbsolutePos error: {}", GetError());
+        return false;
+    }
+    return true;
 }
 
 int TangoStage::GetError() const {
-    spdlog::info("TangoStage::GetError");
     int error;
     m_tango->GetError(&error);
     return error;
