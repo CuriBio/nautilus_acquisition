@@ -10,12 +10,11 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/settings.cpp
     ./src/histview.cpp
     ./src/stagecontrol.cpp
-    ./tango/TangoStage.cpp
     )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC include tango
-    PRIVATE src tango)
+    PUBLIC include
+    PRIVATE src)
 
 
 # Dependencies
@@ -41,8 +40,7 @@ target_link_libraries(${PROJECT_NAME}
     toml11::toml11
     pvcam_incl
     libtiff_incl
-    tango_incl
-    tango_lib
+    tango
     Common
     PvCam
     NIDAQmx_wrapper)
@@ -60,8 +58,7 @@ target_link_libraries(${PROJECT_NAME}
     toml11::toml11
     pvcam_incl
     libtiff_incl
-    tango_incl
-    tango_lib
+    tango
     Common
     PvCamD
     NIDAQmx_wrapper)
