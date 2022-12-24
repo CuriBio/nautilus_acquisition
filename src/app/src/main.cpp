@@ -226,6 +226,7 @@ int main(int argc, char* argv[]) {
     if (userargs.count("test_img")) {
         testImgPath = userargs["test_img"].as<std::string>();
     }
+    spdlog::info("Test image disabled");
 
 
     int storage_type = toml::find_or<int>(config, "acquisition", "storage_type", 0);

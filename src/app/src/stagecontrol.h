@@ -14,20 +14,20 @@ namespace Ui {
 class StageControl;
 }
 
-class LocationData : public QListWidgetItem  {
+class StagePosition : public QListWidgetItem  {
     public:
         int pos;
         double x;
         double y;
 
     public:
-        LocationData(int pos, double xPos, double yPos) : QListWidgetItem(fmt::format("pos_{} - x: {}, y: {}", pos, xPos, yPos).c_str()) {
+        StagePosition(int pos, double xPos, double yPos) : QListWidgetItem(fmt::format("pos_{} - x: {}, y: {}", pos, xPos, yPos).c_str()) {
             pos = pos;
             x = xPos;
             y = yPos;
         }
 
-        ~LocationData() {}
+        ~StagePosition() {}
 };
 
 class StageControl : public QDialog {
@@ -46,7 +46,7 @@ class StageControl : public QDialog {
         void SetRelativeY(double y);
         void SetAbsoluteY(double y);
 
-        const std::vector<LocationData*>& GetLocations() const;
+        const std::vector<StagePosition*>& GetPositions() const;
 
     private slots:
         void on_addBtn_clicked();
@@ -59,7 +59,7 @@ class StageControl : public QDialog {
 
     private:
         Ui::StageControl *ui;
-        std::vector<LocationData*> m_locations;
+        std::vector<StagePosition*> m_positions;
 
         TangoStage* m_tango;
 
