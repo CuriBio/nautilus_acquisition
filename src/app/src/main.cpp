@@ -214,18 +214,19 @@ int main(int argc, char* argv[]) {
     spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
 
 
-    std::vector<std::pair<double,double>> stageLocations{};
-    for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) {
-        auto x = static_cast<double>(v.at("x").as_floating());
-        auto y = static_cast<double>(v.at("y").as_floating());
-        stageLocations.push_back(std::pair<double, double>(x,y));
-    }
+    /* std::vector<std::pair<double,double>> stageLocations{}; */
+    /* for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) { */
+    /*     auto x = static_cast<double>(v.at("x").as_floating()); */
+    /*     auto y = static_cast<double>(v.at("y").as_floating()); */
+    /*     stageLocations.push_back(std::pair<double, double>(x,y)); */
+    /* } */
 
 
     std::string testImgPath = "";
     if (userargs.count("test_img")) {
         testImgPath = userargs["test_img"].as<std::string>();
     }
+    spdlog::info("Test image disabled");
 
 
     int storage_type = toml::find_or<int>(config, "acquisition", "storage_type", 0);
@@ -357,7 +358,6 @@ int main(int argc, char* argv[]) {
             exposureMode,
             maxVoltage,
             autoConBright,
-            stageLocations,
             configFile.string(),
             config
         );

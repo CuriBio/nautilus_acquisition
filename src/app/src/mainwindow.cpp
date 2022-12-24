@@ -76,7 +76,6 @@ MainWindow::MainWindow(
     uint16_t exposureMode,
     double maxVoltage,
     bool autoConBright,
-    std::vector<std::pair<double,double>> stageLocations,
     std::string configFile,
     toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)
@@ -88,7 +87,6 @@ MainWindow::MainWindow(
     m_niDev = niDev;
     m_testImgPath = testImgPath;
     m_autoConBright = autoConBright;
-    m_stageLocations = stageLocations;
 
     m_settings = new Settings(this, m_path, m_prefix);
     m_stageControl = new StageControl(this);
@@ -301,14 +299,24 @@ void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
     if (!m_liveScanRunning && !m_acquisitionRunning) {
         spdlog::info("Starting live scan");
-        StartAcquisition(false);
+        m_liveScanRunning = true;
 
         double minFps = std::min<double>(m_fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+        StartAcquisition(false);
 
         ui.liveScanBtn->setText("Stop Live Scan");
+    } else if (!m_liveScanRunning && m_acquisitionRunning) {
+        double minFps = std::min<double>(m_fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+        m_liveScanRunning = true;
+    } else if (m_liveScanRunning && m_acquisitionRunning) {
+        spdlog::info("Stopping live scan");
+        m_liveScanRunning = false;
+        m_liveViewTimer->stop();
     } else if (m_liveScanRunning && !m_acquisitionRunning) {
         spdlog::info("Stopping live scan");
+        m_liveScanRunning = false;
         StopAcquisition();
     }
 }
@@ -319,27 +327,16 @@ void MainWindow::on_liveScanBtn_clicked() {
  */
 void MainWindow::on_startAcquisitionBtn_clicked() {
     if (!m_acquisitionRunning) {
+        spdlog::info("on_startAcquisitionBtn_clicked");
         ui.startAcquisitionBtn->setText("Stop Acquisition");
+        m_acquisitionRunning = true;
         StartAcquisition(true);
-    } else if (m_acquisitionRunning && !m_liveScanRunning) {
-        StopAcquisition();
+    } else {
+        m_acquisitionRunning = false;
+        if (!m_liveScanRunning) {
+            StopAcquisition();
+        }
     }
-}
-
-
-void MainWindow::updateConfig() {
-    int i = 0;
-    for (auto& v : m_stageLocations) {
-        m_config["stage"]["location"][i]["x"] = toml::value(v.first);
-        m_config["stage"]["location"][i]["y"] = toml::value(v.second);
-        i++;
-    }
-
-    spdlog::info("Writing config {}", m_configFile);
-    std::ofstream outf;
-    outf.open(m_configFile);
-    outf << m_config << std::endl;
-    outf.close();
 }
 
 /*
@@ -367,8 +364,8 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             ledON(voltage);
         }
 
-        m_acquisitionRunning = saveToDisk;
-        m_liveScanRunning = !saveToDisk;
+        /* m_acquisitionRunning = saveToDisk; */
+        /* m_liveScanRunning = !saveToDisk; */
 
         switch (m_acquisition->GetState()) {
             case AcquisitionState::AcqStopped:
@@ -380,12 +377,10 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 
                     m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
                     m_expSettings.frameCount = uint32_t(m_duration * m_fps);
-
                     spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
 
                     if (!m_acqusitionThread) {
-                        const std::vector<LocationData*> locations = m_stageControl->GetLocations();
-                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this, locations, saveToDisk);
+                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
                         m_acqusitionThread->start();
                     } else {
                         m_acquisition->Start(saveToDisk, 0.0, nullptr);
@@ -394,7 +389,15 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                 break;
             case AcquisitionState::AcqLiveScan:
                 spdlog::info("StartAcquisition, current state AcqLiveScan");
-                m_acquisition->Start(saveToDisk, 0.0, nullptr);
+
+                if (!m_acqusitionThread) {
+                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
+                    m_acqusitionThread->start();
+                } else {
+                    //need to stop first before starting capture otherwise liveview will block
+                    spdlog::info("Signal live view to stop");
+                    m_acquisition->Stop();
+                }
                 break;
             case AcquisitionState::AcqCapture:
                 spdlog::info("StartAcquisition, current state AcqCapture");
@@ -420,13 +423,31 @@ void MainWindow::StopAcquisition() {
 
     switch (m_acquisition->GetState()) {
         case AcquisitionState::AcqLiveScan:
-            spdlog::info("Stopping Live Scan");
-            m_liveViewTimer->stop();
-            m_acquisition->Stop();
+            if (m_liveScanRunning) {
+                spdlog::info("Stopping live Scan");
+                m_liveViewTimer->stop();
+                m_liveScanRunning = false;
+            }
+            if (!m_acquisitionRunning) {
+                spdlog::info("Stopping acquisition");
+                m_acquisition->Stop();
+            } else {
+                spdlog::info("Stopping live scan, capture still running");
+            }
             break;
         case AcquisitionState::AcqCapture:
             spdlog::info("Stopping Capture");
-            m_acquisition->Stop();
+            if (m_acquisitionRunning && !m_liveScanRunning) {
+                //shut it all down
+                spdlog::info("Stopping capture");
+                m_acquisitionRunning = false;
+                m_acquisition->Stop();
+            } else if (m_acquisitionRunning && m_liveScanRunning) {
+                //only stop capture, keep live scan running
+                spdlog::info("Stopping capture, live view still running");
+                m_acquisition->Start(false, 0.0, nullptr);
+                m_acquisitionRunning = false;
+            }
             break;
         case AcquisitionState::AcqStopped:
             spdlog::info("Acquisition not running");
@@ -506,7 +527,6 @@ void MainWindow::acquisition_done() {
     delete m_acqusitionThread;
     m_acqusitionThread = nullptr;
 }
-
 
 /*
  * Signal to indicate the user has modified the settings.
@@ -596,41 +616,57 @@ bool MainWindow::ledSetVoltage(double voltage) {
 }
 
 
+void MainWindow::acquire(bool saveToDisk, std::string prefix) {
+    if (m_acquisition) {
+        spdlog::info("Reusing existing acquistion");
+    } else {
+        spdlog::info("Creating acquisition");
+        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+    }
+
+    m_expSettings.expTimeMS = (1 / m_fps) * 1000;
+    m_expSettings.frameCount = m_duration * m_fps;
+
+    spdlog::info("Setup exposure");
+    m_expSettings.filePrefix = fmt::format("{}_", prefix);
+    m_camera->SetupExp(m_expSettings);
+
+    spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
+    if (!m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
+        spdlog::error("Failed starting acquisition");
+    }
+
+    spdlog::info("Waiting for acquisition");
+    m_acquisition->WaitForStop();
+}
+
 /*
  * Thread that starts actual acquisition and waits for acquisition to finish.
  *
  * @param cls Main window object pointer.
  * @param saveToDisk Flag to enable/disable streaming to disk.
  */
-void MainWindow::acquisitionThread(MainWindow* cls, const std::vector<LocationData*>& locations, bool saveToDisk) {
-    if (cls->m_acquisition) {
-        spdlog::info("Reusing existing acquistion");
-    } else {
-        spdlog::info("Creating acquisition");
-        cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);
-    }
-
-    cls->m_expSettings.expTimeMS = (1 / cls->m_fps) * 1000;
-    cls->m_expSettings.frameCount = cls->m_duration * cls->m_fps;
-
-    int pos = 1;
-    for (auto& loc : locations) {
-        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
-
-        spdlog::info("Setup exposure");
-        cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_prefix, pos);
-        cls->m_camera->SetupExp(cls->m_expSettings);
-
-        spdlog::info("Starting acquisition");
-        if (!cls->m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
-            spdlog::error("Failed starting acquisition");
+void MainWindow::acquisitionThread(MainWindow* cls) {
+    do {
+        if (cls->m_liveScanRunning) {
+            cls->acquire(false, cls->m_prefix);
         }
 
-        spdlog::info("Waiting for acquisition");
-        cls->m_acquisition->WaitForStop();
-        spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
+        if (cls->m_acquisitionRunning) {
+            int pos = 1;
+            spdlog::info("Starting acquistions");
+            for (auto& loc : cls->m_stageControl->GetPositions()) {
+                spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+                cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
+                std::string prefix = fmt::format("{}_{}_", cls->m_prefix, pos++);
 
-    }
+                cls->acquire(true, prefix);
+                spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
+            }
+            cls->m_acquisitionRunning = false;
+            cls->ui.startAcquisitionBtn->setText("Start Acquisition");
+        }
+    } while (cls->m_liveScanRunning);
 
     spdlog::info("Acquisition done, sending signal");
     emit cls->sig_acquisition_done();

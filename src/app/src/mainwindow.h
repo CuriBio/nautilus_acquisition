@@ -91,7 +91,6 @@ class MainWindow : public QMainWindow {
             uint16_t exposureMode,
             double maxVoltage,
             bool noAutoConBright,
-            std::vector<std::pair<double,double>> stageLocations,
             std::string configFile,
             toml::value& config,
             QMainWindow* parent = nullptr
@@ -201,7 +200,6 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
         std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
 
-        std::vector<std::pair<double, double>> m_stageLocations;
         double m_curPosX{0}, m_curPosY{0};
 
         CameraInfo m_camInfo;
@@ -226,10 +224,10 @@ class MainWindow : public QMainWindow {
         bool ledOFF();
         bool ledSetVoltage(double voltage);
 
-        static void liveViewThreadFn(MainWindow* cls);
-        static void acquisitionThread(MainWindow* cls, const std::vector<LocationData*>& locations, bool saveToDisk);
+        //acquire helper function
+        void acquire(bool saveToDisk, std::string prefix);
 
-        void updateConfig();
+        static void acquisitionThread(MainWindow* cls);
 };
 
 #endif

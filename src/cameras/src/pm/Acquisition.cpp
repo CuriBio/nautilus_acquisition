@@ -209,6 +209,10 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         spdlog::info("Failed to copy frame data");
                         continue;
                     }
+                    {
+                        std::unique_lock<std::mutex> lock(m_lock);
+                        m_latestFrame = frame;
+                    }
 
                     //TODO support different storage types
                     switch (m_camera->ctx->curExp->storageType) {
