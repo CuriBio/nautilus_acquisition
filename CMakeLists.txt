@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.0.24)
+set(NAUTILUS_VERSION 0.1.0)
 
 project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
 set(PROJECT_BRIEF "Nautilus Acquisition")
@@ -73,6 +73,23 @@ install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 #Install config file
 install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilus.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+#install icons
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 add_subdirectory(libs)
 add_subdirectory(src)

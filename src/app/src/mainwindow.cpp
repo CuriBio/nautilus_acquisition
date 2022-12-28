@@ -234,18 +234,19 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    if (m_acquisition && m_acquisition->IsRunning()) {
-        spdlog::error("Acquisition running: FPS cannot be changed");
+    if (value * m_duration < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        if (value * m_duration < 1.0) {
-            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
-            ui.frameRateEdit->setStyleSheet("background-color: red");
-            ui.durationEdit->setStyleSheet("background-color: red");
-        } else {
-            ui.frameRateEdit->setStyleSheet("background-color: white");
-            ui.durationEdit->setStyleSheet("background-color: white");
-        }
+        ui.frameRateEdit->setStyleSheet("background-color: white");
+        ui.durationEdit->setStyleSheet("background-color: white");
+
+        spdlog::info("Setting new exposure value");
         m_fps = value;
+        m_expSettings.expTimeMS = (1 / m_fps) * 1000;
+        m_expSettings.frameCount = m_duration * m_fps;
+        m_camera->SetupExp(m_expSettings);
     }
 }
 
@@ -256,20 +257,18 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    //spdlog::info("durationEdit value changed: {}", value);
-    if(m_acquisition && m_acquisition->IsRunning()) {
-        spdlog::error("Acquistion running: duration cannot be changed");
+    if (value * m_fps < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        if (value * m_fps < 1.0) {
-            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
-            ui.frameRateEdit->setStyleSheet("background-color: red");
-            ui.durationEdit->setStyleSheet("background-color: red");
-        } else {
-            ui.frameRateEdit->setStyleSheet("background-color: white");
-            ui.durationEdit->setStyleSheet("background-color: white");
-        }
-        m_duration = value;
+        ui.frameRateEdit->setStyleSheet("background-color: white");
+        ui.durationEdit->setStyleSheet("background-color: white");
     }
+    m_duration = value;
+    m_expSettings.expTimeMS = (1 / m_fps) * 1000;
+    m_expSettings.frameCount = m_duration * m_fps;
+    m_camera->SetupExp(m_expSettings);
 }
 
 
@@ -363,9 +362,6 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
             ledON(voltage);
         }
-
-        /* m_acquisitionRunning = saveToDisk; */
-        /* m_liveScanRunning = !saveToDisk; */
 
         switch (m_acquisition->GetState()) {
             case AcquisitionState::AcqStopped:

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1600</width>
-    <height>980</height>
+    <height>940</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1500</width>
-    <height>980</height>
+    <width>1600</width>
+    <height>940</height>
    </size>
   </property>
   <property name="baseSize">
    <size>
-    <width>1500</width>
-    <height>975</height>
+    <width>1600</width>
+    <height>940</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -343,10 +343,10 @@ Autoupload</string>
            <widget class="QWidget" name="stageUp" native="true">
             <property name="geometry">
              <rect>
-              <x>142</x>
+              <x>145</x>
               <y>0</y>
-              <width>41</width>
-              <height>150</height>
+              <width>36</width>
+              <height>120</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -378,20 +378,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
-                 <height>55</height>
+                 <width>26</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
-                 <height>55</height>
+                 <width>26</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▲
-▲
-▲</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/up3.png</normaloff>resources/up3.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>32</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -414,19 +422,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>40</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▲
-▲</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/up2.png</normaloff>resources/up2.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>20</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -449,18 +466,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>30</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▲</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/up1.png</normaloff>resources/up1.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>20</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -478,10 +505,10 @@ Autoupload</string>
            <widget class="QWidget" name="stageRight" native="true">
             <property name="geometry">
              <rect>
-              <x>186</x>
-              <y>148</y>
-              <width>150</width>
-              <height>50</height>
+              <x>190</x>
+              <y>133</y>
+              <width>130</width>
+              <height>40</height>
              </rect>
             </property>
             <property name="minimumSize">
@@ -526,17 +553,21 @@ Autoupload</string>
                <property name="minimumSize">
                 <size>
                  <width>30</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>30</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▶</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/right1.png</normaloff>resources/right1.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -560,17 +591,21 @@ Autoupload</string>
                <property name="minimumSize">
                 <size>
                  <width>35</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>35</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▶ ▶</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/right2.png</normaloff>resources/right2.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -593,18 +628,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>45</width>
-                 <height>30</height>
+                 <width>40</width>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>45</width>
-                 <height>30</height>
+                 <width>40</width>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▶ ▶ ▶</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/right3.png</normaloff>resources/right3.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -622,10 +667,10 @@ Autoupload</string>
            <widget class="QWidget" name="stageLeft" native="true">
             <property name="geometry">
              <rect>
-              <x>6</x>
-              <y>148</y>
-              <width>150</width>
-              <height>50</height>
+              <x>9</x>
+              <y>133</y>
+              <width>130</width>
+              <height>40</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -657,18 +702,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>45</width>
-                 <height>30</height>
+                 <width>40</width>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>45</width>
-                 <height>30</height>
+                 <width>40</width>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">◀ ◀ ◀</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/left3.png</normaloff>resources/left3.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -692,17 +747,21 @@ Autoupload</string>
                <property name="minimumSize">
                 <size>
                  <width>35</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>35</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">◀ ◀</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/left2.png</normaloff>resources/left2.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -726,17 +785,21 @@ Autoupload</string>
                <property name="minimumSize">
                 <size>
                  <width>30</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>30</width>
-                 <height>30</height>
+                 <height>26</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">◀</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/left1.png</normaloff>resources/left1.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -754,10 +817,10 @@ Autoupload</string>
            <widget class="QWidget" name="stageDown" native="true">
             <property name="geometry">
              <rect>
-              <x>142</x>
-              <y>191</y>
-              <width>41</width>
-              <height>150</height>
+              <x>145</x>
+              <y>173</y>
+              <width>36</width>
+              <height>120</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -789,18 +852,22 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>30</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▼</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/down1.png</normaloff>resources/down1.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -823,19 +890,22 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
+                 <width>26</width>
                  <height>40</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▼
-▼</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/down2.png</normaloff>resources/down2.png</iconset>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -858,20 +928,28 @@ Autoupload</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>30</width>
-                 <height>55</height>
+                 <width>26</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>30</width>
-                 <height>55</height>
+                 <width>26</width>
+                 <height>40</height>
                 </size>
                </property>
                <property name="text">
-                <string notr="true">▼
-▼
-▼</string>
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>resources/down3.png</normaloff>resources/down3.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>32</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>true</bool>
@@ -1053,7 +1131,4 @@ readouts</string>
  </customwidgets>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>
