@@ -91,6 +91,7 @@ class MainWindow : public QMainWindow {
             uint16_t exposureMode,
             double maxVoltage,
             bool noAutoConBright,
+            std::string stageComPort,
             std::string configFile,
             toml::value& config,
             QMainWindow* parent = nullptr
@@ -152,6 +153,7 @@ class MainWindow : public QMainWindow {
     private:
         Ui::MainWindow ui;
         StageControl* m_stageControl{nullptr};
+        std::string m_stageComPort{};
 
         Settings* m_settings {nullptr};
         std::mutex m_lock;

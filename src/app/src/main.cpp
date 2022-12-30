@@ -103,6 +103,7 @@ int main(int argc, char* argv[]) {
     options.add_options()
       ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>())
       ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>())
+      ("c,stage_com_port", "COM port for stage controller", cxxopts::value<std::string>())
       ("d,duration", "Acquisition duration", cxxopts::value<double>())
       ("e,exposure_mode", "Camera exposure mode", cxxopts::value<int>())
       ("f,fps", "Frames Per Second", cxxopts::value<double>())
@@ -213,6 +214,12 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
 
+
+    std::string stageComPort = toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3"));
+    if (userargs.count("stage_com_port")) {
+        stageComPort = userargs["stage_com_port"].as<std::string>();
+    }
+    spdlog::info("Stage com port: {}", stageComPort);
 
     /* std::vector<std::pair<double,double>> stageLocations{}; */
     /* for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) { */
@@ -358,6 +365,7 @@ int main(int argc, char* argv[]) {
             exposureMode,
             maxVoltage,
             autoConBright,
+            stageComPort,
             configFile.string(),
             config
         );

@@ -6,10 +6,11 @@ class CTango;
 class TangoStage {
     private:
         CTango* m_tango;
+        std::string m_comPort;
         double m_x{0.0}, m_y{0.0};
 
     public:
-        TangoStage();
+        TangoStage(std::string comPort);
         ~TangoStage();
 
         bool GetCurrentPos(double& x, double& y);

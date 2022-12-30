@@ -6,9 +6,10 @@
 #include "stagecontrol.h"
 #include "ui_stagecontrol.h"
 
-StageControl::StageControl(QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
+StageControl::StageControl(std::string comPort, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
-    m_tango = new TangoStage();
+    m_comPort = comPort;
+    m_tango = new TangoStage(m_comPort);
     m_tango->GetCurrentPos(m_curX, m_curY);
 }
 

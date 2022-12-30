@@ -76,6 +76,7 @@ MainWindow::MainWindow(
     uint16_t exposureMode,
     double maxVoltage,
     bool autoConBright,
+    std::string stageComPort,
     std::string configFile,
     toml::value& config,
     QMainWindow *parent) : QMainWindow(parent)
@@ -87,9 +88,10 @@ MainWindow::MainWindow(
     m_niDev = niDev;
     m_testImgPath = testImgPath;
     m_autoConBright = autoConBright;
+    m_stageComPort = stageComPort;
 
     m_settings = new Settings(this, m_path, m_prefix);
-    m_stageControl = new StageControl(this);
+    m_stageControl = new StageControl(m_stageComPort, this);
 
     m_duration = duration;
     m_fps = fps;

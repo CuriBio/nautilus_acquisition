@@ -3,12 +3,12 @@
 
 #include <TangoStage.h>
 
-TangoStage::TangoStage() {
+TangoStage::TangoStage(std::string comPort) {
     m_tango = new CTango();
+    m_comPort = comPort;
 
     //should auto connect with first found tango driver instance.
-    char com[] = "COM3";
-    if (m_tango->ConnectSimple(1, com, 57600, TRUE) != 0) {
+    if (m_tango->ConnectSimple(1, m_comPort.data(), 57600, TRUE) != 0) {
         spdlog::info("SetAbsolutePos error: {}", GetError());
     } else {
         //get current position
