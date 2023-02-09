@@ -711,45 +711,39 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
     }
     spdlog::info("Trigger mode set to {}", triggerMode);
 
-    if (ctx->bufferBytes) { //need to deallocate old buffers first
-        ctx->frames.clear();
-        ctx->buffer.reset();
+    if (ctx->buffer == nullptr) { //don't reallocate
+        //PVCAM, at least the virtual cam, will only allow up to 2GB buffer for PCIE
+        //so allocate as much as allowed here
+        uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
+        spdlog::info("MaxBuffers {}", maxBuffers);
+        ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
 
-        ctx->bufferBytes = 0;
-        ctx->buffer = nullptr;
-    }
+        //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
+        //to the buffer size, so going to do that here
+        ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
+        spdlog::info("Allocating bufferBytes ({}) for bufferCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
 
-    //PVCAM, at least the virtual cam, will only allow up to 2GB buffer for PCIE
-    //so allocate as much as allowed here
-    uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
-    spdlog::info("MaxBuffers {}", maxBuffers);
-    ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
+        //TODO use 4k alignment, might parameterize later
+        const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
+        ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
+        spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, ctx->curExp->bufferCount);
 
-    //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
-    //to the buffer size, so going to do that here
-    ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
-    spdlog::info("Allocating bufferBytes ({}) for bufferCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
+        //setup frames over buffer
+        ctx->frames.reserve(ctx->curExp->bufferCount);
+        for(uint32_t i = 0; i < ctx->curExp->bufferCount; i++) {
+            F* frame = new F(ctx->frameBytes, false, nullptr);
 
-    //TODO use 4k alignment, might parameterize later
-    const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
-    ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
-    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, ctx->curExp->bufferCount);
-
-    //setup frames over buffer
-    ctx->frames.reserve(ctx->curExp->bufferCount);
-    for(uint32_t i = 0; i < ctx->curExp->bufferCount; i++) {
-        F* frame = new F(ctx->frameBytes, false, nullptr);
-
-        void* data = ctx->buffer.get() + i * ctx->frameBytes;
-        frame->SetData(data);
-        if(!frame->CopyData()) {
-            spdlog::error("Allocating frames failed");
-            return false;
+            void* data = ctx->buffer.get() + i * ctx->frameBytes;
+            frame->SetData(data);
+            if(!frame->CopyData()) {
+                spdlog::error("Allocating frames failed");
+                return false;
+            }
+            ctx->frames.push_back(frame);
         }
-        ctx->frames.push_back(frame);
+        ctx->frames.shrink_to_fit();
+        spdlog::info("Allocated frames ready");
     }
-    ctx->frames.shrink_to_fit();
-    spdlog::info("Allocated frames ready");
 
     return true;
 }
