@@ -136,7 +136,13 @@ pm::Camera<F>::~Camera() {
         if(ctx->curExp) {
             ctx->curExp = nullptr;
         }
-        //TODO cleanup frames buffer
+        if (ctx->bufferBytes) {
+            ctx->frames.clear();
+            ctx->buffer.reset();
+
+            ctx->bufferBytes = 0;
+            ctx->buffer = nullptr;
+        }
     }
 
     if (PV_OK != pl_pvcam_uninit()) {
