@@ -128,20 +128,11 @@ pm::Camera<F>::Camera() {
 
 template<FrameConcept F>
 pm::Camera<F>::~Camera() {
+    Close();
+
     if (ctx) {
-        if(ctx->curFrameInfo) {
-            (void)pl_release_frame_info_struct(ctx->curFrameInfo);
-            ctx->curFrameInfo = nullptr;
-        }
         if(ctx->curExp) {
             ctx->curExp = nullptr;
-        }
-        if (ctx->bufferBytes) {
-            ctx->frames.clear();
-            ctx->buffer.reset();
-
-            ctx->bufferBytes = 0;
-            ctx->buffer = nullptr;
         }
     }
 
@@ -265,7 +256,6 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
         }
     }
 
-
     //get trigger modes
     std::vector<NVP> triggerModes;
     if(!pm::pl_read_enum(ctx->hcam, &triggerModes, PARAM_EXPOSURE_MODE)) {
@@ -349,6 +339,13 @@ bool pm::Camera<F>::Close() {
     if (ctx->curFrameInfo) {
         delete ctx->curFrameInfo;
         ctx->curFrameInfo = nullptr;
+    }
+
+    if (ctx->buffer) {
+        ctx->frames.clear();
+        ctx->buffer.reset();
+        ctx->bufferBytes = 0;
+        ctx->buffer = nullptr;
     }
 
     ctx->hcam = -1;
