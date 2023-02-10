@@ -298,28 +298,32 @@ void MainWindow::on_settingsBtn_clicked() {
  */
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
-    if (!m_liveScanRunning && !m_acquisitionRunning) {
+
+    if (!m_liveScanRunning) {
         spdlog::info("Starting live scan");
         m_liveScanRunning = true;
 
+        // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
         double minFps = std::min<double>(m_fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-        StartAcquisition(false);
 
+        if (!m_acquisitionRunning) {
+            StartAcquisition(false);
+        }
         ui.liveScanBtn->setText("Stop Live Scan");
-    } else if (!m_liveScanRunning && m_acquisitionRunning) {
-        double minFps = std::min<double>(m_fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-        m_liveScanRunning = true;
-    } else if (m_liveScanRunning && m_acquisitionRunning) {
+    } else {
         spdlog::info("Stopping live scan");
         m_liveScanRunning = false;
-        m_liveViewTimer->stop();
-    } else if (m_liveScanRunning && !m_acquisitionRunning) {
-        spdlog::info("Stopping live scan");
-        m_liveScanRunning = false;
-        StopAcquisition();
+
+        if (!m_acquisitionRunning) {
+            // this will also stop the live view timer
+            StopAcquisition();
+        } else {
+            m_liveViewTimer->stop();
+        }
     }
+
+    ui.frameRateEdit->setEnabled(!m_liveScanRunning);
 }
 
 
