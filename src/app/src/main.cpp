@@ -136,8 +136,7 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-
-    std::string path = toml::find_or<std::string>(config, "nautilus", "outdir", userProfile.string());
+    std::string path = toml::find_or<std::string>(config, "nautilus", "outdir", std::string("E:\\"));
     if (userargs.count("outdir")) {
         path = userargs["outdir"].as<std::string>();
     }
