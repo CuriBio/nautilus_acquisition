@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <format>
 
-#include <tchar.h>
 #include <windows.h>
 #include <fileapi.h>
 
@@ -269,7 +268,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     } else if (!E_drive_checks){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
-        ui.startAcquisitionBtn->setToolTip("Not enough space in E:\\ drive.");
+        ui.startAcquisitionBtn->setToolTip("Not enough space in default drive.");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
