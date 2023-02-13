@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,11 +24,15 @@
 
 /*********************************************************************
  * @file  mainwindow.cpp
- * 
+ *
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #include <stdlib.h>
 #include <format>
+
+#include <tchar.h>
+#include <windows.h>
+#include <fileapi.h>
 
 #include <spdlog/spdlog.h>
 #include <QMessageBox>
@@ -231,18 +235,47 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 
 
 /*
+ * Check if E drive on windows has sufficient space for acquisition.
+ *
+ * @param fps setting of acquisition
+ * @param duration of acquisition in TODO
+ * @param size of each image defaults to TODO
+ *
+ * @returns boolean true if space is available
+*/
+BOOL check_E_drive_space(double fps,double duration,double one_image_size  =10000000){
+    auto path = _T("E:\\");
+    ULARGE_INTEGER  lpFreeBytesAvailableToCaller = { 0 };
+    GetDiskFreeSpaceEx(
+        path,
+        & lpFreeBytesAvailableToCaller,
+        nullptr,
+        nullptr
+        );
+    return lpFreeBytesAvailableToCaller.QuadPart > fps * duration;
+}
+
+
+/*
  * Frame Rate edit box slot, called when users changes the FPS value.
  *
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
+    BOOL E_drive_checks = check_E_drive_space(value,m_duration);
     if (value * m_duration < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
+    } else if (!E_drive_checks){
+        spdlog::info("Not enough space for acquisition");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        ui.startAcquisitionBtn->setToolTip("Not enough space in E:\\ drive.");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
 
         spdlog::info("Setting new exposure value");
         m_fps = value;
@@ -259,13 +292,20 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
+    BOOL E_drive_checks = check_E_drive_space(m_fps,value);
     if (value * m_fps < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
+    }else if (!E_drive_checks){
+        spdlog::info("Not enough space for acquisition");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        ui.startAcquisitionBtn->setToolTip("Not enough space in E:\\ drive.");
+    }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
     }
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
@@ -298,32 +338,28 @@ void MainWindow::on_settingsBtn_clicked() {
  */
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
-
-    if (!m_liveScanRunning) {
+    if (!m_liveScanRunning && !m_acquisitionRunning) {
         spdlog::info("Starting live scan");
         m_liveScanRunning = true;
 
-        // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
         double minFps = std::min<double>(m_fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+        StartAcquisition(false);
 
-        if (!m_acquisitionRunning) {
-            StartAcquisition(false);
-        }
         ui.liveScanBtn->setText("Stop Live Scan");
-    } else {
+    } else if (!m_liveScanRunning && m_acquisitionRunning) {
+        double minFps = std::min<double>(m_fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+        m_liveScanRunning = true;
+    } else if (m_liveScanRunning && m_acquisitionRunning) {
         spdlog::info("Stopping live scan");
         m_liveScanRunning = false;
-
-        if (!m_acquisitionRunning) {
-            // this will also stop the live view timer
-            StopAcquisition();
-        } else {
-            m_liveViewTimer->stop();
-        }
+        m_liveViewTimer->stop();
+    } else if (m_liveScanRunning && !m_acquisitionRunning) {
+        spdlog::info("Stopping live scan");
+        m_liveScanRunning = false;
+        StopAcquisition();
     }
-
-    ui.frameRateEdit->setEnabled(!m_liveScanRunning);
 }
 
 
