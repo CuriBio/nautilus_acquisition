@@ -144,6 +144,7 @@ concept CameraConcept = FrameConcept<F> and requires(T c, F* pframe, void* vptr,
     { c.Close() } -> std::same_as<bool>;
     { c.GetInfo() } -> std::same_as<CameraInfo&>;
     { c.SetupExp(pExpSettings) } -> std::same_as<bool>;
+    { c.UpdateExp(pExpSettings) } -> std::same_as<bool>;
     { c.StartExp(vptr, vptr) } -> std::same_as<bool>;
     { c.StopExp() } -> std::same_as<bool>;
     { c.GetLatestFrame(pframe) } -> std::same_as<bool>;

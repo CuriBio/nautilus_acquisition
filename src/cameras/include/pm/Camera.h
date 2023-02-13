@@ -225,9 +225,20 @@ namespace pm {
                 CameraInfo& GetInfo();
 
                 /*
+                 * @brief Update camera exposure.
+                 *
+                 * Updates the connected camera's exposure settings.
+                 *
+                 * @param settings Exposure settings structure.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
+                bool UpdateExp(const ExpSettings& settings);
+
+                /*
                  * @brief Set camera exposure.
                  *
-                 * Updates/sets the connected camera exposure settings.
+                 * Sets the connected camera's initial exposure settings.
                  *
                  * @param settings Exposure settings structure.
                  *
@@ -305,6 +316,15 @@ namespace pm {
                  * @return true if successful, false otherwise.
                  */
                 bool initSpeedTable();
+
+                /*
+                 * @brief Setup continuous exposure settings.
+                 *
+                 * Set continuous exposure values for this camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
+                bool setupContExp();
 
                 /*
                  * @brief Set exposure settings.
