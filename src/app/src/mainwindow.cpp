@@ -236,6 +236,7 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 /*
  * Check if E drive on windows has sufficient space for acquisition.
  *
+ * @param drive letter selected in config file
  * @param fps setting of acquisition
  * @param duration of acquisition
  * @param size of each image defaults to TODO
