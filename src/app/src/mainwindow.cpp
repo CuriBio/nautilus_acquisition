@@ -234,16 +234,16 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 
 
 /*
- * Check if E drive on windows has sufficient space for acquisition.
+ * Check if drive on windows has sufficient space for acquisition.
  *
  * @param drive letter selected in config file
  * @param fps setting of acquisition
  * @param duration of acquisition
- * @param size of each image defaults to TODO
+ * @param TODO
  *
  * @returns boolean true if space is available
 */
-BOOL check_E_drive_space(std::filesystem::path driver_name, double fps,double duration,double one_image_size  =10000000){
+BOOL available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double one_image_size  =10000000){
     ULARGE_INTEGER  lpFreeBytesAvailableToCaller = { 0 };
     GetDiskFreeSpaceEx(
         driver_name.c_str(),
@@ -261,12 +261,11 @@ BOOL check_E_drive_space(std::filesystem::path driver_name, double fps,double du
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    BOOL E_drive_checks = check_E_drive_space(m_path,value,m_duration);
     if (value * m_duration < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else if (!E_drive_checks){
+    } else if (!available_space_in_drive(m_path,value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         ui.startAcquisitionBtn->setToolTip("Not enough space in default drive.");
@@ -291,12 +290,11 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    BOOL E_drive_checks = check_E_drive_space(m_path,m_fps,value);
     if (value * m_fps < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    }else if (!E_drive_checks){
+    }else if (!available_space_in_drive(m_path,value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         ui.startAcquisitionBtn->setToolTip("Not enough space in E:\\ drive.");
