@@ -657,6 +657,12 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         if (cls->m_acquisitionRunning) {
             int pos = 1;
             spdlog::info("Starting acquistions");
+
+            if (cls->m_stageControl->GetPositions().empty()) {
+                spdlog::info("No stage positions set, adding current position");
+                cls->m_stageControl->AddCurrentPosition();
+            }
+
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
