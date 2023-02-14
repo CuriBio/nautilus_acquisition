@@ -128,15 +128,12 @@ pm::Camera<F>::Camera() {
 
 template<FrameConcept F>
 pm::Camera<F>::~Camera() {
+    Close();
+
     if (ctx) {
-        if(ctx->curFrameInfo) {
-            (void)pl_release_frame_info_struct(ctx->curFrameInfo);
-            ctx->curFrameInfo = nullptr;
-        }
         if(ctx->curExp) {
             ctx->curExp = nullptr;
         }
-        //TODO cleanup frames buffer
     }
 
     if (PV_OK != pl_pvcam_uninit()) {
@@ -259,7 +256,6 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
         }
     }
 
-
     //get trigger modes
     std::vector<NVP> triggerModes;
     if(!pm::pl_read_enum(ctx->hcam, &triggerModes, PARAM_EXPOSURE_MODE)) {
@@ -345,6 +341,13 @@ bool pm::Camera<F>::Close() {
         ctx->curFrameInfo = nullptr;
     }
 
+    if (ctx->buffer) {
+        ctx->frames.clear();
+        ctx->buffer.reset();
+        ctx->bufferBytes = 0;
+        ctx->buffer = nullptr;
+    }
+
     ctx->hcam = -1;
     ctx->curFrameInfo = nullptr;
     return true;
@@ -385,7 +388,7 @@ bool pm::Camera<F>::StopExp() {
 
 
 template<FrameConcept F>
-bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
+bool pm::Camera<F>::SetupExp(ExpSettings& settings) {
     if (!ctx) {
         spdlog::error("No camera found");
         return false;
@@ -396,16 +399,125 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
 
     //return if already imaging
     if (ctx->imaging) {
-        spdlog::error("Camera:SetupExp, Imaging already running for camera {}", ctx->info.name);
+        spdlog::error("Camera::SetupExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
 
-    //TODO clear out old settings if they exist
-    if (ctx->curExp) {
-        spdlog::info("Deleting Exp settings for camera {}", ctx->info.name);
+    if (!updateExp(settings)) {
+        return false;
     }
 
-    return setExp(settings);
+    auto stIdx = settings.spdTableIdx;
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->info.spdTable[stIdx].spdTabPort)) {
+        spdlog::error("Readout port could not be set, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Readout port set to {}", ctx->info.spdTable[stIdx].portName);
+
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->info.spdTable[stIdx].spdIndex)) {
+        spdlog::error("Readout speed index could not be set, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Readout speed index set to {}", ctx->info.spdTable[stIdx].spdIndex);
+
+    if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->info.spdTable[stIdx].gainIndex)) {
+        spdlog::error("Gain index could not be set, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
+
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_BIT_DEPTH, ATTR_CURRENT, (void*)&ctx->bitDepth)) {
+        spdlog::error("Bitdepth could not be read, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Bitdepth set to {}", ctx->bitDepth);
+
+    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->info.imageFormat)) {
+        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
+    }
+    spdlog::info("Image format set to {}", int(ctx->info.imageFormat));
+
+    spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
+
+    uint32_t exposeModeOut;
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSE_OUT_MODE, ATTR_CURRENT, (void*)&exposeModeOut)) {
+        spdlog::error("EXPOSE_MODE_OUT could not be read, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Expose mode out set to {}", exposeModeOut);
+
+    uint32_t triggerMode;
+    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSURE_MODE, ATTR_CURRENT, (void*)&triggerMode)) {
+        spdlog::error("EXPOSURE_MODE could not be read, ({})", GetError());
+        return false;
+    }
+    spdlog::info("Trigger mode set to {}", triggerMode);
+
+    if (!setExp()) {
+        return false;
+    }
+
+    if (ctx->buffer == nullptr) { //don't reallocate
+        //PVCAM, at least the virtual cam, will only allow up to 2GB buffer for PCIE
+        //so allocate as much as allowed here
+        uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
+        spdlog::info("MaxBuffers {}", maxBuffers);
+        ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
+        // need to update the exposure settings for the caller as well
+        settings.bufferCount = ctx->curExp->bufferCount;
+
+        //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
+        //to the buffer size, so going to do that here
+        ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
+        spdlog::info("Allocating bufferBytes ({}) for bufferCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
+
+        //TODO use 4k alignment, might parameterize later
+        const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
+        ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
+        spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, ctx->curExp->bufferCount);
+
+        //setup frames over buffer
+        ctx->frames.reserve(ctx->curExp->bufferCount);
+        for(uint32_t i = 0; i < ctx->curExp->bufferCount; i++) {
+            F* frame = new F(ctx->frameBytes, false, nullptr);
+
+            void* data = ctx->buffer.get() + i * ctx->frameBytes;
+            frame->SetData(data);
+            if(!frame->CopyData()) {
+                spdlog::error("Allocating frames failed");
+                return false;
+            }
+            ctx->frames.push_back(frame);
+        }
+        ctx->frames.shrink_to_fit();
+        spdlog::info("Allocated frames ready");
+    }
+
+    return true;
+}
+
+
+template<FrameConcept F>
+bool pm::Camera<F>::UpdateExp(const ExpSettings& settings) {
+    if (!ctx) {
+        spdlog::error("No camera found");
+        return false;
+    }
+
+    //lock mutex
+    std::lock_guard<std::mutex> lock(ctx->lock);
+
+    //return if already imaging
+    if (ctx->imaging) {
+        spdlog::error("Camera::UpdateExp, Imaging already running for camera {}", ctx->info.name);
+        return false;
+    }
+
+    if (!updateExp(settings)) {
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -448,6 +560,10 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
 
     if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
         spdlog::error("Failed to register EOF callback");
+        return false;
+    }
+
+    if (!setExp()) {
         return false;
     }
 
@@ -607,7 +723,52 @@ bool pm::Camera<F>::initSpeedTable() {
 
 
 template<FrameConcept F>
-bool pm::Camera<F>::setExp(const ExpSettings& settings) {
+bool pm::Camera<F>::setExp() {
+    if (!ctx) {
+        spdlog::error("No camera");
+        return false;
+    }
+    if (ctx->imaging) {
+        spdlog::warn("Camera is already capturing");
+        return false;
+    }
+
+    uns32 exposure = (ctx->curExp->trigMode == VARIABLE_TIMED_MODE) ? 1 : ctx->curExp->expTimeMS;
+    rgn_type rgn = {
+        .s1 = ctx->curExp->region.s1,
+        .s2 = ctx->curExp->region.s2,
+        .sbin = ctx->curExp->region.sbin,
+        .p1 = ctx->curExp->region.p1,
+        .p2 = ctx->curExp->region.p2,
+        .pbin = ctx->curExp->region.pbin
+    };
+    switch(ctx->curExp->acqMode) {
+        case AcqMode::SnapCircBuffer:
+        case AcqMode::LiveCircBuffer:
+            {
+                //TODO allow multiple regions
+                int16_t exposeMode = ctx->curExp->trigMode | ctx->curExp->expModeOut;
+                if (PV_OK != pl_exp_setup_cont(
+                            //TODO Support regions
+                            ctx->hcam, 1/*rgn_total*/, &rgn, exposeMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
+                    spdlog::error("Failed to setup continuous acquisition, ({})", GetError());
+                    return false;
+                }
+                spdlog::info("frameBytes: {}", ctx->frameBytes);
+            }
+            break;
+        default:
+            spdlog::error("Acquisition mode not supported/implemented");
+            return false;
+    }
+
+    return true;
+}
+
+
+
+template<FrameConcept F>
+bool pm::Camera<F>::updateExp(const ExpSettings& settings) {
     if (!ctx) {
         spdlog::error("No camera");
         return false;
@@ -633,123 +794,6 @@ bool pm::Camera<F>::setExp(const ExpSettings& settings) {
             .colorWbScaleGreen = settings.colorWbScaleGreen,
             .colorWbScaleBlue = settings.colorWbScaleBlue
         });
-
-    auto stIdx = settings.spdTableIdx;
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_READOUT_PORT, (void*)&ctx->info.spdTable[stIdx].spdTabPort)) {
-        spdlog::error("Readout port could not be set, ({})", GetError());
-        return false;
-    }
-    spdlog::info("Readout port set to {}", ctx->info.spdTable[stIdx].portName);
-
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_SPDTAB_INDEX, (void*)&ctx->info.spdTable[stIdx].spdIndex)) {
-        spdlog::error("Readout speed index could not be set, ({})", GetError());
-        return false;
-    }
-    spdlog::info("Readout speed index set to {}", ctx->info.spdTable[stIdx].spdIndex);
-
-    if (PV_OK != pl_set_param(ctx->hcam, PARAM_GAIN_INDEX, (void*)&ctx->info.spdTable[stIdx].gainIndex)) {
-        spdlog::error("Gain index could not be set, ({})", GetError());
-        return false;
-    }
-
-    if (PV_OK != pl_get_param(ctx->hcam, PARAM_BIT_DEPTH, ATTR_CURRENT, (void*)&ctx->bitDepth)) {
-        spdlog::error("Bitdepth could not be read, ({})", GetError());
-        return false;
-    }
-
-    if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->info.imageFormat)) {
-        spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
-    }
-
-    spdlog::info("Gain index set to {}", ctx->info.spdTable[stIdx].gainIndex);
-    spdlog::info("Bitdepth set to {}", ctx->bitDepth);
-    spdlog::info("Image format set to {}", int(ctx->info.imageFormat));
-    spdlog::info("speed table: running at {} MHz", 1000 / (float)ctx->info.spdTable[stIdx].pixTimeNs);
-
-
-    uns32 exposure = (settings.trigMode == VARIABLE_TIMED_MODE) ? 1 : settings.expTimeMS;
-    rgn_type rgn = {
-        .s1 = settings.region.s1,
-        .s2 = settings.region.s2,
-        .sbin = settings.region.sbin,
-        .p1 = settings.region.p1,
-        .p2 = settings.region.p2,
-        .pbin = settings.region.pbin
-    };
-
-    switch(settings.acqMode) {
-        case AcqMode::SnapCircBuffer:
-        case AcqMode::LiveCircBuffer:
-            {
-                //TODO allow multiple regions
-                int16_t exposeMode = ctx->curExp->trigMode | ctx->curExp->expModeOut;
-                if (PV_OK != pl_exp_setup_cont(
-                            //TODO Support regions
-                            ctx->hcam, 1/*rgn_total*/, &rgn, exposeMode, exposure, &ctx->frameBytes, CIRC_OVERWRITE)) {
-                    spdlog::error("Failed to setup continuous acquisition, ({})", GetError());
-                    return false;
-                }
-                spdlog::info("frameBytes: {}", ctx->frameBytes);
-            }
-            break;
-        default:
-            spdlog::error("Acquisition mode not supported/implemented");
-            return false;
-    }
-
-    uint32_t exposeModeOut;
-    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSE_OUT_MODE, ATTR_CURRENT, (void*)&exposeModeOut)) {
-        spdlog::error("EXPOSE_MODE_OUT could not be read, ({})", GetError());
-        return false;
-    }
-    spdlog::info("Expose mode out set to {}", exposeModeOut);
-
-    uint32_t triggerMode;
-    if (PV_OK != pl_get_param(ctx->hcam, PARAM_EXPOSURE_MODE, ATTR_CURRENT, (void*)&triggerMode)) {
-        spdlog::error("EXPOSESURE_MODE could not be read, ({})", GetError());
-        return false;
-    }
-    spdlog::info("Trigger mode set to {}", triggerMode);
-
-    if (ctx->bufferBytes) { //need to deallocate old buffers first
-        ctx->frames.clear();
-        ctx->buffer.reset();
-
-        ctx->bufferBytes = 0;
-        ctx->buffer = nullptr;
-    }
-
-    //PVCAM, at least the virtual cam, will only allow up to 2GB buffer for PCIE
-    //so allocate as much as allowed here
-    uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
-    spdlog::info("MaxBuffers {}", maxBuffers);
-    ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
-
-    //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
-    //to the buffer size, so going to do that here
-    ctx->bufferBytes = ctx->curExp->bufferCount * ctx->frameBytes + 16;
-    spdlog::info("Allocating bufferBytes ({}) for bufferCount ({}) with frameBytes ({})", ctx->bufferBytes, ctx->curExp->bufferCount, ctx->frameBytes);
-
-    //TODO use 4k alignment, might parameterize later
-    const size_t sizeAligned = (ctx->bufferBytes + (0x1000 - 1)) & ~(0x1000 - 1);
-    ctx->buffer = std::make_unique<uns8[]>(sizeAligned);
-    spdlog::info("Allocated buffer[{}] for {} frames", ctx->bufferBytes, ctx->curExp->bufferCount);
-
-    //setup frames over buffer
-    ctx->frames.reserve(ctx->curExp->bufferCount);
-    for(uint32_t i = 0; i < ctx->curExp->bufferCount; i++) {
-        F* frame = new F(ctx->frameBytes, false, nullptr);
-
-        void* data = ctx->buffer.get() + i * ctx->frameBytes;
-        frame->SetData(data);
-        if(!frame->CopyData()) {
-            spdlog::error("Allocating frames failed");
-            return false;
-        }
-        ctx->frames.push_back(frame);
-    }
-    ctx->frames.shrink_to_fit();
-    spdlog::info("Allocated frames ready");
 
     return true;
 }

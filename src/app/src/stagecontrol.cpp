@@ -48,6 +48,20 @@ void StageControl::SetAbsoluteY(double y) {
     m_tango->GetCurrentPos(m_curX, m_curY);
 }
 
+void StageControl::AddCurrentPosition() {
+    int row = m_positions.size() + 1;
+    double x, y;
+    m_tango->GetCurrentPos(x, y);
+
+    spdlog::info("Add current position x: {}, y: {}", x, y);
+    m_curX = x;
+    m_curY = y;
+
+    StagePosition* item = new StagePosition(row, m_curX, m_curY);
+    m_positions.push_back(item);
+    ui->stageLocations->addItem(item);
+}
+
 const std::vector<StagePosition*>& StageControl::GetPositions() const {
     return m_positions;
 }
@@ -72,17 +86,7 @@ void StageControl::on_deleteBtn_clicked() {
 }
 
 void StageControl::on_addBtn_clicked() {
-    int row = m_positions.size() + 1;
-    double x, y;
-    m_tango->GetCurrentPos(x, y);
-
-    spdlog::info("Add current position x: {}, y: {}", x, y);
-    m_curX = x;
-    m_curY = y;
-
-    StagePosition* item = new StagePosition(row, m_curX, m_curY);
-    m_positions.push_back(item);
-    ui->stageLocations->addItem(item);
+    AddCurrentPosition();
 }
 
 void StageControl::on_saveListBtn_clicked() {
