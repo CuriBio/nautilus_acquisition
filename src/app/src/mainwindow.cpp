@@ -30,8 +30,10 @@
 #include <stdlib.h>
 #include <format>
 
+#ifdef _WIN32
 #include <windows.h>
 #include <fileapi.h>
+#endif
 
 #include <spdlog/spdlog.h>
 #include <QMessageBox>
@@ -234,29 +236,35 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 
 
 /*
- * Check if drive on windows has sufficient space for acquisition.
+ * Check if default drive on windows has sufficient space for acquisition.
  *
- * @param drive letter selected in config file
  * @param fps setting of acquisition
  * @param duration of acquisition
- * @param TODO
  *
  * @returns boolean true if space is available
 */
-bool available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double frameBytes){
-    ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
-    GetDiskFreeSpaceEx(
-        driver_name.c_str(),
-        nullptr,
-        nullptr,
-        & lpTotalNumberOfFreeBytes
-        );
-    std::stringstream space_string,driver_string;
-    space_string << lpTotalNumberOfFreeBytes.QuadPart;
-    driver_string << driver_name;
-    spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
-    return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
+#ifdef _WIN32
+bool MainWindow::available_space_in_default_drive( double fps,double duration){
+    uns32 frameBytes;
+    bool ok =  m_camera->GetFrameBytes(frameBytes);
+    if(ok){
+        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
+        GetDiskFreeSpaceEx(
+            m_path.c_str(),
+            nullptr,
+            nullptr,
+            & lpTotalNumberOfFreeBytes
+            );
+        std::stringstream space_string,driver_string;
+        space_string << lpTotalNumberOfFreeBytes.QuadPart;
+        driver_string << m_path;
+        spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
+        return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
+    }else{
+        return ok;
+    }
 }
+#endif
 
 
 /*
@@ -265,12 +273,11 @@ bool available_space_in_drive(std::filesystem::path driver_name, double fps,doub
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    uns32 Framebytes =  m_camera->GetFrameBytes();
     if (value * m_duration < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else if (!available_space_in_drive(m_path,value,m_duration,Framebytes)){
+    } else if (!available_space_in_default_drive(value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         std::stringstream tool_tip_text;
@@ -296,12 +303,11 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    uns32 Framebytes =  m_camera->GetFrameBytes();
     if (value * m_fps < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    }else if (!available_space_in_drive(m_path,value,m_duration,Framebytes)){
+    }else if (!available_space_in_default_drive(value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         std::stringstream tool_tip_text;

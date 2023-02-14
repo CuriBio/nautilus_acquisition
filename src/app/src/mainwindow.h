@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  mainwindow.h
- * 
+ *
  * @brief Definition of the mainwindow widget.
  *********************************************************************/
 #ifndef MAINWINDOW_H
@@ -217,7 +217,6 @@ class MainWindow : public QMainWindow {
             .bufferCount = 100
         };
 
-    private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
 
@@ -225,7 +224,7 @@ class MainWindow : public QMainWindow {
         bool ledON(double voltage);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
-
+        bool available_space_in_default_drive( double fps,double duration);
         //acquire helper function
         void acquire(bool saveToDisk, std::string prefix);
 

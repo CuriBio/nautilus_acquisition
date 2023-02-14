@@ -303,7 +303,7 @@ namespace pm {
                 *
                 * @return framBytes
                 */
-                uns32 GetFrameBytes();
+                bool GetFrameBytes(uns32 &frameBytes);
             private:
                 /*
                  * @brief Removed camera handler.
