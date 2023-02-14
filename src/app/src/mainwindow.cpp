@@ -250,7 +250,6 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         m_fps = value;
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
         m_expSettings.frameCount = m_duration * m_fps;
-        m_camera->UpdateExp(m_expSettings);
     }
 }
 
@@ -272,7 +271,6 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
-    m_camera->UpdateExp(m_expSettings);
 }
 
 

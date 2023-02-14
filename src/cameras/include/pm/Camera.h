@@ -318,22 +318,22 @@ namespace pm {
                 bool initSpeedTable();
 
                 /*
-                 * @brief Setup continuous exposure settings.
+                 * @brief Set up exposure settings.
                  *
-                 * Set continuous exposure values for this camera.
+                 * Set up exposure values for this camera.
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool setupContExp();
+                bool setExp();
 
                 /*
-                 * @brief Set exposure settings.
+                 * @brief Update exposure settings.
                  *
-                 * Set exposure values for this camera.
+                 * Update exposure values for this camera.
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool setExp(const ExpSettings& settings);
+                bool updateExp(const ExpSettings& settings);
 
                 /*
                  * @brief Get latest frame index.

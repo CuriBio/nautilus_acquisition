@@ -403,7 +403,7 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
         return false;
     }
 
-    if (!setExp(settings)) {
+    if (!updateExp(settings)) {
         return false;
     }
 
@@ -453,7 +453,7 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
     }
     spdlog::info("Trigger mode set to {}", triggerMode);
 
-    if (!setupContExp()) {
+    if (!setExp()) {
         return false;
     }
 
@@ -511,7 +511,7 @@ bool pm::Camera<F>::UpdateExp(const ExpSettings& settings) {
         return false;
     }
 
-    if (!setExp(settings)) {
+    if (!updateExp(settings)) {
         return false;
     }
 
@@ -561,7 +561,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
         return false;
     }
 
-    if (!setupContExp()) {
+    if (!setExp()) {
         return false;
     }
 
@@ -721,7 +721,7 @@ bool pm::Camera<F>::initSpeedTable() {
 
 
 template<FrameConcept F>
-bool pm::Camera<F>::setupContExp() {
+bool pm::Camera<F>::setExp() {
     if (!ctx) {
         spdlog::error("No camera");
         return false;
@@ -766,7 +766,7 @@ bool pm::Camera<F>::setupContExp() {
 
 
 template<FrameConcept F>
-bool pm::Camera<F>::setExp(const ExpSettings& settings) {
+bool pm::Camera<F>::updateExp(const ExpSettings& settings) {
     if (!ctx) {
         spdlog::error("No camera");
         return false;
