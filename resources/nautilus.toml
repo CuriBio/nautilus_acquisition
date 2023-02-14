@@ -1,0 +1,29 @@
+[nautilus]
+prefix = "default_"
+auto_contrast_brightness = true
+outdir = "E:\\"
+
+[device.nidaqmx]
+device = "Dev2"
+max_voltage = 1.4
+
+[device.photometrics]
+trigger_mode = 0
+exposure_mode = 5
+speed_table_index = 0
+
+[acquisition]
+fps = 10.0
+duration = 1.0
+led_intensity = 50.0
+
+[acquisition.region]
+s1 = 800
+p1 = 1000
+s2 = 2399
+p2 = 2199
+sbin = 1
+pbin = 1
+
+[device.tango]
+com = "COM3"

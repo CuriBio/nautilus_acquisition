@@ -1,0 +1,6 @@
+add_subdirectory(dbgcam)
+add_subdirectory(pvcam)
+add_subdirectory(libtiff)
+add_subdirectory(daqmx)
+add_subdirectory(dbgDAQmx)
+add_subdirectory(tango)
