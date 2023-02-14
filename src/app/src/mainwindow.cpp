@@ -285,7 +285,6 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         m_fps = value;
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
         m_expSettings.frameCount = m_duration * m_fps;
-        m_camera->SetupExp(m_expSettings);
     }
 }
 
@@ -315,7 +314,6 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
-    m_camera->SetupExp(m_expSettings);
 }
 
 
@@ -676,7 +674,7 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
 
     spdlog::info("Setup exposure");
     m_expSettings.filePrefix = fmt::format("{}_", prefix);
-    m_camera->SetupExp(m_expSettings);
+    m_camera->UpdateExp(m_expSettings);
 
     spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
     if (!m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
@@ -702,6 +700,12 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         if (cls->m_acquisitionRunning) {
             int pos = 1;
             spdlog::info("Starting acquistions");
+
+            if (cls->m_stageControl->GetPositions().empty()) {
+                spdlog::info("No stage positions set, adding current position");
+                cls->m_stageControl->AddCurrentPosition();
+            }
+
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);

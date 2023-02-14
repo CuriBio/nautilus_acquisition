@@ -225,15 +225,26 @@ namespace pm {
                 CameraInfo& GetInfo();
 
                 /*
-                 * @brief Set camera exposure.
+                 * @brief Update camera exposure.
                  *
-                 * Updates/sets the connected camera exposure settings.
+                 * Updates the connected camera's exposure settings.
                  *
                  * @param settings Exposure settings structure.
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool SetupExp(const ExpSettings& settings);
+                bool UpdateExp(const ExpSettings& settings);
+
+                /*
+                 * @brief Set camera exposure.
+                 *
+                 * Sets the connected camera's initial exposure settings.
+                 *
+                 * @param settings Exposure settings structure.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
+                bool SetupExp(ExpSettings& settings);
 
                 /*
                  * @brief Start exposure.
@@ -307,13 +318,22 @@ namespace pm {
                 bool initSpeedTable();
 
                 /*
-                 * @brief Set exposure settings.
+                 * @brief Set up exposure settings.
                  *
-                 * Set exposure values for this camera.
+                 * Set up exposure values for this camera.
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool setExp(const ExpSettings& settings);
+                bool setExp();
+
+                /*
+                 * @brief Update exposure settings.
+                 *
+                 * Update exposure values for this camera.
+                 *
+                 * @return true if successful, false otherwise.
+                 */
+                bool updateExp(const ExpSettings& settings);
 
                 /*
                  * @brief Get latest frame index.
