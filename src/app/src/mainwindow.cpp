@@ -243,7 +243,7 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  *
  * @returns boolean true if space is available
 */
-BOOL available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double one_image_size  =10000000){
+bool available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double frameBytes= 100000){
     ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
     GetDiskFreeSpaceEx(
         driver_name.c_str(),
@@ -251,11 +251,11 @@ BOOL available_space_in_drive(std::filesystem::path driver_name, double fps,doub
         nullptr,
         & lpTotalNumberOfFreeBytes
         );
-
-    std::stringstream ss;
-    ss << lpTotalNumberOfFreeBytes.QuadPart;
-    spdlog::info("Drive has: {} bytes free for acquisition",ss.str());
-    return lpTotalNumberOfFreeBytes.QuadPart > fps * duration;
+    std::stringstream space_string,driver_string;
+    space_string << lpTotalNumberOfFreeBytes.QuadPart;
+    driver_string << driver_name;
+    spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
+    return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
 }
 
 
@@ -272,7 +272,9 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     } else if (!available_space_in_drive(m_path,value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
-        ui.startAcquisitionBtn->setToolTip("Not enough space in default drive.");
+        std::stringstream tool_tip_text;
+        tool_tip_text << "Not enough space in " << m_path << " drive.";
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
@@ -301,7 +303,9 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     }else if (!available_space_in_drive(m_path,value,m_duration)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
-        ui.startAcquisitionBtn->setToolTip("Not enough space in E:\\ drive.");
+        std::stringstream tool_tip_text;
+        tool_tip_text << "Not enough space in " << m_path << " drive.";
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
     }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
