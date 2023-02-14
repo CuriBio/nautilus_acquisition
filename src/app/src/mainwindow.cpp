@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,11 +24,14 @@
 
 /*********************************************************************
  * @file  mainwindow.cpp
- * 
+ *
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #include <stdlib.h>
 #include <format>
+
+#include <windows.h>
+#include <fileapi.h>
 
 #include <spdlog/spdlog.h>
 #include <QMessageBox>
@@ -231,6 +234,32 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 
 
 /*
+ * Check if drive on windows has sufficient space for acquisition.
+ *
+ * @param drive letter selected in config file
+ * @param fps setting of acquisition
+ * @param duration of acquisition
+ * @param TODO
+ *
+ * @returns boolean true if space is available
+*/
+bool available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double frameBytes= 100000){
+    ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
+    GetDiskFreeSpaceEx(
+        driver_name.c_str(),
+        nullptr,
+        nullptr,
+        & lpTotalNumberOfFreeBytes
+        );
+    std::stringstream space_string,driver_string;
+    space_string << lpTotalNumberOfFreeBytes.QuadPart;
+    driver_string << driver_name;
+    spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
+    return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
+}
+
+
+/*
  * Frame Rate edit box slot, called when users changes the FPS value.
  *
  * @param value The updated FPS value.
@@ -240,9 +269,17 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
+    } else if (!available_space_in_drive(m_path,value,m_duration)){
+        spdlog::info("Not enough space for acquisition");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        std::stringstream tool_tip_text;
+        tool_tip_text << "Not enough space in " << m_path << " drive.";
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
 
         spdlog::info("Setting new exposure value");
         m_fps = value;
@@ -262,9 +299,17 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
+    }else if (!available_space_in_drive(m_path,value,m_duration)){
+        spdlog::info("Not enough space for acquisition");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        std::stringstream tool_tip_text;
+        tool_tip_text << "Not enough space in " << m_path << " drive.";
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
+    }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
     }
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
