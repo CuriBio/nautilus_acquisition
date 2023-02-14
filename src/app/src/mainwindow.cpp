@@ -244,14 +244,18 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  * @returns boolean true if space is available
 */
 BOOL available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double one_image_size  =10000000){
-    ULARGE_INTEGER  lpFreeBytesAvailableToCaller = { 0 };
+    ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
     GetDiskFreeSpaceEx(
         driver_name.c_str(),
-        & lpFreeBytesAvailableToCaller,
         nullptr,
-        nullptr
+        nullptr,
+        & lpTotalNumberOfFreeBytes
         );
-    return lpFreeBytesAvailableToCaller.QuadPart > fps * duration;
+
+    std::stringstream ss;
+    ss << lpTotalNumberOfFreeBytes.QuadPart;
+    spdlog::info("Drive has: {} bytes free for acquisition",ss.str());
+    return lpTotalNumberOfFreeBytes.QuadPart > fps * duration;
 }
 
 
