@@ -243,7 +243,7 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  *
  * @returns boolean true if space is available
 */
-bool available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double frameBytes= 100000){
+bool available_space_in_drive(std::filesystem::path driver_name, double fps,double duration,double frameBytes){
     ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
     GetDiskFreeSpaceEx(
         driver_name.c_str(),
@@ -265,11 +265,12 @@ bool available_space_in_drive(std::filesystem::path driver_name, double fps,doub
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
+    uns32 Framebytes =  m_camera->GetFrameBytes();
     if (value * m_duration < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else if (!available_space_in_drive(m_path,value,m_duration)){
+    } else if (!available_space_in_drive(m_path,value,m_duration,Framebytes)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         std::stringstream tool_tip_text;
@@ -295,11 +296,12 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
+    uns32 Framebytes =  m_camera->GetFrameBytes();
     if (value * m_fps < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    }else if (!available_space_in_drive(m_path,value,m_duration)){
+    }else if (!available_space_in_drive(m_path,value,m_duration,Framebytes)){
         spdlog::info("Not enough space for acquisition");
         ui.startAcquisitionBtn->setStyleSheet("background-color: red");
         std::stringstream tool_tip_text;
@@ -668,7 +670,6 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
         spdlog::info("Creating acquisition");
         m_acquisition = std::make_unique<pmAcquisition>(m_camera);
     }
-
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
 
