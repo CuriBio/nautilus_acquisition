@@ -168,8 +168,6 @@ void MainWindow::Initialize() {
 
     //initial camera setup, need this to allocate buffers
     m_camera->SetupExp(m_expSettings);
-    // SetupExp will set this value, so need to update here
-    m_expSettings.bufferCount = m_camera->ctx->curExp->bufferCount;
 
     //for 8 bit image conversion for liveview, might not need it anymore
     m_img8 = new uint8_t[m_width*m_height];

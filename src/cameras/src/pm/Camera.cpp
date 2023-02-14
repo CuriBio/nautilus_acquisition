@@ -388,7 +388,7 @@ bool pm::Camera<F>::StopExp() {
 
 
 template<FrameConcept F>
-bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
+bool pm::Camera<F>::SetupExp(ExpSettings& settings) {
     if (!ctx) {
         spdlog::error("No camera found");
         return false;
@@ -463,6 +463,8 @@ bool pm::Camera<F>::SetupExp(const ExpSettings& settings) {
         uint32_t maxBuffers = uint32_t((0xFFFFFFFF >> 1) / ctx->frameBytes);
         spdlog::info("MaxBuffers {}", maxBuffers);
         ctx->curExp->bufferCount = (ctx->curExp->bufferCount == 0) ? maxBuffers : ctx->curExp->bufferCount;
+        // need to update the exposure settings for the caller as well
+        settings.bufferCount = ctx->curExp->bufferCount;
 
         //allocate buffer, example code mentions error with PCIe data, to fix it adds 16
         //to the buffer size, so going to do that here

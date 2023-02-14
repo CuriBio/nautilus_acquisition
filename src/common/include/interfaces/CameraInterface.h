@@ -139,12 +139,12 @@ struct ExpSettings {
 * @tparam F FrameConcept type.
 */
 template<typename T, typename F>
-concept CameraConcept = FrameConcept<F> and requires(T c, F* pframe, void* vptr, const ExpSettings& pExpSettings) {
+concept CameraConcept = FrameConcept<F> and requires(T c, F* pframe, void* vptr, const ExpSettings& constPExpSettings, ExpSettings& pExpSettings) {
     { c.Open(int8_t()) } -> std::same_as<bool>;
     { c.Close() } -> std::same_as<bool>;
     { c.GetInfo() } -> std::same_as<CameraInfo&>;
     { c.SetupExp(pExpSettings) } -> std::same_as<bool>;
-    { c.UpdateExp(pExpSettings) } -> std::same_as<bool>;
+    { c.UpdateExp(constPExpSettings) } -> std::same_as<bool>;
     { c.StartExp(vptr, vptr) } -> std::same_as<bool>;
     { c.StopExp() } -> std::same_as<bool>;
     { c.GetLatestFrame(pframe) } -> std::same_as<bool>;

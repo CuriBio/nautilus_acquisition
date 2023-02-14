@@ -244,7 +244,7 @@ namespace pm {
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool SetupExp(const ExpSettings& settings);
+                bool SetupExp(ExpSettings& settings);
 
                 /*
                  * @brief Start exposure.
