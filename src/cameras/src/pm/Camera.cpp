@@ -534,8 +534,6 @@ std::string pm::Camera<F>::GetError() const {
     else {
         message = errMsg;
     }
-
-    return message;
 }
 
 template<FrameConcept F>
