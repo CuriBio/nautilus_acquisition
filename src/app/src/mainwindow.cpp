@@ -27,8 +27,14 @@
  * 
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdlib.h>
 #include <format>
+#include <iostream>
+#include <ctime>
+#include <chrono>
+#include <fstream>
 
 #include <spdlog/spdlog.h>
 #include <QMessageBox>
@@ -108,7 +114,7 @@ MainWindow::MainWindow(
     m_expSettings.bufferCount = bufferCount;
     m_expSettings.storageType = storageType;
     m_expSettings.trigMode = triggerMode;
-    m_expSettings.expModeOut = exposureMode;
+    m_expSettings.expModeOut = exposureMode;    
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
@@ -248,7 +254,6 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         m_fps = value;
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
         m_expSettings.frameCount = m_duration * m_fps;
-        m_camera->SetupExp(m_expSettings);
     }
 }
 
@@ -270,7 +275,6 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
-    m_camera->SetupExp(m_expSettings);
 }
 
 
@@ -298,28 +302,32 @@ void MainWindow::on_settingsBtn_clicked() {
  */
 void MainWindow::on_liveScanBtn_clicked() {
     spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
-    if (!m_liveScanRunning && !m_acquisitionRunning) {
+
+    if (!m_liveScanRunning) {
         spdlog::info("Starting live scan");
         m_liveScanRunning = true;
 
+        // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
         double minFps = std::min<double>(m_fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-        StartAcquisition(false);
 
+        if (!m_acquisitionRunning) {
+            StartAcquisition(false);
+        }
         ui.liveScanBtn->setText("Stop Live Scan");
-    } else if (!m_liveScanRunning && m_acquisitionRunning) {
-        double minFps = std::min<double>(m_fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-        m_liveScanRunning = true;
-    } else if (m_liveScanRunning && m_acquisitionRunning) {
+    } else {
         spdlog::info("Stopping live scan");
         m_liveScanRunning = false;
-        m_liveViewTimer->stop();
-    } else if (m_liveScanRunning && !m_acquisitionRunning) {
-        spdlog::info("Stopping live scan");
-        m_liveScanRunning = false;
-        StopAcquisition();
+
+        if (!m_acquisitionRunning) {
+            // this will also stop the live view timer
+            StopAcquisition();
+        } else {
+            m_liveViewTimer->stop();
+        }
     }
+
+    ui.frameRateEdit->setEnabled(!m_liveScanRunning);
 }
 
 
@@ -417,6 +425,24 @@ void MainWindow::StopAcquisition() {
     if (!m_acquisition) {
         spdlog::error("m_acquisition is invalid");
         return;
+    }
+
+    if (std::filesystem::exists(m_expSettings.filePath)) {
+        spdlog::info("Writing settings file to {}\\settings.txt", m_expSettings.filePath.string());
+        std::filesystem::path settingsPath = m_expSettings.filePath / "settings.txt";
+        std::ofstream outfile(settingsPath.string()); // create output file stream
+        
+        if (outfile.is_open()) { 
+            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
+            outfile << "FRAME RATE: " << m_fps << "\n";
+            outfile << "DURATION: " << m_expSettings.expTimeMS << "\n";
+            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";  
+            outfile << "POSITIONS:\n ";      
+            for (auto& loc : m_stageControl->GetPositions()) {
+                outfile << "X: " <<  loc->x << " Y: " << loc->y << "\n";        
+            }
+            outfile.close();
+        }
     }
 
     switch (m_acquisition->GetState()) {
@@ -625,9 +651,27 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
 
-    spdlog::info("Setup exposure");
+    spdlog::info("Setup exposure"); 
+
+    // get local timestamp to add to subdir name
+    auto now = std::chrono::system_clock::now();
+    auto timestamp = std::chrono::system_clock::to_time_t(now);
+
+    std::tm *tm = std::localtime(&timestamp);
+    char buffer[20];
+    std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
+
+    std::string subdir = m_prefix + std::string(buffer);
+    // if the filePath already contains a subdirectory from a previous acquisition, then remove the sudir and append new subdir name
+    if (m_expSettings.filePath.filename().string().find(m_prefix) != std::string::npos) {
+        m_expSettings.filePath = m_expSettings.filePath.parent_path() / subdir;
+    } else {
+        // else if it's the first acquisition, there won't be a subdir on the filePath and it can just be added to initial filePath
+        m_expSettings.filePath /= subdir;
+    }
+
     m_expSettings.filePrefix = fmt::format("{}_", prefix);
-    m_camera->SetupExp(m_expSettings);
+    m_camera->UpdateExp(m_expSettings);
 
     spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
     if (!m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
@@ -653,6 +697,12 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         if (cls->m_acquisitionRunning) {
             int pos = 1;
             spdlog::info("Starting acquistions");
+
+            if (cls->m_stageControl->GetPositions().empty()) {
+                spdlog::info("No stage positions set, adding current position");
+                cls->m_stageControl->AddCurrentPosition();
+            }
+
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);

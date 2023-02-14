@@ -136,8 +136,7 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-
-    std::string path = toml::find_or<std::string>(config, "nautilus", "outdir", userProfile.string());
+    std::string path = toml::find_or<std::string>(config, "nautilus", "outdir", std::string("E:\\"));
     if (userargs.count("outdir")) {
         path = userargs["outdir"].as<std::string>();
     }
@@ -379,7 +378,6 @@ int main(int argc, char* argv[]) {
         spdlog::info("Gui Mode: {}", false);
         std::shared_ptr<pmCamera> camera = std::make_shared<pmCamera>();
 
-        ExpSettings m_expSettings;
         CameraInfo m_camInfo;
 
         camera->Open(0);
@@ -388,7 +386,7 @@ int main(int argc, char* argv[]) {
             spdlog::info("port: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
         }
 
-        camera->SetupExp(ExpSettings {
+        ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
             .filePath = path,
             .filePrefix = prefix,
@@ -403,7 +401,9 @@ int main(int argc, char* argv[]) {
             .expModeOut = exposureMode,
             .frameCount = frameCount,
             .bufferCount = bufferCount
-        });
+        };
+
+        camera->SetupExp(m_expSettings);
 
         std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera);
         acquisition->Start(true, 0.0, nullptr);

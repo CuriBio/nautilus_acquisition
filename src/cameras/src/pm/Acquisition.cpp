@@ -214,6 +214,12 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         m_latestFrame = frame;
                     }
 
+                    // make subdirectory to write to
+                    if (!std::filesystem::exists(filePath)) {
+                        std::filesystem::create_directories(filePath);
+                        spdlog::info("Acquisition being written under directory: {}", filePath.string());
+                    }
+
                     //TODO support different storage types
                     switch (m_camera->ctx->curExp->storageType) {
                         case StorageType::Tiff:

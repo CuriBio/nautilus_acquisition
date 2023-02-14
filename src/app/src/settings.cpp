@@ -58,7 +58,7 @@ Settings::~Settings() {
  * Sets the output directory path.
  */
 void Settings::on_dirChoiceBtn_clicked() {
-    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", "C:\\Users");
+    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", "E:\\");
 
     ui.dirChoice->setPlainText(dir);
     spdlog::info("Selected dir: {}", dir.toStdString());
