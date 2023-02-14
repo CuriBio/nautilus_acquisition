@@ -534,18 +534,10 @@ std::string pm::Camera<F>::GetError() const {
     else {
         message = errMsg;
     }
+
+    return message;
 }
 
-template<FrameConcept F>
-bool pm::Camera<F>::GetFrameBytes(uns32 &frameBytes){
-    if(!ctx){
-        spdlog::error("No camera context to get frameBytes from");
-        return false;
-    }else{
-        frameBytes = ctx->frameBytes;
-        return true;
-    }
-}
 
 template<FrameConcept F>
 bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {

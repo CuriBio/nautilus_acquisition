@@ -245,9 +245,8 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 */
 #ifdef _WIN32
 bool MainWindow::available_space_in_default_drive( double fps,double duration){
-    uns32 frameBytes;
-    bool ok =  m_camera->GetFrameBytes(frameBytes);
-    if(ok){
+    if(m_camera->ctx){
+        uns32 frameBytes = m_camera->ctx->frameBytes;
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
         GetDiskFreeSpaceEx(
             m_path.c_str(),
@@ -261,7 +260,7 @@ bool MainWindow::available_space_in_default_drive( double fps,double duration){
         spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
         return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
     }else{
-        return ok;
+        return false;
     }
 }
 #endif

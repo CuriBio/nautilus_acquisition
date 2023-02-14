@@ -298,12 +298,6 @@ namespace pm {
                  */
                 std::string GetError() const;
 
-                /*
-                * @brief get frameBytes.
-                *
-                * @return framBytes
-                */
-                bool GetFrameBytes(uns32 &frameBytes);
             private:
                 /*
                  * @brief Removed camera handler.
