@@ -62,11 +62,6 @@ using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
 using pmColorConfig = pm::ColorConfig<ph_color_context>;
 
-#define STAGE_MOVE1 5
-#define STAGE_MOVE2 15
-#define STAGE_MOVE3 25
-
-
 /*
  * Nautilus main window class.
  */
@@ -131,22 +126,6 @@ class MainWindow : public QMainWindow {
         void on_stageNavigationBtn_clicked() {
             m_stageControl->show();
         }
-
-        void on_stageRightBtn1_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE1); };
-        void on_stageRightBtn2_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE2); };
-        void on_stageRightBtn3_clicked() { m_stageControl->SetRelativeX(STAGE_MOVE3); };
-
-        void on_stageLeftBtn1_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE1); };
-        void on_stageLeftBtn2_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE2); };
-        void on_stageLeftBtn3_clicked() { m_stageControl->SetRelativeX(-STAGE_MOVE3); };
-
-        void on_stageUpBtn1_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE1); };
-        void on_stageUpBtn2_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE2); };
-        void on_stageUpBtn3_clicked() { m_stageControl->SetRelativeY(STAGE_MOVE3); };
-
-        void on_stageDownBtn1_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE1); };
-        void on_stageDownBtn2_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE2); };
-        void on_stageDownBtn3_clicked() { m_stageControl->SetRelativeY(-STAGE_MOVE3); };
 
         void updateLiveView();
 
