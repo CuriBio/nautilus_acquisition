@@ -260,6 +260,7 @@ bool MainWindow::available_space_in_default_drive( double fps,double duration){
         spdlog::info("Drive {} has: {} bytes free for acquisition",driver_string.str(),space_string.str());
         return lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes;
     }else{
+        spdlog::error("Camera context could not be found when checking for space");
         return false;
     }
 }
