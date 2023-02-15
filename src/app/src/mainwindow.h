@@ -216,7 +216,8 @@ class MainWindow : public QMainWindow {
             .frameCount = 0,
             .bufferCount = 100
         };
-
+        
+    private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
 
