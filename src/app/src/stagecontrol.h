@@ -1,6 +1,10 @@
 #ifndef STAGECONTROL_H
 #define STAGECONTROL_H
 
+#define STAGE_MOVE1 5
+#define STAGE_MOVE2 15
+#define STAGE_MOVE3 25
+
 #include <vector>
 
 #include <QDialog>
@@ -9,6 +13,7 @@
 #include <toml.hpp>
 
 #include <TangoStage.h>
+
 
 namespace Ui {
 class StageControl;
@@ -58,6 +63,22 @@ class StageControl : public QDialog {
         void on_loadListBtn_clicked();
 
         void on_gotoPosBtn_clicked();
+
+        void on_stageRightBtn1_clicked() { SetRelativeX(STAGE_MOVE1); };
+        void on_stageRightBtn2_clicked() { SetRelativeX(STAGE_MOVE2); };
+        void on_stageRightBtn3_clicked() { SetRelativeX(STAGE_MOVE3); };
+
+        void on_stageLeftBtn1_clicked() { SetRelativeX(-STAGE_MOVE1); };
+        void on_stageLeftBtn2_clicked() { SetRelativeX(-STAGE_MOVE2); };
+        void on_stageLeftBtn3_clicked() { SetRelativeX(-STAGE_MOVE3); };
+
+        void on_stageUpBtn1_clicked() { SetRelativeY(STAGE_MOVE1); };
+        void on_stageUpBtn2_clicked() { SetRelativeY(STAGE_MOVE2); };
+        void on_stageUpBtn3_clicked() { SetRelativeY(STAGE_MOVE3); };
+
+        void on_stageDownBtn1_clicked() { SetRelativeY(-STAGE_MOVE1); };
+        void on_stageDownBtn2_clicked() { SetRelativeY(-STAGE_MOVE2); };
+        void on_stageDownBtn3_clicked() { SetRelativeY(-STAGE_MOVE3); };
 
     private:
         Ui::StageControl *ui;
