@@ -27,8 +27,14 @@
  *
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdlib.h>
 #include <format>
+#include <iostream>
+#include <ctime>
+#include <chrono>
+#include <fstream>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -480,6 +486,24 @@ void MainWindow::StopAcquisition() {
         return;
     }
 
+    if (std::filesystem::exists(m_expSettings.filePath)) {
+        spdlog::info("Writing settings file to {}\\settings.txt", m_expSettings.filePath.string());
+        std::filesystem::path settingsPath = m_expSettings.filePath / "settings.txt";
+        std::ofstream outfile(settingsPath.string()); // create output file stream
+        
+        if (outfile.is_open()) { 
+            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
+            outfile << "FRAME RATE: " << m_fps << "\n";
+            outfile << "DURATION: " << m_expSettings.expTimeMS << "\n";
+            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";  
+            outfile << "POSITIONS:\n ";      
+            for (auto& loc : m_stageControl->GetPositions()) {
+                outfile << "X: " <<  loc->x << " Y: " << loc->y << "\n";        
+            }
+            outfile.close();
+        }
+    }
+
     switch (m_acquisition->GetState()) {
         case AcquisitionState::AcqLiveScan:
             if (m_liveScanRunning) {
@@ -685,7 +709,25 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
 
-    spdlog::info("Setup exposure");
+    spdlog::info("Setup exposure"); 
+
+    // get local timestamp to add to subdir name
+    auto now = std::chrono::system_clock::now();
+    auto timestamp = std::chrono::system_clock::to_time_t(now);
+
+    std::tm *tm = std::localtime(&timestamp);
+    char buffer[20];
+    std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
+
+    std::string subdir = m_prefix + std::string(buffer);
+    // if the filePath already contains a subdirectory from a previous acquisition, then remove the sudir and append new subdir name
+    if (m_expSettings.filePath.filename().string().find(m_prefix) != std::string::npos) {
+        m_expSettings.filePath = m_expSettings.filePath.parent_path() / subdir;
+    } else {
+        // else if it's the first acquisition, there won't be a subdir on the filePath and it can just be added to initial filePath
+        m_expSettings.filePath /= subdir;
+    }
+
     m_expSettings.filePrefix = fmt::format("{}_", prefix);
     m_camera->UpdateExp(m_expSettings);
 
