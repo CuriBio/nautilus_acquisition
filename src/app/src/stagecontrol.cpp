@@ -103,22 +103,23 @@ void StageControl::on_saveListBtn_clicked() {
 
 void StageControl::saveList(std::string fileName, bool fileExists) {
     spdlog::info("Saving stage positions to file: {}", fileName);
+    toml::value file;
+    if (fileExists) {
+        file = toml::parse<toml::preserve_comments>(fileName);
+    } else {
+        file = toml::value {};
+    }
 
     toml::array vs{};
     for (auto& v : m_positions) {
         vs.push_back(toml::value{ {"x", v->x}, {"y", v->y} });
     }
-    const toml::value stage{ {"stage", toml::value{{"location", vs}}} };
+    file["stage"] = toml::value{{"location", vs}};
 
-    if (fileExists) {
-        auto file = toml::parse<toml::preserve_comments>(fileName);
-        file["stage"] = stage;
-    } else {
-        std::ofstream outf;
-        outf.open(fileName);
-        outf << stage << std::endl;
-        outf.close();
-    }
+    std::ofstream outf;
+    outf.open(fileName);
+    outf << file << std::endl;
+    outf.close();
 }
 
 void StageControl::on_loadListBtn_clicked() {
