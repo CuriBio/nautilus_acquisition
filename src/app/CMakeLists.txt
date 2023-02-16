@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/settings.cpp
     ./src/histview.cpp
     ./src/stagecontrol.cpp
+    ./src/advancedsetupdialog.cpp
     )
 
 target_include_directories(${PROJECT_NAME}

@@ -336,6 +336,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
  * Currently does nothing.
  */
 void MainWindow::on_advancedSetupBtn_clicked() {
+
 }
 
 
