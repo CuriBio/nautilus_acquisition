@@ -119,7 +119,7 @@ MainWindow::MainWindow(
     m_expSettings.bufferCount = bufferCount;
     m_expSettings.storageType = storageType;
     m_expSettings.trigMode = triggerMode;
-    m_expSettings.expModeOut = exposureMode;    
+    m_expSettings.expModeOut = exposureMode;
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
