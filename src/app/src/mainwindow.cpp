@@ -274,7 +274,7 @@ bool MainWindow::available_space_in_default_drive( double fps,double duration){
 
     }else{
         spdlog::error("Camera context could not be found when checking for space in default drive");
-        ui.startAcquisitionBtn->setToolTip("Please restart the device and software.");
+        ui.startAcquisitionBtn->setToolTip("Camera can not be found.");
         return false;
     }
 }
@@ -292,7 +292,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else if (!available_space_in_default_drive(value,m_duration)){
-        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
@@ -318,7 +318,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     }else if (!available_space_in_default_drive(value,m_duration)){
-        ui.startAcquisitionBtn->setStyleSheet("background-color: red");
+        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
