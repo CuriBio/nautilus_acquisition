@@ -91,7 +91,7 @@ MainWindow::MainWindow(
     m_stageComPort = stageComPort;
 
     m_settings = new Settings(this, m_path, m_prefix);
-    m_stageControl = new StageControl(m_stageComPort, this);
+    m_stageControl = new StageControl(m_stageComPort, configFile, this);
 
     m_duration = duration;
     m_fps = fps;
