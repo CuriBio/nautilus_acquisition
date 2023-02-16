@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,11 +24,16 @@
 
 /*********************************************************************
  * @file  mainwindow.cpp
- * 
+ *
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #include <stdlib.h>
 #include <format>
+
+#ifdef _WIN32
+#include <windows.h>
+#include <fileapi.h>
+#endif
 
 #include <spdlog/spdlog.h>
 #include <QMessageBox>
@@ -231,6 +236,52 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
 
 
 /*
+ * Check if default drive on windows has sufficient space for acquisition.
+ * Update startAcquisitionBtn if error.
+ *
+ * @param fps setting of acquisition
+ * @param duration of acquisition
+ *
+ * @returns boolean true if space is available
+*/
+#ifdef _WIN32
+bool MainWindow::available_space_in_default_drive( double fps,double duration){
+    if(m_camera->ctx){
+        uns32 frameBytes = m_camera->ctx->frameBytes;
+        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
+        std::stringstream tool_tip_text;
+
+        if (!GetDiskFreeSpaceEx(m_path.c_str(),nullptr,nullptr,& lpTotalNumberOfFreeBytes)){
+            //default drive could not be found
+            spdlog::error("Default drive could not be found when");
+            tool_tip_text << "Please check device is properly pulgged into " << m_path << " drive.";
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
+            return false;
+        }else if(lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes){
+            //space for acquisition found
+            std::stringstream storage_space_string,driver_name_string;
+            storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
+            driver_name_string << m_path;
+            spdlog::info("Drive {} has: {} bytes free for acquisition",driver_name_string.str(),storage_space_string.str());
+            return true;
+        }else{
+            //not enough space for acquisition
+            spdlog::error("Not enough space for acquisition");
+            tool_tip_text << "Not enough space in " << m_path << " drive.";
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
+            return false;
+        }
+
+    }else{
+        spdlog::error("Camera context could not be found when checking for space in default drive");
+        ui.startAcquisitionBtn->setToolTip("Camera can not be found.");
+        return false;
+    }
+}
+#endif
+
+
+/*
  * Frame Rate edit box slot, called when users changes the FPS value.
  *
  * @param value The updated FPS value.
@@ -240,9 +291,13 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
+    } else if (!available_space_in_default_drive(value,m_duration)){
+        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
 
         spdlog::info("Setting new exposure value");
         m_fps = value;
@@ -262,9 +317,13 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
+    }else if (!available_space_in_default_drive(value,m_duration)){
+        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
+    }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
+        ui.startAcquisitionBtn->setStyleSheet("");
+        ui.startAcquisitionBtn->setToolTip("");
     }
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
@@ -623,7 +682,6 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
         spdlog::info("Creating acquisition");
         m_acquisition = std::make_unique<pmAcquisition>(m_camera);
     }
-
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
 

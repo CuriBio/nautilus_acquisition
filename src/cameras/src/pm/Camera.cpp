@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  Camera.cpp
- * 
+ *
  * @brief Implementation of the Camera class for Photometrics PVCAM.
  *********************************************************************/
 #include <cstdint>
@@ -220,7 +220,7 @@ bool pm::Camera<F>::Open(int8_t cameraId) {
 
     // Set the number of sensor clear cycles to 2 (default).
     // This is mostly relevant to CCD cameras only and it has
-    // no effect with CLEAR_NEVER or CLEAR_AUTO clearing modes 
+    // no effect with CLEAR_NEVER or CLEAR_AUTO clearing modes
     // typically used with sCMOS cameras.
     uns16 clearCycles = 2;
     if(!pm::pl_set_param_if_exists(ctx->hcam, PARAM_CLEAR_CYCLES, (void*)&clearCycles)) {
@@ -325,7 +325,7 @@ bool pm::Camera<F>::Close() {
 
     if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_CAM_REMOVED)) {
         spdlog::error("Failed to unregister camera removal callback for camera {}", ctx->info.name);
-    } 
+    }
 
     if (PV_OK != pl_cam_close(ctx->hcam)) {
         spdlog::error("Failed to close camera {}", ctx->info.name);
@@ -547,7 +547,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
     }
 
     std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
-    if (ctx->imaging) { 
+    if (ctx->imaging) {
         spdlog::error("Camera::StartExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
