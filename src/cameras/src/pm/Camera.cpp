@@ -335,12 +335,6 @@ bool pm::Camera<F>::Close() {
         spdlog::error("Failure releasing frame info structure for camera {}", ctx->info.name);
     }
 
-    //TODO Delete buffer
-    if (ctx->curFrameInfo) {
-        delete ctx->curFrameInfo;
-        ctx->curFrameInfo = nullptr;
-    }
-
     if (ctx->buffer) {
         ctx->frames.clear();
         ctx->buffer.reset();
