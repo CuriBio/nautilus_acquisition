@@ -1,6 +1,14 @@
 Changelog for Nautilus
 ======================
 
+0.1.8 (2023-02-17)
+------------------
+
+Changed:
+^^^^^^
+- Stage controls have been moved to `Stage Navigation` modal.
+
+
 0.1.7 (2023-02-14)
 ------------------
 
