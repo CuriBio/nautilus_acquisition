@@ -39,7 +39,7 @@ class StageControl : public QDialog {
     Q_OBJECT
 
     public:
-        explicit StageControl(std::string comPort, QWidget *parent = nullptr);
+        explicit StageControl(std::string comPort, std::string configFile, QWidget *parent = nullptr);
         ~StageControl();
 
         void SetRelativePosition(double x, double y);
@@ -86,8 +86,12 @@ class StageControl : public QDialog {
 
         TangoStage* m_tango;
         std::string m_comPort;
+        std::string m_configFile;
 
         double m_curX{0.0}, m_curY{0.0};
+
+        void saveList(std::string fileName, bool fileExists);
+        void loadList(std::string fileName);
 };
 
 #endif // STAGECONTROL_H

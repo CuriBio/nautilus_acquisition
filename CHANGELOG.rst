@@ -1,22 +1,33 @@
 Changelog for Nautilus
-===================================
+======================
 
-0.1.9 (2023-02-17)
+0.1.10 (2023-02-16)
 -------------------
+
+Added:
+^^^^^^
+- Automatic saving of stage position list on shutdown and loading of previous stage position list on launch
+
+Fixed:
+^^^^^^
+- Errors on shutdown
+
+
+0.1.9 (2023-02-16)
+------------------
 
 Added:
 ^^^^^^
 - Store TIFF files under subdirectory in the format prefix__YYYY_M_D_HMS
 - Add settings.txt file to each acquisition with led intensity, stage positions, duration, and frame rate
 
-======================
 
-0.1.8 (2023-02-17)
+0.1.8 (2023-02-16)
 ------------------
 
 Changed:
-^^^^^^
-- Stage controls have been moved to `Stage Navigation` modal.
+^^^^^^^^
+- Stage controls have been moved to ``Stage Navigation`` modal
 
 
 0.1.7 (2023-02-14)
@@ -24,7 +35,7 @@ Changed:
 
 Added:
 ^^^^^^
-- Check before each acquisition for necessary space in default drive.
+- Check before each acquisition for necessary space in default drive
 
 
 0.1.6 (2023-02-14)
@@ -32,15 +43,15 @@ Added:
 
 Changed:
 ^^^^^^^^
-- Setup Exposure Refactor.
+- Only allocate memory for acquisition once, and only set up exposure when starting acquisition
 
 
 0.1.5 (2023-02-14)
 ------------------
 
-Added:
-^^^^^^
-- Nautilus will now run acquisition sequence when no default stage poitision is detected.
+Changed:
+^^^^^^^^
+- If no stage positions set when acquisition begins, use current state position
 
 
 0.1.4 (2023-02-13)
