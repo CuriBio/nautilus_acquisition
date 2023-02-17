@@ -67,9 +67,11 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
         new_taskAO = "new_Analog_Out_Volts"; //Task for setting Analog Output voltage
         new_devAO = fmt::format("{}/ao0", new_niDev); //Device name for analog output
         spdlog::info("Using NI device {} for analog output", new_devAO);
-        new_taskDO = "Digital_Out"; //Task for setting Digital Output
+        new_taskDO = "new_Digital_Out"; //Task for setting Digital Output
         new_devDO = fmt::format("{}/port0/line0:7", new_niDev); //Device for digital output
         spdlog::info("Using NI device {} for digital output", new_devDO);
+        new_DAQmx.ClearTask(new_taskAO);
+        new_DAQmx.ClearTask(new_taskDO);
         new_DAQmx.CreateTask(new_taskAO);
         new_DAQmx.CreateTask(new_taskDO);
         new_DAQmx.CreateAnalogOutpuVoltageChan(new_taskAO, new_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);

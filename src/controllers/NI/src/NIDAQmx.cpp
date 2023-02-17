@@ -315,7 +315,7 @@ std::vector<std::string> NIDAQmx::GetListOfDevices(){
     }else{
         std::string tempstring(devicenamesbuffer);
         std::vector<std::string> devicenamesbuffer;
-        std::stringstream ss("Dev1,Dev2,Dev3");
+        std::stringstream ss(tempstring);
         while(ss.good()){
             std::string nidevicename;
             getline(ss,nidevicename,',');
