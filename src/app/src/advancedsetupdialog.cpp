@@ -50,9 +50,25 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 */
 void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
     //only one setting to update right now
+
+    //update ni device name in toml file
     if(!new_niDev.empty()){
-        //TODO Update what ever is need to get updated for the ni device name
-        spdlog::info("Updated NI device name in toml");
+        std::filesystem::path userProfile{"/Users"};
+        char* up = getenv("USERPROFILE");
+        if (up != nullptr) {
+            userProfile = std::string(up);
+        }
+
+        std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
+
+        if (std::filesystem::exists(configFile)) {
+            auto file = toml::parse(configFile);
+            file["device"]["nidaqmx"]["device"] = new_niDev;
+            std::ofstream outf;
+            outf.open(configFile.string());
+            outf << file << std::endl;
+            spdlog::info("Updated NI device name in toml");
+        }
     }
     spdlog::info("Done updating advanced settings");
     this->close();

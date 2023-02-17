@@ -1,7 +1,6 @@
 #ifndef  ADVANCEDSETUPDIALOG_H
 #define  ADVANCEDSETUPDIALOG_H
 
-#include <toml.hpp>
 
 #include <QDialog>
 #include <QListWidget>
