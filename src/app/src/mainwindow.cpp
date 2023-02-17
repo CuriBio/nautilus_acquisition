@@ -342,8 +342,8 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
  * Advanced setup button slot, called when user clicks on advanced setup button.
  */
 void MainWindow::on_advancedSetupBtn_clicked() {
-    std::vector<char> devicelist = m_DAQmx.GetListOfDevices();
-    m_advancedSettingsDialog->Initialize(devicelist,&m_niDev);
+    std::vector<std::string> devicelist = m_DAQmx.GetListOfDevices();
+    m_advancedSettingsDialog->Initialize(devicelist);
     spdlog::info("Showing advanced setup window");
     m_advancedSettingsDialog->show();
 }
@@ -494,15 +494,15 @@ void MainWindow::StopAcquisition() {
         spdlog::info("Writing settings file to {}\\settings.txt", m_expSettings.filePath.string());
         std::filesystem::path settingsPath = m_expSettings.filePath / "settings.txt";
         std::ofstream outfile(settingsPath.string()); // create output file stream
-        
-        if (outfile.is_open()) { 
+
+        if (outfile.is_open()) {
             outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
             outfile << "FRAME RATE: " << m_fps << "\n";
             outfile << "DURATION: " << m_expSettings.expTimeMS << "\n";
-            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";  
-            outfile << "POSITIONS:\n ";      
+            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
+            outfile << "POSITIONS:\n ";
             for (auto& loc : m_stageControl->GetPositions()) {
-                outfile << "X: " <<  loc->x << " Y: " << loc->y << "\n";        
+                outfile << "X: " <<  loc->x << " Y: " << loc->y << "\n";
             }
             outfile.close();
         }
@@ -713,7 +713,7 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
 
-    spdlog::info("Setup exposure"); 
+    spdlog::info("Setup exposure");
 
     // get local timestamp to add to subdir name
     auto now = std::chrono::system_clock::now();

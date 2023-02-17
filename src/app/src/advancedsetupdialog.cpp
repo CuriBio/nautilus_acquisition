@@ -14,10 +14,9 @@ AdvancedSetupDialog::AdvancedSetupDialog( QWidget *parent) : QDialog(parent), ui
     ui->setupUi(this);
 
     std::string new_niDev;
-    m_niDev = nullptr;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
-    connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(AdvancedSetupDialog::nidevice_indexChanged(int)));
+    connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
 }
 
 
@@ -27,17 +26,19 @@ AdvancedSetupDialog::~AdvancedSetupDialog() {
 
 
 /*
-* Reads lists of ni devices and populates drop down menu,Initialize othere options.
+* Reads lists of ni devices and populates drop down menu,
+* Initialize othere options.
 *
-* @param vector of ni devices
-* @param pointer to current m_niDev from mainwindow
+* @param vector of ni device names
 */
-void AdvancedSetupDialog::Initialize(std::vector<char> devicelist,std::string* m_niDev){
+void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     ui->nidevicelist->clear();
     if(devicelist.size() == 0){
         ui->nidevicelist->addItem("No NI devices detected");
     }else{
-        this->m_niDev = m_niDev;
+        for(std::string nidevicename : devicelist){
+            ui->nidevicelist->addItem(QString::fromStdString(nidevicename));
+        }
     }
 
 
@@ -50,8 +51,8 @@ void AdvancedSetupDialog::Initialize(std::vector<char> devicelist,std::string* m
 void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
     //only one setting to update right now
     if(!new_niDev.empty()){
-        *m_niDev = new_niDev;
-        spdlog::info("Updated NI device name");
+        //TODO Update what ever is need to get updated for the ni device name
+        spdlog::info("Updated NI device name in toml");
     }
     spdlog::info("Done updating advanced settings");
     this->close();
@@ -65,6 +66,7 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
 */
 void AdvancedSetupDialog::nidevice_indexChanged(int index){
     new_niDev = ui->nidevicelist->currentText().toStdString();
+    spdlog::info("new");
 }
 
 

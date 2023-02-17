@@ -1,9 +1,12 @@
 #ifndef  ADVANCEDSETUPDIALOG_H
 #define  ADVANCEDSETUPDIALOG_H
 
+#include <toml.hpp>
+
 #include <QDialog>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <toml.hpp>
 
 namespace Ui {
 class AdvancedSetupDialog;
@@ -17,7 +20,7 @@ class AdvancedSetupDialog : public QDialog{
     public:
         explicit AdvancedSetupDialog(QWidget* parent = 0);
         ~AdvancedSetupDialog();
-        void Initialize(std::vector<char>,std::string* m_niDev);
+        void Initialize(std::vector<std::string>);
 
     private slots:
         void on_confirm_new_advanced_setup();
@@ -25,7 +28,6 @@ class AdvancedSetupDialog : public QDialog{
 
     private:
         Ui::AdvancedSetupDialog *ui;
-        std::string* m_niDev;
         std::string new_niDev;
 };
 #endif // ADVANCEDSETUPDIALOG_H

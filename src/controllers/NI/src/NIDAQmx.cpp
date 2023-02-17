@@ -302,22 +302,30 @@ bool NIDAQmx::WriteDigitalLines(
 
 
 /*
-* @breif
-*
-*
-*
-* @param
+* Get the list of all ni device names as a vector of string
 */
-std::vector<char> NIDAQmx::GetListOfDevices(){
+std::vector<std::string> NIDAQmx::GetListOfDevices(){
     constexpr size_t bufferSize = 1000;
-    char devicelist[bufferSize] = {};
-    if(DAQmxFailed(DAQmxGetSysDevNames(devicelist, bufferSize))){
+    char devicenamesbuffer[bufferSize] = {};
+
+    if(DAQmxFailed(DAQmxGetSysDevNames(devicenamesbuffer, bufferSize))){
         spdlog::error("NI device search failed");
-        std::vector<char> vec;
-        return vec;
+        std::vector<std::string> empty;
+        return empty;
     }else{
-        spdlog::info("NI devices found");
-        return std::vector<char> (devicelist[0],devicelist[1000]);
+        std::string tempstring(devicenamesbuffer);
+        std::vector<std::string> devicenamesbuffer;
+        std::stringstream ss("a,b,c,d");
+        while(ss.good()){
+            std::string nidevicename;
+            getline(ss,nidevicename,',');
+            if(nidevicename == ""){
+                break;
+            }
+            devicenamesbuffer.push_back(nidevicename);
+        }
+        spdlog::info("NI search complete");
+        return devicenamesbuffer;
     }
 }
 
