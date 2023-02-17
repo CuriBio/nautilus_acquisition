@@ -155,7 +155,7 @@ class NIDAQmx {
         bool WriteAnalogF64(std::string& taskName, int32_t numSampsPerChan, unsigned long autoStart, double timeout, double dataLayout, const double writeArray[], int32_t* sampsPerChanWritten);
 
 
-        std::vector<char> GetListOfDevices();
+        std::vector<std::string> GetListOfDevices();
     private:
         /*
          * Get latest error string.
