@@ -7,6 +7,8 @@
 #include <QListWidgetItem>
 #include <toml.hpp>
 
+#include <NIDAQmx_wrapper.h>
+
 namespace Ui {
 class AdvancedSetupDialog;
 }
@@ -27,6 +29,10 @@ class AdvancedSetupDialog : public QDialog{
 
     private:
         Ui::AdvancedSetupDialog *ui;
-        std::string new_niDev;
+
+        NIDAQmx new_DAQmx; //NI-DAQmx controller for LEDs
+        std::string new_niDev; //NI-DAQmx device name
+        std::string new_taskAO, new_devAO;
+        std::string new_taskDO, new_devDO;
 };
 #endif // ADVANCEDSETUPDIALOG_H

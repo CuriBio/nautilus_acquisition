@@ -103,7 +103,7 @@ MainWindow::MainWindow(
 
     m_settings = new Settings(this, m_path, m_prefix);
     m_stageControl = new StageControl(m_stageComPort,configFile, this);
-    m_advancedSettingsDialog = new AdvancedSetupDialog();
+    m_advancedSettingsDialog = new AdvancedSetupDialog(this);
 
     m_duration = duration;
     m_fps = fps;
