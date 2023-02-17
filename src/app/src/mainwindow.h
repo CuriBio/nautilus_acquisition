@@ -55,6 +55,7 @@
 #include "settings.h"
 #include "ui_mainwindow.h"
 #include "stagecontrol.h"
+#include "advancedsetupdialog.h"
 
 #define TASKS 8
 
@@ -132,6 +133,7 @@ class MainWindow : public QMainWindow {
     private:
         Ui::MainWindow ui;
         StageControl* m_stageControl{nullptr};
+        AdvancedSetupDialog * m_advancedSettingsDialog{nullptr};
         std::string m_stageComPort{};
 
         Settings* m_settings {nullptr};
@@ -195,7 +197,7 @@ class MainWindow : public QMainWindow {
             .frameCount = 0,
             .bufferCount = 100
         };
-        
+
     private:
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
@@ -212,4 +214,3 @@ class MainWindow : public QMainWindow {
 };
 
 #endif
-
