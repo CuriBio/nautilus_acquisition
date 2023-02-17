@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  NIDAQmx_wrapper.h
- * 
+ *
  * Definition of the NIDAQmx_wrapper class.
  *********************************************************************/
 #ifndef _NIDAQMX_WRAPPER_H
@@ -154,6 +154,8 @@ class NIDAQmx {
          */
         bool WriteAnalogF64(std::string& taskName, int32_t numSampsPerChan, unsigned long autoStart, double timeout, double dataLayout, const double writeArray[], int32_t* sampsPerChanWritten);
 
+
+        std::vector<char> GetListOfDevices();
     private:
         /*
          * Get latest error string.

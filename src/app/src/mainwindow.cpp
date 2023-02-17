@@ -97,6 +97,7 @@ MainWindow::MainWindow(
 
     m_settings = new Settings(this, m_path, m_prefix);
     m_stageControl = new StageControl(m_stageComPort, this);
+    m_advancedSettingsDialog = new AdvancedSetupDialog();
 
     m_duration = duration;
     m_fps = fps;
@@ -333,9 +334,12 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 
 /*
  * Advanced setup button slot, called when user clicks on advanced setup button.
- * Currently does nothing.
  */
 void MainWindow::on_advancedSetupBtn_clicked() {
+    std::vector<char> devicelist = m_DAQmx.GetListOfDevices();
+    m_advancedSettingsDialog->Initialize(devicelist,&m_niDev);
+    spdlog::info("Showing advanced setup window");
+    m_advancedSettingsDialog->show();
 }
 
 

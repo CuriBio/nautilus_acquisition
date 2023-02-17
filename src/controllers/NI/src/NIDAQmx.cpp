@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  NIDAQmx.cpp
- * 
+ *
  * @brief Implementation of the NIDAQmx wrapper class.
  *********************************************************************/
 #include <stdint.h>
@@ -297,6 +297,27 @@ bool NIDAQmx::WriteDigitalLines(
     } else {
         spdlog::error("Task {} does not exist", taskName);
         return false;
+    }
+}
+
+
+/*
+* @breif
+*
+*
+*
+* @param
+*/
+std::vector<char> NIDAQmx::GetListOfDevices(){
+    constexpr size_t bufferSize = 1000;
+    char devicelist[bufferSize] = {};
+    if(DAQmxFailed(DAQmxGetSysDevNames(devicelist, bufferSize))){
+        spdlog::error("NI device search failed");
+        std::vector<char> vec;
+        return vec;
+    }else{
+        spdlog::info("NI devices found");
+        return std::vector<char> (devicelist[0],devicelist[1000]);
     }
 }
 
