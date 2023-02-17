@@ -21,7 +21,7 @@ class AdvancedSetupDialog : public QDialog{
 
     private slots:
         void on_confirm_new_advanced_setup();
-        void indexChanged(int index);
+        void nidevice_indexChanged(int index);
 
     private:
         Ui::AdvancedSetupDialog *ui;

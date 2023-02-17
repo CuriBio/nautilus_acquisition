@@ -17,7 +17,7 @@ AdvancedSetupDialog::AdvancedSetupDialog( QWidget *parent) : QDialog(parent), ui
     m_niDev = nullptr;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
-    connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(AdvancedSetupDialog::indexChanged(int)));
+    connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(AdvancedSetupDialog::nidevice_indexChanged(int)));
 }
 
 
@@ -63,7 +63,7 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
 *
 * @param index of new choice
 */
-void AdvancedSetupDialog::indexChanged(int index){
+void AdvancedSetupDialog::nidevice_indexChanged(int index){
     new_niDev = ui->nidevicelist->currentText().toStdString();
 }
 
