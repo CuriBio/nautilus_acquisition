@@ -9,9 +9,12 @@
 *
 * @param parent Pointer to parent widget.
 */
-AdvancedSetupDialog::AdvancedSetupDialog(QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
+AdvancedSetupDialog::AdvancedSetupDialog( toml::value config,std::string* m_niDev,QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
-    new_niDev = "";
+
+    std::string niDev = toml::find_or<std::string>(config, "device", "nidaqmx","device", std::string("Dev2"));
+    new_niDev = niDev;
+    m_niDev=m_niDev;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
     connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
@@ -62,21 +65,7 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
         outf.open(configFile.string());
         outf << file << std::endl;
         spdlog::info("Updated NI device name in toml");
-
-        //Re setup NIDAQmx controller for LED
-        new_taskAO = "new_Analog_Out_Volts"; //Task for setting Analog Output voltage
-        new_devAO = fmt::format("{}/ao0", new_niDev); //Device name for analog output
-        spdlog::info("Using NI device {} for analog output", new_devAO);
-        new_taskDO = "new_Digital_Out"; //Task for setting Digital Output
-        new_devDO = fmt::format("{}/port0/line0:7", new_niDev); //Device for digital output
-        spdlog::info("Using NI device {} for digital output", new_devDO);
-        new_DAQmx.ClearTask(new_taskAO);
-        new_DAQmx.ClearTask(new_taskDO);
-        new_DAQmx.CreateTask(new_taskAO);
-        new_DAQmx.CreateTask(new_taskDO);
-        new_DAQmx.CreateAnalogOutpuVoltageChan(new_taskAO, new_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
-        new_DAQmx.CreateDigitalOutputChan(new_taskDO, new_devDO.c_str(), DAQmx_Val_ChanForAllLines);
-        spdlog::info("Initialized NI device channels with new name");
+        emit this->sig_ni_dev_change();
     }
 
     spdlog::info("Done updating advanced settings");
@@ -91,4 +80,9 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
 */
 void AdvancedSetupDialog::nidevice_indexChanged(int index){
     new_niDev = ui->nidevicelist->currentText().toStdString();
+}
+
+
+std::string AdvancedSetupDialog::Get_Device_Selected(){
+    return new_niDev;
 }

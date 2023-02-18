@@ -19,9 +19,13 @@ class AdvancedSetupDialog : public QDialog{
     Q_OBJECT
 
     public:
-        explicit AdvancedSetupDialog(QWidget* parent = 0);
+        explicit AdvancedSetupDialog(toml::value config,std::string* m_niDev, QWidget* parent = 0);
         ~AdvancedSetupDialog();
         void Initialize(std::vector<std::string>);
+        std::string Get_Device_Selected();
+
+    signals:
+        void sig_ni_dev_change();
 
     private slots:
         void on_confirm_new_advanced_setup();
@@ -29,10 +33,7 @@ class AdvancedSetupDialog : public QDialog{
 
     private:
         Ui::AdvancedSetupDialog *ui;
-
-        NIDAQmx new_DAQmx; //NI-DAQmx controller for LEDs
         std::string new_niDev; //NI-DAQmx device name
-        std::string new_taskAO, new_devAO;
-        std::string new_taskDO, new_devDO;
+        std::string* m_niDev;
 };
 #endif // ADVANCEDSETUPDIALOG_H

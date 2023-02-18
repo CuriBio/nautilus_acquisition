@@ -103,7 +103,6 @@ MainWindow::MainWindow(
 
     m_settings = new Settings(this, m_path, m_prefix);
     m_stageControl = new StageControl(m_stageComPort,configFile, this);
-    m_advancedSettingsDialog = new AdvancedSetupDialog(this);
 
     m_duration = duration;
     m_fps = fps;
@@ -112,7 +111,7 @@ MainWindow::MainWindow(
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
     m_config = config;
-    m_configFile = configFile;
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,&m_niDev,this);
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -124,6 +123,7 @@ MainWindow::MainWindow(
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
+    connect(m_advancedSettingsDialog,&AdvancedSetupDialog::sig_ni_dev_change,this,&MainWindow::Resetup_ni_device);
 
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
@@ -227,6 +227,29 @@ void MainWindow::Initialize() {
     ui.ledIntensityEdit->setValue(m_ledIntensity);
     ui.frameRateEdit->setValue(m_fps);
     ui.durationEdit->setValue(m_duration);
+}
+
+
+/*
+* Runs when a new ni device is selected, re configure ni device leds
+*/
+void MainWindow::Resetup_ni_device(){
+    m_DAQmx.ClearTask(m_taskAO);
+    m_DAQmx.ClearTask(m_taskDO);
+    //Setup NIDAQmx controller for LED
+    m_taskAO = "new_Analog_Out_Volts"; //Task for setting Analog Output voltage
+    m_devAO = fmt::format("{}/ao0", m_niDev); //Device name for analog output
+    spdlog::info("Using NI device {} for analog output", m_devAO);
+
+    m_taskDO = "new_Digital_Out"; //Task for setting Digital Output
+    m_devDO = fmt::format("{}/port0/line0:7", m_niDev); //Device for digital output
+    spdlog::info("Using NI device {} for digital output", m_devDO);
+
+    m_DAQmx.CreateTask(m_taskAO);
+    m_DAQmx.CreateTask(m_taskDO);
+
+    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
+    m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
 }
 
 
