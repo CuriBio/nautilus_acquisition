@@ -111,7 +111,7 @@ MainWindow::MainWindow(
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
     m_config = config;
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,&m_niDev,this);
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,this);
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -137,6 +137,8 @@ MainWindow::MainWindow(
     m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
     m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
     m_taskApplyLut = std::make_shared<TaskApplyLut16>();
+    std::vector<std::string> devicelist = m_DAQmx.GetListOfDevices();
+    m_advancedSettingsDialog->Initialize(devicelist);
 }
 
 
@@ -233,7 +235,8 @@ void MainWindow::Initialize() {
 /*
 * Runs when a new ni device is selected, re configure ni device leds
 */
-void MainWindow::Resetup_ni_device(){
+void MainWindow::Resetup_ni_device(std::string new_m_niDev){
+    m_niDev = new_m_niDev;
     m_DAQmx.ClearTask(m_taskAO);
     m_DAQmx.ClearTask(m_taskDO);
     //Setup NIDAQmx controller for LED
@@ -365,8 +368,6 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
  * Advanced setup button slot, called when user clicks on advanced setup button.
  */
 void MainWindow::on_advancedSetupBtn_clicked() {
-    std::vector<std::string> devicelist = m_DAQmx.GetListOfDevices();
-    m_advancedSettingsDialog->Initialize(devicelist);
     spdlog::info("Showing advanced setup window");
     m_advancedSettingsDialog->show();
 }

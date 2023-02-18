@@ -105,7 +105,7 @@ class MainWindow : public QMainWindow {
         }
 
         void Initialize();
-        void Resetup_ni_device();
+        void Resetup_ni_device(std::string new_m_niDev);
 
     signals:
         void sig_acquisition_done();

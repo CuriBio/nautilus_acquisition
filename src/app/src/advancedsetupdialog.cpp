@@ -9,12 +9,11 @@
 *
 * @param parent Pointer to parent widget.
 */
-AdvancedSetupDialog::AdvancedSetupDialog( toml::value config,std::string* m_niDev,QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
+AdvancedSetupDialog::AdvancedSetupDialog( toml::value config,QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
 
     std::string niDev = toml::find_or<std::string>(config, "device", "nidaqmx","device", std::string("Dev2"));
-    new_niDev = niDev;
-    m_niDev=m_niDev;
+    m_niDev = niDev;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
     connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
@@ -51,7 +50,7 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
     //only one setting to update right now
 
     //if new newdev selected then update toml and channels
-    if(new_niDev != "No NI devices detected"){
+    if(m_niDev != "No NI devices detected"){
         std::filesystem::path userProfile{"/Users"};
         char* up = getenv("USERPROFILE");
         if (up != nullptr) {
@@ -60,12 +59,12 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
         //save new ni device to toml file
         std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
         auto file = toml::parse(configFile);
-        file["device"]["nidaqmx"]["device"] = new_niDev;
+        file["device"]["nidaqmx"]["device"] = m_niDev;
         std::ofstream outf;
         outf.open(configFile.string());
         outf << file << std::endl;
         spdlog::info("Updated NI device name in toml");
-        emit this->sig_ni_dev_change();
+        emit this->sig_ni_dev_change(m_niDev);
     }
 
     spdlog::info("Done updating advanced settings");
@@ -79,10 +78,7 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
 * @param index of new choice
 */
 void AdvancedSetupDialog::nidevice_indexChanged(int index){
-    new_niDev = ui->nidevicelist->currentText().toStdString();
+    m_niDev = ui->nidevicelist->currentText().toStdString();
 }
 
 
-std::string AdvancedSetupDialog::Get_Device_Selected(){
-    return new_niDev;
-}
