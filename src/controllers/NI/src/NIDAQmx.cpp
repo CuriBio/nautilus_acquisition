@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  NIDAQmx.cpp
- * 
+ *
  * @brief Implementation of the NIDAQmx wrapper class.
  *********************************************************************/
 #include <stdint.h>
@@ -302,6 +302,35 @@ bool NIDAQmx::WriteDigitalLines(
 
 
 /*
+* Get the list of all ni device names as a vector of string
+*/
+std::vector<std::string> NIDAQmx::GetListOfDevices(){
+    constexpr size_t bufferSize = 1000;
+    char devicenamesbuffer[bufferSize] = {};
+
+    if(DAQmxFailed(DAQmxGetSysDevNames(devicenamesbuffer, bufferSize))){
+        spdlog::error("NI device search failed");
+        std::vector<std::string> empty;
+        return empty;
+    }else{
+        std::string tempstring(devicenamesbuffer);
+        std::vector<std::string> devicenamesbuffer;
+        std::stringstream ss(tempstring);
+        while(ss.good()){
+            std::string nidevicename;
+            getline(ss,nidevicename,',');
+            if(nidevicename == ""){
+                break;
+            }
+            devicenamesbuffer.push_back(nidevicename);
+        }
+        spdlog::info("NI search complete");
+        return devicenamesbuffer;
+    }
+}
+
+
+/*
 * @breif
 *
 *
@@ -313,4 +342,3 @@ std::string NIDAQmx::GetExtendedErrorInfo() {
     DAQmxGetExtendedErrorInfo(buf, 2048);
     return std::string(buf);
 }
-

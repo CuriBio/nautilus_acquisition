@@ -1,6 +1,14 @@
 Changelog for Nautilus
 ======================
 
+0.1.11 (2023-02-17)
+-------------------
+
+Added:
+^^^^^^
+- Ui option in advanced setup to select name of ni device
+
+
 0.1.10 (2023-02-16)
 -------------------
 
