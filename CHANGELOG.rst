@@ -1,6 +1,13 @@
 Changelog for Nautilus
 ======================
 
+0.1.12 (2023-02-27)
+-------------------
+
+Fixed:
+^^^^^^
+- Error related to stage controls not working in Stage Navigation modal
+
 0.1.11 (2023-02-17)
 -------------------
 
