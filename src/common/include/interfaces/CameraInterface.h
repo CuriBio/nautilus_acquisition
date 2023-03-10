@@ -111,11 +111,12 @@ struct CameraInfo {
 */
 struct ExpSettings {
     AcqMode acqMode;
-    std::filesystem::path filePath;
+    std::filesystem::path workingDir;
+    std::filesystem::path acquisitionDir;
     std::string filePrefix;
 
     Region region {0};
-    StorageType storageType {StorageType::Tiff};
+    StorageType storageType {StorageType::TiffStack};
     uint16_t spdTableIdx{0};
 
     uint32_t expTimeMS{0};

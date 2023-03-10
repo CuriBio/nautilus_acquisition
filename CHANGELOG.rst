@@ -1,5 +1,21 @@
 Changelog for Nautilus
 ======================
+0.1.13 (2023-03-10)
+-------------------
+
+Fixed:
+^^^^^^
+- Moved output directory check from frame acquistion thread to updateExp method so it's not checking the output directory on every frame callback
+- Change available_space_in_default_drive method so it is defined for non-win32 systems
+- Fix settings output, switch to toml output
+
+Added:
+^^^^^^
+- Check led intensity is > 0.0 before turning on led
+- Switch default output to TiffStack + BigTiff
+- Add horizontal/vertical live view image flipping to config
+- Increase default binning factor
+
 
 0.1.12 (2023-02-27)
 -------------------
