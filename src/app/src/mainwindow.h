@@ -71,6 +71,7 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(
+            std::string version,
             std::string path,
             std::string prefix,
             std::string niDev,
@@ -87,6 +88,8 @@ class MainWindow : public QMainWindow {
             uint16_t exposureMode,
             double maxVoltage,
             bool noAutoConBright,
+            bool vflip, bool hflip,
+            Region& rgn,
             std::string stageComPort,
             std::string configFile,
             toml::value& config,
@@ -137,6 +140,7 @@ class MainWindow : public QMainWindow {
         AdvancedSetupDialog * m_advancedSettingsDialog{nullptr};
         std::string m_stageComPort{};
 
+        std::string m_version;
         Settings* m_settings {nullptr};
         std::mutex m_lock;
 
@@ -169,6 +173,8 @@ class MainWindow : public QMainWindow {
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
         bool m_autoConBright{true};
+        bool m_vflip{false};
+        bool m_hflip{false};
 
         uint8_t* m_img8;
 
@@ -208,8 +214,7 @@ class MainWindow : public QMainWindow {
         bool ledOFF();
         bool ledSetVoltage(double voltage);
         bool available_space_in_default_drive( double fps,double duration);
-        //acquire helper function
-        void acquire(bool saveToDisk, std::string prefix);
+        void acquire(bool saveToDisk);
 
         static void acquisitionThread(MainWindow* cls);
 };

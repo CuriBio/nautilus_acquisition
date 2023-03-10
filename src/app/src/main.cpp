@@ -48,6 +48,7 @@
 #include "banner.h"
 #include "mainwindow.h"
 #include <NIDAQmx_wrapper.h>
+#include <interfaces/CameraInterface.h>
 
 
 /*
@@ -220,12 +221,33 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Stage com port: {}", stageComPort);
 
-    /* std::vector<std::pair<double,double>> stageLocations{}; */
-    /* for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) { */
-    /*     auto x = static_cast<double>(v.at("x").as_floating()); */
-    /*     auto y = static_cast<double>(v.at("y").as_floating()); */
-    /*     stageLocations.push_back(std::pair<double, double>(x,y)); */
-    /* } */
+
+    bool vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
+    spdlog::info("Live view vertical flip: {}", vflip);
+
+
+    bool hflip = toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false);
+    spdlog::info("Live view horizontal flip: {}", hflip);
+
+
+    uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
+    uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
+    uint16_t sbin = toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1);
+    spdlog::info("Acquisition region s1: {}", s1);
+    spdlog::info("Acquisition region s2: {}", s2);
+    spdlog::info("Acquisition region sbin: {}", sbin);
+
+    uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
+    uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
+    uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
+    spdlog::info("Acquisition region p1: {}", p1);
+    spdlog::info("Acquisition region p2: {}", p2);
+    spdlog::info("Acquisition region pbin: {}", pbin);
+
+    Region rgn = {
+        .s1 = s1, .s2 = s2, .sbin = sbin,
+        .p1 = p1, .p2 = p2, .pbin = pbin
+    };
 
 
     std::string testImgPath = "";
@@ -348,6 +370,7 @@ int main(int argc, char* argv[]) {
         QApplication app(argc, argv);
 
         MainWindow win(
+            version,
             path,
             prefix,
             nidaqmx,
@@ -364,6 +387,8 @@ int main(int argc, char* argv[]) {
             exposureMode,
             maxVoltage,
             autoConBright,
+            vflip, hflip,
+            rgn,
             stageComPort,
             configFile.string(),
             config
@@ -388,11 +413,12 @@ int main(int argc, char* argv[]) {
 
         ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
-            .filePath = path,
+            .workingDir = path,
+            .acquisitionDir = path,
             .filePrefix = prefix,
             .region = {
-                .s1 = 0, .s2 = uns16(info.sensorResX - 1), .sbin = 1,
-                .p1 = 0, .p2 = uns16(info.sensorResY - 1), .pbin = 1
+                .s1 = uns16(s1), .s2 = uns16(s2), .sbin = sbin,
+                .p1 = uns16(p1), .p2 = uns16(p2), .pbin = pbin
             },
             .storageType = storageType,
             .spdTableIdx = spdtable,

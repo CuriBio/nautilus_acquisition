@@ -27,6 +27,8 @@
  *
  * @brief Software version and application banner strings.
  *********************************************************************/
+#ifndef __BANNER_H__
+#define __BANNER_H__
 #include <string>
 
 std::string version = "@NAUTILUS_VERSION@";
@@ -39,4 +41,5 @@ std::string banner = R"(
 ██║ ╚████║██║  ██║╚██████╔╝   ██║   ██║███████╗╚██████╔╝███████║
 ╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝╚══════╝ ╚═════╝ ╚══════╝
 )";
+#endif //__BANNER_H__
 
