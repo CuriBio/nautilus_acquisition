@@ -46,6 +46,7 @@
 #endif
 
 #include "banner.h"
+#include "config.h"
 #include "mainwindow.h"
 #include <NIDAQmx_wrapper.h>
 #include <interfaces/CameraInterface.h>
@@ -82,7 +83,6 @@ int main(int argc, char* argv[]) {
     spdlog::set_default_logger(logger);
 
     spdlog::info("Nautilus Version: {}", version);
-
 
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());
@@ -233,16 +233,12 @@ int main(int argc, char* argv[]) {
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
     uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
     uint16_t sbin = toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1);
-    spdlog::info("Acquisition region s1: {}", s1);
-    spdlog::info("Acquisition region s2: {}", s2);
-    spdlog::info("Acquisition region sbin: {}", sbin);
+    spdlog::info("Acquisition region s1: {}, s2: {}, sbin: {}", s1, s2, sbin);
 
     uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
     uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
-    spdlog::info("Acquisition region p1: {}", p1);
-    spdlog::info("Acquisition region p2: {}", p2);
-    spdlog::info("Acquisition region pbin: {}", pbin);
+    spdlog::info("Acquisition region p1: {}, p2: {}, pbin: {}", p1, p2, pbin);
 
     Region rgn = {
         .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -365,46 +361,54 @@ int main(int argc, char* argv[]) {
             break;
     }
 
-    double range_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "dynamic_range", 3.75);
-    double speed_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "speed", 0.625);
-    double sensitivity_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sensitivity", 3.53125);
-    double sub_electron_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sub_electron", 60.1);
-    double line_times [4] = {range_mode, speed_mode, sensitivity_mode, sub_electron_mode};
+    std::vector<double> lineTimes = {
+        toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sensitivity", 3.53125),
+        toml::find_or<double>(config, "device", "kinetix", "line_read_times", "speed", 0.625),
+        toml::find_or<double>(config, "device", "kinetix", "line_read_times", "dynamic_range", 3.75),
+        toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sub_electron", 60.1)
+    };
+    spdlog::info("Line times, sensitivity: {}, speed: {}, dynamic_range: {}, sub-electron: {}", lineTimes[0], lineTimes[1], lineTimes[2], lineTimes[3]);
 
-    spdlog::info("Line time for dynamic range mode set to: {}", range_mode);
-    spdlog::info("Line time for speed mode set to: {}", speed_mode);
-    spdlog::info("Line time for sensitivity mode set to: {}", sensitivity_mode);
-    spdlog::info("Line time for sub-electron mode set to: {}", sub_electron_mode);
+    bool autoTile = toml::find_or<bool>(config, "acquisition", "auto_tile", false);
+    uint8_t rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
+    uint8_t cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
+    spdlog::info("Auto tile: {}, rows: {}, cols: {}", autoTile, rows, cols);
 
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
 
-        MainWindow win(
-            version,
-            path,
-            prefix,
-            nidaqmx,
-            testImgPath,
-            fps,
-            duration,
-            expTimeMS,
-            spdtable,
-            ledIntensity,
-            bufferCount,
-            frameCount,
-            storageType,
-            triggerMode,
-            exposureMode,
-            maxVoltage,
-            autoConBright,
-            vflip, hflip,
-            rgn,
-            stageComPort,
-            configFile.string(),
-            config,
-            line_times
-        );
+        Config params {
+            .version = version,
+            .path = path,
+            .prefix = prefix,
+            .niDev = nidaqmx,
+            .testImgPath = testImgPath,
+            .fps = fps,
+            .duration = duration,
+            .expTimeMs = expTimeMS,
+            .spdtable = spdtable,
+            .ledIntensity = ledIntensity,
+            .bufferCount = bufferCount,
+            .frameCount = frameCount,
+            .storageType = storageType,
+            .triggerMode = triggerMode,
+            .exposureMode = exposureMode,
+            .maxVoltage = maxVoltage,
+            .noAutoConBright = autoConBright,
+            .autoTile = autoTile,
+            .vflip = vflip,
+            .hflip = hflip,
+            .rows = rows,
+            .cols = cols,
+            .rgn = rgn,
+            .stageComPort = stageComPort,
+            .configFile = configFile.string(),
+            .config = config,
+            .lineTimes = lineTimes
+        };
+
+        MainWindow win(params);
 
         win.resize(800, 640);
         win.setVisible(true);

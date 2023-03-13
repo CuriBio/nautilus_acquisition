@@ -47,6 +47,9 @@ set(CMAKE_AUTOUIC ON)
 message("########## ${PROJECT_NAME}:${PROJECT_VERSION} ##########")
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_EXCEPTIONS OFF)
+set(CMAKE_CXX_RTII OFF)
+
 add_library(project_warnings INTERFACE)
 add_library(project_options INTERFACE)
 
