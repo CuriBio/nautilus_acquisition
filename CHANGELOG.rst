@@ -1,5 +1,14 @@
 Changelog for Nautilus
 ======================
+0.1.14 (2023-03-14)
+-------------------
+
+Fixed:
+^^^^^^
+- Scale width/height by respective binning factor
+
+
+
 0.1.13 (2023-03-10)
 -------------------
 
