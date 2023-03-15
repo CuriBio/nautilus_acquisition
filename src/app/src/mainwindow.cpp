@@ -119,8 +119,8 @@ MainWindow::MainWindow(
     m_config = config;
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,this);
 
-    m_width = rgn.s2 - rgn.s1 + 1;
-    m_height = rgn.p2 - rgn.p1 + 1;
+    m_width = (rgn.s2 - rgn.s1 + 1) / rgn.sbin;
+    m_height = (rgn.p2 - rgn.p1 + 1) / rgn.pbin;
 
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
@@ -198,6 +198,7 @@ void MainWindow::Initialize() {
         m_expSettings.region.sbin,
         m_expSettings.region.pbin
     );
+    spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //log speed table
     spdlog::info("Speed Table:");
