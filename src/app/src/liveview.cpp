@@ -58,10 +58,12 @@ LiveView::~LiveView() {
  * @param height Height of the image.
  * @param fmt ImageFormat type.
  */
-void LiveView::Init(uint32_t width, uint32_t height, ImageFormat fmt) {
+void LiveView::Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt) {
     m_width = width;
     m_height = height;
     m_imageInFmt = fmt;
+    m_vflip = vflip;
+    m_hflip = hflip;
 
     SetImageFormat(m_imageInFmt);
 
@@ -127,6 +129,7 @@ void LiveView::UpdateImage(uint8_t* data) {
 
         m_imageData = data;
         m_image = QImage((uchar*)m_imageData,m_width,m_height, m_imageOutFmt).scaled(s, s, Qt::KeepAspectRatio);
+        m_image.mirror(m_hflip, m_vflip);
         this->update();
     }
 }
