@@ -178,7 +178,7 @@ TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitD
     m_frameCount(frameCount),
     m_format(format),
     m_bitDepth(bitDepth),
-    m_useBigTiff(false),
+    m_useBigTiff((frameCount > 1) ? true : false), //Use BigTiff when storage type is TiffStack
     m_bmpFormat(BitmapFormat(format, bitDepth)) {
 }
 

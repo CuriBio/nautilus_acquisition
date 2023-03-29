@@ -51,7 +51,7 @@ class LiveView : public QOpenGLWidget {
         LiveView(QWidget* parent = nullptr);
         virtual ~LiveView();
 
-        void Init(uint32_t width, uint32_t height, ImageFormat fmt);
+        void Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         void Clear();
         void UpdateImage(uint8_t* data);
         void SetImageFormat(ImageFormat fmt);
@@ -68,9 +68,11 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_height{0};
         uint32_t m_totalPx{0};
 
+        bool m_vflip{false};
+        bool m_hflip{false};
+
         ImageFormat m_imageInFmt;
         QImage m_image;
-        //QPixmap m_pixmap;
         QRectF m_target;
         QImage::Format m_imageOutFmt;
 };

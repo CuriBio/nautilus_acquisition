@@ -71,6 +71,7 @@
  * @param parent Pointer to parent widget.
  */
 MainWindow::MainWindow(
+    std::string version,
     std::string path,
     std::string prefix,
     std::string niDev,
@@ -87,6 +88,8 @@ MainWindow::MainWindow(
     uint16_t exposureMode,
     double maxVoltage,
     bool autoConBright,
+    bool vflip, bool hflip,
+    Region& rgn,
     std::string stageComPort,
     std::string configFile,
     toml::value& config,
@@ -95,15 +98,21 @@ MainWindow::MainWindow(
 {
     ui.setupUi(this);
 
+
     m_line_times[0] = line_times[0];
     m_line_times[1] = line_times[1];
     m_line_times[2] = line_times[2];
     m_line_times[3] = line_times[3];
+
+    m_version = version;
+
     m_path = path;
     m_prefix = prefix;
     m_niDev = niDev;
     m_testImgPath = testImgPath;
     m_autoConBright = autoConBright;
+    m_vflip = vflip;
+    m_hflip = hflip;
     m_stageComPort = stageComPort;
 
     m_settings = new Settings(this, m_path, m_prefix);
@@ -118,6 +127,9 @@ MainWindow::MainWindow(
     m_config = config;
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,this);
 
+    m_width = (rgn.s2 - rgn.s1 + 1) / rgn.sbin;
+    m_height = (rgn.p2 - rgn.p1 + 1) / rgn.pbin;
+
     m_expSettings.spdTableIdx = spdtable;
     m_expSettings.expTimeMS = expTimeMs,
     m_expSettings.frameCount = frameCount;
@@ -125,6 +137,10 @@ MainWindow::MainWindow(
     m_expSettings.storageType = storageType;
     m_expSettings.trigMode = triggerMode;
     m_expSettings.expModeOut = exposureMode;
+    m_expSettings.region = {
+        .s1 = uns16(rgn.s1), .s2 = uns16(rgn.s2), .sbin = rgn.sbin,
+        .p1 = uns16(rgn.p1), .p2 = uns16(rgn.p2), .pbin = rgn.pbin
+    };
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
@@ -168,21 +184,8 @@ void MainWindow::Initialize() {
     spdlog::info("Get camera info");
     m_camInfo = m_camera->GetInfo();
 
-    //Using default dimensions of 1600x1200 for now
-    m_width = 1600; //m_camInfo.sensorResX;
-    m_height = 1200; //m_camInfo.sensorResY;
-
-    //set exp region to complete sensor size
-    m_expSettings.region = {
-        /* .s1 = 0, .s2 = uns16(m_camInfo.sensorResX - 1), .sbin = 1, */
-        /* .p1 = 0, .p2 = uns16(m_camInfo.sensorResY - 1), .pbin = 1 */
-
-        //Default to coords 800, 1000 for now
-        .s1 = uns16(800), .s2 = uns16(800 + m_width - 1), .sbin = 1,
-        .p1 = uns16(1000), .p2 = uns16(1000 + m_height - 1), .pbin = 1
-    };
-
-    m_expSettings.filePath = m_path;
+    m_expSettings.workingDir = m_path;
+    m_expSettings.acquisitionDir = m_path;
     m_expSettings.filePrefix = m_prefix;
 
     //initial camera setup, need this to allocate buffers
@@ -192,7 +195,7 @@ void MainWindow::Initialize() {
     m_img8 = new uint8_t[m_width*m_height];
 
     //Set sensor size for live view
-    ui.liveView->Init(m_width, m_height, ImageFormat::Mono8);
+    ui.liveView->Init(m_width, m_height, m_vflip, m_hflip, ImageFormat::Mono8);
     ui.histView->Init(m_hist, m_width*m_height);
 
     spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
@@ -203,6 +206,7 @@ void MainWindow::Initialize() {
         m_expSettings.region.sbin,
         m_expSettings.region.pbin
     );
+    spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //log speed table
     spdlog::info("Speed Table:");
@@ -292,41 +296,42 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  *
  * @returns boolean true if space is available
 */
-#ifdef _WIN32
 bool MainWindow::available_space_in_default_drive( double fps,double duration){
-    if(m_camera->ctx){
+#ifdef _WIN32
+    if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
-        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = { 0 };
+        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         std::stringstream tool_tip_text;
 
-        if (!GetDiskFreeSpaceEx(m_path.c_str(),nullptr,nullptr,& lpTotalNumberOfFreeBytes)){
+        if (!GetDiskFreeSpaceEx(m_path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             spdlog::error("Default drive could not be found when");
             tool_tip_text << "Please check device is properly pulgged into " << m_path << " drive.";
             ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
             return false;
-        }else if(lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes){
+        } else if (lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes) {
             //space for acquisition found
             std::stringstream storage_space_string,driver_name_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             driver_name_string << m_path;
             spdlog::info("Drive {} has: {} bytes free for acquisition",driver_name_string.str(),storage_space_string.str());
             return true;
-        }else{
+        } else {
             //not enough space for acquisition
             spdlog::error("Not enough space for acquisition");
             tool_tip_text << "Not enough space in " << m_path << " drive.";
             ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
             return false;
         }
-
-    }else{
+    } else {
         spdlog::error("Camera context could not be found when checking for space in default drive");
         ui.startAcquisitionBtn->setToolTip("Camera can not be found.");
         return false;
     }
-}
+#else
+    return true;
 #endif
+}
 
 
 /*
@@ -468,7 +473,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             return;
         }
 
-        if (!m_led) {
+        if (!m_led && m_ledIntensity > 0.0) {
             m_led = !m_led;
             double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
             spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
@@ -497,6 +502,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                 break;
             case AcquisitionState::AcqLiveScan:
                 spdlog::info("StartAcquisition, current state AcqLiveScan");
+
 
                 if (!m_acqusitionThread) {
                     m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
@@ -527,24 +533,6 @@ void MainWindow::StopAcquisition() {
     if (!m_acquisition) {
         spdlog::error("m_acquisition is invalid");
         return;
-    }
-
-    if (std::filesystem::exists(m_expSettings.filePath)) {
-        spdlog::info("Writing settings file to {}\\settings.txt", m_expSettings.filePath.string());
-        std::filesystem::path settingsPath = m_expSettings.filePath / "settings.txt";
-        std::ofstream outfile(settingsPath.string()); // create output file stream
-
-        if (outfile.is_open()) {
-            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
-            outfile << "FRAME RATE: " << m_fps << "\n";
-            outfile << "DURATION: " << m_expSettings.expTimeMS << "\n";
-            outfile << "LED INTENSITY: " << m_ledIntensity << "\n";
-            outfile << "POSITIONS:\n ";
-            for (auto& loc : m_stageControl->GetPositions()) {
-                outfile << "X: " <<  loc->x << " Y: " << loc->y << "\n";
-            }
-            outfile.close();
-        }
     }
 
     switch (m_acquisition->GetState()) {
@@ -644,8 +632,10 @@ void MainWindow::acquisition_done() {
     m_liveViewTimer->stop();
     //ui.liveView->Clear();
 
+
     m_acquisitionRunning = false;
     m_liveScanRunning = false;
+
 
     ui.startAcquisitionBtn->setText("Start Acquisition");
     ui.liveScanBtn->setText("Live Scan");
@@ -665,7 +655,8 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
     m_path = path;
     m_prefix = prefix;
 
-    m_expSettings.filePath = m_path;
+    m_expSettings.workingDir = m_path;
+    m_expSettings.acquisitionDir = m_path;
     m_expSettings.filePrefix = m_prefix;
 }
 
@@ -742,37 +733,13 @@ bool MainWindow::ledSetVoltage(double voltage) {
 }
 
 
-void MainWindow::acquire(bool saveToDisk, std::string prefix) {
+void MainWindow::acquire(bool saveToDisk) {
     if (m_acquisition) {
         spdlog::info("Reusing existing acquistion");
     } else {
         spdlog::info("Creating acquisition");
         m_acquisition = std::make_unique<pmAcquisition>(m_camera);
     }
-    m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-    m_expSettings.frameCount = m_duration * m_fps;
-
-    spdlog::info("Setup exposure");
-
-    // get local timestamp to add to subdir name
-    auto now = std::chrono::system_clock::now();
-    auto timestamp = std::chrono::system_clock::to_time_t(now);
-
-    std::tm *tm = std::localtime(&timestamp);
-    char buffer[20];
-    std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
-
-    std::string subdir = m_prefix + std::string(buffer);
-    // if the filePath already contains a subdirectory from a previous acquisition, then remove the sudir and append new subdir name
-    if (m_expSettings.filePath.filename().string().find(m_prefix) != std::string::npos) {
-        m_expSettings.filePath = m_expSettings.filePath.parent_path() / subdir;
-    } else {
-        // else if it's the first acquisition, there won't be a subdir on the filePath and it can just be added to initial filePath
-        m_expSettings.filePath /= subdir;
-    }
-
-    m_expSettings.filePrefix = fmt::format("{}_", prefix);
-    m_camera->UpdateExp(m_expSettings);
 
     spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
     if (!m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
@@ -783,6 +750,7 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
     m_acquisition->WaitForStop();
 }
 
+
 /*
  * Thread that starts actual acquisition and waits for acquisition to finish.
  *
@@ -792,7 +760,7 @@ void MainWindow::acquire(bool saveToDisk, std::string prefix) {
 void MainWindow::acquisitionThread(MainWindow* cls) {
     do {
         if (cls->m_liveScanRunning) {
-            cls->acquire(false, cls->m_prefix);
+            cls->acquire(false);
         }
 
         if (cls->m_acquisitionRunning) {
@@ -804,14 +772,59 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 cls->m_stageControl->AddCurrentPosition();
             }
 
+            // get local timestamp to add to subdir name
+            auto now = std::chrono::system_clock::now();
+            auto timestamp = std::chrono::system_clock::to_time_t(now);
+
+            // make subdirectory to write to
+            std::tm *tm = std::localtime(&timestamp);
+            char buffer[20];
+            std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
+            std::string subdir = cls->m_prefix + std::string(buffer);
+
+            cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
+            if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
+                std::filesystem::create_directories(cls->m_expSettings.acquisitionDir);
+                spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
+            }
+
+            cls->m_expSettings.expTimeMS = (1 / cls->m_fps) * 1000;
+            cls->m_expSettings.frameCount = cls->m_duration * cls->m_fps;
+
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
-                std::string prefix = fmt::format("{}_{}_", cls->m_prefix, pos++);
 
-                cls->acquire(true, prefix);
+                cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_prefix, pos++);
+                cls->m_camera->UpdateExp(cls->m_expSettings);
+
+                cls->acquire(true);
                 spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
             }
+
+            spdlog::info("Writing settings file to {}\\settings.toml", cls->m_expSettings.acquisitionDir.string());
+            std::filesystem::path settingsPath = cls->m_expSettings.acquisitionDir / "settings.toml";
+            std::ofstream outfile(settingsPath.string()); // create output file stream
+
+            std::vector<toml::value> stagePos;
+            for (auto& loc : cls->m_stageControl->GetPositions()) {
+                stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
+            }
+
+            const toml::value settings{
+                {"software_version", cls->m_version},
+                {"led_intensity", cls->m_ledIntensity},
+                {"fps", cls->m_fps},
+                {"duration", cls->m_expSettings.expTimeMS},
+                {"frame_count", cls->m_expSettings.frameCount},
+                {"vflip", cls->m_vflip},
+                {"hflip", cls->m_hflip},
+                {"stage_positions", stagePos}
+            };
+
+            outfile << std::setw(0) << settings << std::endl;
+            outfile.close();
+
             cls->m_acquisitionRunning = false;
             cls->ui.startAcquisitionBtn->setText("Start Acquisition");
         }
@@ -820,6 +833,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition done, sending signal");
     emit cls->sig_acquisition_done();
 }
+
 
 
 /**
@@ -836,3 +850,4 @@ double MainWindow::calc_max_frame_rate(int p1,int p2,int16_t spdtable_index,doub
     spdlog::info("Max frame rate is: {},",max_frame_rate);
     return max_frame_rate;
 }
+

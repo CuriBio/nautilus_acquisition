@@ -141,7 +141,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     F* frame{nullptr};
 
     std::string fileName = m_camera->ctx->curExp->filePrefix;
-    std::filesystem::path filePath = m_camera->ctx->curExp->filePath;
+    std::filesystem::path filePath = m_camera->ctx->curExp->acquisitionDir;
 
     TiffFile<F>* file = new TiffFile<F>(
         m_camera->ctx->curExp->region,
@@ -214,12 +214,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         m_latestFrame = frame;
                     }
 
-                    // make subdirectory to write to
-                    if (!std::filesystem::exists(filePath)) {
-                        std::filesystem::create_directories(filePath);
-                        spdlog::info("Acquisition being written under directory: {}", filePath.string());
-                    }
-
                     //TODO support different storage types
                     switch (m_camera->ctx->curExp->storageType) {
                         case StorageType::Tiff:
@@ -233,9 +227,11 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                             file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
                         }
                             break;
-                        case StorageType::TiffStack:
+                        case StorageType::TiffStack: //Defaults to using BigTiff
                             if (frameIndex == 0) {
-                                file->Open((filePath / (fileName + ".tiff")).string());
+                                std::stringstream ss;
+                                ss << std::setfill('0') << std::setw(3) << frameIndex;
+                                file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
                             }
                             break;
                     }

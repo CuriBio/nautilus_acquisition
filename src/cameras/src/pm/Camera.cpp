@@ -772,12 +772,15 @@ bool pm::Camera<F>::updateExp(const ExpSettings& settings) {
         return false;
     }
 
+
     //copy capture settings
     ctx->curExp.reset(new ExpSettings{
             .acqMode = settings.acqMode,
-            .filePath = settings.filePath,
+            .workingDir = settings.workingDir,
+            .acquisitionDir = settings.acquisitionDir,
             .filePrefix = settings.filePrefix,
             .region = settings.region,
+            .storageType = settings.storageType,
             .spdTableIdx = settings.spdTableIdx,
             .expTimeMS = settings.expTimeMS,
             .trigMode = settings.trigMode,
