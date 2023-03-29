@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.15 (unreleased)
+-------------------
+
+Added:
+^^^^^^
+- Max frame rate is calculated based on capture mode and height of campture area. Users can not select a frame rate higher than the calculated max.
+
+
 0.1.14 (2023-03-14)
 -------------------
 

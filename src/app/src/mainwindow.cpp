@@ -93,11 +93,19 @@ MainWindow::MainWindow(
     std::string stageComPort,
     std::string configFile,
     toml::value& config,
+    double line_times[4],
     QMainWindow *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
 
+
+    m_line_times[0] = line_times[0];
+    m_line_times[1] = line_times[1];
+    m_line_times[2] = line_times[2];
+    m_line_times[3] = line_times[3];
+
     m_version = version;
+
     m_path = path;
     m_prefix = prefix;
     m_niDev = niDev;
@@ -113,7 +121,6 @@ MainWindow::MainWindow(
     m_duration = duration;
     m_fps = fps;
     m_expTimeMS = expTimeMs;
-    m_spdtable = spdtable;
     m_maxVoltage = maxVoltage;
     m_ledIntensity = ledIntensity;
     m_config = config;
@@ -206,6 +213,9 @@ void MainWindow::Initialize() {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
 
+    //Get max Frame rate
+    double max_frame_rate = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_line_times[m_expSettings.spdTableIdx]);
+
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
     if (m_testImgPath != "") {
@@ -228,7 +238,10 @@ void MainWindow::Initialize() {
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
 
     ui.ledIntensityEdit->setValue(m_ledIntensity);
-    ui.frameRateEdit->setValue(m_fps);
+
+    ui.frameRateEdit->setMaximum(max_frame_rate);
+    ui.frameRateEdit->setValue((m_fps <= max_frame_rate) ? m_fps : max_frame_rate);
+
     ui.durationEdit->setValue(m_duration);
 }
 
@@ -815,3 +828,17 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition done, sending signal");
     emit cls->sig_acquisition_done();
 }
+
+
+
+/**
+ * Helper function that will take the line time for each mode from the config file and
+ * calculate the max frame rate based on the caputure reagion height.
+*/
+double MainWindow::calcMaxFrameRate(int p1, int p2, double line_time){
+    int number_of_rows = int(abs(p2 - p1));
+    double max_frame_rate = 1000000.0 / (line_time * number_of_rows);
+    spdlog::info("Max frame rate is: {}",max_frame_rate);
+    return max_frame_rate;
+}
+

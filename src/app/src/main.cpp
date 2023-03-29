@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 
 /*********************************************************************
  * @file  main.cpp
- * 
+ *
  * @brief Main entrypoint into the nautilus application.
  *********************************************************************/
 #include <filesystem>
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
     auto userargs = options.parse(argc, argv);
 
     //Return version only, this needs to happen before anything
-    //else is printed because github action will use it to 
+    //else is printed because github action will use it to
     //get the current built version for tagging
     if (userargs.count("version")) {
         std::cout << version << std::endl;
@@ -365,6 +365,17 @@ int main(int argc, char* argv[]) {
             break;
     }
 
+    double range_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "dynamic_range", 3.75);
+    double speed_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "speed", 0.625);
+    double sensitivity_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sensitivity", 3.53125);
+    double sub_electron_mode = toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sub_electron", 60.1);
+    double line_times [4] = {range_mode, speed_mode, sensitivity_mode, sub_electron_mode};
+
+    spdlog::info("Line time for dynamic range mode set to: {}", range_mode);
+    spdlog::info("Line time for speed mode set to: {}", speed_mode);
+    spdlog::info("Line time for sensitivity mode set to: {}", sensitivity_mode);
+    spdlog::info("Line time for sub-electron mode set to: {}", sub_electron_mode);
+
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
@@ -391,7 +402,8 @@ int main(int argc, char* argv[]) {
             rgn,
             stageComPort,
             configFile.string(),
-            config
+            config,
+            line_times
         );
 
         win.resize(800, 640);

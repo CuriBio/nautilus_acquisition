@@ -30,5 +30,11 @@ pbin = 2
 vflip = false
 hflip = true
 
+[device.kinetix.line_read_times]
+dynamic_range = 3.75
+speed = 0.625
+sensitivity = 3.53125
+sub_electron = 60.1
+
 [device.tango]
 com = "COM3"
