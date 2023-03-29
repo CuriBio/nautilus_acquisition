@@ -365,11 +365,16 @@ int main(int argc, char* argv[]) {
             break;
     }
 
-    double range_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","0",3.75);
-    double speed_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","1",0.625);
-    double sensitivity_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","2",3.53125);
-    double sub_electron_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","3",60.1);
+    double range_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","dynamic_range",3.75);
+    double speed_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","speed",0.625);
+    double sensitivity_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","sensitivity",3.53125);
+    double sub_electron_mode = toml::find_or<double>(config, "device","kinetix","line_read_times","sub_electron",60.1);
     double line_times [4] = {range_mode,speed_mode,sensitivity_mode,sub_electron_mode};
+
+    spdlog::info("Line time for dynamic range mode set to: {}",range_mode);
+    spdlog::info("Line time for speed mode set to: {}",speed_mode);
+    spdlog::info("Line time for sensitivity mode set to: {}",sensitivity_mode);
+    spdlog::info("Line time for sub-electron mode set to: {}",sub_electron_mode);
 
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
