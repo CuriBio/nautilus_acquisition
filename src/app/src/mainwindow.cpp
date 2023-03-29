@@ -210,8 +210,8 @@ void MainWindow::Initialize() {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
 
-    //Set max Frame rate
-    int max_frame_rate = calc_max_frame_rate(m_expSettings.region.p1,m_expSettings.region.p2,m_camInfo.spdTable[0].spdIndex,m_line_times,m_spdtable);
+    //Get max Frame rate
+    double max_frame_rate = calc_max_frame_rate(m_expSettings.region.p1,m_expSettings.region.p2,m_camInfo.spdTable[0].spdIndex,m_line_times,m_spdtable);
 
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
@@ -235,7 +235,14 @@ void MainWindow::Initialize() {
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
 
     ui.ledIntensityEdit->setValue(m_ledIntensity);
-    ui.frameRateEdit->setValue(max_frame_rate);
+
+    ui.frameRateEdit->setMaximum(max_frame_rate);
+    if (10 <= max_frame_rate){
+        ui.frameRateEdit->setValue(10);
+    }else{
+        ui.frameRateEdit->setValue(max_frame_rate);
+    }
+
     ui.durationEdit->setValue(m_duration);
 }
 
@@ -819,12 +826,12 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
  * Helper function that will take the line time for each mode from the config file and
  * calculate the max frame rate based on the caputure reagion height.
 */
-int MainWindow::calc_max_frame_rate(int p1,int p2,int16_t spdtable_index,double line_times [4],uint16_t spdtable){
+double MainWindow::calc_max_frame_rate(int p1,int p2,int16_t spdtable_index,double line_times [4],uint16_t spdtable){
     spdlog::info("Calculating max frame rate");
 
 
     int number_of_rows = int(abs(p2 - p1));
-    double max_frame_rate = .95 * 3200 * line_times[spdtable] / number_of_rows;
+    double max_frame_rate = 1000000.0 / (line_times[spdtable] * number_of_rows);
 
     spdlog::info("Max frame rate is: {},",max_frame_rate);
     return max_frame_rate;

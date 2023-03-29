@@ -213,7 +213,7 @@ class MainWindow : public QMainWindow {
         bool available_space_in_default_drive( double fps,double duration);
         //acquire helper function
         void acquire(bool saveToDisk, std::string prefix);
-        int calc_max_frame_rate(int p1,int p2,  int16_t spdtable_index,double m_line_times [4],uint16_t spdtable);
+        double calc_max_frame_rate(int p1,int p2,  int16_t spdtable_index,double m_line_times [4],uint16_t spdtable);
 
         static void acquisitionThread(MainWindow* cls);
 };
