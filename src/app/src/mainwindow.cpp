@@ -215,7 +215,7 @@ void MainWindow::Initialize() {
     }
 
     //Get max Frame rate
-    double max_frame_rate = calc_max_frame_rate(m_expSettings.region.p1,m_expSettings.region.p2,m_camInfo.spdTable[0].spdIndex,m_line_times,m_spdtable);
+    double max_frame_rate = calcMaxFrameRate(m_expSettings.region.p1,m_expSettings.region.p2,m_camInfo.spdTable[0].spdIndex,m_line_times,m_spdtable);
 
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
@@ -241,8 +241,8 @@ void MainWindow::Initialize() {
     ui.ledIntensityEdit->setValue(m_ledIntensity);
 
     ui.frameRateEdit->setMaximum(max_frame_rate);
-    if (10 <= max_frame_rate){
-        ui.frameRateEdit->setValue(10);
+    if (m_fps <= max_frame_rate){
+        ui.frameRateEdit->setValue(m_fps);
     }else{
         ui.frameRateEdit->setValue(max_frame_rate);
     }
@@ -840,14 +840,10 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
  * Helper function that will take the line time for each mode from the config file and
  * calculate the max frame rate based on the caputure reagion height.
 */
-double MainWindow::calc_max_frame_rate(int p1,int p2,int16_t spdtable_index,double line_times [4],uint16_t spdtable){
-    spdlog::info("Calculating max frame rate");
-
-
+double MainWindow::calcMaxFrameRate(int p1,int p2,int16_t spdtable_index,double line_times [4],uint16_t spdtable){
     int number_of_rows = int(abs(p2 - p1));
     double max_frame_rate = 1000000.0 / (line_times[spdtable] * number_of_rows);
-
-    spdlog::info("Max frame rate is: {},",max_frame_rate);
+    spdlog::info("Max frame rate is: {}",max_frame_rate);
     return max_frame_rate;
 }
 
