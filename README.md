@@ -23,21 +23,35 @@ trigger_mode = 0
 exposure_mode = 5
 speed_table_index = 0
 
-[device.tango]
-com = "COM3"
-
 [acquisition]
 fps = 10.0
 duration = 1.0
 led_intensity = 50.0
+storage_type = 1
+auto_tile = true
+rows = 2
+cols = 3
 
 [acquisition.region]
 s1 = 800
 p1 = 1000
 s2 = 2399
 p2 = 2199
-sbin = 1
-pbin = 1
+sbin = 2
+pbin = 2
+
+[acquisition.live_view]
+vflip = false
+hflip = true
+
+[device.kinetix.line_read_times]
+dynamic_range = 3.75
+speed = 0.625
+sensitivity = 3.53125
+sub_electron = 60.1
+
+[device.tango]
+com = "COM3"
 ```
 
 `[nautilus] settings`  
