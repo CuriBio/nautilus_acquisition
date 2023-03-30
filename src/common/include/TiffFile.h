@@ -32,6 +32,8 @@
 #include <string>
 #include <cstdint>
 #include <cstddef>
+#include <iterator>
+
 #include <tiffio.h>
 
 #include <interfaces/FileInterface.h>
@@ -45,7 +47,6 @@
 *
 * @tparam F FrameConcept implementation.
 */
-template<FrameConcept F>
 class TiffFile {
     public:
         struct ProcHelper {
@@ -57,14 +58,17 @@ class TiffFile {
         std::string m_name{};
         TIFF* m_file{ nullptr };
 
-        const uint32_t m_width;
-        const uint32_t m_height;
-        const uint16_t m_frameCount;
+        uint32_t m_width{0};
+        uint32_t m_height{0};
+        uint16_t m_frameCount{0};
 
-        const bool m_useBigTiff;
-        const ImageFormat m_format;
-        const BitmapFormat m_bmpFormat;
-        const uint16_t m_bitDepth;
+        bool m_useBigTiff{true};
+        ImageFormat m_format;
+        BitmapFormat m_bmpFormat;
+        uint16_t m_bitDepth;
+
+        //subifd
+        uint32_t*   m_subifd_offsets{nullptr};
 
         std::unique_ptr<Bitmap> m_bmp{nullptr};
         uint32_t m_frameIndex{0};
@@ -79,6 +83,18 @@ class TiffFile {
          * @param frameCount The number of frames in this image, 1 unless using tiffstack.
          */
         TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitDepth, uint32_t frameCount);
+
+        /*
+         * TiffFile constructor. Load from file.
+         *
+         * @param file The path to the tiff file.
+         */
+        TiffFile(std::string file);
+
+        /*
+         * TiffFile constructor
+         */
+        TiffFile(std::filesystem::path outp, uint32_t width, uint32_t height, uint16_t bitDepth, uint16_t frameCount, bool bigTiff);
 
         /*
          * TiffFile destructor.
@@ -120,7 +136,18 @@ class TiffFile {
          *
          * @return true if successful, false otherwise.
          */
+        template<FrameConcept F>
         bool WriteFrame(F* frame);
+
+        /*
+         * Write raw buffer
+         */
+        bool Write16(uint16_t* data);
+
+        bool Read16(uint16_t* data, uint32_t row) {
+             TIFFReadScanline(m_file, data, row, 0);
+             return true;
+        }
 
         /*
          * Helper function to load tiff file data.
@@ -134,95 +161,8 @@ class TiffFile {
         static uint16_t* LoadTIFF(const char* path, uint32_t& width, uint32_t& height);
 };
 
-
 template<FrameConcept F>
-uint16_t* TiffFile<F>::LoadTIFF(const char* path, uint32_t& width, uint32_t& height) {
-    // Temporary variables
-    uint16_t* data;
-
-    //Loads tiff file
-    TIFF* tiff = TIFFOpen(path, "r");
-    if(!tiff) {
-    spdlog::error("Failed to read TIFF: {}", path);
-        return nullptr;
-    }
-
-    // Read dimensions of image
-    if (TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width) != 1) {
-        spdlog::error("Failed to read width of TIFF: {}", path);
-    }
-    if (TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height) != 1) {
-        spdlog::error("Failed to read height of TIFF: {}", path);
-    }
-
-    //allocate data buffer
-    data = new uint16_t[width*height];
-    memset((void*)data, 0, sizeof(uint16_t)*width*height);
-
-    for (uint32_t y=0; y<height; ++y) {
-         TIFFReadScanline(tiff, data+(y*width), y, 0);
-         uint16_t* end = data+(y*width)+width;
-    }
-
-    //close tiff file
-    TIFFClose(tiff);
-
-  return data;
-}
-
-
-template<FrameConcept F>
-TiffFile<F>::TiffFile(const Region& rgn, const ImageFormat format, uint16_t bitDepth, uint32_t frameCount) :
-    m_width((rgn.sbin == 0) ? 0 : (rgn.s2 + 1 - rgn.s1) / rgn.sbin),
-    m_height((rgn.pbin == 0) ? 0 : (rgn.p2 + 1 - rgn.p1) / rgn.pbin),
-    m_frameCount(frameCount),
-    m_format(format),
-    m_bitDepth(bitDepth),
-    m_useBigTiff((frameCount > 1) ? true : false), //Use BigTiff when storage type is TiffStack
-    m_bmpFormat(BitmapFormat(format, bitDepth)) {
-}
-
-
-template<FrameConcept F>
-TiffFile<F>::~TiffFile() {
-}
-
-
-template<FrameConcept F>
-bool TiffFile<F>::Open(std::string name) {
-    m_name = name;
-    const char* mode = (m_useBigTiff) ? "w8" : "w";
-    m_file = TIFFOpen(m_name.c_str(), mode);
-
-    //TODO error handling
-    return true;
-}
-
-
-template<FrameConcept F>
-void TiffFile<F>::Close() {
-    if (m_file) {
-        TIFFFlush(m_file);
-        TIFFClose(m_file);
-        m_file = nullptr;
-    }
-}
-
-
-template<FrameConcept F>
-bool TiffFile<F>::IsOpen() const {
-    return !!m_file;
-}
-
-
-template<FrameConcept F>
-const std::string& TiffFile<F>::Name() const {
-    return m_name;
-}
-
-
-template<FrameConcept F>
-bool TiffFile<F>::WriteFrame(F* frame) {
+bool TiffFile::WriteFrame(F* frame) {
     if (!IsOpen()) {
         return false;
     }

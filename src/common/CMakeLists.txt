@@ -3,7 +3,8 @@ find_package(spdlog)
 
 add_library(Common STATIC
 ./src/Bitmap.cpp
-./src/BitmapFormat.cpp)
+./src/BitmapFormat.cpp
+./src/TiffFile.cpp)
 
 set_target_properties(Common PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Common PROPERTIES SOVERSION 1)

@@ -37,7 +37,6 @@
 #include <thread>
 #include <vector>
 #include <functional>
-#include <barrier>
 
 #include <spdlog/spdlog.h>
 #include <interfaces/ParTaskInterface.h>
@@ -50,7 +49,6 @@ class ParTask {
         static inline uint32_t taskCount;
 
         static inline std::mutex m_taskLock;
-        //std::shared_mutex m_updateLock;
         std::mutex m_queueMutex;
 
         std::mutex m_waitMutex;
@@ -59,13 +57,6 @@ class ParTask {
         std::condition_variable m_waitCond;
 
         std::vector<std::thread> m_threads;
-
-        /* std::function<void()> on_complete() { */
-        /*     m_running = false; */
-        /*     m_waitCond.notify_one(); */
-        /* }; */
-
-        /* std::shared_ptr<std::barrier<decltype(ParTask::on_complete)>> m_barrier; */
 
         uint8_t m_threadCount{0};
         uint8_t m_running{0};
@@ -82,7 +73,6 @@ class ParTask {
         ParTask(uint8_t threads) : m_threadCount(threads) {
             m_threads.reserve(m_threadCount);
             m_running = 0;
-            /* m_barrier = std::make_shared<std::barrier<decltype(on_complete)>>(m_threadCount, on_complete); */
 
             spdlog::info("Starting {} threads", m_threadCount);
 

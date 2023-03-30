@@ -1,11 +1,12 @@
 Changelog for Nautilus
 ======================
-0.1.15 (unreleased)
+0.1.15 (2023-03-30)
 -------------------
 
 Added:
 ^^^^^^
 - Max frame rate is calculated based on capture mode and height of campture area. Users can not select a frame rate higher than the calculated max.
+- Auto tiling support
 
 
 0.1.14 (2023-03-14)
@@ -14,7 +15,6 @@ Added:
 Fixed:
 ^^^^^^
 - Scale width/height by respective binning factor
-
 
 
 0.1.13 (2023-03-10)

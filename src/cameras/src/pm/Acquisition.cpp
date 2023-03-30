@@ -143,7 +143,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     std::string fileName = m_camera->ctx->curExp->filePrefix;
     std::filesystem::path filePath = m_camera->ctx->curExp->acquisitionDir;
 
-    TiffFile<F>* file = new TiffFile<F>(
+    TiffFile* file = new TiffFile(
         m_camera->ctx->curExp->region,
         m_camera->ctx->info.imageFormat,
         m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
@@ -221,7 +221,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         case StorageType::Prd: //TODO Actually handle this
                         {
                             std::stringstream ss;
-                            ss << std::setfill('0') << std::setw(3) << frameIndex;
+                            ss << std::setfill('0') << std::setw(4) << frameIndex;
 
                             if (file->IsOpen()) { file->Close(); }
                             file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
@@ -230,12 +230,12 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         case StorageType::TiffStack: //Defaults to using BigTiff
                             if (frameIndex == 0) {
                                 std::stringstream ss;
-                                ss << std::setfill('0') << std::setw(3) << frameIndex;
+                                ss << std::setfill('0') << std::setw(4) << frameIndex;
                                 file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
                             }
                             break;
                     }
-                    file->WriteFrame(frame);
+                    file->WriteFrame<F>(frame);
                     frameIndex++;
                 }
                 break;
@@ -407,7 +407,7 @@ void pm::Acquisition<F,C>::LoadTestData(std::string testImgPath) {
     uint32_t width, height;
     m_testImgPath = testImgPath;
     std::filesystem::path p = testImgPath.c_str();
-    m_fakeData = TiffFile<F>::LoadTIFF(p.string().c_str(), width, height);
+    m_fakeData = TiffFile::LoadTIFF(p.string().c_str(), width, height);
 }
 
 //Avoid link errors

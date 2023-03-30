@@ -47,6 +47,7 @@
 #include <QTimer>
 
 #include "mainwindow.h"
+#include <PostProcess.h>
 
 
 /*
@@ -70,76 +71,53 @@
  * @param autoConBright Flag to disable auto contrast/brightness for live view.
  * @param parent Pointer to parent widget.
  */
-MainWindow::MainWindow(
-    std::string version,
-    std::string path,
-    std::string prefix,
-    std::string niDev,
-    std::string testImgPath,
-    double fps,
-    double duration,
-    double expTimeMs,
-    uint16_t spdtable,
-    double ledIntensity,
-    uint32_t bufferCount,
-    uint32_t frameCount,
-    StorageType storageType,
-    uint16_t triggerMode,
-    uint16_t exposureMode,
-    double maxVoltage,
-    bool autoConBright,
-    bool vflip, bool hflip,
-    Region& rgn,
-    std::string stageComPort,
-    std::string configFile,
-    toml::value& config,
-    double line_times[4],
-    QMainWindow *parent) : QMainWindow(parent)
-{
+MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
 
+    m_version = params.version;
 
-    m_line_times[0] = line_times[0];
-    m_line_times[1] = line_times[1];
-    m_line_times[2] = line_times[2];
-    m_line_times[3] = line_times[3];
+    m_path = params.path;
+    m_prefix = params.prefix;
+    m_niDev = params.niDev;
+    m_testImgPath = params.testImgPath;
+    m_autoConBright = params.noAutoConBright;
+    m_stageComPort = params.stageComPort;
 
-    m_version = version;
-
-    m_path = path;
-    m_prefix = prefix;
-    m_niDev = niDev;
-    m_testImgPath = testImgPath;
-    m_autoConBright = autoConBright;
-    m_vflip = vflip;
-    m_hflip = hflip;
-    m_stageComPort = stageComPort;
+    //auto tiling params
+    m_autoTile = params.autoTile;
+    m_vflip = params.vflip;
+    m_hflip = params.hflip;
+    m_rows = params.rows;
+    m_cols = params.cols;
 
     m_settings = new Settings(this, m_path, m_prefix);
-    m_stageControl = new StageControl(m_stageComPort,configFile, this);
+    m_stageControl = new StageControl(m_stageComPort, params.configFile, this);
 
-    m_duration = duration;
-    m_fps = fps;
-    m_expTimeMS = expTimeMs;
-    m_maxVoltage = maxVoltage;
-    m_ledIntensity = ledIntensity;
-    m_config = config;
+    m_duration = params.duration;
+    m_fps = params.fps;
+    m_expTimeMS = params.expTimeMs;
+    m_maxVoltage = params.maxVoltage;
+    m_ledIntensity = params.ledIntensity;
+    m_config = params.config;
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,this);
 
-    m_width = (rgn.s2 - rgn.s1 + 1) / rgn.sbin;
-    m_height = (rgn.p2 - rgn.p1 + 1) / rgn.pbin;
+    m_width = (params.rgn.s2 - params.rgn.s1 + 1) / params.rgn.sbin;
+    m_height = (params.rgn.p2 - params.rgn.p1 + 1) / params.rgn.pbin;
 
-    m_expSettings.spdTableIdx = spdtable;
-    m_expSettings.expTimeMS = expTimeMs,
-    m_expSettings.frameCount = frameCount;
-    m_expSettings.bufferCount = bufferCount;
-    m_expSettings.storageType = storageType;
-    m_expSettings.trigMode = triggerMode;
-    m_expSettings.expModeOut = exposureMode;
+    m_expSettings.spdTableIdx = params.spdtable;
+    m_expSettings.expTimeMS = params.expTimeMs,
+    m_expSettings.frameCount = params.frameCount;
+    m_expSettings.bufferCount = params.bufferCount;
+    m_expSettings.storageType = params.storageType;
+    m_expSettings.trigMode = params.triggerMode;
+    m_expSettings.expModeOut = params.exposureMode;
     m_expSettings.region = {
-        .s1 = uns16(rgn.s1), .s2 = uns16(rgn.s2), .sbin = rgn.sbin,
-        .p1 = uns16(rgn.p1), .p2 = uns16(rgn.p2), .pbin = rgn.pbin
+        .s1 = uns16(params.rgn.s1), .s2 = uns16(params.rgn.s2), .sbin = params.rgn.sbin,
+        .p1 = uns16(params.rgn.p1), .p2 = uns16(params.rgn.p2), .pbin = params.rgn.pbin
     };
+
+    //save line times
+    m_lineTimes = params.lineTimes;
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
@@ -213,8 +191,6 @@ void MainWindow::Initialize() {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
 
-    //Get max Frame rate
-    double max_frame_rate = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_line_times[m_expSettings.spdTableIdx]);
 
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
@@ -239,8 +215,12 @@ void MainWindow::Initialize() {
 
     ui.ledIntensityEdit->setValue(m_ledIntensity);
 
-    ui.frameRateEdit->setMaximum(max_frame_rate);
-    ui.frameRateEdit->setValue((m_fps <= max_frame_rate) ? m_fps : max_frame_rate);
+    //Get max Frame rate
+    double max_fps = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_lineTimes[m_expSettings.spdTableIdx]);
+    spdlog::info("Max frame rate: {}", max_fps);
+
+    ui.frameRateEdit->setMaximum(max_fps);
+    ui.frameRateEdit->setValue((m_fps <= max_fps) ? m_fps : max_fps);
 
     ui.durationEdit->setValue(m_duration);
 }
@@ -291,7 +271,7 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  *
  * @returns boolean true if space is available
 */
-bool MainWindow::available_space_in_default_drive( double fps,double duration){
+bool MainWindow::availableDriveSpace( double fps, double duration){
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
@@ -309,7 +289,7 @@ bool MainWindow::available_space_in_default_drive( double fps,double duration){
             std::stringstream storage_space_string,driver_name_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             driver_name_string << m_path;
-            spdlog::info("Drive {} has: {} bytes free for acquisition",driver_name_string.str(),storage_space_string.str());
+            spdlog::info("Drive {} has: {} bytes free for acquisition", driver_name_string.str(), storage_space_string.str());
             return true;
         } else {
             //not enough space for acquisition
@@ -339,7 +319,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else if (!available_space_in_default_drive(value,m_duration)){
+    } else if (!availableDriveSpace(value, m_duration)){
         ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
@@ -365,7 +345,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    }else if (!available_space_in_default_drive(value,m_duration)){
+    }else if (!availableDriveSpace(value, m_duration)){
         ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     }else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
@@ -814,11 +794,35 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 {"frame_count", cls->m_expSettings.frameCount},
                 {"vflip", cls->m_vflip},
                 {"hflip", cls->m_hflip},
+                {"auto_tile", cls->m_autoTile},
+                {"rows", cls->m_rows},
+                {"cols", cls->m_cols},
                 {"stage_positions", stagePos}
             };
 
             outfile << std::setw(0) << settings << std::endl;
             outfile.close();
+
+            spdlog::info("Autotile: {}, rows: {}, cols: {}, positions: {}", cls->m_autoTile, cls->m_rows, cls->m_cols, stagePos.size());
+            uint16_t rowsxcols = cls->m_rows * cls->m_cols;
+
+            tm = std::localtime(&timestamp);
+            std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
+            std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_prefix, std::string(buffer));
+
+            if (cls->m_autoTile && cls->m_expSettings.storageType == 0 && rowsxcols == stagePos.size()) {
+                PostProcess::AutoTile(
+                    cls->m_expSettings.acquisitionDir,
+                    (cls->m_expSettings.acquisitionDir / tiledFile),
+                    cls->m_expSettings.frameCount,
+                    cls->m_rows,
+                    cls->m_cols,
+                    cls->m_width,
+                    cls->m_height,
+                    cls->m_vflip,
+                    cls->m_hflip
+                );
+            }
 
             cls->m_acquisitionRunning = false;
             cls->ui.startAcquisitionBtn->setText("Start Acquisition");
@@ -830,15 +834,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 }
 
 
-
 /**
  * Helper function that will take the line time for each mode from the config file and
  * calculate the max frame rate based on the caputure reagion height.
 */
-double MainWindow::calcMaxFrameRate(int p1, int p2, double line_time){
-    int number_of_rows = int(abs(p2 - p1));
-    double max_frame_rate = 1000000.0 / (line_time * number_of_rows);
-    spdlog::info("Max frame rate is: {}",max_frame_rate);
-    return max_frame_rate;
+double MainWindow::calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time) {
+    return 1000000.0 / (line_time * abs(p2 - p1));
 }
 

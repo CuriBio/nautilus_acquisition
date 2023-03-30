@@ -52,6 +52,7 @@
 #include <TaskApplyLut16.h>
 
 
+#include "config.h"
 #include "settings.h"
 #include "ui_mainwindow.h"
 #include "stagecontrol.h"
@@ -70,32 +71,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
     public:
-        explicit MainWindow(
-            std::string version,
-            std::string path,
-            std::string prefix,
-            std::string niDev,
-            std::string testImgPath,
-            double fps,
-            double duration,
-            double expTimeMs,
-            uint16_t spdtable,
-            double ledIntensity,
-            uint32_t bufferCount,
-            uint32_t frameCount,
-            StorageType storageType,
-            uint16_t triggerMode,
-            uint16_t exposureMode,
-            double maxVoltage,
-            bool noAutoConBright,
-            bool vflip, bool hflip,
-            Region& rgn,
-            std::string stageComPort,
-            std::string configFile,
-            toml::value& config,
-            double line_times[4],
-            QMainWindow* parent = nullptr
-        );
+        explicit MainWindow(Config& params, QMainWindow* parent = nullptr);
 
         ~MainWindow() {
             delete m_lut16;
@@ -154,7 +130,7 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
 
-        double m_line_times [4];
+        std::vector<double> m_lineTimes;
 
         double m_ledIntensity{50.0};
         double m_maxVoltage{1.4};
@@ -176,8 +152,12 @@ class MainWindow : public QMainWindow {
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
         bool m_autoConBright{true};
+
+        bool m_autoTile{false};
         bool m_vflip{false};
         bool m_hflip{false};
+        uint8_t m_rows{0};
+        uint8_t m_cols{0};
 
         uint8_t* m_img8;
 
@@ -216,12 +196,11 @@ class MainWindow : public QMainWindow {
         bool ledON(double voltage);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
-        bool available_space_in_default_drive( double fps,double duration);
+        bool availableDriveSpace(double fps, double duration);
         //acquire helper function
         void acquire(bool saveToDisk);
-        double calcMaxFrameRate(int p1, int p2, double line_time);
+        double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
 
         static void acquisitionThread(MainWindow* cls);
 };
-
 #endif
