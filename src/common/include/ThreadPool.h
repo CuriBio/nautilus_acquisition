@@ -148,7 +148,7 @@ class ThreadPool {
             m_running = false;
             m_taskReady.notify_all();
 
-            for (auto i = 0; i < m_threadCount; ++i) {
+            for (concurrency_t i = 0; i < m_threadCount; ++i) {
                 m_threads[i].join();
             }
         }

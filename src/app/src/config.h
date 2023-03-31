@@ -34,8 +34,10 @@ struct Config {
     bool hflip;
     uint8_t rows;
     uint8_t cols;
+    double xyPixelSize;
     Region& rgn;
     std::string stageComPort;
+    std::vector<int> stageStepSizes;
     std::string configFile;
     toml::value& config;
     std::vector<double> lineTimes;

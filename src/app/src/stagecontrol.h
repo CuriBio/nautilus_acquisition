@@ -39,9 +39,10 @@ class StageControl : public QDialog {
     Q_OBJECT
 
     public:
-        explicit StageControl(std::string comPort, std::string configFile, QWidget *parent = nullptr);
+        explicit StageControl(std::string comPort, std::string configFile, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
 
+        void Calibrate();
         void SetRelativePosition(double x, double y);
         void SetAbsolutePosition(double x, double y);
 
@@ -64,21 +65,21 @@ class StageControl : public QDialog {
 
         void on_gotoPosBtn_clicked();
 
-        void on_stageRightBtn1_clicked() { SetRelativeX(STAGE_MOVE1); };
-        void on_stageRightBtn2_clicked() { SetRelativeX(STAGE_MOVE2); };
-        void on_stageRightBtn3_clicked() { SetRelativeX(STAGE_MOVE3); };
+        void on_stageRightBtn1_clicked() { SetRelativeX(m_stepSizes[0]); };
+        void on_stageRightBtn2_clicked() { SetRelativeX(m_stepSizes[1]); };
+        void on_stageRightBtn3_clicked() { SetRelativeX(m_stepSizes[2]); };
 
-        void on_stageLeftBtn1_clicked() { SetRelativeX(-STAGE_MOVE1); };
-        void on_stageLeftBtn2_clicked() { SetRelativeX(-STAGE_MOVE2); };
-        void on_stageLeftBtn3_clicked() { SetRelativeX(-STAGE_MOVE3); };
+        void on_stageLeftBtn1_clicked() { SetRelativeX(-m_stepSizes[0]); };
+        void on_stageLeftBtn2_clicked() { SetRelativeX(-m_stepSizes[1]); };
+        void on_stageLeftBtn3_clicked() { SetRelativeX(-m_stepSizes[2]); };
 
-        void on_stageUpBtn1_clicked() { SetRelativeY(STAGE_MOVE1); };
-        void on_stageUpBtn2_clicked() { SetRelativeY(STAGE_MOVE2); };
-        void on_stageUpBtn3_clicked() { SetRelativeY(STAGE_MOVE3); };
+        void on_stageUpBtn1_clicked() { SetRelativeY(m_stepSizes[0]); };
+        void on_stageUpBtn2_clicked() { SetRelativeY(m_stepSizes[1]); };
+        void on_stageUpBtn3_clicked() { SetRelativeY(m_stepSizes[2]); };
 
-        void on_stageDownBtn1_clicked() { SetRelativeY(-STAGE_MOVE1); };
-        void on_stageDownBtn2_clicked() { SetRelativeY(-STAGE_MOVE2); };
-        void on_stageDownBtn3_clicked() { SetRelativeY(-STAGE_MOVE3); };
+        void on_stageDownBtn1_clicked() { SetRelativeY(-m_stepSizes[0]); };
+        void on_stageDownBtn2_clicked() { SetRelativeY(-m_stepSizes[1]); };
+        void on_stageDownBtn3_clicked() { SetRelativeY(-m_stepSizes[2]); };
 
     private:
         Ui::StageControl *ui;
@@ -88,6 +89,7 @@ class StageControl : public QDialog {
         std::string m_comPort;
         std::string m_configFile;
 
+        std::vector<int> m_stepSizes;
         double m_curX{0.0}, m_curY{0.0};
 
         void saveList(std::string fileName, bool fileExists);
