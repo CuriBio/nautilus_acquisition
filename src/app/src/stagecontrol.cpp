@@ -70,6 +70,8 @@ void StageControl::AddCurrentPosition() {
     StagePosition* item = new StagePosition(row, m_curX, m_curY);
     m_positions.push_back(item);
     ui->stageLocations->addItem(item);
+
+    emit this->sig_stagelist_updated(m_positions.size());
 }
 
 const std::vector<StagePosition*>& StageControl::GetPositions() const {
@@ -92,6 +94,8 @@ void StageControl::on_deleteBtn_clicked() {
             i->pos = n++;
             i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
         }
+
+        emit this->sig_stagelist_updated(m_positions.size());
     }
 }
 
@@ -159,6 +163,8 @@ void StageControl::loadList(std::string fileName) {
         m_positions.push_back(item);
         ui->stageLocations->addItem(item);
     }
+
+    emit this->sig_stagelist_updated(m_positions.size());
 }
 
 

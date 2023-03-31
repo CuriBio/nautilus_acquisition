@@ -90,10 +90,12 @@ class MainWindow : public QMainWindow {
     signals:
         void sig_acquisition_done();
         void sig_livescan_stopped();
+        void sig_stagelist_updated(size_t count);
 
     public slots:
         void acquisition_done();
         void settings_changed(std::filesystem::path path, std::string prefix);
+        void stagelist_updated(size_t count);
 
     private slots:
         void on_ledIntensityEdit_valueChanged(double value);
@@ -197,7 +199,7 @@ class MainWindow : public QMainWindow {
         bool ledON(double voltage);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
-        bool availableDriveSpace(double fps, double duration);
+        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         //acquire helper function
         void acquire(bool saveToDisk);
         double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);

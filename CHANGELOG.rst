@@ -3,6 +3,15 @@ Changelog for Nautilus
 0.1.16 (2023-03-31)
 -------------------
 
+Fixed:
+^^^^^^
+- Drive space check calculation didn't use number of stage positions
+- UI wasn't updating properly for drive space check when changing values
+
+
+0.1.16 (2023-03-31)
+-------------------
+
 Added:
 ^^^^^^
 - Add stage calibration/measure, xy pixel size in config, stage step sizes in config

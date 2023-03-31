@@ -56,6 +56,9 @@ class StageControl : public QDialog {
 
         const std::vector<StagePosition*>& GetPositions() const;
 
+    signals:
+        void sig_stagelist_updated(size_t count);
+
     private slots:
         void on_addBtn_clicked();
         void on_deleteBtn_clicked();
