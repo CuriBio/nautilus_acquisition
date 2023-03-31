@@ -2,6 +2,7 @@
 prefix = "default_"
 auto_contrast_brightness = true
 outdir = "E:\\"
+xy_pixel_size = 1.0
 
 [device.nidaqmx]
 device = "Dev2"
@@ -41,3 +42,6 @@ sub_electron = 60.1
 
 [device.tango]
 com = "COM3"
+step_small = 5
+step_medium = 15
+step_large = 25

@@ -164,6 +164,7 @@ class MainWindow : public QMainWindow {
         uint32_t m_width, m_height;
         uint32_t m_min, m_max;
         uint32_t m_hmax;
+        double m_xyPixelSize;
 
         uint8_t* m_lut16{nullptr};
         uint32_t* m_hist{nullptr};

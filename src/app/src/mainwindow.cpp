@@ -29,12 +29,14 @@
  *********************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <stdlib.h>
-#include <format>
-#include <iostream>
-#include <ctime>
 #include <chrono>
+#include <ctime>
+#include <format>
 #include <fstream>
+#include <future>
+#include <iostream>
+#include <stdlib.h>
+#include <thread>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -90,8 +92,16 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
     m_rows = params.rows;
     m_cols = params.cols;
 
+    //Pixel size
+    m_xyPixelSize = params.xyPixelSize;
+
     m_settings = new Settings(this, m_path, m_prefix);
-    m_stageControl = new StageControl(m_stageComPort, params.configFile, this);
+    m_stageControl = new StageControl(m_stageComPort, params.configFile, params.stageStepSizes, this);
+
+    //Async calibrate stage
+    std::future<void> stageCalibrate = std::async(std::launch::async, [&] {
+        m_stageControl->Calibrate();
+    });
 
     m_duration = params.duration;
     m_fps = params.fps;
@@ -137,6 +147,9 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
     m_taskApplyLut = std::make_shared<TaskApplyLut16>();
     std::vector<std::string> devicelist = m_DAQmx.GetListOfDevices();
     m_advancedSettingsDialog->Initialize(devicelist);
+
+    //Wait for stage calibration
+    stageCalibrate.wait();
 }
 
 
@@ -165,8 +178,10 @@ void MainWindow::Initialize() {
     m_expSettings.acquisitionDir = m_path;
     m_expSettings.filePrefix = m_prefix;
 
-    //initial camera setup, need this to allocate buffers
     m_camera->SetupExp(m_expSettings);
+    /* //Aysnc initial camera setup, need this to allocate buffers */
+    /* std::future<void> cameraSetup = std::async(std::launch::async, [&] { */
+    /* }); */
 
     //for 8 bit image conversion for liveview, might not need it anymore
     m_img8 = new uint8_t[m_width*m_height];
@@ -223,6 +238,9 @@ void MainWindow::Initialize() {
     ui.frameRateEdit->setValue((m_fps <= max_fps) ? m_fps : max_fps);
 
     ui.durationEdit->setValue(m_duration);
+
+    /* //Wait for camera setup */
+    /* cameraSetup.wait(); */
 }
 
 
@@ -797,6 +815,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 {"auto_tile", cls->m_autoTile},
                 {"rows", cls->m_rows},
                 {"cols", cls->m_cols},
+                {"xy_pixel_size", cls->m_xyPixelSize},
                 {"stage_positions", stagePos}
             };
 

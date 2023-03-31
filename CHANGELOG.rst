@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.16 (2023-03-31)
+-------------------
+
+Added:
+^^^^^^
+- Add stage calibration/measure, xy pixel size in config, stage step sizes in config
+
+
 0.1.15 (2023-03-30)
 -------------------
 

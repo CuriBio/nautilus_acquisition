@@ -16,6 +16,8 @@ class TangoStage {
         bool GetCurrentPos(double& x, double& y);
         bool SetRelativePos(double x, double y, bool block);
         bool SetAbsolutePos(double x, double y, bool block);
+        bool Calibrate();
+        bool RMeasure();
         int GetError() const;
 };
 #endif //TANGO_STAGE_H

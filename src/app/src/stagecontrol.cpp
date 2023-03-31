@@ -6,12 +6,12 @@
 #include "stagecontrol.h"
 #include "ui_stagecontrol.h"
 
-StageControl::StageControl(std::string comPort, std::string configFile, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
+StageControl::StageControl(std::string comPort, std::string configFile, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
     m_comPort = comPort;
     m_tango = new TangoStage(m_comPort);
-    m_tango->GetCurrentPos(m_curX, m_curY);
 
+    m_stepSizes = stepSizes;
     m_configFile = configFile;
     loadList(m_configFile);
 }
@@ -20,6 +20,12 @@ StageControl::~StageControl() {
     saveList(m_configFile, true);
     delete m_tango;
     delete ui;
+}
+
+void StageControl::Calibrate() {
+    m_tango->Calibrate();
+    m_tango->RMeasure();
+    m_tango->GetCurrentPos(m_curX, m_curY);
 }
 
 void StageControl::SetRelativePosition(double x, double y) {

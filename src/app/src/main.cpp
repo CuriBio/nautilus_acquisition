@@ -221,6 +221,13 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Stage com port: {}", stageComPort);
 
+    std::vector<int> stageStepSizes = {
+        toml::find_or<int>(config, "device", "tango", "step_small", 5),
+        toml::find_or<int>(config, "device", "tango", "step_medium", 15),
+        toml::find_or<int>(config, "device", "tango", "step_large", 25)
+    };
+    spdlog::info("Stage step size - small: {}, medium: {}, large: {}", stageStepSizes[0], stageStepSizes[1], stageStepSizes[2]);
+
 
     bool vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
     spdlog::info("Live view vertical flip: {}", vflip);
@@ -239,6 +246,9 @@ int main(int argc, char* argv[]) {
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
     uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
     spdlog::info("Acquisition region p1: {}, p2: {}, pbin: {}", p1, p2, pbin);
+
+    double xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
+    spdlog::info("XY pixel size: {}", xyPixelSize);
 
     Region rgn = {
         .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -401,8 +411,10 @@ int main(int argc, char* argv[]) {
             .hflip = hflip,
             .rows = rows,
             .cols = cols,
+            .xyPixelSize = xyPixelSize,
             .rgn = rgn,
             .stageComPort = stageComPort,
+            .stageStepSizes = stageStepSizes,
             .configFile = configFile.string(),
             .config = config,
             .lineTimes = lineTimes
