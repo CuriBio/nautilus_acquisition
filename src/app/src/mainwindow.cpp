@@ -131,7 +131,8 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
-    connect(m_advancedSettingsDialog,&AdvancedSetupDialog::sig_ni_dev_change,this,&MainWindow::Resetup_ni_device);
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::Resetup_ni_device);
+    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
 
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
@@ -247,10 +248,11 @@ void MainWindow::Initialize() {
 /*
 * Runs when a new ni device is selected, re configure ni device leds
 */
-void MainWindow::Resetup_ni_device(std::string new_m_niDev){
+void MainWindow::Resetup_ni_device(std::string new_m_niDev) {
     m_niDev = new_m_niDev;
     m_DAQmx.ClearTask(m_taskAO);
     m_DAQmx.ClearTask(m_taskDO);
+
     //Setup NIDAQmx controller for LED
     m_taskAO = "new_Analog_Out_Volts"; //Task for setting Analog Output voltage
     m_devAO = fmt::format("{}/ao0", m_niDev); //Device name for analog output
@@ -289,7 +291,8 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  *
  * @returns boolean true if space is available
 */
-bool MainWindow::availableDriveSpace( double fps, double duration){
+bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStagePositions) {
+    spdlog::info("availableDriveSpace - fps: {}, duration: {}, positions: {}", fps, duration, nStagePositions);
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
@@ -299,26 +302,29 @@ bool MainWindow::availableDriveSpace( double fps, double duration){
         if (!GetDiskFreeSpaceEx(m_path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             spdlog::error("Default drive could not be found when");
-            tool_tip_text << "Please check device is properly pulgged into " << m_path << " drive.";
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_path.string())));
             return false;
-        } else if (lpTotalNumberOfFreeBytes.QuadPart > fps * duration * frameBytes) {
+        }
+
+       if (lpTotalNumberOfFreeBytes.QuadPart > nStagePositions * fps * duration * frameBytes) {
             //space for acquisition found
             std::stringstream storage_space_string,driver_name_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             driver_name_string << m_path;
             spdlog::info("Drive {} has: {} bytes free for acquisition", driver_name_string.str(), storage_space_string.str());
+            ui.startAcquisitionBtn->setStyleSheet("");
+            ui.startAcquisitionBtn->setToolTip("");
             return true;
-        } else {
-            //not enough space for acquisition
-            spdlog::error("Not enough space for acquisition");
-            tool_tip_text << "Not enough space in " << m_path << " drive.";
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(tool_tip_text.str()));
-            return false;
-        }
+       }
+
+        //not enough space for acquisition
+        spdlog::error("Not enough space for acquisition");
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_path.string())));
+        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
+        return false;
     } else {
-        spdlog::error("Camera context could not be found when checking for space in default drive");
-        ui.startAcquisitionBtn->setToolTip("Camera can not be found.");
+        spdlog::error("Camera not found");
+        ui.startAcquisitionBtn->setToolTip("Camera not found.");
         return false;
     }
 #else
@@ -337,19 +343,17 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    } else if (!availableDriveSpace(value, m_duration)){
-        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
-        ui.startAcquisitionBtn->setStyleSheet("");
-        ui.startAcquisitionBtn->setToolTip("");
 
         spdlog::info("Setting new exposure value");
         m_fps = value;
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
         m_expSettings.frameCount = m_duration * m_fps;
     }
+
+    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
 }
 
 
@@ -363,17 +367,16 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
-    }else if (!availableDriveSpace(value, m_duration)){
-        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
-    }else {
+    } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
-        ui.startAcquisitionBtn->setStyleSheet("");
-        ui.startAcquisitionBtn->setToolTip("");
     }
+
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
+
+    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
 }
 
 
@@ -635,6 +638,9 @@ void MainWindow::acquisition_done() {
 
     delete m_acqusitionThread;
     m_acqusitionThread = nullptr;
+
+    //need to check if there is enough space for another acquisition
+    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
 }
 
 /*
@@ -651,6 +657,15 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
     m_expSettings.workingDir = m_path;
     m_expSettings.acquisitionDir = m_path;
     m_expSettings.filePrefix = m_prefix;
+}
+
+/*
+ * Signal to indicate the stage position list has changed.
+ *
+ * @param count The length of the stage position list.
+ */
+void MainWindow::stagelist_updated(size_t count) {
+    availableDriveSpace(m_fps, m_duration, count);
 }
 
 
