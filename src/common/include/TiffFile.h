@@ -140,9 +140,9 @@ class TiffFile {
         bool WriteFrame(F* frame);
 
         /*
-         * Write raw buffer
+         * Write 16bit raw buffer
          */
-        bool Write16(uint16_t* data);
+        bool Write(void* data, size_t frameIndex);
 
         bool Read16(uint16_t* data, uint32_t row) {
              TIFFReadScanline(m_file, data, row, 0);
