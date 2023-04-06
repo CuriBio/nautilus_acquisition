@@ -156,6 +156,7 @@ class MainWindow : public QMainWindow {
         bool m_autoConBright{true};
 
         bool m_autoTile{false};
+        bool m_encodeVideo{true};
         bool m_vflip{false};
         bool m_hflip{false};
         uint8_t m_rows{0};

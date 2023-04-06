@@ -50,6 +50,7 @@
 
 #include "mainwindow.h"
 #include <PostProcess.h>
+#include <VideoEncoder.h>
 
 
 /*
@@ -91,6 +92,7 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
     m_hflip = params.hflip;
     m_rows = params.rows;
     m_cols = params.cols;
+    m_encodeVideo = params.encodeVideo;
 
     //Pixel size
     m_xyPixelSize = params.xyPixelSize;
@@ -296,6 +298,9 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
+        //account for each acquisition and if autotile is enabled
+        uint32_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_autoTile) ? 2 : 1;
+
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         std::stringstream tool_tip_text;
 
@@ -306,7 +311,7 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
             return false;
         }
 
-       if (lpTotalNumberOfFreeBytes.QuadPart > nStagePositions * fps * duration * frameBytes) {
+       if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
             //space for acquisition found
             std::stringstream storage_space_string,driver_name_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
@@ -347,10 +352,10 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
 
-        spdlog::info("Setting new exposure value");
         m_fps = value;
         m_expSettings.expTimeMS = (1 / m_fps) * 1000;
         m_expSettings.frameCount = m_duration * m_fps;
+        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
     }
 
     availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
@@ -375,6 +380,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     m_duration = value;
     m_expSettings.expTimeMS = (1 / m_fps) * 1000;
     m_expSettings.frameCount = m_duration * m_fps;
+    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
 
     availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
 }
@@ -819,7 +825,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
             }
 
-            const toml::value settings{
+            const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
                 {"software_version", cls->m_version},
                 {"led_intensity", cls->m_ledIntensity},
                 {"fps", cls->m_fps},
@@ -834,17 +840,47 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 {"stage_positions", stagePos}
             };
 
-            outfile << std::setw(0) << settings << std::endl;
+            outfile << std::setw(1000) << settings << std::endl;
             outfile.close();
 
-            spdlog::info("Autotile: {}, rows: {}, cols: {}, positions: {}", cls->m_autoTile, cls->m_rows, cls->m_cols, stagePos.size());
             uint16_t rowsxcols = cls->m_rows * cls->m_cols;
 
-            tm = std::localtime(&timestamp);
-            std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
-            std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_prefix, std::string(buffer));
+            if (cls->m_autoTile && rowsxcols != stagePos.size()) {
+                spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+            } else if (cls->m_expSettings.storageType != 0) { //single tiff file storage
+                spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
+            } else {
+                spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", cls->m_autoTile, cls->m_rows, cls->m_cols, cls->m_expSettings.frameCount, stagePos.size());
 
-            if (cls->m_autoTile && cls->m_expSettings.storageType == 0 && rowsxcols == stagePos.size()) {
+                tm = std::localtime(&timestamp);
+                std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
+
+                std::function<void(void*, size_t)> writeFrame = {};
+                std::shared_ptr<VideoEncoder> venc = nullptr;
+
+                std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_prefix, std::string(buffer));
+                std::filesystem::path od = (cls->m_expSettings.acquisitionDir / tiledFile);
+                std::shared_ptr<TiffFile> tiff = std::make_shared<TiffFile>(od.string(), cls->m_cols*cls->m_width, cls->m_rows*cls->m_height, (cls->m_autoConBright) ? 8 : 16, cls->m_expSettings.frameCount, true);
+
+                if (cls->m_encodeVideo) {
+                    std::string aviFile = fmt::format("{}_stack_{}.avi", cls->m_prefix, std::string(buffer));
+                    std::filesystem::path od = (cls->m_expSettings.acquisitionDir / aviFile);
+
+                    venc = std::make_shared<VideoEncoder>(od, "mpeg4", cls->m_fps, cls->m_cols*cls->m_width, cls->m_rows*cls->m_height);
+                    if (!venc->Initialize()) {
+                        spdlog::error("Failed to initialize video encoder");
+                    }
+
+                    writeFrame = [&venc, &tiff](void* data, size_t n) {
+                        venc->writeFrame(static_cast<uint8_t*>(data), n+1);
+                        tiff->Write(data, n);
+                    };
+                } else {
+                    writeFrame = [&tiff](void* data, size_t n) {
+                        tiff->Write(data, n);
+                    };
+                }
+
                 PostProcess::AutoTile(
                     cls->m_expSettings.acquisitionDir,
                     (cls->m_expSettings.acquisitionDir / tiledFile),
@@ -854,8 +890,13 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                     cls->m_width,
                     cls->m_height,
                     cls->m_vflip,
-                    cls->m_hflip
+                    cls->m_hflip,
+                    cls->m_autoConBright,
+                    writeFrame
                 );
+
+                if (cls->m_encodeVideo) { venc->close(); } 
+                tiff->Close();
             }
 
             cls->m_acquisitionRunning = false;

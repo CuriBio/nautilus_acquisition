@@ -1,6 +1,14 @@
 Changelog for Nautilus
 ======================
-0.1.16 (2023-03-31)
+0.1.18 (2023-04-06)
+-------------------
+
+Added:
+^^^^^^
+- avi output for auto tiling if `encode_video` is set to true in config file
+
+
+0.1.17 (2023-03-31)
 -------------------
 
 Fixed:

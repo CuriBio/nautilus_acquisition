@@ -9,7 +9,7 @@ TangoStage::TangoStage(std::string comPort) {
 
     //should auto connect with first found tango driver instance.
     if (m_tango->ConnectSimple(1, m_comPort.data(), 57600, TRUE) != 0) {
-        spdlog::info("TangoStage::SetAbsolutePos error: {}", GetError());
+        spdlog::info("TangoStage::ConnectSimple error: {}", GetError());
     } else {
         //get current position
         double x,y;

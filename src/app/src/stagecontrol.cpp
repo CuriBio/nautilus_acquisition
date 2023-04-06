@@ -1,5 +1,8 @@
+#include <iostream>
+
 #include <format>
 #include <spdlog/spdlog.h>
+#include <tsl/ordered_map.h>
 
 #include <QFileDialog>
 
@@ -115,7 +118,7 @@ void StageControl::saveList(std::string fileName, bool fileExists) {
     spdlog::info("Saving stage positions to file: {}", fileName);
     toml::value file;
     if (fileExists) {
-        file = toml::parse<toml::preserve_comments>(fileName);
+        file = toml::parse<toml::preserve_comments, tsl::ordered_map>(fileName);
     } else {
         file = toml::value {};
     }
@@ -126,9 +129,8 @@ void StageControl::saveList(std::string fileName, bool fileExists) {
     }
     file["stage"] = toml::value{{"location", vs}};
 
-    std::ofstream outf;
-    outf.open(fileName);
-    outf << file << std::endl;
+    std::ofstream outf(fileName);
+    outf << std::setw(20) << file << std::endl;
     outf.close();
 }
 

@@ -36,11 +36,18 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGLWidgets
+    ordered_map
     PUBLIC
     spdlog::spdlog
     toml11::toml11
     pvcam_incl
     libtiff_incl
+    ffmpeg_incl
+    libavcodec
+    libavformat
+    libavutil
+    libswresample
+    libswscale
     tango
     Common
     PvCam
@@ -54,11 +61,18 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGLWidgets
+    tsl::ordered_map
     PUBLIC
     spdlog::spdlog
     toml11::toml11
     pvcam_incl
     libtiff_incl
+    ffmpeg_incl
+    libavcodec
+    libavformat
+    libavutil
+    libswresample
+    libswscale
     tango
     Common
     PvCamD

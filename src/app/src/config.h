@@ -8,6 +8,7 @@
 
 #include <cxxopts.hpp>
 #include <toml.hpp>
+#include <tsl/ordered_map.h>
 
 #include <interfaces/CameraInterface.h>
 
@@ -30,6 +31,7 @@ struct Config {
     double maxVoltage;
     bool noAutoConBright;
     bool autoTile;
+    bool encodeVideo;
     bool vflip;
     bool hflip;
     uint8_t rows;
@@ -39,7 +41,7 @@ struct Config {
     std::string stageComPort;
     std::vector<int> stageStepSizes;
     std::string configFile;
-    toml::value& config;
+    toml::basic_value<toml::preserve_comments, tsl::ordered_map>& config;
     std::vector<double> lineTimes;
 };
 #endif //__NAUTILUS_CONFIG_H

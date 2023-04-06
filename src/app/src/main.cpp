@@ -28,18 +28,20 @@
  * @brief Main entrypoint into the nautilus application.
  *********************************************************************/
 #include <filesystem>
-#include <fmt/chrono.h>
 #include <iostream>
+#include <deque>
 #include <stdlib.h>
 
 #include <cxxopts.hpp>
+#include <fmt/chrono.h>
 #include <QtWidgets/QApplication>
 
-#include <toml.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/logger.h>
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <tsl/ordered_map.h>
+#include <toml.hpp>
 
 #ifdef _WIN
 #include <Windows.h>
@@ -69,8 +71,8 @@ int main(int argc, char* argv[]) {
     }
 
     //create AppData directory for log files/config
-    std::filesystem::path configPath{fmt::format("{}/AppData/Local/Nautilus", userProfile.string())};
-    std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
+    std::filesystem::path configPath = (userProfile / std::filesystem::path("AppData/Local/Nautilus"));
+    std::filesystem::path configFile = (configPath / "nautilus.toml");
 
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", configPath.string(), fmt::localtime(ts));
@@ -91,13 +93,13 @@ int main(int argc, char* argv[]) {
 
     if (!std::filesystem::exists(configFile)) {
         spdlog::info("Creating {}", configFile.string());
-        auto cfg = toml::parse("nautilus.toml");
-        std::ofstream outf;
-        outf.open(configFile.string());
-        outf << cfg << std::endl;
+        auto cfg = toml::parse<toml::preserve_comments, tsl::ordered_map>(std::filesystem::path("nautilus.toml").string());
+        std::ofstream outf(configFile.string());
+        outf << std::setw(0) << cfg << std::endl;
+        outf.close();
     }
     spdlog::info("Reading config file {}", configFile.string());
-    auto config = toml::parse(configFile.string());
+    auto config = toml::parse<toml::preserve_comments, tsl::ordered_map>(configFile.string());
 
 
     cxxopts::Options options("Nautilus", "CuriBio");
@@ -182,17 +184,8 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Speed table index: {}", spdtable);
 
-
-    double ledIntensity = toml::find_or<double>(config, "acquisition", "led_intensity", 50.0);
-    if (userargs.count("led")) {
-        ledIntensity = userargs["led"].as<double>();
-    }
-    spdlog::info("LED intensity: {}", ledIntensity);
-
-
     double expTimeMS = 1000 * (1.0 / fps);
     spdlog::info("Exposure time (ms): {}", expTimeMS);
-
 
     double maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
     if (userargs.count("max_voltage")) {
@@ -214,6 +207,9 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Disable auto contrast/brightness: {}", !autoConBright);
 
+    double xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
+    spdlog::info("XY pixel size: {}", xyPixelSize);
+
 
     std::string stageComPort = toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3"));
     if (userargs.count("stage_com_port")) {
@@ -229,13 +225,21 @@ int main(int argc, char* argv[]) {
     spdlog::info("Stage step size - small: {}, medium: {}, large: {}", stageStepSizes[0], stageStepSizes[1], stageStepSizes[2]);
 
 
+    double ledIntensity = toml::find_or<double>(config, "acquisition", "led_intensity", 50.0);
+    if (userargs.count("led")) {
+        ledIntensity = userargs["led"].as<double>();
+    }
+    spdlog::info("LED intensity: {}", ledIntensity);
+
     bool vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
-    spdlog::info("Live view vertical flip: {}", vflip);
-
-
     bool hflip = toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false);
-    spdlog::info("Live view horizontal flip: {}", hflip);
+    spdlog::info("Live view horizontal flip: {}, vertical flip", hflip, vflip);
 
+    bool autoTile = toml::find_or<bool>(config, "acquisition", "auto_tile", false);
+    bool encodeVideo = toml::find_or<bool>(config, "acquisition", "encode_video", true);
+    uint8_t rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
+    uint8_t cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
+    spdlog::info("Auto tile: {}, encode video: {}, rows: {}, cols: {}", autoTile, encodeVideo, rows, cols);
 
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
     uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
@@ -246,9 +250,6 @@ int main(int argc, char* argv[]) {
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
     uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
     spdlog::info("Acquisition region p1: {}, p2: {}, pbin: {}", p1, p2, pbin);
-
-    double xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
-    spdlog::info("XY pixel size: {}", xyPixelSize);
 
     Region rgn = {
         .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -379,10 +380,6 @@ int main(int argc, char* argv[]) {
     };
     spdlog::info("Line times, sensitivity: {}, speed: {}, dynamic_range: {}, sub-electron: {}", lineTimes[0], lineTimes[1], lineTimes[2], lineTimes[3]);
 
-    bool autoTile = toml::find_or<bool>(config, "acquisition", "auto_tile", false);
-    uint8_t rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
-    uint8_t cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
-    spdlog::info("Auto tile: {}, rows: {}, cols: {}", autoTile, rows, cols);
 
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
@@ -407,6 +404,7 @@ int main(int argc, char* argv[]) {
             .maxVoltage = maxVoltage,
             .noAutoConBright = autoConBright,
             .autoTile = autoTile,
+            .encodeVideo = encodeVideo,
             .vflip = vflip,
             .hflip = hflip,
             .rows = rows,

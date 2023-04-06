@@ -116,32 +116,30 @@ void TiffFile::Close() {
     }
 }
 
-bool TiffFile::Write16(uint16_t* data) {
-    size_t count = 2*m_width*m_height;
-
+bool TiffFile::Write(void* data, size_t frameIndex) {
+    size_t bytes = m_width * m_height * (m_bitDepth / 8);
     TIFFSetField(m_file, TIFFTAG_IMAGEDESCRIPTION, m_name.c_str());
     TIFFSetField(m_file, TIFFTAG_IMAGEWIDTH, m_width);
     TIFFSetField(m_file, TIFFTAG_IMAGELENGTH, m_height);
+    TIFFSetField(m_file, TIFFTAG_BITSPERSAMPLE, m_bitDepth);
     TIFFSetField(m_file, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
-    TIFFSetField(m_file, TIFFTAG_BITSPERSAMPLE, 16);
     TIFFSetField(m_file, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
     TIFFSetField(m_file, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     TIFFSetField(m_file, TIFFTAG_SAMPLESPERPIXEL, 1);
     TIFFSetField(m_file, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
-    TIFFSetField(m_file, TIFFTAG_MAXSAMPLEVALUE, (1u << 12) - 1);
-
+    TIFFSetField(m_file, TIFFTAG_MAXSAMPLEVALUE, (1u << m_bitDepth) - 1);
 
     /* // TODO Put the PVCAM metadata into the image description */
     if (m_frameCount > 1) {
         // We are writing single page of the multi-page file
         TIFFSetField(m_file, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
         // Set the page number
-        TIFFSetField(m_file, TIFFTAG_PAGENUMBER, m_frameIndex, m_frameCount);
+        TIFFSetField(m_file, TIFFTAG_PAGENUMBER, frameIndex, m_frameCount);
     }
 
     // This is fastest streaming option, but it requires the TIFFTAG_ROWSPERSTRIP
     // tag is not set (or maybe requires well calculated value)
-    if (count != (size_t)TIFFWriteRawStrip(m_file, 0, data, count)) {
+    if (bytes != (size_t)TIFFWriteRawStrip(m_file, 0, data, bytes)) {
         return false;
     }
 

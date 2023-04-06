@@ -16,14 +16,22 @@ find_package(toml11)
 
 # linking against the desired targets
 IF (WIN32)
+    set_property(TARGET ${TILE_PROJECT} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
     target_link_libraries(${TILE_PROJECT}
     PRIVATE
     project_options
     project_warnings
     PUBLIC
+    bcrypt.lib
     spdlog::spdlog
     toml11::toml11
     libtiff_incl
+    ffmpeg_incl
+    libavcodec
+    libavformat
+    libavutil
+    libswresample
+    libswscale
     Common)
 ELSE()
     target_link_libraries(${TILE_PROJECT}
@@ -33,7 +41,15 @@ ELSE()
     PUBLIC
     spdlog::spdlog
     toml11::toml11
+    libz_incl
+    libz
     libtiff_incl
+    ffmpeg_incl
+    libavcodec
+    libavformat
+    libavutil
+    libswresample
+    libswscale
     Common)
 ENDIF() #WIN32
 
@@ -43,3 +59,9 @@ install(
     COMPONENT ${TILE_PROJECT}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_SHAREDSTATEDIR})
+
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ${CMAKE_INSTALL_BINDIR})
+    set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+    include(InstallRequiredSystemLibraries)
+endif()

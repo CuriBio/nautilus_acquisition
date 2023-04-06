@@ -1,0 +1,2 @@
+add_library(ordered_map INTERFACE)
+target_include_directories(ordered_map INTERFACE include)
