@@ -9,11 +9,9 @@
 *
 * @param parent Pointer to parent widget.
 */
-AdvancedSetupDialog::AdvancedSetupDialog( toml::value config,QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
+AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
-
-    std::string niDev = toml::find_or<std::string>(config, "device", "nidaqmx","device", std::string("Dev2"));
-    m_niDev = niDev;
+    m_config = config;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
     connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
@@ -51,23 +49,16 @@ void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
 
     //if new newdev selected then update toml and channels
     if(m_niDev != "No NI devices detected"){
-        std::filesystem::path userProfile{"/Users"};
-        char* up = getenv("USERPROFILE");
-        if (up != nullptr) {
-            userProfile = std::string(up);
-        }
         //save new ni device to toml file
-        std::filesystem::path configFile{fmt::format("{}/AppData/Local/Nautilus/nautilus.toml", userProfile.string())};
-        auto file = toml::parse(configFile);
+        auto file = toml::parse(m_config->configFile);
         file["device"]["nidaqmx"]["device"] = m_niDev;
-        std::ofstream outf;
-        outf.open(configFile.string());
-        outf << file << std::endl;
-        spdlog::info("Updated NI device name in toml");
+
+        std::ofstream outf(m_config->configFile);
+        outf << std::setw(0) << file << std::endl;
+        outf.close();
+
         emit this->sig_ni_dev_change(m_niDev);
     }
-
-    spdlog::info("Done updating advanced settings");
     this->close();
 }
 

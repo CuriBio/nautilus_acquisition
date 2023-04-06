@@ -1,47 +1,75 @@
 #ifndef __NAUTILUS_CONFIG_H
 #define __NAUTILUS_CONFIG_H
-#include <filesystem>
-#include <fmt/chrono.h>
-#include <iostream>
 #include <stdlib.h>
+#include <filesystem>
+#include <string>
 #include <vector>
 
 #include <cxxopts.hpp>
-#include <toml.hpp>
-#include <tsl/ordered_map.h>
-
 #include <interfaces/CameraInterface.h>
 
-struct Config {
-    std::string version;
-    std::string path;
-    std::string prefix;
-    std::string niDev;
-    std::string testImgPath;
-    double fps;
-    double duration;
-    double expTimeMs;
-    uint16_t spdtable;
-    double ledIntensity;
-    uint32_t bufferCount;
-    uint32_t frameCount;
-    StorageType storageType;
-    int16_t triggerMode;
-    int16_t exposureMode;
-    double maxVoltage;
-    bool noAutoConBright;
-    bool autoTile;
-    bool encodeVideo;
-    bool vflip;
-    bool hflip;
-    uint8_t rows;
-    uint8_t cols;
-    double xyPixelSize;
-    Region& rgn;
-    std::string stageComPort;
-    std::vector<int> stageStepSizes;
-    std::string configFile;
-    toml::basic_value<toml::preserve_comments, tsl::ordered_map>& config;
-    std::vector<double> lineTimes;
+class Config {
+    public:
+        //nautilus options
+        std::string prefix;
+        bool noAutoConBright;
+        std::filesystem::path path;
+        double xyPixelSize;
+
+        //acquistion options
+        double fps;
+        double duration;
+        double ledIntensity;
+        StorageType storageType;
+        std::string storageTypeName;
+        bool autoTile;
+        bool encodeVideo;
+        uint8_t rows;
+        uint8_t cols;
+        uint32_t bufferCount;
+        uint32_t frameCount;
+        double expTimeMs;
+
+        //acquistion.region options
+        Region rgn;
+
+        //acquistion.live_view options
+        bool vflip;
+        bool hflip;
+
+        //device.photometrics options
+        int16_t triggerMode;
+        std::string triggerModeName;
+        int16_t exposureMode;
+        std::string exposureModeName;
+        uint16_t spdtable;
+
+        //device.kinetix.line_read_times options
+        std::vector<double> lineTimes;
+
+        //device.nidaqmx
+        std::string niDev;
+        double maxVoltage;
+
+
+        //device.tango
+        std::string stageComPort;
+        std::vector<int> stageStepSizes;
+
+        //debug
+        std::string testImgPath;
+        bool ignoreErrors;
+
+        //stage
+        std::vector<std::pair<double, double>> stageLocations;
+
+        //other
+        std::string version;
+        std::string configFile;
+
+    public:
+        Config(std::filesystem::path cfg, cxxopts::ParseResult userargs);
+        ~Config() { };
+        void Dump();
 };
 #endif //__NAUTILUS_CONFIG_H

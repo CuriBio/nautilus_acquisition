@@ -136,13 +136,11 @@ class VideoEncoder {
             }
 
             if (m_codec->id == AV_CODEC_ID_MPEG4) {
-                spdlog::info("Setting opt for mpeg4");
                 av_dict_set(&m_fmtOpts, "movflags", "faststart", 0);
                 av_dict_set(&m_fmtOpts, "brand", "mp42", 0);
                 av_dict_set(&m_fmtOpts, "preset", "medium", 0 );
             }
 
-            spdlog::info("allocating codex context");
             if (!(m_codecCtx = avcodec_alloc_context3(m_codec))) {
                 spdlog::error("Could not allocate encoding context");
                 return false;
@@ -163,7 +161,6 @@ class VideoEncoder {
             m_codecCtx->max_b_frames = 2;
             m_codecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
 
-            spdlog::info("Open codec");
             if (avcodec_open2(m_codecCtx, m_codec, nullptr) < 0) {
                 spdlog::error("CouldNotOpenVideoCodec");
                 return false;

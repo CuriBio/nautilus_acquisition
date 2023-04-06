@@ -12,6 +12,7 @@
 #include <QListWidgetItem>
 #include <toml.hpp>
 
+#include "config.h"
 #include <TangoStage.h>
 
 
@@ -39,9 +40,10 @@ class StageControl : public QDialog {
     Q_OBJECT
 
     public:
-        explicit StageControl(std::string comPort, std::string configFile, std::vector<int> stepSizes, QWidget *parent = nullptr);
+        explicit StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
 
+        bool Connected() const;
         void Calibrate();
         void SetRelativePosition(double x, double y);
         void SetAbsolutePosition(double x, double y);
@@ -91,6 +93,7 @@ class StageControl : public QDialog {
         TangoStage* m_tango;
         std::string m_comPort;
         std::string m_configFile;
+        std::shared_ptr<Config> m_config;
 
         std::vector<int> m_stepSizes;
         double m_curX{0.0}, m_curY{0.0};

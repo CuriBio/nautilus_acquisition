@@ -6,6 +6,7 @@
 TangoStage::TangoStage(std::string comPort) {
     m_tango = new CTango();
     m_comPort = comPort;
+    m_open = false;
 
     //should auto connect with first found tango driver instance.
     if (m_tango->ConnectSimple(1, m_comPort.data(), 57600, TRUE) != 0) {
@@ -13,18 +14,22 @@ TangoStage::TangoStage(std::string comPort) {
     } else {
         //get current position
         double x,y;
-        GetCurrentPos(x, y);
-        m_x = x; m_y = y;
+        if (GetCurrentPos(x, y)) {
+            m_x = x; m_y = y;
+            m_open = true;
+        }
     }
 }
 
 TangoStage::~TangoStage() {
     m_tango->Disconnect();
+    m_open = false;
     delete m_tango;
 }
 
 bool TangoStage::GetCurrentPos(double& x, double& y) {
     double z, a;
+    spdlog::info("TangoStage::GetCurrentPos");
     if (m_tango->GetPos(&x, &y, &z, &a) != 0) {
         spdlog::info("TangoStage::GetPos error: {}", GetError());
         return false;
@@ -33,7 +38,7 @@ bool TangoStage::GetCurrentPos(double& x, double& y) {
 }
 
 bool TangoStage::SetRelativePos(double x, double y, bool block) {
-    spdlog::info("TangoStage::SetRelativePos x: {}, y: {}", x, y);
+    spdlog::info("TangoStage::SetRelativePos x: {}, y: {}, block: {}", x, y, block);
     if (m_tango->MoveRel(x, y, 0.0, 0.0, block) != 0) {
         spdlog::info("Tango::Stage SetRelativePos error: {}", GetError());
         return false;
@@ -42,7 +47,7 @@ bool TangoStage::SetRelativePos(double x, double y, bool block) {
 }
 
 bool TangoStage::SetAbsolutePos(double x, double y, bool block) {
-    spdlog::info("TangoStage::SetAbsolutePos");
+    spdlog::info("TangoStage::SetAbsolutePos - x: {}, y: {}, block: {}", x, y, block);
     if (m_tango->MoveAbs(x, y, 0.0, 0.0, block) != 0) {
         spdlog::info("TangoStage::SetAbsolutePos error: {}", GetError());
         return false;
@@ -66,6 +71,10 @@ bool TangoStage::RMeasure() {
         return false;
     }
     return true;
+}
+
+bool TangoStage::Connected() const {
+    return m_open;
 }
 
 int TangoStage::GetError() const {
