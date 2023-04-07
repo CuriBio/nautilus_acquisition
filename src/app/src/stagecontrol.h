@@ -6,6 +6,7 @@
 #define STAGE_MOVE3 25
 
 #include <vector>
+#include <future>
 
 #include <QDialog>
 #include <QListWidget>
@@ -39,12 +40,26 @@ class StagePosition : public QListWidgetItem  {
 class StageControl : public QDialog {
     Q_OBJECT
 
+    private:
+        Ui::StageControl *ui;
+        std::vector<StagePosition*> m_positions;
+
+        TangoStage* m_tango;
+        std::string m_comPort;
+        std::string m_configFile;
+        std::shared_ptr<Config> m_config;
+
+        std::vector<int> m_stepSizes;
+        double m_curX{0.0}, m_curY{0.0};
+
     public:
         explicit StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
 
+        std::future<bool> Initialize();
+
         bool Connected() const;
-        void Calibrate();
+        bool Calibrate();
         void SetRelativePosition(double x, double y);
         void SetAbsolutePosition(double x, double y);
 
@@ -87,17 +102,6 @@ class StageControl : public QDialog {
         void on_stageDownBtn3_clicked() { SetRelativeY(-m_stepSizes[2]); };
 
     private:
-        Ui::StageControl *ui;
-        std::vector<StagePosition*> m_positions;
-
-        TangoStage* m_tango;
-        std::string m_comPort;
-        std::string m_configFile;
-        std::shared_ptr<Config> m_config;
-
-        std::vector<int> m_stepSizes;
-        double m_curX{0.0}, m_curY{0.0};
-
         void saveList(std::string fileName, bool fileExists);
         void loadList(std::string fileName);
 };

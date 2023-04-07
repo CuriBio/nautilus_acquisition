@@ -35,6 +35,7 @@
 
 #include <toml.hpp>
 #include <tsl/ordered_map.h>
+#include <QProgressDialog>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -83,11 +84,16 @@ class MainWindow : public QMainWindow {
 
             delete m_img8;
             m_img8 = nullptr;
+
+            delete m_acquisitionProgress;
+            m_acquisitionProgress = nullptr;
         }
 
         void Initialize();
 
     signals:
+        void sig_acquisition_start(int n);
+        void sig_acquisition_progress();
         void sig_acquisition_done();
         void sig_livescan_stopped();
 
@@ -121,7 +127,6 @@ class MainWindow : public QMainWindow {
         Settings* m_settings {nullptr};
         std::mutex m_lock;
 
-        //toml::value m_config{};
         std::string m_configFile{};
 
         std::shared_ptr<pmCamera> m_camera;
@@ -129,6 +134,7 @@ class MainWindow : public QMainWindow {
 
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
+        QProgressDialog* m_acquisitionProgress {nullptr};
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;
@@ -141,6 +147,7 @@ class MainWindow : public QMainWindow {
 
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
+        bool m_userCanceled {false};
 
         uint8_t* m_img8;
 
@@ -170,6 +177,9 @@ class MainWindow : public QMainWindow {
             .frameCount = 0,
             .bufferCount = 100
         };
+
+        std::future<void> m_niSetup = {};
+        std::future<bool> m_stageCalibrate = {};
 
     private:
         void StartAcquisition(bool saveToDisk);
