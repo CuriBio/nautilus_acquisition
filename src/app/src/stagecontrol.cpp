@@ -35,10 +35,10 @@ bool StageControl:: Connected() const {
     return m_tango->Connected();
 }
 
-void StageControl::Calibrate() {
-    m_tango->Calibrate();
-    m_tango->RMeasure();
-    m_tango->GetCurrentPos(m_curX, m_curY);
+bool StageControl::Calibrate() {
+    if (m_tango->Connected()) {
+        return (m_tango->Calibrate() && m_tango->RMeasure() && m_tango->GetCurrentPos(m_curX, m_curY));
+    }
 }
 
 void StageControl::SetRelativePosition(double x, double y) {

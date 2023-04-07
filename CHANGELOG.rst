@@ -1,11 +1,13 @@
 Changelog for Nautilus
 ======================
-0.1.18 (2023-04-06)
+0.1.18 (2023-04-07)
 -------------------
 
 Added:
 ^^^^^^
 - avi output for auto tiling if `encode_video` is set to true in config file
+- stage connection error modal
+- acquisition progress bar
 
 Fixed:
 ^^^^^^
