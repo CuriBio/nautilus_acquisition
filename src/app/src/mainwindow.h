@@ -34,6 +34,7 @@
 #include <string>
 
 #include <toml.hpp>
+#include <tsl/ordered_map.h>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -71,7 +72,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
     public:
-        explicit MainWindow(Config& params, QMainWindow* parent = nullptr);
+        explicit MainWindow(std::shared_ptr<Config> params, QMainWindow* parent = nullptr);
 
         ~MainWindow() {
             delete m_lut16;
@@ -85,12 +86,10 @@ class MainWindow : public QMainWindow {
         }
 
         void Initialize();
-        void Resetup_ni_device(std::string new_m_niDev);
 
     signals:
         void sig_acquisition_done();
         void sig_livescan_stopped();
-        void sig_stagelist_updated(size_t count);
 
     public slots:
         void acquisition_done();
@@ -117,13 +116,12 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow ui;
         StageControl* m_stageControl{nullptr};
         AdvancedSetupDialog * m_advancedSettingsDialog{nullptr};
-        std::string m_stageComPort{};
 
-        std::string m_version;
+        std::shared_ptr<Config> m_config = nullptr;
         Settings* m_settings {nullptr};
         std::mutex m_lock;
 
-        toml::value m_config{};
+        //toml::value m_config{};
         std::string m_configFile{};
 
         std::shared_ptr<pmCamera> m_camera;
@@ -132,17 +130,7 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
 
-        std::vector<double> m_lineTimes;
-
-        double m_ledIntensity{50.0};
-        double m_maxVoltage{1.4};
-        double m_fps{0.0};
-        double m_expTimeMS{0.0};
-        double m_duration{0.0};
-        uint16_t m_spdtable{0};
-
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
-        std::string m_niDev; //NI-DAQmx device name
         std::string m_taskAO, m_devAO;
         std::string m_taskDO, m_devDO;
         bool m_led{false};
@@ -153,21 +141,12 @@ class MainWindow : public QMainWindow {
 
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
-        bool m_autoConBright{true};
-
-        bool m_autoTile{false};
-        bool m_encodeVideo{true};
-        bool m_vflip{false};
-        bool m_hflip{false};
-        uint8_t m_rows{0};
-        uint8_t m_cols{0};
 
         uint8_t* m_img8;
 
         uint32_t m_width, m_height;
         uint32_t m_min, m_max;
         uint32_t m_hmax;
-        double m_xyPixelSize;
 
         uint8_t* m_lut16{nullptr};
         uint32_t* m_hist{nullptr};
@@ -196,14 +175,15 @@ class MainWindow : public QMainWindow {
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
 
+        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         void AutoConBright(const uint16_t* data);
         bool ledON(double voltage);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
-        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
+        void setupNIDev(std::string new_m_niDev);
+        double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
         //acquire helper function
         void acquire(bool saveToDisk);
-        double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
 
         static void acquisitionThread(MainWindow* cls);
 };

@@ -8,6 +8,7 @@ class TangoStage {
         CTango* m_tango;
         std::string m_comPort;
         double m_x{0.0}, m_y{0.0};
+        bool m_open{false};
 
     public:
         TangoStage(std::string comPort);
@@ -18,6 +19,7 @@ class TangoStage {
         bool SetAbsolutePos(double x, double y, bool block);
         bool Calibrate();
         bool RMeasure();
+        bool Connected() const;
         int GetError() const;
 };
 #endif //TANGO_STAGE_H

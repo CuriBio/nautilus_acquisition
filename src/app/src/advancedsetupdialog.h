@@ -7,6 +7,7 @@
 #include <QListWidgetItem>
 #include <toml.hpp>
 
+#include "config.h"
 #include <NIDAQmx_wrapper.h>
 
 namespace Ui {
@@ -19,7 +20,7 @@ class AdvancedSetupDialog : public QDialog{
     Q_OBJECT
 
     public:
-        explicit AdvancedSetupDialog(toml::value config, QWidget* parent = 0);
+        explicit AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget* parent = 0);
         ~AdvancedSetupDialog();
         void Initialize(std::vector<std::string>);
 
@@ -32,6 +33,7 @@ class AdvancedSetupDialog : public QDialog{
 
     private:
         Ui::AdvancedSetupDialog *ui;
-        std::string m_niDev; //NI-DAQmx device name
+        std::shared_ptr<Config> m_config;
+        std::string m_niDev;
 };
 #endif // ADVANCEDSETUPDIALOG_H

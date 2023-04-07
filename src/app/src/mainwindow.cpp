@@ -74,66 +74,45 @@
  * @param autoConBright Flag to disable auto contrast/brightness for live view.
  * @param parent Pointer to parent widget.
  */
-MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
+    m_config = params;
 
-    m_version = params.version;
-
-    m_path = params.path;
-    m_prefix = params.prefix;
-    m_niDev = params.niDev;
-    m_testImgPath = params.testImgPath;
-    m_autoConBright = params.noAutoConBright;
-    m_stageComPort = params.stageComPort;
-
-    //auto tiling params
-    m_autoTile = params.autoTile;
-    m_vflip = params.vflip;
-    m_hflip = params.hflip;
-    m_rows = params.rows;
-    m_cols = params.cols;
-    m_encodeVideo = params.encodeVideo;
-
-    //Pixel size
-    m_xyPixelSize = params.xyPixelSize;
-
-    m_settings = new Settings(this, m_path, m_prefix);
-    m_stageControl = new StageControl(m_stageComPort, params.configFile, params.stageStepSizes, this);
+    m_settings = new Settings(this, m_config->path, m_config->prefix);
+    m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
 
     //Async calibrate stage
     std::future<void> stageCalibrate = std::async(std::launch::async, [&] {
         m_stageControl->Calibrate();
     });
 
-    m_duration = params.duration;
-    m_fps = params.fps;
-    m_expTimeMS = params.expTimeMs;
-    m_maxVoltage = params.maxVoltage;
-    m_ledIntensity = params.ledIntensity;
-    m_config = params.config;
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config,this);
+    //Setup NIDAQmx controller for LED
+    std::future<void> niSetup = std::async(std::launch::async, [&] {
+        setupNIDev(m_config->niDev);
+    });
 
-    m_width = (params.rgn.s2 - params.rgn.s1 + 1) / params.rgn.sbin;
-    m_height = (params.rgn.p2 - params.rgn.p1 + 1) / params.rgn.pbin;
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
 
-    m_expSettings.spdTableIdx = params.spdtable;
-    m_expSettings.expTimeMS = params.expTimeMs,
-    m_expSettings.frameCount = params.frameCount;
-    m_expSettings.bufferCount = params.bufferCount;
-    m_expSettings.storageType = params.storageType;
-    m_expSettings.trigMode = params.triggerMode;
-    m_expSettings.expModeOut = params.exposureMode;
+    m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
+    m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
+
+    m_expSettings.spdTableIdx = m_config->spdtable;
+    m_expSettings.expTimeMS = m_config->expTimeMs,
+    m_expSettings.frameCount = m_config->frameCount;
+    m_expSettings.bufferCount = m_config->bufferCount;
+    m_expSettings.storageType = m_config->storageType;
+    m_expSettings.trigMode = m_config->triggerMode;
+    m_expSettings.expModeOut = m_config->exposureMode;
     m_expSettings.region = {
-        .s1 = uns16(params.rgn.s1), .s2 = uns16(params.rgn.s2), .sbin = params.rgn.sbin,
-        .p1 = uns16(params.rgn.p1), .p2 = uns16(params.rgn.p2), .pbin = params.rgn.pbin
+        .s1 = uns16(m_config->rgn.s1), .s2 = uns16(m_config->rgn.s2), .sbin = m_config->rgn.sbin,
+        .p1 = uns16(m_config->rgn.p1), .p2 = uns16(m_config->rgn.p2), .pbin = m_config->rgn.pbin
     };
-
-    //save line times
-    m_lineTimes = params.lineTimes;
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::Resetup_ni_device);
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+
+    //stage control signals
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
 
     m_liveViewTimer = new QTimer(this);
@@ -148,11 +127,15 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
     m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
     m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
     m_taskApplyLut = std::make_shared<TaskApplyLut16>();
+
     std::vector<std::string> devicelist = m_DAQmx.GetListOfDevices();
     m_advancedSettingsDialog->Initialize(devicelist);
 
     //Wait for stage calibration
     stageCalibrate.wait();
+
+    //wait for ni device setup
+    niSetup.wait();
 }
 
 
@@ -160,6 +143,14 @@ MainWindow::MainWindow(Config& params, QMainWindow *parent) : QMainWindow(parent
  * Initializes main window and camera/acquisition objects.
  */
 void MainWindow::Initialize() {
+    //check if stage connected and show error
+    if (!m_stageControl->Connected()) {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Stage not be found, please plug in all devices and restart application");
+        messageBox.setFixedSize(500,200);
+        if (!m_config->ignoreErrors) { exit(1); }
+    }
+
     spdlog::info("Initialize camera");
     m_camera = std::make_shared<pmCamera>();
 
@@ -171,15 +162,15 @@ void MainWindow::Initialize() {
         QMessageBox messageBox;
         messageBox.critical(0,"Error","Camera could not be found, please plug in camera and restart application");
         messageBox.setFixedSize(500,200);
-        exit(1);
+        if (!m_config->ignoreErrors) { exit(1); }
     }
 
     spdlog::info("Get camera info");
     m_camInfo = m_camera->GetInfo();
 
-    m_expSettings.workingDir = m_path;
-    m_expSettings.acquisitionDir = m_path;
-    m_expSettings.filePrefix = m_prefix;
+    m_expSettings.workingDir = m_config->path;
+    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.filePrefix = m_config->prefix;
 
     m_camera->SetupExp(m_expSettings);
     /* //Aysnc initial camera setup, need this to allocate buffers */
@@ -190,7 +181,7 @@ void MainWindow::Initialize() {
     m_img8 = new uint8_t[m_width*m_height];
 
     //Set sensor size for live view
-    ui.liveView->Init(m_width, m_height, m_vflip, m_hflip, ImageFormat::Mono8);
+    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono8);
     ui.histView->Init(m_hist, m_width*m_height);
 
     spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
@@ -209,60 +200,40 @@ void MainWindow::Initialize() {
         spdlog::info("\tport: {}, pixTimeNs: {}, spdIndex: {}, gainIndex: {}, gainName: {}, bitDepth: {}", i.portName, i.pixTimeNs, i.spdIndex, i.gainIndex, i.gainName, i.bitDepth);
     }
 
-
     //needs camera to be opened first
     m_acquisition = std::make_unique<pmAcquisition>(m_camera);
-    if (m_testImgPath != "") {
-        m_acquisition->LoadTestData(m_testImgPath);
+    if (m_config->testImgPath != "") {
+        m_acquisition->LoadTestData(m_config->testImgPath);
     }
 
-    //Setup NIDAQmx controller for LED
-    m_taskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
-    m_devAO = fmt::format("{}/ao0", m_niDev); //Device name for analog output
-    spdlog::info("Using NI device {} for analog output", m_devAO);
-
-    m_taskDO = "Digital_Out"; //Task for setting Digital Output
-    m_devDO = fmt::format("{}/port0/line0:7", m_niDev); //Device for digital output
-    spdlog::info("Using NI device {} for digital output", m_devDO);
-
-    m_DAQmx.CreateTask(m_taskAO);
-    m_DAQmx.CreateTask(m_taskDO);
-
-    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
-    m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
-
-    ui.ledIntensityEdit->setValue(m_ledIntensity);
+    ui.ledIntensityEdit->setValue(m_config->ledIntensity);
 
     //Get max Frame rate
-    double max_fps = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_lineTimes[m_expSettings.spdTableIdx]);
+    double max_fps = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_config->lineTimes[m_expSettings.spdTableIdx]);
     spdlog::info("Max frame rate: {}", max_fps);
 
     ui.frameRateEdit->setMaximum(max_fps);
-    ui.frameRateEdit->setValue((m_fps <= max_fps) ? m_fps : max_fps);
-
-    ui.durationEdit->setValue(m_duration);
-
-    /* //Wait for camera setup */
-    /* cameraSetup.wait(); */
+    ui.frameRateEdit->setValue((m_config->fps <= max_fps) ? m_config->fps : max_fps);
+    ui.durationEdit->setValue(m_config->duration);
 }
 
 
 /*
 * Runs when a new ni device is selected, re configure ni device leds
 */
-void MainWindow::Resetup_ni_device(std::string new_m_niDev) {
-    m_niDev = new_m_niDev;
-    m_DAQmx.ClearTask(m_taskAO);
-    m_DAQmx.ClearTask(m_taskDO);
+void MainWindow::setupNIDev(std::string niDev) {
+    m_config->niDev = niDev;
 
     //Setup NIDAQmx controller for LED
-    m_taskAO = "new_Analog_Out_Volts"; //Task for setting Analog Output voltage
-    m_devAO = fmt::format("{}/ao0", m_niDev); //Device name for analog output
+    m_taskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
+    m_devAO = fmt::format("{}/ao0", m_config->niDev); //Device name for analog output
     spdlog::info("Using NI device {} for analog output", m_devAO);
+    m_DAQmx.ClearTask(m_taskAO);
 
-    m_taskDO = "new_Digital_Out"; //Task for setting Digital Output
-    m_devDO = fmt::format("{}/port0/line0:7", m_niDev); //Device for digital output
+    m_taskDO = "Digital_Out"; //Task for setting Digital Output
+    m_devDO = fmt::format("{}/port0/line0:7", m_config->niDev); //Device for digital output
     spdlog::info("Using NI device {} for digital output", m_devDO);
+    m_DAQmx.ClearTask(m_taskDO);
 
     m_DAQmx.CreateTask(m_taskAO);
     m_DAQmx.CreateTask(m_taskDO);
@@ -278,8 +249,8 @@ void MainWindow::Resetup_ni_device(std::string new_m_niDev) {
  * @param value The updated led intensity value.
  */
 void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
-    m_ledIntensity = value;
-    double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
+    m_config->ledIntensity = value;
+    double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
     ledSetVoltage(voltage);
 }
 
@@ -294,29 +265,27 @@ void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
  * @returns boolean true if space is available
 */
 bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStagePositions) {
-    spdlog::info("availableDriveSpace - fps: {}, duration: {}, positions: {}", fps, duration, nStagePositions);
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
         //account for each acquisition and if autotile is enabled
-        uint32_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_autoTile) ? 2 : 1;
+        uint32_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile) ? 2 : 1;
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         std::stringstream tool_tip_text;
 
-        if (!GetDiskFreeSpaceEx(m_path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
+        if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             spdlog::error("Default drive could not be found when");
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_path.string())));
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
             return false;
         }
 
        if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
-            //space for acquisition found
-            std::stringstream storage_space_string,driver_name_string;
+            std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
-            driver_name_string << m_path;
-            spdlog::info("Drive {} has: {} bytes free for acquisition", driver_name_string.str(), storage_space_string.str());
+
+            spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
             ui.startAcquisitionBtn->setStyleSheet("");
             ui.startAcquisitionBtn->setToolTip("");
             return true;
@@ -324,11 +293,10 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
 
         //not enough space for acquisition
         spdlog::error("Not enough space for acquisition");
-        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_path.string())));
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
         ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
         return false;
     } else {
-        spdlog::error("Camera not found");
         ui.startAcquisitionBtn->setToolTip("Camera not found.");
         return false;
     }
@@ -344,21 +312,21 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    if (value * m_duration < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+    if (value * m_config->duration < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: white");
         ui.durationEdit->setStyleSheet("background-color: white");
 
-        m_fps = value;
-        m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-        m_expSettings.frameCount = m_duration * m_fps;
-        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+        m_config->fps = value;
+        m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+        m_expSettings.frameCount = m_config->duration * m_config->fps;
+        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
     }
 
-    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
+    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
 
@@ -368,8 +336,8 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    if (value * m_fps < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_duration);
+    if (value * m_config->fps < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
@@ -377,12 +345,12 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         ui.durationEdit->setStyleSheet("background-color: white");
     }
 
-    m_duration = value;
-    m_expSettings.expTimeMS = (1 / m_fps) * 1000;
-    m_expSettings.frameCount = m_duration * m_fps;
-    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    m_config->duration = value;
+    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+    m_expSettings.frameCount = m_config->duration * m_config->fps;
+    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
 
-    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
+    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
 
@@ -390,7 +358,6 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
  * Advanced setup button slot, called when user clicks on advanced setup button.
  */
 void MainWindow::on_advancedSetupBtn_clicked() {
-    spdlog::info("Showing advanced setup window");
     m_advancedSettingsDialog->show();
 }
 
@@ -417,7 +384,7 @@ void MainWindow::on_liveScanBtn_clicked() {
         m_liveScanRunning = true;
 
         // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
-        double minFps = std::min<double>(m_fps, 24.0);
+        double minFps = std::min<double>(m_config->fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
 
         if (!m_acquisitionRunning) {
@@ -469,16 +436,16 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
 void MainWindow::StartAcquisition(bool saveToDisk) {
     std::unique_lock<std::mutex> lock(m_lock);
 
-    if (m_duration > 0 && m_fps > 0) {
+    if (m_config->duration > 0 && m_config->fps > 0) {
         if (!m_acquisition) {
             spdlog::error("m_acquisition is invalid");
             return;
         }
 
-        if (!m_led && m_ledIntensity > 0.0) {
+        if (!m_led && m_config->ledIntensity > 0.0) {
             m_led = !m_led;
-            double voltage = (m_ledIntensity / 100.0) * m_maxVoltage;
-            spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_ledIntensity, voltage, m_maxVoltage);
+            double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
+            spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_config->ledIntensity, voltage, m_config->maxVoltage);
             ledON(voltage);
         }
 
@@ -487,11 +454,11 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                 {
                     spdlog::info("StartAcquisition, current state AcqStopped");
 
-                    double expTimeMs = (1.0 / m_fps) * 1000;
+                    double expTimeMs = (1.0 / m_config->fps) * 1000;
                     spdlog::info("Setting expTimeMS: {} ({})", static_cast<uint32_t>(expTimeMs), expTimeMs);
 
                     m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
-                    m_expSettings.frameCount = uint32_t(m_duration * m_fps);
+                    m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
                     spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
 
                     if (!m_acqusitionThread) {
@@ -606,7 +573,7 @@ void MainWindow::AutoConBright(const uint16_t* data) {
     m_parTask.Start(m_taskFrameStats);
     m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
-    if (m_autoConBright) {
+    if (m_config->noAutoConBright) {
         /* //Update lut */
         m_taskUpdateLut->Setup(m_min, m_max);
         m_parTask.Start(m_taskUpdateLut);
@@ -646,7 +613,7 @@ void MainWindow::acquisition_done() {
     m_acqusitionThread = nullptr;
 
     //need to check if there is enough space for another acquisition
-    availableDriveSpace(m_fps, m_duration, m_stageControl->GetPositions().size());
+    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
 /*
@@ -657,12 +624,12 @@ void MainWindow::acquisition_done() {
  */
 void MainWindow::settings_changed(std::filesystem::path path, std::string prefix) {
     spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
-    m_path = path;
-    m_prefix = prefix;
+    m_config->path = path;
+    m_config->prefix = prefix;
 
-    m_expSettings.workingDir = m_path;
-    m_expSettings.acquisitionDir = m_path;
-    m_expSettings.filePrefix = m_prefix;
+    m_expSettings.workingDir = m_config->path;
+    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.filePrefix = m_config->prefix;
 }
 
 /*
@@ -671,7 +638,7 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
  * @param count The length of the stage position list.
  */
 void MainWindow::stagelist_updated(size_t count) {
-    availableDriveSpace(m_fps, m_duration, count);
+    availableDriveSpace(m_config->fps, m_config->duration, count);
 }
 
 
@@ -794,7 +761,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             std::tm *tm = std::localtime(&timestamp);
             char buffer[20];
             std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
-            std::string subdir = cls->m_prefix + std::string(buffer);
+            std::string subdir = cls->m_config->prefix + std::string(buffer);
 
             cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
             if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
@@ -802,14 +769,14 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
             }
 
-            cls->m_expSettings.expTimeMS = (1 / cls->m_fps) * 1000;
-            cls->m_expSettings.frameCount = cls->m_duration * cls->m_fps;
+            cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
+            cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
 
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
 
-                cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_prefix, pos++);
+                cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
                 cls->m_camera->UpdateExp(cls->m_expSettings);
 
                 cls->acquire(true);
@@ -826,31 +793,31 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             }
 
             const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
-                {"software_version", cls->m_version},
-                {"led_intensity", cls->m_ledIntensity},
-                {"fps", cls->m_fps},
+                {"software_version", cls->m_config->version},
+                {"led_intensity", cls->m_config->ledIntensity},
+                {"fps", cls->m_config->fps},
                 {"duration", cls->m_expSettings.expTimeMS},
                 {"frame_count", cls->m_expSettings.frameCount},
-                {"vflip", cls->m_vflip},
-                {"hflip", cls->m_hflip},
-                {"auto_tile", cls->m_autoTile},
-                {"rows", cls->m_rows},
-                {"cols", cls->m_cols},
-                {"xy_pixel_size", cls->m_xyPixelSize},
+                {"vflip", cls->m_config->vflip},
+                {"hflip", cls->m_config->hflip},
+                {"auto_tile", cls->m_config->autoTile},
+                {"rows", cls->m_config->rows},
+                {"cols", cls->m_config->cols},
+                {"xy_pixel_size", cls->m_config->xyPixelSize},
                 {"stage_positions", stagePos}
             };
 
             outfile << std::setw(1000) << settings << std::endl;
             outfile.close();
 
-            uint16_t rowsxcols = cls->m_rows * cls->m_cols;
+            uint16_t rowsxcols = cls->m_config->rows * cls->m_config->cols;
 
-            if (cls->m_autoTile && rowsxcols != stagePos.size()) {
+            if (cls->m_config->autoTile && rowsxcols != stagePos.size()) {
                 spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             } else if (cls->m_expSettings.storageType != 0) { //single tiff file storage
                 spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
             } else {
-                spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", cls->m_autoTile, cls->m_rows, cls->m_cols, cls->m_expSettings.frameCount, stagePos.size());
+                spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", cls->m_config->autoTile, cls->m_config->rows, cls->m_config->cols, cls->m_expSettings.frameCount, stagePos.size());
 
                 tm = std::localtime(&timestamp);
                 std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
@@ -858,15 +825,15 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 std::function<void(void*, size_t)> writeFrame = {};
                 std::shared_ptr<VideoEncoder> venc = nullptr;
 
-                std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_prefix, std::string(buffer));
+                std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_config->prefix, std::string(buffer));
                 std::filesystem::path od = (cls->m_expSettings.acquisitionDir / tiledFile);
-                std::shared_ptr<TiffFile> tiff = std::make_shared<TiffFile>(od.string(), cls->m_cols*cls->m_width, cls->m_rows*cls->m_height, (cls->m_autoConBright) ? 8 : 16, cls->m_expSettings.frameCount, true);
+                std::shared_ptr<TiffFile> tiff = std::make_shared<TiffFile>(od.string(), cls->m_config->cols*cls->m_width, cls->m_config->rows*cls->m_height, (cls->m_config->noAutoConBright) ? 8 : 16, cls->m_expSettings.frameCount, true);
 
-                if (cls->m_encodeVideo) {
-                    std::string aviFile = fmt::format("{}_stack_{}.avi", cls->m_prefix, std::string(buffer));
+                if (cls->m_config->encodeVideo) {
+                    std::string aviFile = fmt::format("{}_stack_{}.avi", cls->m_config->prefix, std::string(buffer));
                     std::filesystem::path od = (cls->m_expSettings.acquisitionDir / aviFile);
 
-                    venc = std::make_shared<VideoEncoder>(od, "mpeg4", cls->m_fps, cls->m_cols*cls->m_width, cls->m_rows*cls->m_height);
+                    venc = std::make_shared<VideoEncoder>(od, "mpeg4", cls->m_config->fps, cls->m_config->cols*cls->m_width, cls->m_config->rows*cls->m_height);
                     if (!venc->Initialize()) {
                         spdlog::error("Failed to initialize video encoder");
                     }
@@ -885,17 +852,17 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                     cls->m_expSettings.acquisitionDir,
                     (cls->m_expSettings.acquisitionDir / tiledFile),
                     cls->m_expSettings.frameCount,
-                    cls->m_rows,
-                    cls->m_cols,
+                    cls->m_config->rows,
+                    cls->m_config->cols,
                     cls->m_width,
                     cls->m_height,
-                    cls->m_vflip,
-                    cls->m_hflip,
-                    cls->m_autoConBright,
+                    cls->m_config->vflip,
+                    cls->m_config->hflip,
+                    cls->m_config->noAutoConBright,
                     writeFrame
                 );
 
-                if (cls->m_encodeVideo) { venc->close(); } 
+                if (cls->m_config->encodeVideo) { venc->close(); } 
                 tiff->Close();
             }
 

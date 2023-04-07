@@ -87,7 +87,7 @@ bool NIDAQmx::CreateTask(std::string& taskName) {
 
         if (DAQmxCreateTask(taskName.c_str(), &handle) < 0) {
             free(handle);
-            spdlog::error("Clear task {} (handle {}) failed, ({})", taskName, fmt::ptr(handle), GetExtendedErrorInfo());
+            spdlog::error("Create task {} (handle {}) failed, ({})", taskName, fmt::ptr(handle), GetExtendedErrorInfo());
             return false;
         }
 
@@ -113,6 +113,7 @@ bool NIDAQmx::ClearTask(std::string& taskName) {
             spdlog::error("Failed to clear task {}, ({})", taskName, GetExtendedErrorInfo());
             return false;
         }
+        m_tasks.erase(taskName);
         return true;
     } else {
         spdlog::info("Task {} does not exist", taskName);
@@ -217,6 +218,7 @@ bool NIDAQmx::CreateAnalogOutpuVoltageChan(std::string& taskName, const char phy
 */
 bool NIDAQmx::CreateDigitalOutputChan(std::string& taskName, const char lines[], int32_t lineGrouping) {
     if(m_tasks.contains(taskName)) {
+        spdlog::info("CreateDigitalOutputChan: taskHandle {}", fmt::ptr(m_tasks[taskName]));
         if (DAQmxCreateDOChan(m_tasks[taskName], lines, "",  static_cast<int32>(lineGrouping)) < 0) {
             spdlog::error("Failed to create digital output channel for task {} (handle {}), ({})", taskName, m_tasks[taskName], GetExtendedErrorInfo());
             return false;
@@ -266,9 +268,7 @@ bool NIDAQmx::WriteAnalogF64(
 
 
 /*
-* @breif
-*
-*
+* @breif Write nidaq digital lines
 *
 * @param
 */
@@ -286,7 +286,6 @@ bool NIDAQmx::WriteDigitalLines(
         bool32 _autoStart = static_cast<bool32>(autoStart);
         float64 _timeout = static_cast<float64>(timeout);
         bool32 _dataLayout = static_cast<bool32>(dataLayout);
-        //uInt8 _writeArray[] = static_cast<uInt8[]>(writeArray);
         int32* _sampsWritten = reinterpret_cast<int32*>(sampsPerChanWritten);
 
         if (DAQmxWriteDigitalLines(m_tasks[taskName], _nSamps, _autoStart, _timeout, _dataLayout, writeArray, _sampsWritten, NULL) < 0) {
@@ -305,37 +304,32 @@ bool NIDAQmx::WriteDigitalLines(
 * Get the list of all ni device names as a vector of string
 */
 std::vector<std::string> NIDAQmx::GetListOfDevices(){
-    constexpr size_t bufferSize = 1000;
-    char devicenamesbuffer[bufferSize] = {};
+    std::vector<std::string> devices = {};
 
-    if(DAQmxFailed(DAQmxGetSysDevNames(devicenamesbuffer, bufferSize))){
-        spdlog::error("NI device search failed");
-        std::vector<std::string> empty;
-        return empty;
-    }else{
-        std::string tempstring(devicenamesbuffer);
-        std::vector<std::string> devicenamesbuffer;
+    constexpr size_t bsize = 1000;
+    char buf[bsize] = {};
+
+    if (DAQmxFailed(DAQmxGetSysDevNames(buf, bsize))){
+        spdlog::error("Failed to find NIDaq devices");
+    } else {
+        std::string tempstring(buf);
         std::stringstream ss(tempstring);
+
         while(ss.good()){
             std::string nidevicename;
             getline(ss,nidevicename,',');
+
             if(nidevicename == ""){
                 break;
             }
-            devicenamesbuffer.push_back(nidevicename);
+            devices.push_back(nidevicename);
         }
-        spdlog::info("NI search complete");
-        return devicenamesbuffer;
     }
+    return devices;
 }
 
-
 /*
-* @breif
-*
-*
-*
-* @param
+* @breif Get error info from nidaq sdk
 */
 std::string NIDAQmx::GetExtendedErrorInfo() {
     char buf[2048];

@@ -7,6 +7,10 @@ Added:
 ^^^^^^
 - avi output for auto tiling if `encode_video` is set to true in config file
 
+Fixed:
+^^^^^^
+- Refactored config parsing
+
 
 0.1.17 (2023-03-31)
 -------------------

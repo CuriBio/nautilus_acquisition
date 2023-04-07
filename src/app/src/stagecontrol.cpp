@@ -9,20 +9,30 @@
 #include "stagecontrol.h"
 #include "ui_stagecontrol.h"
 
-StageControl::StageControl(std::string comPort, std::string configFile, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
+StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
     m_comPort = comPort;
+    m_stepSizes = stepSizes;
+    m_config = config;
+
     m_tango = new TangoStage(m_comPort);
 
-    m_stepSizes = stepSizes;
-    m_configFile = configFile;
-    loadList(m_configFile);
+    int i = 0;
+    for (auto [x, y] : config->stageLocations) {
+        StagePosition* item = new StagePosition(++i, x, y);
+        m_positions.push_back(item);
+        ui->stageLocations->addItem(item);
+    }
 }
 
 StageControl::~StageControl() {
-    saveList(m_configFile, true);
+    saveList(m_config->configFile, true);
     delete m_tango;
     delete ui;
+}
+
+bool StageControl:: Connected() const {
+    return m_tango->Connected();
 }
 
 void StageControl::Calibrate() {
@@ -115,7 +125,7 @@ void StageControl::on_saveListBtn_clicked() {
 }
 
 void StageControl::saveList(std::string fileName, bool fileExists) {
-    spdlog::info("Saving stage positions to file: {}", fileName);
+    spdlog::info("Saving stage positions to file: {}", std::filesystem::path(fileName).string());
     toml::value file;
     if (fileExists) {
         file = toml::parse<toml::preserve_comments, tsl::ordered_map>(fileName);
