@@ -6,6 +6,7 @@ Changelog for Nautilus
 Added:
 ^^^^^^
 - avi output for auto tiling if `encode_video` is set to true in config file
+- acquisition progress bar
 
 Fixed:
 ^^^^^^
