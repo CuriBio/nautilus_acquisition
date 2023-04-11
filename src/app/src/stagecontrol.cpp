@@ -38,6 +38,8 @@ bool StageControl:: Connected() const {
 bool StageControl::Calibrate() {
     if (m_tango->Connected()) {
         return (m_tango->Calibrate() && m_tango->RMeasure() && m_tango->GetCurrentPos(m_curX, m_curY));
+    } else {
+        return false;
     }
 }
 

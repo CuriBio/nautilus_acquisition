@@ -236,6 +236,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                             break;
                     }
                     file->WriteFrame<F>(frame);
+                    if (m_progress) { m_progress(1); }
                     frameIndex++;
                 }
                 break;
@@ -316,9 +317,10 @@ pm::Acquisition<F, C>::~Acquisition() {
 
 
 template<FrameConcept F, ColorConfigConcept C>
-bool pm::Acquisition<F, C>::Start(bool saveToDisk, double tiffFillValue, const C* tiffColorCtx) {
+bool pm::Acquisition<F, C>::Start(bool saveToDisk, std::function<void(size_t)> progressCB, double tiffFillValue, const C* tiffColorCtx) {
     //TODO implement colorCtx support
     std::unique_lock<std::mutex> lock(m_lock);
+    m_progress = progressCB;
 
     if (!m_running) {
         m_state = (saveToDisk) ? AcquisitionState::AcqCapture : AcquisitionState::AcqLiveScan;

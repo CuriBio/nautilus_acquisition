@@ -194,6 +194,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     testImgPath = "";
     if (userargs.count("test_img")) { testImgPath = userargs["test_img"].as<std::string>(); }
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
+    asyncInit = toml::find_or<bool>(config, "debug", "async_init", false);
 }
 
 void Config::Dump() {
@@ -256,4 +257,5 @@ void Config::Dump() {
 
     //debug
     spdlog::info("debug.ignore_errors: {}", ignoreErrors);
+    spdlog::info("debug.async_init: {}", asyncInit);
 }

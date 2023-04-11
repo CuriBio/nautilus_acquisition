@@ -64,6 +64,7 @@
 #include "advancedsetupdialog.h"
 
 #define TASKS 8
+#define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
 
 using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
@@ -95,8 +96,10 @@ class MainWindow : public QMainWindow {
         void Initialize();
 
     signals:
-        void sig_acquisition_start(int n);
-        void sig_acquisition_progress();
+        void sig_progress_start(std::string msg, int n);
+        void sig_progress_update(size_t n);
+        void sig_progress_text(std::string msg);
+        void sig_progress_done();
         void sig_acquisition_done();
         void sig_livescan_stopped();
 
@@ -109,7 +112,7 @@ class MainWindow : public QMainWindow {
         void on_ledIntensityEdit_valueChanged(double value);
         void on_frameRateEdit_valueChanged(double value);
         void on_durationEdit_valueChanged(double value);
-        void on_plateFormatDropDown_currentIndexChanged(int index);
+        void on_plateFormatDropDown_activated(int index);
 
 
         void on_advancedSetupBtn_clicked();
@@ -150,11 +153,13 @@ class MainWindow : public QMainWindow {
         std::string m_prefix;
         std::string m_testImgPath;
 
+        char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
+
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
         bool m_userCanceled {false};
 
-        std::vector<std::string> m_plateFormats;
+        std::vector<std::filesystem::path> m_plateFormats;
 
         uint8_t* m_img8;
 
@@ -199,12 +204,17 @@ class MainWindow : public QMainWindow {
         bool ledSetVoltage(double voltage);
         void setupNIDev(std::string new_m_niDev);
         double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
+
+        //postProcess helper
+        void postProcess();
+
         //acquire helper function
         void acquire(bool saveToDisk);
 
-        std::vector<std::string> getFileNamesFromDirectory(std::string path);
-        QStringList vectorToQStringList(const std::vector<std::string>& vectorToConvert);
+        std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
+        QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
+        //threads
         static void acquisitionThread(MainWindow* cls);
 };
 #endif

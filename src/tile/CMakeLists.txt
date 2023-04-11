@@ -21,6 +21,7 @@ IF (WIN32)
     PRIVATE
     project_options
     project_warnings
+    ordered_map
     PUBLIC
     bcrypt.lib
     spdlog::spdlog
@@ -38,6 +39,7 @@ ELSE()
     PRIVATE
     project_options
     project_warnings
+    ordered_map
     PUBLIC
     spdlog::spdlog
     toml11::toml11

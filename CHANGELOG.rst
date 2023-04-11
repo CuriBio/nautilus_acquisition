@@ -1,10 +1,12 @@
 Changelog for Nautilus
 ======================
-0.1.19 (unreleased)
+0.1.19 (2023-04-20)
 -------------------
 
 Added:
 ^^^^^^
+- Raw file support
+- Turn led off before auto tiling
 - Drop down menu that can be used to select plate format from selected file
 
 

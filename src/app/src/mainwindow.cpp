@@ -47,10 +47,12 @@
 #include <QMessageBox>
 #include <QThread>
 #include <QTimer>
+#include <QLabel>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
 #include <VideoEncoder.h>
+#include <RawFile.h>
 
 
 /*
@@ -81,17 +83,28 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_settings = new Settings(this, m_config->path, m_config->prefix);
     m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
 
-    //Async calibrate stage
-    m_stageCalibrate = std::async(std::launch::async, [&] {
-        return m_stageControl->Calibrate();
-    });
-
     //Setup NIDAQmx controller for LED
-    m_niSetup = std::async(std::launch::async, [&] {
-        m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
+
+    //Async calibrate stage
+    if (m_config->asyncInit) {
+        m_stageCalibrate = std::async(std::launch::async, [&] {
+            return m_stageControl->Calibrate();
+        });
+
+        m_niSetup = std::async(std::launch::async, [&] {
+            setupNIDev(m_config->niDev);
+            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+        });
+    } else {
+        //calibrate stage
+        m_stageControl->Calibrate();
+
+        //setup NI device
         setupNIDev(m_config->niDev);
         m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
-    });
+    }
+
 
     //Get all plate format file names
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
@@ -123,17 +136,24 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //acquisition progress bar
-    m_acquisitionProgress = new QProgressDialog("Acquisition runnning.", "Cancel", 0, 100);
+    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100);
     m_acquisitionProgress->cancel();
 
-    connect(this, &MainWindow::sig_acquisition_start, this, [&](int n) {
+    connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
+        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
         m_acquisitionProgress->show();
     });
-    connect(this, &MainWindow::sig_acquisition_progress, this, [&] {
-        m_acquisitionProgress->setValue(m_acquisitionProgress->value() + 1);
+    connect(this, &MainWindow::sig_progress_text, this, [&](std::string msg) {
+        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
+    });
+    connect(this, &MainWindow::sig_progress_update, this, [&](size_t n) {
+        m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
+    });
+    connect(this, &MainWindow::sig_progress_done, this, [&]() {
+        m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
     });
     connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [&] {
         m_userCanceled = true;
@@ -225,19 +245,22 @@ void MainWindow::Initialize() {
     ui.durationEdit->setValue(m_config->duration);
 
     //set options for plate formats drop down
-    QStringList optionsList = vectorToQStringList(m_plateFormats);
-    ui.plateFormatDropDown->addItems(optionsList);
-
+    ui.plateFormatDropDown->addItems(vectorToQStringList(m_plateFormats));
+    ui.plateFormatDropDown->setCurrentIndex(-1);
 
 
     //Wait for stage calibration
-    m_stageCalibrate.wait();
-    if (!m_stageCalibrate.get()) {
-        spdlog::error("Stage calibration failed");
+    if (m_config->asyncInit) {
+        m_stageCalibrate.wait();
+        if (!m_stageCalibrate.get()) {
+            spdlog::error("Stage calibration failed");
+        }
     }
 
     //wait for ni device setup
-    m_niSetup.wait();
+    if (m_config->asyncInit) {
+        m_niSetup.wait();
+    }
 }
 
 
@@ -352,9 +375,13 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
-void MainWindow::on_plateFormatDropDown_currentIndexChanged(int index){
-    std::string plateFormatFileName = m_plateFormats[index] + ".toml";
-    m_stageControl->loadList(plateFormatFileName);
+/* void MainWindow::on_plateFormatDropDown_currentIndexChanged(int index){ */
+/*     std::string plateFormatFileName = m_plateFormats[index]; */
+/*     m_stageControl->loadList(plateFormatFileName); */
+/* } */
+
+void MainWindow::on_plateFormatDropDown_activated(int index){
+    m_stageControl->loadList(m_plateFormats[index].string());
 }
 
 
@@ -497,7 +524,8 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
                         m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
                         m_acqusitionThread->start();
                     } else {
-                        m_acquisition->Start(saveToDisk, 0.0, nullptr);
+                        emit sig_progress_start("Acquiring images", m_expSettings.frameCount * m_stageControl->GetPositions().size());
+                        m_acquisition->Start(saveToDisk, [&](size_t n) { emit sig_progress_update(n); }, 0.0, nullptr);
                     }
                 }
                 break;
@@ -560,7 +588,7 @@ void MainWindow::StopAcquisition() {
             } else if (m_acquisitionRunning && m_liveScanRunning) {
                 //only stop capture, keep live scan running
                 spdlog::info("Stopping capture, live view still running");
-                m_acquisition->Start(false, 0.0, nullptr);
+                m_acquisition->Start(false, [&](size_t n) { emit sig_progress_update(n); }, 0.0, nullptr);
                 m_acquisitionRunning = false;
             }
             break;
@@ -625,7 +653,6 @@ void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
     std::unique_lock<std::mutex> lock(m_lock);
 
-    m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
 
     if (m_led) {
         m_led = !m_led;
@@ -635,10 +662,15 @@ void MainWindow::acquisition_done() {
     m_liveViewTimer->stop();
     //ui.liveView->Clear();
 
-
     m_acquisitionRunning = false;
     m_liveScanRunning = false;
 
+    //run post processing steps
+    postProcess();
+
+    //finish progress bar
+    emit sig_progress_done();
+    m_userCanceled = false;
 
     ui.startAcquisitionBtn->setText("Start Acquisition");
     ui.liveScanBtn->setText("Live Scan");
@@ -749,6 +781,8 @@ bool MainWindow::ledSetVoltage(double voltage) {
 
 
 void MainWindow::acquire(bool saveToDisk) {
+    auto progressCB = [&](size_t n) { emit sig_progress_update(n); };
+
     if (m_acquisition) {
         spdlog::info("Reusing existing acquistion");
     } else {
@@ -757,7 +791,7 @@ void MainWindow::acquire(bool saveToDisk) {
     }
 
     spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
-    if (!m_acquisition->Start(saveToDisk, 0.0, nullptr)) {
+    if (!m_acquisition->Start(saveToDisk, progressCB, 0.0, nullptr)) {
         spdlog::error("Failed starting acquisition");
     }
 
@@ -765,6 +799,99 @@ void MainWindow::acquire(bool saveToDisk) {
     m_acquisition->WaitForStop();
 }
 
+/*
+ * @brief PostProcess acquisition data
+ */
+void MainWindow::postProcess() {
+    if (!m_userCanceled) {
+        spdlog::info("Writing settings file to {}\\settings.toml", m_expSettings.acquisitionDir.string());
+        std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
+        std::ofstream outfile(settingsPath.string()); // create output file stream
+
+        std::vector<toml::value> stagePos;
+        for (auto& loc : m_stageControl->GetPositions()) {
+            stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
+        }
+
+        const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
+            {"software_version", m_config->version},
+            {"led_intensity", m_config->ledIntensity},
+            {"fps", m_config->fps},
+            {"duration", m_expSettings.expTimeMS},
+            {"frame_count", m_expSettings.frameCount},
+            {"vflip", m_config->vflip},
+            {"hflip", m_config->hflip},
+            {"auto_tile", m_config->autoTile},
+            {"rows", m_config->rows},
+            {"cols", m_config->cols},
+            {"xy_pixel_size", m_config->xyPixelSize},
+            {"stage_positions", stagePos}
+        };
+
+        outfile << std::setw(1000) << settings << std::endl;
+        outfile.close();
+
+        uint16_t rowsxcols = m_config->rows * m_config->cols;
+
+        if (m_config->autoTile && rowsxcols != stagePos.size()) {
+            spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+        } else if (m_expSettings.storageType != 0) { //single tiff file storage
+            spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
+        } else {
+            spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
+
+            std::function<void(void*, size_t)> writeVideo = {};
+            std::function<void(void*, size_t)> writeRaw = {};
+            std::shared_ptr<VideoEncoder> venc = nullptr;
+
+            std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
+            std::shared_ptr<RawFile> raw = std::make_shared<RawFile>(
+                    (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
+
+            writeRaw = [&raw](void* data, size_t n) {
+                raw->Write(data, n);
+            };
+
+            if (m_config->encodeVideo) {
+                std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS));
+                std::filesystem::path vidOut = (m_expSettings.acquisitionDir / aviFile);
+
+                venc = std::make_shared<VideoEncoder>(vidOut, "mpeg4", m_config->fps, m_config->cols*m_width, m_config->rows*m_height);
+                if (!venc->Initialize()) {
+                    spdlog::error("Failed to initialize video encoder");
+                }
+
+                writeVideo = [&venc](void* data, size_t n) {
+                    venc->writeFrame(static_cast<uint8_t*>(data), n+1);
+                };
+            }
+
+            emit sig_progress_text("Tiling images");
+            emit sig_progress_update(1);
+
+            PostProcess::AutoTile(
+                m_expSettings.acquisitionDir,
+                m_expSettings.frameCount,
+                m_config->rows,
+                m_config->cols,
+                m_width,
+                m_height,
+                m_config->vflip,
+                m_config->hflip,
+                !m_config->noAutoConBright,
+                [&](size_t n) { emit sig_progress_update(n); },
+                raw,
+                writeVideo
+            );
+
+            if (m_config->encodeVideo) {
+                venc->close();
+            } 
+            raw->Close();
+            emit sig_progress_done();
+        }
+    }
+}
 
 /*
  * Thread that starts actual acquisition and waits for acquisition to finish.
@@ -790,12 +917,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             // get local timestamp to add to subdir name
             auto now = std::chrono::system_clock::now();
             auto timestamp = std::chrono::system_clock::to_time_t(now);
+            std::tm *tm = std::localtime(&timestamp);
 
             // make subdirectory to write to
-            std::tm *tm = std::localtime(&timestamp);
-            char buffer[20];
-            std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
-            std::string subdir = cls->m_config->prefix + std::string(buffer);
+            std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
+            std::string subdir = cls->m_config->prefix + std::string(cls->m_startAcquisitionTS);
 
             cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
             if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
@@ -806,9 +932,10 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
             cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
 
-            emit cls->sig_acquisition_start(cls->m_stageControl->GetPositions().size());
+            emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
             for (auto& loc : cls->m_stageControl->GetPositions()) {
                 spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+                emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
                 cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
 
                 cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
@@ -822,97 +949,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                 }
 
                 spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
-                emit cls->sig_acquisition_progress();
             }
 
-            if (!cls->m_userCanceled) {
-                spdlog::info("Writing settings file to {}\\settings.toml", cls->m_expSettings.acquisitionDir.string());
-                std::filesystem::path settingsPath = cls->m_expSettings.acquisitionDir / "settings.toml";
-                std::ofstream outfile(settingsPath.string()); // create output file stream
-
-                std::vector<toml::value> stagePos;
-                for (auto& loc : cls->m_stageControl->GetPositions()) {
-                    stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
-                }
-
-                const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
-                    {"software_version", cls->m_config->version},
-                    {"led_intensity", cls->m_config->ledIntensity},
-                    {"fps", cls->m_config->fps},
-                    {"duration", cls->m_expSettings.expTimeMS},
-                    {"frame_count", cls->m_expSettings.frameCount},
-                    {"vflip", cls->m_config->vflip},
-                    {"hflip", cls->m_config->hflip},
-                    {"auto_tile", cls->m_config->autoTile},
-                    {"rows", cls->m_config->rows},
-                    {"cols", cls->m_config->cols},
-                    {"xy_pixel_size", cls->m_config->xyPixelSize},
-                    {"stage_positions", stagePos}
-                };
-
-                outfile << std::setw(1000) << settings << std::endl;
-                outfile.close();
-
-                uint16_t rowsxcols = cls->m_config->rows * cls->m_config->cols;
-
-                if (cls->m_config->autoTile && rowsxcols != stagePos.size()) {
-                    spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
-                } else if (cls->m_expSettings.storageType != 0) { //single tiff file storage
-                    spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
-                } else {
-                    spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", cls->m_config->autoTile, cls->m_config->rows, cls->m_config->cols, cls->m_expSettings.frameCount, stagePos.size());
-
-                    tm = std::localtime(&timestamp);
-                    std::strftime(buffer, 20, "%Y_%m_%d_%H%M%S", tm);
-
-                    std::function<void(void*, size_t)> writeFrame = {};
-                    std::shared_ptr<VideoEncoder> venc = nullptr;
-
-                    std::string tiledFile = fmt::format("{}_stack_{}.tiff", cls->m_config->prefix, std::string(buffer));
-                    std::filesystem::path od = (cls->m_expSettings.acquisitionDir / tiledFile);
-                    std::shared_ptr<TiffFile> tiff = std::make_shared<TiffFile>(od.string(), cls->m_config->cols*cls->m_width, cls->m_config->rows*cls->m_height, (cls->m_config->noAutoConBright) ? 16 : 8, cls->m_expSettings.frameCount, true);
-
-                    if (cls->m_config->encodeVideo) {
-                        std::string aviFile = fmt::format("{}_stack_{}.avi", cls->m_config->prefix, std::string(buffer));
-                        std::filesystem::path od = (cls->m_expSettings.acquisitionDir / aviFile);
-
-                        venc = std::make_shared<VideoEncoder>(od, "mpeg4", cls->m_config->fps, cls->m_config->cols*cls->m_width, cls->m_config->rows*cls->m_height);
-                        if (!venc->Initialize()) {
-                            spdlog::error("Failed to initialize video encoder");
-                        }
-
-                        writeFrame = [&venc, &tiff](void* data, size_t n) {
-                            venc->writeFrame(static_cast<uint8_t*>(data), n+1);
-                            tiff->Write(data, n);
-                        };
-                    } else {
-                        writeFrame = [&tiff](void* data, size_t n) {
-                            tiff->Write(data, n);
-                        };
-                    }
-
-                    PostProcess::AutoTile(
-                        cls->m_expSettings.acquisitionDir,
-                        (cls->m_expSettings.acquisitionDir / tiledFile),
-                        cls->m_expSettings.frameCount,
-                        cls->m_config->rows,
-                        cls->m_config->cols,
-                        cls->m_width,
-                        cls->m_height,
-                        cls->m_config->vflip,
-                        cls->m_config->hflip,
-                        !cls->m_config->noAutoConBright,
-                        writeFrame
-                    );
-
-                    if (cls->m_config->encodeVideo) { venc->close(); }
-                    tiff->Close();
-                }
-            }
-
-            cls->m_userCanceled = false;
             cls->m_acquisitionRunning = false;
-            cls->ui.startAcquisitionBtn->setText("Start Acquisition");
         }
     } while (cls->m_liveScanRunning);
 
@@ -929,21 +968,23 @@ double MainWindow::calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time) 
     return 1000000.0 / (line_time * abs(p2 - p1));
 }
 
-std::vector<std::string> MainWindow::getFileNamesFromDirectory(std::string path){
-    std::vector<std::string> allFileNames;
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+/*
+ * @brief Iterate through files in directory and return vector of names
+ */
+std::vector<std::filesystem::path> MainWindow::getFileNamesFromDirectory(std::filesystem::path path) {
+    std::vector<std::filesystem::path> files;
+    for (const auto& entry : std::filesystem::directory_iterator{path}) {
         if (entry.is_regular_file()) {
-            allFileNames.push_back(entry.path().filename().string());
+            files.push_back(entry);
         }
     }
-    return allFileNames;
+    return files;
 }
 
-QStringList MainWindow::vectorToQStringList(const std::vector<std::string>& vectorToConvert) {
+QStringList MainWindow::vectorToQStringList(const std::vector<std::filesystem::path>& paths) {
     QStringList qStringList;
-    for (const std::string& fileName : vectorToConvert) {
-        std::string optioinName = fileName.substr(0, fileName.size() - 5);
-        qStringList.append(QString::fromStdString(optioinName));
+    for (std::filesystem::path filePath : paths) {
+        qStringList.append(QString::fromStdString(filePath.replace_extension().filename().string()));
     }
     return qStringList;
 }

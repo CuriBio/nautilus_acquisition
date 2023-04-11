@@ -62,7 +62,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGLWidgets
-    tsl::ordered_map
+    ordered_map
     PUBLIC
     spdlog::spdlog
     toml11::toml11

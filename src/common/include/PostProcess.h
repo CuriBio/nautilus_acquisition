@@ -7,6 +7,7 @@
 
 #include <TiffFile.h>
 #include <ThreadPool.h>
+#include <RawFile.h>
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
@@ -34,11 +35,9 @@ namespace PostProcess {
         t.Close();
     }
 
-
     /** @brief Autotile images from indir to single tiff stack in outdir */
     void AutoTile(
         std::filesystem::path indir,
-        std::filesystem::path outdir,
         uint16_t frames,
         uint32_t rows,
         uint32_t cols,
@@ -47,7 +46,9 @@ namespace PostProcess {
         bool vflip,
         bool hflip,
         bool autoConBright,
-        std::function<void(void*, size_t)> writer)
+        std::function<void(size_t n)> progressCB,
+        std::shared_ptr<RawFile> r,
+        std::function<void(void*, size_t)> videoWriter)
     {
         ThreadPool p(static_cast<concurrency_t>(rows*cols));
 
@@ -74,7 +75,7 @@ namespace PostProcess {
             }
             p.WaitForAll();
 
-            if (autoConBright) {
+            if (autoConBright && videoWriter) {
                 uint32_t min{0}, max{0}, hmax{0};
 
                 uint32_t* hist = new uint32_t[(1<<16)-1];
@@ -106,11 +107,11 @@ namespace PostProcess {
                     p.AddTask([&](uint8_t n) { applyLut.Run(rows*cols, n); }, i);
                 }
                 p.WaitForAll();
-
-                writer(img8, fr);
-            } else {
-                writer(frameData, fr);
+                videoWriter(img8, fr);
             }
+
+            r->Write(frameData, fr);
+            progressCB(fr);
         }
     }
 };
