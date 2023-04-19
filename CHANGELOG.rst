@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.19 (unreleased)
+-------------------
+
+Added:
+^^^^^^
+- Drop down menu that can be used to select plate format from selected file
+
+
 0.1.18 (2023-04-07)
 -------------------
 
