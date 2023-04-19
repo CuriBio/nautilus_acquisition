@@ -94,5 +94,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/left1.png DESTINATION ${CMAKE_INSTAL
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
+#install plate formats folder
+install (DIRECTORY ${CMAKE_SOURCE_DIR}/resources/plate_formats DESTINATION ${CMAKE_INSTALL_BINDIR}/)
+
 add_subdirectory(libs)
 add_subdirectory(src)
