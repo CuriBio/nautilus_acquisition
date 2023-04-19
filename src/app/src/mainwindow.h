@@ -32,10 +32,13 @@
 #include <mutex>
 #include <filesystem>
 #include <string>
+#include <vector>
 
 #include <toml.hpp>
 #include <tsl/ordered_map.h>
 #include <QProgressDialog>
+#include <QComboBox>
+#include <QStringList>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -106,6 +109,8 @@ class MainWindow : public QMainWindow {
         void on_ledIntensityEdit_valueChanged(double value);
         void on_frameRateEdit_valueChanged(double value);
         void on_durationEdit_valueChanged(double value);
+        void on_plateFormatDropDown_currentIndexChanged(int index);
+
 
         void on_advancedSetupBtn_clicked();
         void on_liveScanBtn_clicked();
@@ -148,6 +153,8 @@ class MainWindow : public QMainWindow {
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
         bool m_userCanceled {false};
+
+        std::vector<std::string> m_plateFormats;
 
         uint8_t* m_img8;
 
@@ -194,6 +201,9 @@ class MainWindow : public QMainWindow {
         double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
         //acquire helper function
         void acquire(bool saveToDisk);
+
+        std::vector<std::string> getFileNamesFromDirectory(std::string path);
+        QStringList vectorToQStringList(const std::vector<std::string>& vectorToConvert);
 
         static void acquisitionThread(MainWindow* cls);
 };

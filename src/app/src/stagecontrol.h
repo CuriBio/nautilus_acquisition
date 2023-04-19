@@ -73,6 +73,8 @@ class StageControl : public QDialog {
 
         const std::vector<StagePosition*>& GetPositions() const;
 
+        void loadList(std::string fileName);
+
     signals:
         void sig_stagelist_updated(size_t count);
 
@@ -103,7 +105,6 @@ class StageControl : public QDialog {
 
     private:
         void saveList(std::string fileName, bool fileExists);
-        void loadList(std::string fileName);
 };
 
 #endif // STAGECONTROL_H

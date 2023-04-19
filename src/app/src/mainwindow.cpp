@@ -93,6 +93,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
     });
 
+    //Get all plate format file names
+    m_plateFormats = getFileNamesFromDirectory("./plate_formats");
+
     //setup width/height and initial exposure settings
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
@@ -221,6 +224,12 @@ void MainWindow::Initialize() {
     ui.frameRateEdit->setValue((m_config->fps <= max_fps) ? m_config->fps : max_fps);
     ui.durationEdit->setValue(m_config->duration);
 
+    //set options for plate formats drop down
+    QStringList optionsList = vectorToQStringList(m_plateFormats);
+    ui.plateFormatDropDown->addItems(optionsList);
+
+
+
     //Wait for stage calibration
     m_stageCalibrate.wait();
     if (!m_stageCalibrate.get()) {
@@ -341,6 +350,11 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     }
 
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+}
+
+void MainWindow::on_plateFormatDropDown_currentIndexChanged(int index){
+    std::string plateFormatFileName = m_plateFormats[index] + ".toml";
+    m_stageControl->loadList(plateFormatFileName);
 }
 
 
@@ -891,7 +905,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
                         writeFrame
                     );
 
-                    if (cls->m_config->encodeVideo) { venc->close(); } 
+                    if (cls->m_config->encodeVideo) { venc->close(); }
                     tiff->Close();
                 }
             }
@@ -913,5 +927,24 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 */
 double MainWindow::calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time) {
     return 1000000.0 / (line_time * abs(p2 - p1));
+}
+
+std::vector<std::string> MainWindow::getFileNamesFromDirectory(std::string path){
+    std::vector<std::string> allFileNames;
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        if (entry.is_regular_file()) {
+            allFileNames.push_back(entry.path().filename().string());
+        }
+    }
+    return allFileNames;
+}
+
+QStringList MainWindow::vectorToQStringList(const std::vector<std::string>& vectorToConvert) {
+    QStringList qStringList;
+    for (const std::string& fileName : vectorToConvert) {
+        std::string optioinName = fileName.substr(0, fileName.size() - 5);
+        qStringList.append(QString::fromStdString(optioinName));
+    }
+    return qStringList;
 }
 
