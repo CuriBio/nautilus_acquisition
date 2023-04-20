@@ -59,6 +59,7 @@ class Config {
         //debug
         std::string testImgPath;
         bool ignoreErrors;
+        bool asyncInit;
 
         //stage
         std::vector<std::pair<double, double>> stageLocations;

@@ -30,6 +30,7 @@
 #ifndef ACQUISITION_INTERFACE_H
 #define ACQUISITION_INTERFACE_H
 #include <concepts>
+#include <functional>
 #include <memory>
 
 #include "CameraInterface.h"
@@ -56,8 +57,8 @@ enum AcquisitionState {
 * @tparam Cfg Color config type.
 */
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
-concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx) {
-    { c.Start(bool(), double(), cctx) } -> std::same_as<bool>;
+concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB) {
+    { c.Start(bool(), progressCB, double(), cctx) } -> std::same_as<bool>;
     { c.Stop() } -> std::same_as<bool>;
     { c.WaitForStop() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;

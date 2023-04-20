@@ -31,9 +31,10 @@
 #define PM_ACQUISITION_H
 #include <chrono>
 #include <condition_variable>
-#include <semaphore>
-#include <memory>
 #include <filesystem>
+#include <functional>
+#include <memory>
+#include <semaphore>
 #include <thread>
 
 #include <pvcam/master.h>
@@ -96,6 +97,8 @@ namespace pm {
                 uint16_t* m_fakeData{nullptr};
                 std::string m_testImgPath{};
 
+                std::function<void(size_t n)> m_progress;
+
             public:
 
                 /*
@@ -123,7 +126,7 @@ namespace pm {
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool Start(bool saveToDisk, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+                bool Start(bool saveToDisk, std::function<void(size_t)> progressCB, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
 
                 /*
                  * @brief Stops this acquisition.
