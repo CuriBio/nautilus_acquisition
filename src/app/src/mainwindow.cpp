@@ -816,6 +816,7 @@ void MainWindow::postProcess() {
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
             {"software_version", m_config->version},
             {"led_intensity", m_config->ledIntensity},
+            {"auto_contrast_brightness", !m_config->noAutoConBright},
             {"fps", m_config->fps},
             {"duration", m_expSettings.expTimeMS},
             {"frame_count", m_expSettings.frameCount},
@@ -840,17 +841,11 @@ void MainWindow::postProcess() {
         } else {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
-            std::function<void(void*, size_t)> writeVideo = {};
-            std::function<void(void*, size_t)> writeRaw = {};
             std::shared_ptr<VideoEncoder> venc = nullptr;
 
             std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
             std::shared_ptr<RawFile> raw = std::make_shared<RawFile>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
-
-            writeRaw = [&raw](void* data, size_t n) {
-                raw->Write(data, n);
-            };
 
             if (m_config->encodeVideo) {
                 std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS));
@@ -860,10 +855,6 @@ void MainWindow::postProcess() {
                 if (!venc->Initialize()) {
                     spdlog::error("Failed to initialize video encoder");
                 }
-
-                writeVideo = [&venc](void* data, size_t n) {
-                    venc->writeFrame(static_cast<uint8_t*>(data), n+1);
-                };
             }
 
             emit sig_progress_text("Tiling images");
@@ -881,7 +872,7 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                writeVideo
+                venc
             );
 
             if (m_config->encodeVideo) {

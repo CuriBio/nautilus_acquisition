@@ -71,25 +71,10 @@ int main(int argc, char* argv[]) {
 
     std::string codec = userargs["codec"].as<std::string>();
 
-    VideoEncoder w(outdir, codec, 10, 2400, 1200);
-    w.Initialize();
-    auto writeVid = [&](void* data, size_t n) {
-        w.writeFrame(static_cast<uint8_t*>(data), n+1);
-    };
-
-    //TiffFile outTiff(outdir.string(), cols*width, rows*height, 16, frames, true);
-    /* auto writerFn = [&w](void* data, size_t n) { */
-    /*     w.writeFrame(static_cast<uint8_t*>(data), n+1); */
-    /* }; */
+    std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>(outdir, codec, 10, 2400, 1200);
+    w->Initialize();
 
     std::shared_ptr<RawFile> afw = std::make_shared<RawFile>("./test.raw", 16, 2400, 1200, 10);
-    auto writerFn = [&](void* data, size_t n) {
-        afw->Write(static_cast<uint16_t*>(data), n);
-    };
-
-    /* auto tiffWriter = [&outTiff](void* data, size_t n) { */
-    /*     outTiff.Write(static_cast<uint16_t*>(data), n); */
-    /* }; */
 
     PostProcess::AutoTile(
                     indir,
@@ -103,11 +88,10 @@ int main(int argc, char* argv[]) {
                     false,
                     [&](size_t n) {},
                     afw,
-                    writeVid
+                    w
                 );
     afw->Close();
-    //w.close();
-    //outTiff.Close();
+    w->close();
 
     return 0;
 }
