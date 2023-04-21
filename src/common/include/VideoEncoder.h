@@ -31,6 +31,7 @@ class VideoEncoder {
 
         AVStream* m_stream = nullptr;
         AVFrame* m_frame = nullptr;
+        AVFrame* m_frame16 = nullptr;
         AVFrame* m_tframe = nullptr;
         AVPacket* m_pkt = nullptr;
         AVDictionary *m_fmtOpts = NULL;
@@ -54,6 +55,11 @@ class VideoEncoder {
             }
             //Allocate frames
             if(!(m_frame = allocFrame(AV_PIX_FMT_GRAY8, m_width, m_height))) {
+                spdlog::error("Could not allocate frame");
+                return false;
+            }
+
+            if(!(m_frame16 = allocFrame(AV_PIX_FMT_GRAY16, m_width, m_height))) {
                 spdlog::error("Could not allocate frame");
                 return false;
             }
@@ -84,6 +90,7 @@ class VideoEncoder {
                 av_packet_free(&m_pkt);
                 avcodec_free_context(&m_codecCtx);
                 av_frame_free(&m_frame);
+                av_frame_free(&m_frame16);
                 av_frame_free(&m_tframe);
                 avformat_free_context(m_oc);
                 m_open = false;
@@ -106,6 +113,25 @@ class VideoEncoder {
                 encodeFrame(m_tframe);
             } else {
                 encodeFrame(m_frame);
+            }
+        }
+
+        void writeFrame(uint16_t* data, size_t frameNr) {
+            m_frame16->pts = frameNr;
+            m_tframe->pts = frameNr;
+            std::memcpy(m_frame16->data[0], data, m_width*m_height);
+
+            if (m_frame16->format != m_tframe->format) {
+                SwsContext* gray16_to_pix_fmt = nullptr;
+                gray16_to_pix_fmt = sws_getContext(
+                                        m_frame16->width, m_frame16->height, (AVPixelFormat) m_frame16->format,
+                                        m_tframe->width, m_tframe->height, (AVPixelFormat) m_tframe->format,
+                                        SWS_BICUBIC, NULL,NULL,NULL);
+
+                sws_scale(gray16_to_pix_fmt, m_frame16->data, m_frame16->linesize, 0, m_height, m_tframe->data, m_tframe->linesize);
+                encodeFrame(m_tframe);
+            } else {
+                encodeFrame(m_frame16);
             }
         }
 

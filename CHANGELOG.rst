@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.20 (2023-04-21)
+-------------------
+
+Added:
+^^^^^^
+- Encode video when auto_contrast_brightness is false
+
+
 0.1.19 (2023-04-20)
 -------------------
 

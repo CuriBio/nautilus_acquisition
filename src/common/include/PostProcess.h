@@ -8,6 +8,7 @@
 #include <TiffFile.h>
 #include <ThreadPool.h>
 #include <RawFile.h>
+#include <VideoEncoder.h>
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
@@ -48,7 +49,7 @@ namespace PostProcess {
         bool autoConBright,
         std::function<void(size_t n)> progressCB,
         std::shared_ptr<RawFile> r,
-        std::function<void(void*, size_t)> videoWriter)
+        std::shared_ptr<VideoEncoder> v)
     {
         ThreadPool p(static_cast<concurrency_t>(rows*cols));
 
@@ -75,7 +76,7 @@ namespace PostProcess {
             }
             p.WaitForAll();
 
-            if (autoConBright && videoWriter) {
+            if (autoConBright && v) {
                 uint32_t min{0}, max{0}, hmax{0};
 
                 uint32_t* hist = new uint32_t[(1<<16)-1];
@@ -107,7 +108,9 @@ namespace PostProcess {
                     p.AddTask([&](uint8_t n) { applyLut.Run(rows*cols, n); }, i);
                 }
                 p.WaitForAll();
-                videoWriter(img8, fr);
+                v->writeFrame(img8, fr+1);
+            } else if (v) {
+                v->writeFrame(frameData, fr+1);
             }
 
             r->Write(frameData, fr);
