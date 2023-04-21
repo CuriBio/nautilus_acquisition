@@ -6,6 +6,7 @@ Changelog for Nautilus
 Added:
 ^^^^^^
 - Encode video when auto_contrast_brightness is false
+- Fix crash with autotile false/rows*cols mismatch
 
 
 0.1.19 (2023-04-20)

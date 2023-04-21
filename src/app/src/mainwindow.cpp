@@ -836,9 +836,11 @@ void MainWindow::postProcess() {
 
         if (m_config->autoTile && rowsxcols != stagePos.size()) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+            return;
         } else if (m_expSettings.storageType != 0) { //single tiff file storage
             spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
-        } else {
+            return;
+        } else if (m_config->autoTile) {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<VideoEncoder> venc = nullptr;
