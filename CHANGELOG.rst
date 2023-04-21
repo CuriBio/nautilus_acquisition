@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.21 (2023-04-24)
+-------------------
+
+Fixed:
+^^^^^^
+- Half frame video when auto contrast/brightness is disabled and video is in 16bit mode
+
+
 0.1.20 (2023-04-21)
 -------------------
 

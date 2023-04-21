@@ -71,10 +71,10 @@ int main(int argc, char* argv[]) {
 
     std::string codec = userargs["codec"].as<std::string>();
 
-    std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>(outdir, codec, 10, 2400, 1200);
+    std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, frames, cols*width, rows*height);
     w->Initialize();
 
-    std::shared_ptr<RawFile> afw = std::make_shared<RawFile>("./test.raw", 16, 2400, 1200, 10);
+    std::shared_ptr<RawFile> afw = std::make_shared<RawFile>((outdir / "defaul.raw"), 16, cols*width, rows*height, frames);
 
     PostProcess::AutoTile(
                     indir,

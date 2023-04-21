@@ -119,7 +119,7 @@ class VideoEncoder {
         void writeFrame(uint16_t* data, size_t frameNr) {
             m_frame16->pts = frameNr;
             m_tframe->pts = frameNr;
-            std::memcpy(m_frame16->data[0], data, m_width*m_height);
+            std::memcpy(m_frame16->data[0], data, 2*m_width*m_height);
 
             if (m_frame16->format != m_tframe->format) {
                 SwsContext* gray16_to_pix_fmt = nullptr;
