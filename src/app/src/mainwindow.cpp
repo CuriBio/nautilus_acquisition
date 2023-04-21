@@ -505,6 +505,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             m_led = !m_led;
             double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
             spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_config->ledIntensity, voltage, m_config->maxVoltage);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             ledON(voltage);
         }
 
@@ -886,7 +887,7 @@ void MainWindow::postProcess() {
 
             if (m_config->encodeVideo) {
                 venc->close();
-            } 
+            }
             raw->Close();
             emit sig_progress_done();
         }
