@@ -3,6 +3,10 @@ Changelog for Nautilus
 0.1.21 (2023-04-24)
 -------------------
 
+Added:
+^^^^^^
+- Added new platemap format files to resources
+
 Fixed:
 ^^^^^^
 - Half frame video when auto contrast/brightness is disabled and video is in 16bit mode

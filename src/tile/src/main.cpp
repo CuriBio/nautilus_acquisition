@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
       ("w,width", "Width of each input image", cxxopts::value<size_t>())
       ("h,height", "Height of each input image", cxxopts::value<size_t>())
       ("codec", "Codec to use for video output", cxxopts::value<std::string>())
+      ("fps", "Frames per second for video encoding", cxxopts::value<int>())
       ("help", "Usage")
       ;
 
@@ -63,18 +64,19 @@ int main(int argc, char* argv[]) {
     }
     spdlog::info("Using output directory {}", outdir.string());
 
-    uint8_t rows = userargs["rows"].as<uint8_t>();
-    uint8_t cols = userargs["cols"].as<uint8_t>();
-    size_t frames = userargs["frames"].as<size_t>(); 
-    size_t width = userargs["width"].as<size_t>();
-    size_t height = userargs["height"].as<size_t>();
+    uint16_t rows = userargs["rows"].as<uint16_t>();
+    uint16_t cols = userargs["cols"].as<uint16_t>();
+    uint16_t frames = userargs["frames"].as<uint16_t>();
+    int fps = userargs["fps"].as<int>();
+    uint32_t width = userargs["width"].as<uint32_t>();
+    uint32_t height = userargs["height"].as<uint32_t>();
 
     std::string codec = userargs["codec"].as<std::string>();
 
-    std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, frames, cols*width, rows*height);
+    std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, fps, static_cast<size_t>(cols*width), static_cast<size_t>(rows*height));
     w->Initialize();
 
-    std::shared_ptr<RawFile> afw = std::make_shared<RawFile>((outdir / "defaul.raw"), 16, cols*width, rows*height, frames);
+    std::shared_ptr<RawFile> afw = std::make_shared<RawFile>((outdir / "defaul.raw"), 16, static_cast<uint16_t>(cols*width), static_cast<uint16_t>(rows*height), frames);
 
     PostProcess::AutoTile(
                     indir,

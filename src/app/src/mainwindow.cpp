@@ -823,6 +823,8 @@ void MainWindow::postProcess() {
             {"vflip", m_config->vflip},
             {"hflip", m_config->hflip},
             {"auto_tile", m_config->autoTile},
+            {"width", m_width},
+            {"height", m_height},
             {"rows", m_config->rows},
             {"cols", m_config->cols},
             {"xy_pixel_size", m_config->xyPixelSize},
