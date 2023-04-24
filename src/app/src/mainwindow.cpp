@@ -736,7 +736,7 @@ bool MainWindow::ledON(double voltage) {
         m_DAQmx.StopTask(m_taskDO);
         rtnval = false;
     }else{
-        //Delay after LED is on to prevent flashing of led on startup
+        //Delay after LED is on to prevent flashing of LED on startup
         std::this_thread::sleep_for(std::chrono::milliseconds(shutterDelay));
     }
 
