@@ -820,12 +820,15 @@ void MainWindow::postProcess() {
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
             {"software_version", m_config->version},
             {"led_intensity", m_config->ledIntensity},
+            {"auto_contrast_brightness", !m_config->noAutoConBright},
             {"fps", m_config->fps},
             {"duration", m_expSettings.expTimeMS},
             {"frame_count", m_expSettings.frameCount},
             {"vflip", m_config->vflip},
             {"hflip", m_config->hflip},
             {"auto_tile", m_config->autoTile},
+            {"width", m_width},
+            {"height", m_height},
             {"rows", m_config->rows},
             {"cols", m_config->cols},
             {"xy_pixel_size", m_config->xyPixelSize},
@@ -839,22 +842,18 @@ void MainWindow::postProcess() {
 
         if (m_config->autoTile && rowsxcols != stagePos.size()) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+            return;
         } else if (m_expSettings.storageType != 0) { //single tiff file storage
             spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
-        } else {
+            return;
+        } else if (m_config->autoTile) {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
-            std::function<void(void*, size_t)> writeVideo = {};
-            std::function<void(void*, size_t)> writeRaw = {};
             std::shared_ptr<VideoEncoder> venc = nullptr;
 
             std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
             std::shared_ptr<RawFile> raw = std::make_shared<RawFile>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
-
-            writeRaw = [&raw](void* data, size_t n) {
-                raw->Write(data, n);
-            };
 
             if (m_config->encodeVideo) {
                 std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS));
@@ -864,10 +863,6 @@ void MainWindow::postProcess() {
                 if (!venc->Initialize()) {
                     spdlog::error("Failed to initialize video encoder");
                 }
-
-                writeVideo = [&venc](void* data, size_t n) {
-                    venc->writeFrame(static_cast<uint8_t*>(data), n+1);
-                };
             }
 
             emit sig_progress_text("Tiling images");
@@ -885,7 +880,7 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                writeVideo
+                venc
             );
 
             if (m_config->encodeVideo) {

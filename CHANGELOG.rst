@@ -8,6 +8,24 @@ Added:
 - Ability to configure post led on delay
 
 
+0.1.21 (2023-04-24)
+-------------------
+- Added new platemap format files to resources
+
+Fixed:
+^^^^^^
+- Half frame video when auto contrast/brightness is disabled and video is in 16bit mode
+
+
+0.1.20 (2023-04-21)
+-------------------
+
+Added:
+^^^^^^
+- Encode video when auto_contrast_brightness is false
+- Fix crash with autotile false/rows*cols mismatch
+
+
 0.1.19 (2023-04-20)
 -------------------
 
