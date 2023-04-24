@@ -1,7 +1,15 @@
 Changelog for Nautilus
 ======================
+0.1.22 (2023-04-24)
+-------------------
+
+Added:
+^^^^^^
+- Ability to configure post led on delay
+
 0.1.19 (2023-04-20)
 -------------------
+
 
 Added:
 ^^^^^^
