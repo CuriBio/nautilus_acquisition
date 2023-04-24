@@ -7,6 +7,7 @@ Added:
 ^^^^^^
 - Ability to configure post led on delay
 
+
 0.1.19 (2023-04-20)
 -------------------
 
