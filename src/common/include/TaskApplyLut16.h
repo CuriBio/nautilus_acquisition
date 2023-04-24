@@ -41,8 +41,8 @@ class TaskApplyLut16 {
     private:
         std::mutex m_lock;
         const uint16_t* m_data;
-        const uint8_t* m_lut;
-        uint8_t* m_out;
+        const uint16_t* m_lut;
+        uint16_t* m_out;
         size_t m_size;
 
     public:
@@ -64,7 +64,7 @@ class TaskApplyLut16 {
          * @param lut Lut being applied.
          * @param size Data in bytes.
          */
-        void Setup(const uint16_t* data, uint8_t* out, const uint8_t* lut, size_t size) {
+        void Setup(const uint16_t* data, uint16_t* out, const uint16_t* lut, size_t size) {
             std::unique_lock<std::mutex> lock(m_lock);
             m_data = data;
             m_out = out;
@@ -77,7 +77,7 @@ class TaskApplyLut16 {
          *
          * @return uint8_t Pointer to output data.
          */
-        uint8_t* Results() {
+        uint16_t* Results() {
             std::unique_lock<std::mutex> lock(m_lock);
             return &m_out[0];
         }

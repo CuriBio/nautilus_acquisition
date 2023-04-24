@@ -1,5 +1,14 @@
 Changelog for Nautilus
 ======================
+0.1.22 (2023-04-24)
+-------------------
+
+Fixed:
+^^^^^^
+- Issues with liveview, cancelation and progress bar show hints
+- Uninitialized data for liveview when running without auto contrast/brightness
+
+
 0.1.21 (2023-04-24)
 -------------------
 

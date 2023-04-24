@@ -53,7 +53,7 @@ class LiveView : public QOpenGLWidget {
 
         void Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         void Clear();
-        void UpdateImage(uint8_t* data);
+        void UpdateImage(uint16_t* data);
         void SetImageFormat(ImageFormat fmt);
 
         //QT Overrides

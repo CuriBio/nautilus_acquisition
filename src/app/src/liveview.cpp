@@ -66,9 +66,7 @@ void LiveView::Init(uint32_t width, uint32_t height, bool vflip, bool hflip, Ima
     m_hflip = hflip;
 
     SetImageFormat(m_imageInFmt);
-
     setAutoFillBackground(false);
-    memset(m_imageData, 128, m_totalPx);
 }
 
 
@@ -86,11 +84,13 @@ void LiveView::SetImageFormat(ImageFormat fmt) {
             m_imageOutFmt = QImage::Format::Format_Grayscale16;
             m_totalPx = 2*m_width * m_height;
             m_imageData = new uint8_t[m_totalPx];
+            memset(m_imageData, 128, m_totalPx);
             break;
         case ImageFormat::Mono8:       //8bit mono
             m_imageOutFmt = QImage::Format::Format_Grayscale8;
             m_totalPx = m_width * m_height;
             m_imageData = new uint8_t[m_totalPx];
+            memset(m_imageData, 128, m_totalPx);
             break;
         default:
             spdlog::warn("Image format conversion not implemented, defaulting to Grayscale8");
@@ -121,14 +121,14 @@ void LiveView::Clear() {
  *
  * @param data The raw pixel data to display.
  */
-void LiveView::UpdateImage(uint8_t* data) {
+void LiveView::UpdateImage(uint16_t* data) {
     std::unique_lock<std::mutex> lock(m_lock);
     if (m_imageData) {
         auto s = std::max(this->size().width(), this->size().height());
         m_target = QRectF(0.0, 0.0, s, s);
 
-        m_imageData = data;
-        m_image = QImage((uchar*)m_imageData,m_width,m_height, m_imageOutFmt).scaled(s, s, Qt::KeepAspectRatio);
+        m_imageData = (uint8_t*)(data);
+        m_image = QImage((uchar*)m_imageData, m_width, m_height, m_imageOutFmt).scaled(s, s, Qt::KeepAspectRatio);
         m_image.mirror(m_hflip, m_vflip);
         this->update();
     }

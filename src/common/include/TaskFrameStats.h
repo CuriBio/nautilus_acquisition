@@ -120,12 +120,12 @@ class TaskFrameStats {
                 rem = m_height % threadCount;
             }
 
-            const size_t rows = rem + (m_height / threadCount);
+            const size_t rows = (m_height / threadCount);
             const size_t rowOffset = taskNum * rows;
             const size_t offset = rowOffset * m_width;
 
             const uint16_t* start = m_data+offset;
-            const uint16_t* end = m_data+offset+(rows*m_width);
+            const uint16_t* end = m_data+offset+(rows*m_width)+rem;
 
             for (; start < end; start++) {
                 if (*start > max) { max = *start; }

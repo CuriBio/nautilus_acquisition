@@ -136,7 +136,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //acquisition progress bar
-    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100);
+    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint);
     m_acquisitionProgress->cancel();
 
     connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
@@ -157,7 +157,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
     connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [&] {
         m_userCanceled = true;
-        StopAcquisition();
+        on_startAcquisitionBtn_clicked();
+        //StopAcquisition();
     });
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
@@ -215,10 +216,10 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     //for 8 bit image conversion for liveview, might not need it anymore
-    m_img8 = new uint8_t[m_width*m_height];
+    m_img16 = new uint16_t[m_width*m_height];
 
     //Set sensor size for live view
-    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono8);
+    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
     ui.histView->Init(m_hist, m_width*m_height);
 
 
@@ -448,7 +449,6 @@ void MainWindow::on_liveScanBtn_clicked() {
         }
         ui.liveScanBtn->setText("Stop Live Scan");
     } else {
-        spdlog::info("Stopping live scan");
         m_liveScanRunning = false;
 
         if (!m_acquisitionRunning) {
@@ -475,11 +475,17 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
         m_userCanceled = false;
         StartAcquisition(true);
     } else {
-        m_acquisitionRunning = false;
-        if (!m_liveScanRunning) {
-            m_userCanceled = true;
+        m_userCanceled = true;
+
+        if (m_liveScanRunning) { // keep livescan running
+            emit sig_progress_done();
+            m_acquisition->Stop();
+        } else {
             StopAcquisition();
         }
+
+        m_acquisitionRunning = false;
+        ui.startAcquisitionBtn->setText("Start Acquisition");
     }
 }
 
@@ -532,7 +538,6 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             case AcquisitionState::AcqLiveScan:
                 spdlog::info("StartAcquisition, current state AcqLiveScan");
 
-
                 if (!m_acqusitionThread) {
                     m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
                     m_acqusitionThread->start();
@@ -558,6 +563,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
  * Stops a running acquisition and turns off LED.
  */
 void MainWindow::StopAcquisition() {
+    spdlog::info("StopAcquisition called");
     std::unique_lock<std::mutex> lock(m_lock);
     if (!m_acquisition) {
         spdlog::error("m_acquisition is invalid");
@@ -614,7 +620,7 @@ void MainWindow::updateLiveView() {
             uint16_t* data = static_cast<uint16_t*>(frame->GetData());
             AutoConBright(data);
 
-            ui.liveView->UpdateImage((uint8_t*)m_img8);
+            ui.liveView->UpdateImage((uint16_t*)m_img16);
             ui.histView->Update(m_hmax, m_min, m_max);
         }
     }
@@ -633,15 +639,17 @@ void MainWindow::AutoConBright(const uint16_t* data) {
     m_parTask.Start(m_taskFrameStats);
     m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
-    if (m_config->noAutoConBright) {
+    if (!m_config->noAutoConBright) {
         /* //Update lut */
         m_taskUpdateLut->Setup(m_min, m_max);
         m_parTask.Start(m_taskUpdateLut);
-        uint8_t* lut = m_taskUpdateLut->Results();
+        uint16_t* lut = m_taskUpdateLut->Results();
 
         //Apply lut
-        m_taskApplyLut->Setup(data, m_img8, lut, m_width * m_height);
+        m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
         m_parTask.Start(m_taskApplyLut);
+    } else {
+        std::memcpy(m_img16, data, m_width*m_height);
     }
 }
 
@@ -653,17 +661,23 @@ void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
     std::unique_lock<std::mutex> lock(m_lock);
 
+    if (!m_liveScanRunning) { //livescan isn't running
+        if (m_led) {
+            m_led = !m_led;
+            ledOFF();
+        }
 
-    if (m_led) {
-        m_led = !m_led;
-        ledOFF();
+        m_liveViewTimer->stop();
+        //ui.liveView->Clear();
+        ui.liveScanBtn->setText("Live Scan");
+
+        m_liveScanRunning = false;
+
+        delete m_acqusitionThread;
+        m_acqusitionThread = nullptr;
     }
 
-    m_liveViewTimer->stop();
-    //ui.liveView->Clear();
-
     m_acquisitionRunning = false;
-    m_liveScanRunning = false;
 
     //run post processing steps
     postProcess();
@@ -673,10 +687,6 @@ void MainWindow::acquisition_done() {
     m_userCanceled = false;
 
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    ui.liveScanBtn->setText("Live Scan");
-
-    delete m_acqusitionThread;
-    m_acqusitionThread = nullptr;
 
     //need to check if there is enough space for another acquisition
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
@@ -948,10 +958,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
             cls->m_acquisitionRunning = false;
         }
+        spdlog::info("Acquisition done, sending signal");
+        emit cls->sig_acquisition_done();
+
     } while (cls->m_liveScanRunning);
 
-    spdlog::info("Acquisition done, sending signal");
-    emit cls->sig_acquisition_done();
 }
 
 
