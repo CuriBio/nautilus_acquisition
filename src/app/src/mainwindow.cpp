@@ -73,6 +73,7 @@
  * @param triggerMode The camera trigger mode.
  * @param exposureMode The camera exposure mode.
  * @param maxVoltage The max voltage for the LED controller.
+ * @param shutterDelay Time in milliseconds to pause after LED is on.
  * @param autoConBright Flag to disable auto contrast/brightness for live view.
  * @param parent Pointer to parent widget.
  */
@@ -505,7 +506,6 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             m_led = !m_led;
             double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
             spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_config->ledIntensity, voltage, m_config->maxVoltage);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             ledON(voltage);
         }
 
@@ -735,6 +735,9 @@ bool MainWindow::ledON(double voltage) {
         spdlog::error("Failed to run taskDO");
         m_DAQmx.StopTask(m_taskDO);
         rtnval = false;
+    }else{
+        //Delay after LED is on to prevent flashing of led on startup
+        std::this_thread::sleep_for(std::chrono::milliseconds(shutterDelay));
     }
 
     spdlog::info("led ON");

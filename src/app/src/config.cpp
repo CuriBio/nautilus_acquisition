@@ -172,6 +172,9 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
     if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
 
+    shutterDelay = toml::find_or<int>(config, "device", "nidaqmx", "shutter_delay_ms", 1000);
+    if (userargs.count("shutter_delay_ms")) { shutterDelay = userargs["shutter_delay_ms"].as<int>(); }
+
     //device.tango
     stageComPort = toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3"));
     if (userargs.count("stage_com_port")) { stageComPort = userargs["stage_com_port"].as<std::string>(); }
@@ -237,14 +240,15 @@ void Config::Dump() {
     spdlog::info("device.photometrics.speed_table_index: {}", spdtable);
 
     //device.kinetix.line_read_times
-    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]); 
-    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]); 
+    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]);
+    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]);
     spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]);
-    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]); 
+    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]);
 
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
     spdlog::info("device.nidaqmx.max_voltage: {}", maxVoltage);
+    spdlog::info("device.nidaqmx.shutter_delay_ms: {}", shutter_delay_ms);
 
     //device.tango
     spdlog::info("device.tango.com_port: {}", stageComPort);

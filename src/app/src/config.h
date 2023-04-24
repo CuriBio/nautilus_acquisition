@@ -50,6 +50,7 @@ class Config {
         //device.nidaqmx
         std::string niDev;
         double maxVoltage;
+        int shutterDelay;
 
 
         //device.tango
