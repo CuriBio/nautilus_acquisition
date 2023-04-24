@@ -136,7 +136,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //acquisition progress bar
-    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100);
+    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint);
     m_acquisitionProgress->cancel();
 
     connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
@@ -157,7 +157,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
     connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [&] {
         m_userCanceled = true;
-        StopAcquisition();
+        on_startAcquisitionBtn_clicked();
+        //StopAcquisition();
     });
 
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
@@ -448,7 +449,6 @@ void MainWindow::on_liveScanBtn_clicked() {
         }
         ui.liveScanBtn->setText("Stop Live Scan");
     } else {
-        spdlog::info("Stopping live scan");
         m_liveScanRunning = false;
 
         if (!m_acquisitionRunning) {
@@ -475,11 +475,17 @@ void MainWindow::on_startAcquisitionBtn_clicked() {
         m_userCanceled = false;
         StartAcquisition(true);
     } else {
-        m_acquisitionRunning = false;
-        if (!m_liveScanRunning) {
-            m_userCanceled = true;
+        m_userCanceled = true;
+
+        if (m_liveScanRunning) { // keep livescan running
+            emit sig_progress_done();
+            m_acquisition->Stop();
+        } else {
             StopAcquisition();
         }
+
+        m_acquisitionRunning = false;
+        ui.startAcquisitionBtn->setText("Start Acquisition");
     }
 }
 
@@ -532,7 +538,6 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             case AcquisitionState::AcqLiveScan:
                 spdlog::info("StartAcquisition, current state AcqLiveScan");
 
-
                 if (!m_acqusitionThread) {
                     m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
                     m_acqusitionThread->start();
@@ -558,6 +563,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
  * Stops a running acquisition and turns off LED.
  */
 void MainWindow::StopAcquisition() {
+    spdlog::info("StopAcquisition called");
     std::unique_lock<std::mutex> lock(m_lock);
     if (!m_acquisition) {
         spdlog::error("m_acquisition is invalid");
@@ -633,7 +639,7 @@ void MainWindow::AutoConBright(const uint16_t* data) {
     m_parTask.Start(m_taskFrameStats);
     m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
-    if (m_config->noAutoConBright) {
+    if (!m_config->noAutoConBright) {
         /* //Update lut */
         m_taskUpdateLut->Setup(m_min, m_max);
         m_parTask.Start(m_taskUpdateLut);
