@@ -35,6 +35,9 @@ int main(int argc, char* argv[]) {
       ("c,cols", "Number of input columns for tiled image", cxxopts::value<uint16_t>()->default_value("3"))
       ("w,width", "Width of each input image", cxxopts::value<uint32_t>())
       ("h,height", "Height of each input image", cxxopts::value<uint32_t>())
+      ("vflip", "Vertical flip", cxxopts::value<bool>()->default_value("false"))
+      ("hflip", "Horizontal flip", cxxopts::value<bool>()->default_value("false"))
+      ("autocb", "Auto contrast/brightness", cxxopts::value<bool>()->default_value("false"))
       ("codec", "Codec to use for video output", cxxopts::value<std::string>())
       ("fps", "Frames per second for video encoding", cxxopts::value<int>()->default_value("20"))
       ("help", "Usage")
@@ -66,11 +69,19 @@ int main(int argc, char* argv[]) {
 
     uint16_t rows = userargs["rows"].as<uint16_t>();
     uint16_t cols = userargs["cols"].as<uint16_t>();
-    uint16_t frames = userargs["frames"].as<uint16_t>();
-    int fps = userargs["fps"].as<int>();
+
     uint32_t width = userargs["width"].as<uint32_t>();
     uint32_t height = userargs["height"].as<uint32_t>();
+
+    uint16_t frames = userargs["frames"].as<uint16_t>();
+    int fps = userargs["fps"].as<int>();
+
     std::string codec = userargs["codec"].as<std::string>();
+
+    bool vflip = userargs["vflip"].as<bool>();
+    bool hflip = userargs["hflip"].as<bool>();
+    bool autocb = userargs["autocb"].as<bool>();
+
 
     std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, fps, static_cast<size_t>(cols*width), static_cast<size_t>(rows*height));
     w->Initialize();
@@ -84,9 +95,9 @@ int main(int argc, char* argv[]) {
                     cols,
                     width,
                     height,
-                    false,
-                    true,
-                    true,
+                    vflip,
+                    hflip,
+                    autocb,
                     [&](size_t n) {},
                     afw,
                     w
