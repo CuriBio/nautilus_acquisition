@@ -649,7 +649,7 @@ void MainWindow::AutoConBright(const uint16_t* data) {
         m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
         m_parTask.Start(m_taskApplyLut);
     } else {
-        std::memcpy(m_img16, data, m_width*m_height);
+        std::memcpy(m_img16, data, 2*m_width*m_height);
     }
 }
 
