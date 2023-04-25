@@ -30,13 +30,13 @@ int main(int argc, char* argv[]) {
     options.add_options()
       ("o,outdir", "Output directory", cxxopts::value<std::string>())
       ("i,indir", "Input directory", cxxopts::value<std::string>())
-      ("f,frames", "Number of input frames per capture", cxxopts::value<size_t>())
-      ("r,rows", "Number of input rows for tiled image", cxxopts::value<uint8_t>()->default_value("2"))
-      ("c,cols", "Number of input columns for tiled image", cxxopts::value<uint8_t>()->default_value("3"))
-      ("w,width", "Width of each input image", cxxopts::value<size_t>())
-      ("h,height", "Height of each input image", cxxopts::value<size_t>())
+      ("f,frames", "Number of input frames per capture", cxxopts::value<uint16_t>())
+      ("r,rows", "Number of input rows for tiled image", cxxopts::value<uint16_t>()->default_value("2"))
+      ("c,cols", "Number of input columns for tiled image", cxxopts::value<uint16_t>()->default_value("3"))
+      ("w,width", "Width of each input image", cxxopts::value<uint32_t>())
+      ("h,height", "Height of each input image", cxxopts::value<uint32_t>())
       ("codec", "Codec to use for video output", cxxopts::value<std::string>())
-      ("fps", "Frames per second for video encoding", cxxopts::value<int>())
+      ("fps", "Frames per second for video encoding", cxxopts::value<int>()->default_value("20"))
       ("help", "Usage")
       ;
 
@@ -70,7 +70,6 @@ int main(int argc, char* argv[]) {
     int fps = userargs["fps"].as<int>();
     uint32_t width = userargs["width"].as<uint32_t>();
     uint32_t height = userargs["height"].as<uint32_t>();
-
     std::string codec = userargs["codec"].as<std::string>();
 
     std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, fps, static_cast<size_t>(cols*width), static_cast<size_t>(rows*height));
@@ -87,7 +86,7 @@ int main(int argc, char* argv[]) {
                     height,
                     false,
                     true,
-                    false,
+                    true,
                     [&](size_t n) {},
                     afw,
                     w

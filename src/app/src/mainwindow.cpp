@@ -216,10 +216,10 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     //for 8 bit image conversion for liveview, might not need it anymore
-    m_img8 = new uint8_t[m_width*m_height];
+    m_img16 = new uint16_t[m_width*m_height];
 
     //Set sensor size for live view
-    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono8);
+    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
     ui.histView->Init(m_hist, m_width*m_height);
 
 
@@ -620,7 +620,7 @@ void MainWindow::updateLiveView() {
             uint16_t* data = static_cast<uint16_t*>(frame->GetData());
             AutoConBright(data);
 
-            ui.liveView->UpdateImage((uint8_t*)m_img8);
+            ui.liveView->UpdateImage((uint16_t*)m_img16);
             ui.histView->Update(m_hmax, m_min, m_max);
         }
     }
@@ -643,11 +643,13 @@ void MainWindow::AutoConBright(const uint16_t* data) {
         /* //Update lut */
         m_taskUpdateLut->Setup(m_min, m_max);
         m_parTask.Start(m_taskUpdateLut);
-        uint8_t* lut = m_taskUpdateLut->Results();
+        uint16_t* lut = m_taskUpdateLut->Results();
 
         //Apply lut
-        m_taskApplyLut->Setup(data, m_img8, lut, m_width * m_height);
+        m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
         m_parTask.Start(m_taskApplyLut);
+    } else {
+        std::memcpy(m_img16, data, m_width*m_height);
     }
 }
 
@@ -659,17 +661,23 @@ void MainWindow::acquisition_done() {
     spdlog::info("Acquisition done signal");
     std::unique_lock<std::mutex> lock(m_lock);
 
+    if (!m_liveScanRunning) { //livescan isn't running
+        if (m_led) {
+            m_led = !m_led;
+            ledOFF();
+        }
 
-    if (m_led) {
-        m_led = !m_led;
-        ledOFF();
+        m_liveViewTimer->stop();
+        //ui.liveView->Clear();
+        ui.liveScanBtn->setText("Live Scan");
+
+        m_liveScanRunning = false;
+
+        delete m_acqusitionThread;
+        m_acqusitionThread = nullptr;
     }
 
-    m_liveViewTimer->stop();
-    //ui.liveView->Clear();
-
     m_acquisitionRunning = false;
-    m_liveScanRunning = false;
 
     //run post processing steps
     postProcess();
@@ -679,10 +687,6 @@ void MainWindow::acquisition_done() {
     m_userCanceled = false;
 
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    ui.liveScanBtn->setText("Live Scan");
-
-    delete m_acqusitionThread;
-    m_acqusitionThread = nullptr;
 
     //need to check if there is enough space for another acquisition
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
@@ -954,10 +958,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
             cls->m_acquisitionRunning = false;
         }
+        spdlog::info("Acquisition done, sending signal");
+        emit cls->sig_acquisition_done();
+
     } while (cls->m_liveScanRunning);
 
-    spdlog::info("Acquisition done, sending signal");
-    emit cls->sig_acquisition_done();
 }
 
 

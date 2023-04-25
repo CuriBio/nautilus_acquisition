@@ -82,8 +82,8 @@ namespace PostProcess {
                 uint32_t* hist = new uint32_t[(1<<16)-1];
                 memset((void*)hist, 0, sizeof(uint32_t)*((1<<16)-1));
 
-                uint8_t* img8 = new uint8_t[rows*height*cols*width];
-                memset((void*)img8, 0, sizeof(uint8_t)*rows*height*cols*width);
+                uint16_t* img16 = new uint16_t[rows*height*cols*width];
+                memset((void*)img16, 0, sizeof(uint16_t)*rows*height*cols*width);
 
                 TaskFrameStats frameStats(rows*cols);
                 TaskFrameLut16 frameLut;
@@ -101,14 +101,14 @@ namespace PostProcess {
                     p.AddTask([&](uint8_t n) { frameLut.Run(rows*cols, n); }, i);
                 }
                 p.WaitForAll();
-                uint8_t* lut8 = frameLut.Results();
+                uint16_t* lut16 = frameLut.Results();
 
-                applyLut.Setup(frameData, img8, lut8, rows*cols*width*height);
+                applyLut.Setup(frameData, img16, lut16, rows*cols*width*height);
                 for (uint8_t i = 0; i < rows*cols; i++) {
                     p.AddTask([&](uint8_t n) { applyLut.Run(rows*cols, n); }, i);
                 }
                 p.WaitForAll();
-                v->writeFrame(img8, fr+1);
+                v->writeFrame(img16, fr+1);
             } else if (v) {
                 v->writeFrame(frameData, fr+1);
             }

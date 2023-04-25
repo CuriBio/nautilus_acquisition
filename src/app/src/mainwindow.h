@@ -86,8 +86,8 @@ class MainWindow : public QMainWindow {
             delete m_hist;
             m_hist = nullptr;
 
-            delete m_img8;
-            m_img8 = nullptr;
+            delete m_img16;
+            m_img16 = nullptr;
 
             delete m_acquisitionProgress;
             m_acquisitionProgress = nullptr;
@@ -161,7 +161,7 @@ class MainWindow : public QMainWindow {
 
         std::vector<std::filesystem::path> m_plateFormats;
 
-        uint8_t* m_img8;
+        uint16_t* m_img16;
 
         uint32_t m_width, m_height;
         uint32_t m_min, m_max;
