@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
 
     PostProcess::AutoTile(
                     indir,
+                    "default_",
                     frames,
                     rows,
                     cols,

@@ -172,6 +172,9 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
     if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
 
+    shutterDelayMs = toml::find_or<uint16_t>(config, "device", "nidaqmx", "shutter_delay_ms", 1000);
+    if (userargs.count("shutter_delay_ms")) { shutterDelayMs = userargs["shutter_delay_ms"].as<uint16_t>(); }
+
     //device.tango
     stageComPort = toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3"));
     if (userargs.count("stage_com_port")) { stageComPort = userargs["stage_com_port"].as<std::string>(); }
@@ -245,6 +248,7 @@ void Config::Dump() {
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
     spdlog::info("device.nidaqmx.max_voltage: {}", maxVoltage);
+    spdlog::info("device.nidaqmx.shutter_delay_ms: {}", shutterDelayMs);
 
     //device.tango
     spdlog::info("device.tango.com_port: {}", stageComPort);

@@ -618,9 +618,19 @@ void MainWindow::updateLiveView() {
 
         if (frame != nullptr) {
             uint16_t* data = static_cast<uint16_t*>(frame->GetData());
-            AutoConBright(data);
 
-            ui.liveView->UpdateImage((uint16_t*)m_img16);
+            //Calculate histogram
+            m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
+            m_parTask.Start(m_taskFrameStats);
+            m_taskFrameStats->Results(m_min, m_max, m_hmax);
+
+            if (!m_config->noAutoConBright) {
+                AutoConBright(data);
+                ui.liveView->UpdateImage((uint16_t*)m_img16);
+            } else {
+                ui.liveView->UpdateImage(data);
+            }
+
             ui.histView->Update(m_hmax, m_min, m_max);
         }
     }
@@ -634,23 +644,14 @@ void MainWindow::updateLiveView() {
  * @param data Raw pixel data to run auto contrast/brightness on.
  */
 void MainWindow::AutoConBright(const uint16_t* data) {
-    //Calculate histogram
-    m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
-    m_parTask.Start(m_taskFrameStats);
-    m_taskFrameStats->Results(m_min, m_max, m_hmax);
+    /* //Update lut */
+    m_taskUpdateLut->Setup(m_min, m_max);
+    m_parTask.Start(m_taskUpdateLut);
+    uint16_t* lut = m_taskUpdateLut->Results();
 
-    if (!m_config->noAutoConBright) {
-        /* //Update lut */
-        m_taskUpdateLut->Setup(m_min, m_max);
-        m_parTask.Start(m_taskUpdateLut);
-        uint16_t* lut = m_taskUpdateLut->Results();
-
-        //Apply lut
-        m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
-        m_parTask.Start(m_taskApplyLut);
-    } else {
-        std::memcpy(m_img16, data, m_width*m_height);
-    }
+    //Apply lut
+    m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
+    m_parTask.Start(m_taskApplyLut);
 }
 
 
@@ -746,7 +747,9 @@ bool MainWindow::ledON(double voltage) {
         rtnval = false;
     }
 
-    spdlog::info("led ON");
+    spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
+
     return rtnval;
 }
 
@@ -876,6 +879,7 @@ void MainWindow::postProcess() {
 
             PostProcess::AutoTile(
                 m_expSettings.acquisitionDir,
+                m_config->prefix,
                 m_expSettings.frameCount,
                 m_config->rows,
                 m_config->cols,
