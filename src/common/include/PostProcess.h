@@ -28,9 +28,7 @@ namespace PostProcess {
             }
 
             if (hflip) {
-                for (uint32_t j = 0; j < width / 2; j++) {
-                    std::swap(buf[j], buf[width-j-1]);
-                }
+                std::reverse(buf+idx, buf+idx+width);
             }
         }
         t.Close();
