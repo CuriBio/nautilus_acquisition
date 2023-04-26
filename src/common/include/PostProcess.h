@@ -37,6 +37,7 @@ namespace PostProcess {
     /** @brief Autotile images from indir to single tiff stack in outdir */
     void AutoTile(
         std::filesystem::path indir,
+        std::string prefix,
         uint16_t frames,
         uint32_t rows,
         uint32_t cols,
@@ -67,7 +68,7 @@ namespace PostProcess {
             //read each image, 1-based index for file names
             for(uint32_t row = 0; row < rows; row++) {
                 for(uint32_t col = 0; col < cols; col++) {
-                    std::string f = fmt::format("default__{}_{:#04}.tiff", (col+1) + row * (rows + 1), fr);
+                    std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, (col+1) + row * (rows + 1), fr);
                     size_t idx = blockStart(cols, row, col, width, height);
                     p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
                 }

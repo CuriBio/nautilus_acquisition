@@ -1,11 +1,17 @@
 Changelog for Nautilus
 ======================
-0.1.23 (2023-04-25)
+0.1.23 (2023-04-26)
 -------------------
+
+Added:
+^^^^^^
+- led ON shutter delay
 
 Fixed:
 ^^^^^^
-- Fix hflip chunk offset index
+- hflip chunk offset index
+- Liveview 16bit half view with 
+- Prefix change crash
 
 
 0.1.22 (2023-04-24)
