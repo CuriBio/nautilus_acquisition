@@ -14,6 +14,8 @@ class Config {
         std::string prefix;
         bool noAutoConBright;
         std::filesystem::path path;
+        std::filesystem::path plateFormat;
+        std::filesystem::path extAnalysis;
         double xyPixelSize;
 
         //acquistion options

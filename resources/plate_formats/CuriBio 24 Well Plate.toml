@@ -1,23 +1,159 @@
-
 [stage]
+location = [
+{ x=104980.0, y=62580.0 },
+{ x=65880.0,  y=62850.0  },
+{ x=26630.0,  y=62580.0  },
+{ x=104830.0, y=23580.0 },
+{ x=65730.0,  y=23580.0  },
+{ x=26680.0,  y=23580.0  },
+]
 
-[[stage.location]]
-x = 104980.0
-y = 62580.0
-[[stage.location]]
-x = 65880.0
-y = 62850.0
-[[stage.location]]
-x = 26630.0
-y = 62580.0
-[[stage.location]]
-x = 104830.0
-y = 23580.0
-[[stage.location]]
-x = 65730.0
-y = 23580.0
-[[stage.location]]
-x = 26680.0
-y = 23580.0
+[roi]
+dim = 2
+width = 128
+height = 128
 
+[wells.A1]
+serial_position = 0
+is_active = false
+grid_position = { row=0, col=0 }
+center_coordinates = { x_pos = 284.0, y_pos = 275.0 }
+
+[wells.A2]
+serial_position = 1
+is_active = true
+grid_position = { row = 0, col = 1 }
+center_coordinates = { x_pos = 748.0, y_pos = 279.0 }
+
+[wells.A3]
+serial_position = 2
+is_active = true
+grid_position = { row = 0, col = 2 }
+center_coordinates = { x_pos = 1308.0, y_pos = 281.0 }
+
+[wells.A4]
+serial_position = 3
+is_active = true
+grid_position = { row = 0, col = 3 }
+center_coordinates = { x_pos = 1770.0, y_pos = 285.0 }
+
+[wells.A5]
+serial_position = 4
+is_active = true
+grid_position = { row = 0, col = 4 }
+center_coordinates = { x_pos = 2326.0, y_pos = 275.0 }
+
+[wells.A6]
+serial_position = 5
+is_active = true
+grid_position = { row = 0, col = 5 }
+center_coordinates = { x_pos = 2792.0, y_pos = 279.0 }
+
+[wells.B1]
+serial_position = 6
+is_active = true
+grid_position = { row = 1, col = 0 }
+center_coordinates = { x_pos = 279.0, y_pos = 739.0 }
+
+[wells.B2]
+serial_position = 7
+is_active = true
+grid_position = { row = 1, col = 1 }
+center_coordinates = { x_pos = 744.0, y_pos = 743.0 }
+
+[wells.B3]
+serial_position = 8
+is_active = true
+grid_position = { row = 1, col = 2 }
+center_coordinates = { x_pos = 1305.0, y_pos = 744.0 }
+
+[wells.B4]
+serial_position = 9
+is_active = true
+grid_position = { row = 1, col = 3 }
+center_coordinates = { x_pos = 1768.0, y_pos = 749.0 }
+
+[wells.B5]
+serial_position = 10
+is_active = true
+grid_position = { row = 1, col = 4 }
+center_coordinates = { x_pos = 2324.0, y_pos = 740.0 }
+
+[wells.B6]
+serial_position = 11
+is_active = true
+grid_position = { row = 1, col = 5 }
+center_coordinates = { x_pos = 2788.0, y_pos = 743.0 }
+
+[wells.C1]
+serial_position = 12
+is_active = true
+grid_position = { row = 2, col = 0 }
+center_coordinates = { x_pos = 280.0, y_pos = 1301.0 }
+
+[wells.C2]
+serial_position = 13
+is_active = true
+grid_position = { row = 2, col = 1 }
+center_coordinates = { x_pos = 742.0, y_pos = 1303.0 }
+
+[wells.C3]
+serial_position = 14
+is_active = true
+grid_position = { row = 2, col = 2 }
+center_coordinates = { x_pos = 1304.0, y_pos = 1302.0 }
+
+[wells.C4]
+serial_position = 15
+is_active = true
+grid_position = { row = 2, col = 3 }
+center_coordinates = { x_pos = 1767.0, y_pos = 1304.0 }
+
+[wells.C5]
+serial_position = 16
+is_active = true
+grid_position = { row = 2, col = 4 }
+center_coordinates = { x_pos = 2327.0, y_pos = 1302.0 }
+
+[wells.C6]
+serial_position = 17
+is_active = true
+grid_position = { row = 2, col = 5 }
+center_coordinates = { x_pos = 2791.0, y_pos = 1306.0 }
+
+[wells.D1]
+serial_position = 18
+is_active = true
+grid_position = { row = 3, col = 0 }
+center_coordinates = { x_pos = 275.0, y_pos = 1763.0 }
+
+[wells.D2]
+serial_position = 19
+is_active = true
+grid_position = { row = 3, col = 1 }
+center_coordinates = { x_pos = 740.0, y_pos = 1767.0 }
+
+[wells.D3]
+serial_position = 20
+is_active = true
+grid_position = { row = 3, col = 2 }
+center_coordinates = { x_pos = 1299.0, y_pos = 1766.0 }
+
+[wells.D4]
+serial_position = 21
+is_active = true
+grid_position = { row = 3, col = 3 }
+center_coordinates = { x_pos = 1764.0, y_pos = 1767.0 }
+
+[wells.D5]
+serial_position = 22
+is_active = true
+grid_position = { row = 3, col = 4 }
+center_coordinates = { x_pos = 2324.0, y_pos = 1764.0 }
+
+[wells.D6]
+serial_position = 23
+is_active = true
+grid_position = { row = 3, col = 5 }
+center_coordinates = { x_pos = 2788.0, y_pos = 1769.0 }
 

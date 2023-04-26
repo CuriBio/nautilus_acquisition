@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.1.23)
+set(NAUTILUS_VERSION 0.1.24)
 
 project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
 set(PROJECT_BRIEF "Nautilus Acquisition")
@@ -88,6 +88,12 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/right3.png DESTINATION ${CMAKE_INSTA
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+#loading gif
+install(FILES ${CMAKE_SOURCE_DIR}/resources/loading.gif DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+#install well_data.exe
+install(FILES ${CMAKE_SOURCE_DIR}/resources/well_data.exe DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 #install plate formats folder
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources/plate_formats DESTINATION ${CMAKE_INSTALL_BINDIR}/)

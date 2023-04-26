@@ -1,5 +1,15 @@
 Changelog for Nautilus
 ======================
+0.1.24 (2023-04-27)
+-------------------
+
+Added:
+^^^^^^
+- Added well_data.exe to resources
+- Write out settings file with platemap/wellmap info
+- Call well_data.exe after post-processing images
+
+
 0.1.23 (2023-04-26)
 -------------------
 

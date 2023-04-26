@@ -137,6 +137,8 @@ int main(int argc, char* argv[]) {
 
     spdlog::info("Loading config {}", configFile.string());
     std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userargs);
+    config->version = version;
+    config->configFile = configFile.string();
     config->Dump();
 
     if (!userargs.count("no_gui")) {
