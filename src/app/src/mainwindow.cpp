@@ -175,10 +175,27 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        ui.startAcquisitionBtn->setText("Start Acquisition");
+
+        //need to check if there is enough space for another acquisition
+        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         spdlog::error("External analysis error: {}", err);
+        ui.startAcquisitionBtn->setText("Start Acquisition");
+
+        //need to check if there is enough space for another acquisition
+        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+    });
+
+    connect(this, &MainWindow::sig_start_analysis, this, [&] {
+        //run external analysis, probably want to start another progress bar/spinner
+        std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
+        spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+
+        m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
+        m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
     });
 
     m_liveViewTimer = new QTimer(this);
@@ -703,17 +720,7 @@ void MainWindow::acquisition_done(bool runPostProcess) {
             emit sig_progress_done();
             m_userCanceled = false;
 
-            //run external analysis, probably want to start another progress bar/spinner
-            std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-            spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
-            m_extAnalysis.startDetached(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
-
-            this->setCursor(Qt::WaitCursor);
-            ui.startAcquisitionBtn->setText("Start Acquisition");
-            this->unsetCursor();
-
-            //need to check if there is enough space for another acquisition
-            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+            emit sig_start_analysis();
         });
 
         postProcessThread.detach();
@@ -896,7 +903,7 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        if (m_config->autoTile && rowsxcols != stagePos.size()) {
+        if (m_config->autoTile && rowsxcols != stagePos.size() && rowsxcols != m_config->tileMap.size()) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             return;
         } else if (m_expSettings.storageType != 0) { //single tiff file storage
@@ -928,6 +935,7 @@ void MainWindow::postProcess() {
                 m_expSettings.frameCount,
                 m_config->rows,
                 m_config->cols,
+                m_config->tileMap,
                 m_width,
                 m_height,
                 m_config->vflip,
