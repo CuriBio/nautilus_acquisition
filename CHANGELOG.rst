@@ -1,5 +1,19 @@
 Changelog for Nautilus
 ======================
+0.1.25 (unreleased)
+-------------------
+
+Added:
+^^^^^^
+- Tile map config value
+- Auto flush logger every 10 seconds
+- Signals for starting/stopping external analysis
+
+Fixed:
+^^^^^^
+- Wrong tiling order on second row
+
+
 0.1.24 (2023-04-27)
 -------------------
 

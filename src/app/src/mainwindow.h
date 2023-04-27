@@ -104,6 +104,7 @@ class MainWindow : public QMainWindow {
         void sig_progress_done();
         void sig_acquisition_done(bool runPostProcess);
         void sig_livescan_stopped();
+        void sig_start_analysis();
 
     public slots:
         void acquisition_done(bool runPostProcess);
