@@ -47,7 +47,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include <QTimer>
-#include <QLabel>
+#include <QProcess>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -167,6 +167,19 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //stage control signals
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
+
+    //external process signals
+    connect(&m_extAnalysis, &QProcess::started, this, [this] {
+        spdlog::info("Process started");
+    });
+
+    connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
+        spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+    });
+
+    connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
+        spdlog::error("External analysis error: {}", err);
+    });
 
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
@@ -376,13 +389,10 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
-/* void MainWindow::on_plateFormatDropDown_currentIndexChanged(int index){ */
-/*     std::string plateFormatFileName = m_plateFormats[index]; */
-/*     m_stageControl->loadList(plateFormatFileName); */
-/* } */
 
 void MainWindow::on_plateFormatDropDown_activated(int index){
-    m_stageControl->loadList(m_plateFormats[index].string());
+    m_config->plateFormat = m_plateFormats[index];
+    m_stageControl->loadList(m_config->plateFormat.string());
 }
 
 
@@ -658,7 +668,7 @@ void MainWindow::AutoConBright(const uint16_t* data) {
 /*
  * Signal to indicate acquisition has finished.
  */
-void MainWindow::acquisition_done() {
+void MainWindow::acquisition_done(bool runPostProcess) {
     spdlog::info("Acquisition done signal");
     std::unique_lock<std::mutex> lock(m_lock);
 
@@ -680,17 +690,35 @@ void MainWindow::acquisition_done() {
 
     m_acquisitionRunning = false;
 
-    //run post processing steps
-    postProcess();
+    if (runPostProcess) {
+        //run post processing steps in new thread
+        std::thread postProcessThread([&]() {
+            spdlog::info("Starting post processing thread");
+            //run images post processing steps
+            spdlog::info("calling postProcess");
+            postProcess();
 
-    //finish progress bar
-    emit sig_progress_done();
-    m_userCanceled = false;
+            //finish progress bar
+            spdlog::info("sig_progress_done");
+            emit sig_progress_done();
+            m_userCanceled = false;
 
-    ui.startAcquisitionBtn->setText("Start Acquisition");
+            //run external analysis, probably want to start another progress bar/spinner
+            std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
+            spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+            m_extAnalysis.startDetached(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
 
-    //need to check if there is enough space for another acquisition
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+            this->setCursor(Qt::WaitCursor);
+            ui.startAcquisitionBtn->setText("Start Acquisition");
+            this->unsetCursor();
+
+            //need to check if there is enough space for another acquisition
+            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        });
+
+        postProcessThread.detach();
+    }
+
 }
 
 /*
@@ -818,6 +846,7 @@ void MainWindow::acquire(bool saveToDisk) {
 void MainWindow::postProcess() {
     if (!m_userCanceled) {
         spdlog::info("Writing settings file to {}\\settings.toml", m_expSettings.acquisitionDir.string());
+        //TODO add settingsPath to m_config
         std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
         std::ofstream outfile(settingsPath.string()); // create output file stream
 
@@ -826,25 +855,43 @@ void MainWindow::postProcess() {
             stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
         }
 
+        //need this here even if auto tile is disabled
+        std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
+
+        //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
-            {"software_version", m_config->version},
-            {"led_intensity", m_config->ledIntensity},
-            {"auto_contrast_brightness", !m_config->noAutoConBright},
-            {"fps", m_config->fps},
-            {"duration", m_expSettings.expTimeMS},
-            {"frame_count", m_expSettings.frameCount},
-            {"vflip", m_config->vflip},
-            {"hflip", m_config->hflip},
-            {"auto_tile", m_config->autoTile},
-            {"width", m_width},
-            {"height", m_height},
-            {"rows", m_config->rows},
-            {"cols", m_config->cols},
-            {"xy_pixel_size", m_config->xyPixelSize},
-            {"stage_positions", stagePos}
+            { "instrument_name", "Nautilus" },
+            { "software_version", m_config->version },
+            { "recording_date", m_startAcquisitionTS },
+            { "led_intensity", m_config->ledIntensity },
+            { "output_dir_path", m_expSettings.acquisitionDir.string() },
+            { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
+            { "auto_contrast_brightness", !m_config->noAutoConBright },
+            { "fps", m_config->fps },
+            { "duration", m_config->duration },
+            { "num_frames", m_expSettings.frameCount },
+            { "scale_factor", m_config->rgn.sbin }, //TODO not sure if this is right?
+            { "bit_depth", m_camInfo.spdTable[m_config->spdtable].bitDepth },
+            { "vflip", m_config->vflip },
+            { "hflip", m_config->hflip },
+            { "auto_tile", m_config->autoTile },
+            { "width", m_width },
+            { "height", m_height },
+            { "num_horizontal_pixels", m_config->cols * m_width },
+            { "num_vertical_pixels", m_config->rows * m_height },
+            { "rows", m_config->rows },
+            { "cols", m_config->cols },
+            { "xy_pixel_size", m_config->xyPixelSize }
         };
 
-        outfile << std::setw(1000) << settings << std::endl;
+        outfile << std::setw(100) << settings << std::endl;
+
+        //output platemap format
+        if (m_config->plateFormat != "") {
+            auto platemapFormat = toml::parse(m_config->plateFormat);
+            outfile << std::setw(100) << platemapFormat << std::endl;
+        }
+
         outfile.close();
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
@@ -859,8 +906,6 @@ void MainWindow::postProcess() {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<VideoEncoder> venc = nullptr;
-
-            std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
             std::shared_ptr<RawFile> raw = std::make_shared<RawFile>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
 
@@ -909,6 +954,7 @@ void MainWindow::postProcess() {
  * @param saveToDisk Flag to enable/disable streaming to disk.
  */
 void MainWindow::acquisitionThread(MainWindow* cls) {
+    bool needPostProcess = false;
     do {
         if (cls->m_liveScanRunning) {
             cls->acquire(false);
@@ -917,6 +963,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         if (cls->m_acquisitionRunning) {
             int pos = 1;
             spdlog::info("Starting acquistions");
+            needPostProcess = true;
 
             if (cls->m_stageControl->GetPositions().empty()) {
                 spdlog::info("No stage positions set, adding current position");
@@ -963,7 +1010,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             cls->m_acquisitionRunning = false;
         }
         spdlog::info("Acquisition done, sending signal");
-        emit cls->sig_acquisition_done();
+        emit cls->sig_acquisition_done(needPostProcess);
 
     } while (cls->m_liveScanRunning);
 

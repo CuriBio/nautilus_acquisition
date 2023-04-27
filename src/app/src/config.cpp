@@ -20,6 +20,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     noAutoConBright = !toml::find_or<bool>(config, "nautilus", "auto_contrast_brightness", true);
     if (userargs.count("no_autocb")) { noAutoConBright = true; }
 
+    plateFormat = toml::find_or<std::string>(config, "nautilus", "plate_format", std::string(""));
+    if (userargs.count("plateFormat")) { prefix = userargs["plate_format"].as<std::string>(); }
+
+    extAnalysis = toml::find_or<std::string>(config, "nautilus", "ext_analysis", std::string(""));
+    if (userargs.count("ext_analysis")) { prefix = userargs["ext_analysis"].as<std::string>(); }
+
     xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
 
 
@@ -205,6 +211,8 @@ void Config::Dump() {
     spdlog::info("nautilus.outdir: {}", path.string());
     spdlog::info("nautilus.prefix: {}", prefix);
     spdlog::info("nautilus.auto_contrast_brightness: {}", !noAutoConBright);
+    spdlog::info("nautilus.plate_format {}", plateFormat.string());
+    spdlog::info("nautilus.ext_analysis {}", extAnalysis.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
 
     //acquisition options

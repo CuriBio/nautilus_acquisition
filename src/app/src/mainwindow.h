@@ -39,6 +39,8 @@
 #include <QProgressDialog>
 #include <QComboBox>
 #include <QStringList>
+#include <QProcess>
+#include <QProgressDialog>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -100,11 +102,11 @@ class MainWindow : public QMainWindow {
         void sig_progress_update(size_t n);
         void sig_progress_text(std::string msg);
         void sig_progress_done();
-        void sig_acquisition_done();
+        void sig_acquisition_done(bool runPostProcess);
         void sig_livescan_stopped();
 
     public slots:
-        void acquisition_done();
+        void acquisition_done(bool runPostProcess);
         void settings_changed(std::filesystem::path path, std::string prefix);
         void stagelist_updated(size_t count);
 
@@ -143,6 +145,7 @@ class MainWindow : public QMainWindow {
         QThread* m_acqusitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
         QProgressDialog* m_acquisitionProgress {nullptr};
+        QProcess m_extAnalysis;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;
@@ -192,6 +195,9 @@ class MainWindow : public QMainWindow {
 
         std::future<void> m_niSetup = {};
         std::future<bool> m_stageCalibrate = {};
+
+        QLabel* m_waitingLabel;
+        QMovie* m_waitingMov;
 
     private:
         void StartAcquisition(bool saveToDisk);
