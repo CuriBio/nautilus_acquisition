@@ -31,6 +31,7 @@ class Config {
         uint32_t bufferCount;
         uint32_t frameCount;
         double expTimeMs;
+        std::vector<uint8_t> tileMap;
 
         //acquistion.region options
         Region rgn;

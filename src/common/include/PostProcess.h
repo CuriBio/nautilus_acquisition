@@ -41,6 +41,7 @@ namespace PostProcess {
         uint16_t frames,
         uint32_t rows,
         uint32_t cols,
+        std::vector<uint8_t>& tileMap,
         uint32_t width,
         uint32_t height,
         bool vflip,
@@ -68,7 +69,7 @@ namespace PostProcess {
             //read each image, 1-based index for file names
             for(uint32_t row = 0; row < rows; row++) {
                 for(uint32_t col = 0; col < cols; col++) {
-                    std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, (col+1) + row * (rows + 1), fr);
+                    std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileMap[col+row*cols]+1, fr);
                     size_t idx = blockStart(cols, row, col, width, height);
                     p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
                 }

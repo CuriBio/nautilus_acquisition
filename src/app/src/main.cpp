@@ -82,6 +82,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<spdlog::sink_ptr> sinks{stderr_sink, file_sink};
     auto logger = std::make_shared<spdlog::logger>("nautilus", std::begin(sinks), std::end(sinks));
+    spdlog::flush_every(std::chrono::seconds(10));
     spdlog::set_default_logger(logger);
 
     spdlog::info("Nautilus Version: {}", version);

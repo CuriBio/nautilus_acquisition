@@ -65,6 +65,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     encodeVideo = toml::find_or<bool>(config, "acquisition", "encode_video", true);
     rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
     cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
+    tileMap = toml::find_or<std::vector<uint8_t>>(config, "acquisition", "tile_map", std::vector<uint8_t>{0,1,2,5,4,3});
 
     bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
     if (userargs.count("buffers")) { bufferCount = userargs["buffers"].as<uint32_t>(); }
@@ -222,6 +223,7 @@ void Config::Dump() {
     spdlog::info("acquisition.buffers: {}", bufferCount);
     spdlog::info("acquisition.frameCount: {}", frameCount);
     spdlog::info("acquisition.expTimeMs: {}", expTimeMs);
+    spdlog::info("acquisition.tile_map: [{}]", fmt::join(tileMap, ", "));
 
     spdlog::info("acquisition.storage_type: {} ({})", storageType, storageTypeName);
     spdlog::info("acquisition.auto_tile: {}", autoTile);

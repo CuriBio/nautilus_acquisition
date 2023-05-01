@@ -82,6 +82,8 @@ int main(int argc, char* argv[]) {
     bool hflip = userargs["hflip"].as<bool>();
     bool autocb = userargs["autocb"].as<bool>();
 
+    std::vector<uint8_t> timeMap = {0,1,2,5,4,3};
+
 
     std::shared_ptr<VideoEncoder> w = std::make_shared<VideoEncoder>((outdir / "default.avi"), codec, fps, static_cast<size_t>(cols*width), static_cast<size_t>(rows*height));
     w->Initialize();
@@ -94,6 +96,7 @@ int main(int argc, char* argv[]) {
                     frames,
                     rows,
                     cols,
+                    tileMap,
                     width,
                     height,
                     vflip,
