@@ -1,6 +1,6 @@
 Changelog for Nautilus
 ======================
-0.1.25 (2023-05-01)
+0.1.25 (2023-05-04)
 -------------------
 
 Added:
@@ -8,6 +8,7 @@ Added:
 - Tile map config value
 - Auto flush logger every 10 seconds
 - Signals for starting/stopping external analysis
+- Set stage units to um
 
 Fixed:
 ^^^^^^

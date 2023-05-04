@@ -12,9 +12,12 @@ TangoStage::TangoStage(std::string comPort) {
     if (m_tango->ConnectSimple(1, m_comPort.data(), 57600, TRUE) != 0) {
         spdlog::info("TangoStage::ConnectSimple error: {}", GetError());
     } else {
-        //get current position
         double x,y;
-        if (GetCurrentPos(x, y)) {
+
+        //set all axis units to um
+        if (m_tango->SetDimensions(1,1,1,1) != 0) {
+            spdlog::info("TangoStage SetDimensions error: {}", GetError());
+        } else if (GetCurrentPos(x, y)) {
             m_x = x; m_y = y;
             m_open = true;
         }
