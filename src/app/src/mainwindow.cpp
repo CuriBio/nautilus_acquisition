@@ -400,7 +400,14 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         m_config->fps = value;
         m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
         m_expSettings.frameCount = m_config->duration * m_config->fps;
+
         spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    }
+
+    if (m_liveScanRunning) {
+        m_liveViewTimer->stop();
+        double minFps = std::min<double>(m_config->fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
     }
 
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
@@ -431,6 +438,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     m_config->duration = value;
     m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
     m_expSettings.frameCount = m_config->duration * m_config->fps;
+
     spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
 
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
@@ -551,6 +559,7 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
 
                     m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
                     m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
+                    m_camera->UpdateExp(m_expSettings);
                     spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
 
                     if (!m_acqusitionThread) {
@@ -581,6 +590,13 @@ void MainWindow::StartAcquisition(bool saveToDisk) {
             default:
                 spdlog::error("Error: Invalid state");
                 break;
+        }
+
+        //disable controls when capture is running, ignore for livescan only
+        if (saveToDisk) {
+            ui.frameRateEdit->setEnabled(false);
+            ui.durationEdit->setEnabled(false);
+            ui.ledIntensityEdit->setEnabled(false);
         }
     }
 }
@@ -632,6 +648,11 @@ void MainWindow::StopAcquisition() {
             spdlog::error("Error: Invalid state");
             break;
     }
+
+    //enable controls when capture is finished
+    ui.frameRateEdit->setEnabled(true);
+    ui.durationEdit->setEnabled(true);
+    ui.ledIntensityEdit->setEnabled(true);
 }
 
 
@@ -715,16 +736,22 @@ void MainWindow::acquisition_done(bool runPostProcess) {
             spdlog::info("calling postProcess");
             postProcess();
 
-            //finish progress bar
-            spdlog::info("sig_progress_done");
-            emit sig_progress_done();
             m_userCanceled = false;
+            emit sig_progress_done();
 
-            emit sig_start_analysis();
+            uint16_t rowsxcols = m_config->rows * m_config->cols;
+            if (m_config->autoTile && rowsxcols == m_stageControl->GetPositions().size() && rowsxcols == m_config->tileMap.size()) {
+                emit sig_start_analysis();
+            }
         });
 
         postProcessThread.detach();
     }
+
+    ui.startAcquisitionBtn->setText("Start Acquisition");
+    ui.frameRateEdit->setEnabled(true);
+    ui.durationEdit->setEnabled(true);
+    ui.ledIntensityEdit->setEnabled(true);
 
 }
 
@@ -742,6 +769,7 @@ void MainWindow::settings_changed(std::filesystem::path path, std::string prefix
     m_expSettings.workingDir = m_config->path;
     m_expSettings.acquisitionDir = m_config->path;
     m_expSettings.filePrefix = m_config->prefix;
+    m_camera->UpdateExp(m_expSettings);
 }
 
 /*
@@ -903,7 +931,8 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        if (m_config->autoTile && rowsxcols != stagePos.size() && rowsxcols != m_config->tileMap.size()) {
+        spdlog::info("autoTile: {}, rowsxcols != stagePos.size: {}, rowsxcols != tileMap.size()", m_config->autoTile, rowsxcols != stagePos.size(), rowsxcols != m_config->tileMap.size());
+        if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             return;
         } else if (m_expSettings.storageType != 0) { //single tiff file storage
@@ -950,7 +979,6 @@ void MainWindow::postProcess() {
                 venc->close();
             } 
             raw->Close();
-            emit sig_progress_done();
         }
     }
 }
