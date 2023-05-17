@@ -7,6 +7,8 @@ Added:
 ^^^^^^
 - Delete files when autotiling
 - Update plate format files
+- Use thread pool for writing files in parallel
+- Increase frame pool size to 90% max memory
 
 Fixed:
 ^^^^^^

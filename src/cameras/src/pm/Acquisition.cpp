@@ -44,6 +44,7 @@
 #include <pm/ColorConfig.h>
 #include <PMemCopy.h>
 #include <TiffFile.h>
+#include <ThreadPool.h>
 
 #ifdef _WIN64
 #include <windows.h>
@@ -139,6 +140,8 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     size_t startFrame = 0;
 
     F* frame{nullptr};
+
+    ThreadPool writerPool(20);
 
     std::string fileName = m_camera->ctx->curExp->filePrefix;
     std::filesystem::path filePath = m_camera->ctx->curExp->acquisitionDir;
@@ -238,7 +241,13 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                             }
                             break;
                     }
-                    file->WriteFrame<F>(frame);
+
+
+                    writerPool.AddTask([this, &file, frame] {
+                        file->WriteFrame<F>(frame);
+                        m_unusedFramePool->Release(frame);
+                    });
+
                     if (m_progress) { m_progress(1); }
                     frameIndex++;
                 }
@@ -267,13 +276,15 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                 break;
         }
 
-        m_unusedFramePool->Release(frame);
+        //m_unusedFramePool->Release(frame);
         frame = nullptr;
     } while (m_state == AcquisitionState::AcqLiveScan || (!m_diskThreadAbortFlag && (frameIndex < m_camera->ctx->curExp->frameCount)));
 
     spdlog::info("Acquisition finished. flag: {}, frameIndex: {}, frameCount: {}", m_diskThreadAbortFlag, frameIndex, m_camera->ctx->curExp->frameCount);
     m_camera->StopExp();
     m_lastFrameInProcessing = 0;
+
+    writerPool.WaitForAll();
 
     if (file) {
         file->Close();
@@ -300,7 +311,7 @@ pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_ca
     uint64_t framesMax = (0xFFFFFFFF - 1) / frameBytes;
 #endif
     //TODO parameterize min value
-    framesMax = std::min<uint64_t>(1000, framesMax); //Use 1000 frames max for now so startup isn't so slow
+    //framesMax = std::min<uint64_t>(1000, framesMax); //Use 1000 frames max for now so startup isn't so slow
     //const uint64_t recommendedFrameCount = std::min<uint64_t>(10 + std::min<uint64_t>(frameCount, framesMax), bufferCount);
 
     spdlog::info("Initializing frame pool with {} objects of size {}", framesMax, frameBytes);
