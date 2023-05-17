@@ -65,16 +65,24 @@ namespace PostProcess {
         for (auto fr = 0; fr < frames; fr++) {
             //reset each frame
             memset((void*)frameData, 0, sizeof(uint16_t) * rows * cols * width * height);
+            std::vector<std::string> pendingDelete = {};
 
             //read each image, 1-based index for file names
             for(uint32_t row = 0; row < rows; row++) {
                 for(uint32_t col = 0; col < cols; col++) {
                     std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileMap[col+row*cols]+1, fr);
+                    pendingDelete.push_back((indir / f).string());
+
                     size_t idx = blockStart(cols, row, col, width, height);
                     p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
                 }
             }
             p.WaitForAll();
+
+            // delete files in thread after copy task is finished
+            std::thread deleteFilesT([&pendingDelete]() {
+                for (auto &f : pendingDelete) { std::remove(f.c_str()); }
+            });
 
             if (autoConBright && v) {
                 uint32_t min{0}, max{0}, hmax{0};
@@ -115,6 +123,9 @@ namespace PostProcess {
 
             r->Write(frameData, fr);
             progressCB(fr);
+
+            //wait for delete to finish
+            deleteFilesT.join();
         }
     }
 };

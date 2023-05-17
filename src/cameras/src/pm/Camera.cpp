@@ -507,11 +507,7 @@ bool pm::Camera<F>::UpdateExp(const ExpSettings& settings) {
         return false;
     }
 
-    if (!updateExp(settings)) {
-        return false;
-    }
-
-    return true;
+    return updateExp(settings);
 }
 
 
@@ -722,8 +718,10 @@ bool pm::Camera<F>::setExp() {
         spdlog::error("No camera");
         return false;
     }
+
+    //return if already imaging
     if (ctx->imaging) {
-        spdlog::warn("Camera is already capturing");
+        spdlog::error("Camera::setExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
 
@@ -760,18 +758,12 @@ bool pm::Camera<F>::setExp() {
 }
 
 
-
 template<FrameConcept F>
 bool pm::Camera<F>::updateExp(const ExpSettings& settings) {
     if (!ctx) {
         spdlog::error("No camera");
         return false;
     }
-    if (ctx->imaging) {
-        spdlog::warn("Camera is already capturing");
-        return false;
-    }
-
 
     //copy capture settings
     ctx->curExp.reset(new ExpSettings{

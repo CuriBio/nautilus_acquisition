@@ -1,5 +1,19 @@
 Changelog for Nautilus
 ======================
+0.1.26 (2023-05-17)
+-------------------
+
+Added:
+^^^^^^
+- Delete files when autotiling
+- Update plate format files
+
+Fixed:
+^^^^^^
+- Crash when stage positions is less than rows*cols
+- Update camera->curExp when fps is changed
+
+
 0.1.25 (2023-05-04)
 -------------------
 

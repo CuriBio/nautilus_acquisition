@@ -126,7 +126,7 @@ void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame,
         //TODO keep frame stats for lost frames
         // Log all the frame numbers we missed
         for (uint32_t nr = lastFrame + 1; nr < frameN; nr++) {
-            spdlog::info("({}) Current Frame ({}), Lost frame # {}", i, frameN, nr);
+            spdlog::warn("({}) Current Frame ({}), Lost frame # {}", i, frameN, nr);
         }
     }
     lastFrame = frameN;
@@ -159,7 +159,9 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     if (m_fakeData) {
         spdlog::warn("Using test image data from {}", m_testImgPath);
     }
+
     m_running = true;
+    m_lastFrameInProcessing = 0;
 
     do {
         {
@@ -185,8 +187,9 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
         const uint32_t frameNr = frame->GetInfo()->frameNr;
         if (m_lastFrameInProcessing == 0) {
+            spdlog::info("Syncing frame number {}, {}", m_lastFrameInProcessing, frameNr);
             m_lastFrameInProcessing = frameNr;
-        } else if (frameNr <= m_lastFrameInProcessing) {
+        } else if (frameNr <= m_lastFrameInProcessing) { //sync frame number
             //TODO log stats on dropped frame
             spdlog::error("Frame number out of order: {}, last frame number was {}, ignoring", frameNr, m_lastFrameInProcessing);
 
@@ -270,6 +273,7 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
     spdlog::info("Acquisition finished. flag: {}, frameIndex: {}, frameCount: {}", m_diskThreadAbortFlag, frameIndex, m_camera->ctx->curExp->frameCount);
     m_camera->StopExp();
+    m_lastFrameInProcessing = 0;
 
     if (file) {
         file->Close();
@@ -370,8 +374,8 @@ void pm::Acquisition<F, C>::WaitForStop() {
 
     m_capturedFrames = 0;
     m_state = AcquisitionState::AcqStopped;
-    m_lastFrameInProcessing = 0;
-    m_lastFrameInCallback = 0;
+    m_lastFrameInProcessing = m_lastFrameInCallback;
+    //m_lastFrameInCallback = 0;
     m_diskThreadAbortFlag = false;
 
     return;
