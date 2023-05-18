@@ -204,7 +204,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     testImgPath = "";
     if (userargs.count("test_img")) { testImgPath = userargs["test_img"].as<std::string>(); }
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
-    asyncInit = toml::find_or<bool>(config, "debug", "async_init", false);
+    asyncInit = toml::find_or<bool>(config, "debug", "async_init", true);
 }
 
 void Config::Dump() {

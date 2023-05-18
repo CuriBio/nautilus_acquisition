@@ -105,6 +105,7 @@ class MainWindow : public QMainWindow {
         void sig_acquisition_done(bool runPostProcess);
         void sig_livescan_stopped();
         void sig_start_analysis();
+        void sig_enable_controls(bool enable);
 
     public slots:
         void acquisition_done(bool runPostProcess);
@@ -201,6 +202,8 @@ class MainWindow : public QMainWindow {
         QMovie* m_waitingMov;
 
     private:
+        void EnableAll(bool enable);
+
         void StartAcquisition(bool saveToDisk);
         void StopAcquisition();
 

@@ -81,6 +81,7 @@ namespace pm {
                 std::mutex m_cbLock;
                 /* std::thread* m_writerThread{ nullptr }; */
 
+                uint64_t m_framesMax{0};
                 std::unique_ptr<FramePool<F>> m_unusedFramePool{nullptr};
 
                 uint32_t m_lastFrameInCallback{0};

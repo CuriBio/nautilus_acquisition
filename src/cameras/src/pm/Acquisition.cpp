@@ -266,6 +266,8 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                         std::unique_lock<std::mutex> lock(m_lock);
                         m_latestFrame = frame;
                     }
+                    //live view only, release frame
+                    m_unusedFramePool->Release(frame);
                 }
                 break;
             case AcquisitionState::AcqStopped:
@@ -300,26 +302,26 @@ pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_ca
     m_parTask = std::make_shared<ParTask>(8);
 
     //TODO preallocate unused frame pool size based on acquisition size
-    const uint64_t bufferCount = camera->ctx->curExp->bufferCount;
-    const uint64_t frameCount = camera->ctx->curExp->frameCount;
-    const uint32_t frameBytes = camera->ctx->frameBytes;
+    const uint64_t bufferCount = m_camera->ctx->curExp->bufferCount;
+    const uint64_t frameCount = m_camera->ctx->curExp->frameCount;
+    const uint32_t frameBytes = m_camera->ctx->frameBytes;
 
 #ifdef _WIN64
     spdlog::info("Total system memory: {}", getTotalSystemMemory());
-    uint64_t framesMax = uint64_t((0.9 * getTotalSystemMemory())  / uint64_t(frameBytes));
+    m_framesMax = uint64_t((0.9 * getTotalSystemMemory())  / uint64_t(frameBytes));
 #else
-    uint64_t framesMax = (0xFFFFFFFF - 1) / frameBytes;
+    m_framesMax = (0xFFFFFFFF - 1) / frameBytes;
 #endif
     //TODO parameterize min value
-    //framesMax = std::min<uint64_t>(1000, framesMax); //Use 1000 frames max for now so startup isn't so slow
+    m_framesMax = std::min<uint64_t>(std::max<uint64_t>(500, frameCount), m_framesMax);
     //const uint64_t recommendedFrameCount = std::min<uint64_t>(10 + std::min<uint64_t>(frameCount, framesMax), bufferCount);
 
-    spdlog::info("Initializing frame pool with {} objects of size {}", framesMax, frameBytes);
-    m_unusedFramePool = std::make_unique<FramePool<F>>(framesMax, frameBytes, true, m_parTask);
+    spdlog::info("Initializing frame pool with {} objects of size {}", m_framesMax, frameBytes);
+    m_unusedFramePool = std::make_unique<FramePool<F>>(m_framesMax, frameBytes, true, m_parTask);
 
-    spdlog::info("Get speed table {}", camera->ctx->curExp->spdTableIdx);
-    uint16_t spdTblIdx = camera->ctx->curExp->spdTableIdx;
-    m_spdTable = camera->ctx->info.spdTable[spdTblIdx];
+    spdlog::info("Get speed table {}", m_camera->ctx->curExp->spdTableIdx);
+    uint16_t spdTblIdx = m_camera->ctx->curExp->spdTableIdx;
+    m_spdTable = m_camera->ctx->info.spdTable[spdTblIdx];
 
     m_latestFrame = new Frame(frameBytes, true, m_parTask);
 }
@@ -337,8 +339,12 @@ bool pm::Acquisition<F, C>::Start(bool saveToDisk, std::function<void(size_t)> p
     std::unique_lock<std::mutex> lock(m_lock);
     m_progress = progressCB;
 
+    //adjust frame pool size
+    m_unusedFramePool->EnsurePoolSize(std::min<uint64_t>(m_framesMax, m_camera->ctx->curExp->frameCount));
+
     if (!m_running) {
         m_state = (saveToDisk) ? AcquisitionState::AcqCapture : AcquisitionState::AcqLiveScan;
+
 
         if (!m_frameWriterThread) {
             spdlog::info("Starting frame writer thread: frameCount {}", m_camera->ctx->curExp->frameCount);

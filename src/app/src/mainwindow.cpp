@@ -83,28 +83,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_settings = new Settings(this, m_config->path, m_config->prefix);
     m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
 
-    //Setup NIDAQmx controller for LED
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
-
-    //Async calibrate stage
-    if (m_config->asyncInit) {
-        m_stageCalibrate = std::async(std::launch::async, [&] {
-            return m_stageControl->Calibrate();
-        });
-
-        m_niSetup = std::async(std::launch::async, [&] {
-            setupNIDev(m_config->niDev);
-            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
-        });
-    } else {
-        //calibrate stage
-        m_stageControl->Calibrate();
-
-        //setup NI device
-        setupNIDev(m_config->niDev);
-        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+    //check if stage connected and show error
+    if (!m_stageControl->Connected()) {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Stage not be found, please plug in all devices and restart application");
+        messageBox.setFixedSize(500,200);
+        if (!m_config->ignoreErrors) { exit(1); }
     }
 
+    //Setup NIDAQmx controller for LED
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
 
     //Get all plate format file names
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
@@ -198,8 +186,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
     });
 
+    //live view timer signals
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
+
+    //initialization signals
+    connect(this, &MainWindow::sig_enable_controls, this, &MainWindow::EnableAll);
 
     //initialize histogram buffer
     m_hist = new uint32_t[(1<<16) - 1];
@@ -220,12 +212,27 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
  * Initializes main window and camera/acquisition objects.
  */
 void MainWindow::Initialize() {
-    //check if stage connected and show error
-    if (!m_stageControl->Connected()) {
-        QMessageBox messageBox;
-        messageBox.critical(0,"Error","Stage not be found, please plug in all devices and restart application");
-        messageBox.setFixedSize(500,200);
-        if (!m_config->ignoreErrors) { exit(1); }
+    //disable all controls while initializing
+
+    EnableAll(false);
+
+    //Async calibrate stage
+    if (m_config->asyncInit) {
+        m_stageCalibrate = std::async(std::launch::async, [&] {
+            return m_stageControl->Calibrate();
+        });
+
+        m_niSetup = std::async(std::launch::async, [&] {
+            setupNIDev(m_config->niDev);
+            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+        });
+    } else {
+        //calibrate stage
+        m_stageControl->Calibrate();
+
+        //setup NI device
+        setupNIDev(m_config->niDev);
+        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
     }
 
     spdlog::info("Initialize camera");
@@ -279,7 +286,6 @@ void MainWindow::Initialize() {
     ui.plateFormatDropDown->addItems(vectorToQStringList(m_plateFormats));
     ui.plateFormatDropDown->setCurrentIndex(-1);
 
-
     //Wait for stage calibration
     if (m_config->asyncInit) {
         m_stageCalibrate.wait();
@@ -292,6 +298,34 @@ void MainWindow::Initialize() {
     if (m_config->asyncInit) {
         m_niSetup.wait();
     }
+
+    //enable ui
+    emit sig_enable_controls(true);
+}
+
+void MainWindow::EnableAll(bool enable) {
+    //set cursor if waiting for ui init
+    if (!enable) {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    } else {
+        QApplication::restoreOverrideCursor();
+    }
+
+    //probably should be moved, but when the QComboBox is enabled after being disabled
+    //it resets the index to 0, which is not what we want on startup
+    ui.plateFormatDropDown->setEnabled(enable);
+    if (enable) {
+        ui.plateFormatDropDown->setCurrentIndex(-1);
+    }
+
+    ui.durationEdit->setEnabled(enable);
+    ui.frameRateEdit->setEnabled(enable);
+    ui.ledIntensityEdit->setEnabled(enable);
+    ui.startAcquisitionBtn->setEnabled(enable);
+    ui.liveScanBtn->setEnabled(enable);
+    ui.stageNavigationBtn->setEnabled(enable);
+    ui.advancedSetupBtn->setEnabled(enable);
+    ui.settingsBtn->setEnabled(enable);
 }
 
 
@@ -931,7 +965,6 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        spdlog::info("autoTile: {}, rowsxcols != stagePos.size: {}, rowsxcols != tileMap.size()", m_config->autoTile, rowsxcols != stagePos.size(), rowsxcols != m_config->tileMap.size());
         if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             return;
@@ -1047,6 +1080,8 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         }
         spdlog::info("Acquisition done, sending signal");
         emit cls->sig_acquisition_done(needPostProcess);
+        //need this so stopping liveview doesn't trigger post processing if liveview was active during capture
+        needPostProcess = false;
 
     } while (cls->m_liveScanRunning);
 

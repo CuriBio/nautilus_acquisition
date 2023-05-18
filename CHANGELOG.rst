@@ -1,6 +1,6 @@
 Changelog for Nautilus
 ======================
-0.1.26 (2023-05-17)
+0.1.26 (2023-05-18)
 -------------------
 
 Added:
@@ -8,7 +8,12 @@ Added:
 - Delete files when autotiling
 - Update plate format files
 - Use thread pool for writing files in parallel
-- Increase frame pool size to 90% max memory
+- Allow frame pool size to 90% max memory, defaults to frameCount
+- ensure pool size of frameCount at acquisition start
+- enable async init by default
+- set busy wait cursor during initialize
+- move all init code to thread and disable ui until init is finished,
+  prevents ui from blocking
 
 Fixed:
 ^^^^^^
