@@ -125,11 +125,13 @@ class FramePool {
          *
          * @param size Minimum size of frame pool.
          */
-        void EnsurePoolSize(uint16_t size) {
+        void EnsurePoolSize(uint64_t size) {
             std::lock_guard<std::mutex> lock(m_poolLock);
 
+            if (m_pool.size() < size) {
+                spdlog::info("EnsurePoolSize: pool size: {}, requested: {}", m_pool.size(), size);
+            }
             while (m_pool.size() < size) {
-                spdlog::info("Pool low, allocating");
                 m_pool.push(new F(m_frameBytes, m_deepCopy, m_pTask));
                 total_objs++;
             }

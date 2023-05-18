@@ -27,10 +27,11 @@
  *
  * @brief Main entrypoint into the nautilus application.
  *********************************************************************/
+#include <deque>
 #include <filesystem>
 #include <iostream>
-#include <deque>
 #include <stdlib.h>
+#include <thread>
 
 #include <cxxopts.hpp>
 #include <fmt/chrono.h>
@@ -150,7 +151,13 @@ int main(int argc, char* argv[]) {
 
         win.resize(800, 640);
         win.setVisible(true);
-        win.Initialize();
+
+        if (config->asyncInit) {
+            std::thread t([&] { win.Initialize(); });
+            t.detach();
+        } else {
+            win.Initialize();
+        }
 
         return app.exec();
     } else {
