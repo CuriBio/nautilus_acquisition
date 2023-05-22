@@ -54,8 +54,9 @@ enum class AcqMode : int32_t {
 */
 enum StorageType {
     Tiff = 0,
-    TiffStack,
     BigTiff,
+    Raw,
+    TiffStack,
     Prd
 };
 

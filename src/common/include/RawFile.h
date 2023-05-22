@@ -15,8 +15,9 @@
 #include <strsafe.h>
 #endif
 
-#define PWRITES 6
+//#define PWRITES 6
 
+template<uint16_t PWRITES>
 class RawFile {
     private:
 #ifndef _WIN32
@@ -36,7 +37,6 @@ class RawFile {
 
     public:
         RawFile(std::filesystem::path file, uint8_t bitDepth, uint16_t width, uint16_t height, uint32_t count) {
-            spdlog::info("Opening raw file: {}", file.string());
             m_width = width;
             m_height = height;
             m_bitDepth = bitDepth;

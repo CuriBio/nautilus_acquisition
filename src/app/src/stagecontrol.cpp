@@ -139,10 +139,19 @@ void StageControl::saveList(std::string fileName, bool fileExists) {
     for (auto& v : m_positions) {
         vs.push_back(toml::value{ {"x", v->x}, {"y", v->y} });
     }
-    file["stage"] = toml::value{{"location", vs}};
+    file["stage"] = toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"location", vs}};
 
     std::ofstream outf(fileName);
-    outf << std::setw(20) << file << std::endl;
+
+    if (file.contains("debug")) {
+        outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"debug", file["debug"].as_table()}};
+    }
+
+    outf << std::setw(200) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"nautilus", file["nautilus"].as_table()}};
+    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"device", file["device"].as_table()}};
+    outf << std::setw(40) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"acquisition", file["acquisition"].as_table()}};
+    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"stage", file["stage"].as_table()}};
+
     outf.close();
 }
 
