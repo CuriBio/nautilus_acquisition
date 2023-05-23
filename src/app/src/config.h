@@ -16,6 +16,7 @@ class Config {
         std::filesystem::path path;
         std::filesystem::path plateFormat;
         std::filesystem::path extAnalysis;
+        std::filesystem::path ffmpegDir;
         double xyPixelSize;
 
         //acquistion options

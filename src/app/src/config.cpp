@@ -6,7 +6,12 @@
 #include <pm/Camera.h>
 
 Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
-    auto config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
+    toml::value config;
+    try {
+        config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
+    } catch(const std::exception& e) {
+        spdlog::error("Caught exception \"{}\"", e.what());
+    }
     configFile = cfg.string();
 
 
@@ -26,6 +31,9 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     extAnalysis = toml::find_or<std::string>(config, "nautilus", "ext_analysis", std::string(""));
     if (userargs.count("ext_analysis")) { prefix = userargs["ext_analysis"].as<std::string>(); }
 
+    ffmpegDir = toml::find_or<std::string>(config, "nautilus", "ffmpeg_dir", std::string(""));
+    if (userargs.count("ffmpeg_dir")) { prefix = userargs["ffmpeg_dir"].as<std::string>(); }
+
     xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
 
 
@@ -33,14 +41,18 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
     if (userargs.count("fps")) { fps = userargs["fps"].as<double>(); }
 
+
     duration = toml::find_or<double>(config, "acquisition", "duration", 1.0);
     if (userargs.count("duration")) { duration = userargs["duration"].as<double>(); }
+
 
     ledIntensity = toml::find_or<double>(config, "acquisition", "led_intensity", 50.0);
     if (userargs.count("led")) { ledIntensity = userargs["led"].as<double>(); }
 
+
     int storage_type = toml::find_or<int>(config, "acquisition", "storage_type", 0);
     if (userargs.count("storage_type")) { storage_type = userargs["storage_type"].as<int>(); }
+
 
     switch (storage_type) {
         case 0:
@@ -48,13 +60,13 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
             storageTypeName = "tiff";
             break;
         case 1:
-            storageType = StorageType::TiffStack;
-            storageTypeName = "tiff stack";
-            break;
-        case 2:
-            spdlog::info("Storage type: {}", "big tiff");
             storageType = StorageType::BigTiff;
             storageTypeName = "big tiff";
+            break;
+        case 2:
+            spdlog::info("Storage type: {}", "raw");
+            storageType = StorageType::Raw;
+            storageTypeName = "raw";
             break;
         default:
             spdlog::error("Invalid storage type");
@@ -66,8 +78,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
     cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
     tileMap = toml::find_or<std::vector<uint8_t>>(config, "acquisition", "tile_map", std::vector<uint8_t>{0,1,2,5,4,3});
-
     bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
+
     if (userargs.count("buffers")) { bufferCount = userargs["buffers"].as<uint32_t>(); }
 
     frameCount = static_cast<uint32_t>(duration * fps);
@@ -78,7 +90,6 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
     uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
     uint16_t sbin = toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1);
-
     uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
     uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
@@ -88,14 +99,13 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         .p1 = p1, .p2 = p2, .pbin = pbin
     };
 
-
     //acquisition.live_view
     vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
     hflip = toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false);
 
-
     //device.photometrics options
     triggerMode = toml::find_or<int16_t>(config, "device", "photometrics", "trigger_mode", 0);
+
     if (userargs.count("trigger_mode")) { triggerMode = userargs["trigger_mode"].as<int16_t>(); }
 
     switch (triggerMode) {
@@ -130,6 +140,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
 
     exposureMode = toml::find_or<int16_t>(config, "device", "photometrics", "exposure_mode", 5);
+
     if (userargs.count("exposure_mode")) { exposureMode = userargs["exposure_mode"].as<int16_t>(); }
 
     switch (exposureMode) {
@@ -192,6 +203,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         toml::find_or<int>(config, "device", "tango", "step_large", 25)
     };
 
+
     //stage.locations
     stageLocations = {};
     for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) {
@@ -204,6 +216,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     testImgPath = "";
     if (userargs.count("test_img")) { testImgPath = userargs["test_img"].as<std::string>(); }
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
+
     asyncInit = toml::find_or<bool>(config, "debug", "async_init", true);
 }
 
@@ -214,6 +227,7 @@ void Config::Dump() {
     spdlog::info("nautilus.auto_contrast_brightness: {}", !noAutoConBright);
     spdlog::info("nautilus.plate_format {}", plateFormat.string());
     spdlog::info("nautilus.ext_analysis {}", extAnalysis.string());
+    spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
 
     //acquisition options

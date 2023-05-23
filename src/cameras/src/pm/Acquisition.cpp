@@ -44,6 +44,7 @@
 #include <pm/ColorConfig.h>
 #include <PMemCopy.h>
 #include <TiffFile.h>
+#include <RawFile.h>
 #include <ThreadPool.h>
 
 #ifdef _WIN64
@@ -146,12 +147,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
     std::string fileName = m_camera->ctx->curExp->filePrefix;
     std::filesystem::path filePath = m_camera->ctx->curExp->acquisitionDir;
 
-    TiffFile* file = new TiffFile(
-        m_camera->ctx->curExp->region,
-        m_camera->ctx->info.imageFormat,
-        m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
-        (m_camera->ctx->curExp->storageType == StorageType::TiffStack) ? m_camera->ctx->curExp->frameCount : 1
-    );
 
     spdlog::info("Capture mode is enabled: {}", (m_state == AcquisitionState::AcqCapture) ? "true" : "false");
     if (!m_camera->StartExp((void*)&pm::Acquisition<F, C>::EofCallback, this)) {
@@ -184,7 +179,6 @@ void pm::Acquisition<F, C>::frameWriterThread() {
             }
 
             frame = m_frameWriterQueue.front();
-            assert(frame != nullptr && file != nullptr);
             m_frameWriterQueue.pop();
         } //release lock
 
@@ -224,29 +218,58 @@ void pm::Acquisition<F, C>::frameWriterThread() {
                     switch (m_camera->ctx->curExp->storageType) {
                         case StorageType::Tiff:
                         case StorageType::BigTiff: //TODO Actually handle this
-                        case StorageType::Prd: //TODO Actually handle this
                         {
-                            std::stringstream ss;
-                            ss << std::setfill('0') << std::setw(4) << frameIndex;
+                            std::string file = fmt::format("{}{:04}.tiff", fileName, frameIndex);
+                            std::string path = (filePath / file).string();
 
-                            if (file->IsOpen()) { file->Close(); }
-                            file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
+                            writerPool.AddTask([this, path, frame] {
+                                TiffFile file(
+                                    m_camera->ctx->curExp->region,
+                                    m_camera->ctx->info.imageFormat,
+                                    m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
+                                    (m_camera->ctx->curExp->storageType == StorageType::TiffStack) ? m_camera->ctx->curExp->frameCount : 1
+                                );
+
+                                file.Open(path);
+                                file.WriteFrame<F>(frame);
+                                m_unusedFramePool->Release(frame);
+                                file.Close();
+                            });
                         }
-                            break;
-                        case StorageType::TiffStack: //Defaults to using BigTiff
-                            if (frameIndex == 0) {
-                                std::stringstream ss;
-                                ss << std::setfill('0') << std::setw(4) << frameIndex;
-                                file->Open((filePath / (fileName + ss.str() + ".tiff")).string());
-                            }
-                            break;
+                        break;
+                        /* case StorageType::TiffStack: //Defaults to using BigTiff */
+                        /*     if (frameIndex == 0) { */
+                        /*         std::stringstream ss; */
+                        /*         ss << std::setfill('0') << std::setw(4) << frameIndex; */
+                        /*         file->Open((filePath / (fileName + ss.str() + ".tiff")).string()); */
+                        /*     } */
+                        /*     break; */
+                        case StorageType::Raw:
+                        {
+                            std::string file = fmt::format("{}{:04}.raw", fileName, frameIndex);
+                            std::filesystem::path rawpath = (filePath / file);
+
+                            writerPool.AddTask([this, rawpath, frame] {
+                                uint32_t width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin;
+                                uint32_t height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin;
+
+                                RawFile<8> raw(
+                                    rawpath,
+                                    16, //bitdepth
+                                    width,
+                                    height,
+                                    m_camera->ctx->curExp->frameCount
+                                );
+
+                                raw.Write(frame->GetData(), 0);
+                                m_unusedFramePool->Release(frame);
+                                raw.Close();
+                            });
+                        }
+                        break;
                     }
 
 
-                    writerPool.AddTask([this, &file, frame] {
-                        file->WriteFrame<F>(frame);
-                        m_unusedFramePool->Release(frame);
-                    });
 
                     if (m_progress) { m_progress(1); }
                     frameIndex++;
@@ -288,11 +311,11 @@ void pm::Acquisition<F, C>::frameWriterThread() {
 
     writerPool.WaitForAll();
 
-    if (file) {
-        file->Close();
-        delete file;
-        file = nullptr;
-    }
+    /* if (file) { */
+    /*     file->Close(); */
+    /*     delete file; */
+    /*     file = nullptr; */
+    /* } */
 }
 
 

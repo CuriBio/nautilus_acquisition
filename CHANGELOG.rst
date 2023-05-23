@@ -1,5 +1,15 @@
 Changelog for Nautilus
 ======================
+0.1.27 (2023-05-23)
+-------------------
+
+Added:
+^^^^^^
+- Call external ffmpeg bin for video encoding
+- StorageType::Raw option writes raw files with overlapped i/o
+- Autotile raw files
+
+
 0.1.26 (2023-05-18)
 -------------------
 

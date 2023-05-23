@@ -83,13 +83,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_settings = new Settings(this, m_config->path, m_config->prefix);
     m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
 
-    //check if stage connected and show error
-    if (!m_stageControl->Connected()) {
-        QMessageBox messageBox;
-        messageBox.critical(0,"Error","Stage not be found, please plug in all devices and restart application");
-        messageBox.setFixedSize(500,200);
-        if (!m_config->ignoreErrors) { exit(1); }
-    }
 
     //Setup NIDAQmx controller for LED
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
@@ -127,6 +120,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint);
     m_acquisitionProgress->cancel();
 
+    //show error popup
+    connect(this, &MainWindow::sig_show_error, this, [&](std::string msg) {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error", msg.c_str());
+        messageBox.setFixedSize(500,200);
+        if (!m_config->ignoreErrors) { exit(1); }
+    });
+
     connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
@@ -156,7 +157,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //stage control signals
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
 
-    //external process signals
+    /*
+     * Start external analysis
+     */
     connect(&m_extAnalysis, &QProcess::started, this, [this] {
         spdlog::info("Process started");
     });
@@ -184,6 +187,38 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
         m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
+    });
+
+    /*
+     *  Start video encoding
+     */
+    connect(this, &MainWindow::sig_start_encoding, this, [&] {
+        //run external video encoder command
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray8 -r {} -s:v {}:{} -i {} {}",
+                        m_config->ffmpegDir.string(),
+                        std::to_string(m_config->fps),
+                        std::to_string(m_width * m_config->cols),
+                        std::to_string(m_height * m_config->rows),
+                        fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),
+                        fmt::format("\"{}_stack_{}.mp4\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
+                      );
+
+        spdlog::info("Starting video encoding {}", encodingCmd);
+
+        m_extVidEncoder.setProcessChannelMode(QProcess::ForwardedChannels);
+        m_extVidEncoder.start(QString::fromStdString(encodingCmd));
+    });
+
+    connect(&m_extVidEncoder, &QProcess::started, this, [this] {
+        spdlog::info("Process started");
+    });
+
+    connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
+        spdlog::info("Video encoding finished");
+    });
+
+    connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
+        spdlog::error("Video encoding error: {}", err);
     });
 
     //live view timer signals
@@ -214,7 +249,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 void MainWindow::Initialize() {
     //disable all controls while initializing
 
-    EnableAll(false);
+    emit sig_enable_controls(false);
+    //
+    //check if stage connected and show error
+    if (!m_stageControl->Connected()) {
+        emit sig_show_error("Stage not found, please plug in all devices and restart applicatoin");
+    }
 
     //Async calibrate stage
     if (m_config->asyncInit) {
@@ -240,13 +280,8 @@ void MainWindow::Initialize() {
 
     spdlog::info("Opening camera 0");
     if (!m_camera->Open(0)) {
-        //TODO how should the user be notified?
         spdlog::error("Failed to open camera 0");
-
-        QMessageBox messageBox;
-        messageBox.critical(0,"Error","Camera could not be found, please plug in camera and restart application");
-        messageBox.setFixedSize(500,200);
-        if (!m_config->ignoreErrors) { exit(1); }
+        emit sig_show_error("Camera could not be found, please plug in camera and restart application");
     }
 
     m_camInfo = m_camera->GetInfo();
@@ -968,25 +1003,26 @@ void MainWindow::postProcess() {
         if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
             spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             return;
-        } else if (m_expSettings.storageType != 0) { //single tiff file storage
-            spdlog::warn("Auto tile enabled but storage type is not single image tiff files, skipping");
+            //TODO fix this to use enum values
+        } else if (m_expSettings.storageType != 0 && m_expSettings.storageType != 2) { //single tiff file storage, raw file
+            spdlog::warn("Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
             return;
         } else if (m_config->autoTile) {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
-            std::shared_ptr<VideoEncoder> venc = nullptr;
-            std::shared_ptr<RawFile> raw = std::make_shared<RawFile>(
+            //std::shared_ptr<VideoEncoder> venc = nullptr;
+            std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
 
-            if (m_config->encodeVideo) {
-                std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS));
-                std::filesystem::path vidOut = (m_expSettings.acquisitionDir / aviFile);
+            /* if (m_config->encodeVideo) { */
+            /*     std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS)); */
+            /*     std::filesystem::path vidOut = (m_expSettings.acquisitionDir / aviFile); */
 
-                venc = std::make_shared<VideoEncoder>(vidOut, "mpeg4", m_config->fps, m_config->cols*m_width, m_config->rows*m_height);
-                if (!venc->Initialize()) {
-                    spdlog::error("Failed to initialize video encoder");
-                }
-            }
+            /*     venc = std::make_shared<VideoEncoder>(vidOut, "mpeg4", m_config->fps, m_config->cols*m_width, m_config->rows*m_height); */
+            /*     if (!venc->Initialize()) { */
+            /*         spdlog::error("Failed to initialize video encoder"); */
+            /*     } */
+            /* } */
 
             emit sig_progress_text("Tiling images");
             emit sig_progress_update(1);
@@ -1005,11 +1041,13 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                venc
+                m_expSettings.storageType
+                //venc
             );
 
             if (m_config->encodeVideo) {
-                venc->close();
+                emit sig_start_encoding();
+                /* venc->close(); */
             } 
             raw->Close();
         }

@@ -105,7 +105,9 @@ class MainWindow : public QMainWindow {
         void sig_acquisition_done(bool runPostProcess);
         void sig_livescan_stopped();
         void sig_start_analysis();
+        void sig_start_encoding();
         void sig_enable_controls(bool enable);
+        void sig_show_error(std::string msg);
 
     public slots:
         void acquisition_done(bool runPostProcess);
@@ -148,6 +150,7 @@ class MainWindow : public QMainWindow {
         QTimer* m_liveViewTimer {nullptr};
         QProgressDialog* m_acquisitionProgress {nullptr};
         QProcess m_extAnalysis;
+        QProcess m_extVidEncoder;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;
