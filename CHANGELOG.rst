@@ -1,5 +1,17 @@
 Changelog for Nautilus
 ======================
+0.1.28 (2023-05-25)
+-------------------
+
+Added:
+^^^^^^
+- Changed ffmpeg options to gray16le pix fmt, output avi file
+
+Fixed:
+^^^^^^
+- Advanced settings dialog crash
+
+
 0.1.27 (2023-05-23)
 -------------------
 
