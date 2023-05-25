@@ -1057,11 +1057,12 @@ void MainWindow::postProcess() {
                 //venc
             );
 
+            raw->Close();
+
             if (m_config->encodeVideo) {
                 emit sig_start_encoding();
                 /* venc->close(); */
             } 
-            raw->Close();
         }
     }
 }
