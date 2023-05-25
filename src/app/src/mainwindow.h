@@ -108,6 +108,8 @@ class MainWindow : public QMainWindow {
         void sig_start_encoding();
         void sig_enable_controls(bool enable);
         void sig_show_error(std::string msg);
+        void sig_set_fps_duration(int maxfps, int fps, int duration);
+        void sig_set_platmapFormat(QStringList qs);
 
     public slots:
         void acquisition_done(bool runPostProcess);

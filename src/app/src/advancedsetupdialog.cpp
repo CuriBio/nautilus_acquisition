@@ -13,7 +13,7 @@ AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget
     ui->setupUi(this);
     m_config = config;
 
-    connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::on_confirm_new_advanced_setup);
+    connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
     connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
 }
 
@@ -44,7 +44,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 /*
 * If options are confirmed then update them.
 */
-void AdvancedSetupDialog::on_confirm_new_advanced_setup(){
+void AdvancedSetupDialog::update_advanced_setup(){
     //only one setting to update right now
 
     //if new newdev selected then update toml and channels

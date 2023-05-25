@@ -28,7 +28,7 @@ class AdvancedSetupDialog : public QDialog{
         void sig_ni_dev_change(std::string new_m_nidev);
 
     private slots:
-        void on_confirm_new_advanced_setup();
+        void update_advanced_setup();
         void nidevice_indexChanged(int index);
 
     private:

@@ -128,6 +128,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         if (!m_config->ignoreErrors) { exit(1); }
     });
 
+    //progress bar
     connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
@@ -153,6 +154,19 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+
+    //fps, duration update
+    connect(this, &MainWindow::sig_set_fps_duration, this, [&](int maxfps, int fps, int duration) {
+        ui.frameRateEdit->setMaximum(maxfps);
+        ui.frameRateEdit->setValue((m_config->fps <= maxfps) ? m_config->fps : maxfps);
+        ui.durationEdit->setValue(m_config->duration);
+    });
+
+    //set platmapFormat
+    connect(this, &MainWindow::sig_set_platmapFormat, this, [&](QStringList qs) {
+        ui.plateFormatDropDown->addItems(qs);
+        ui.plateFormatDropDown->setCurrentIndex(-1);
+    });
 
     //stage control signals
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
@@ -194,13 +208,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray8 -r {} -s:v {}:{} -i {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} {}",
                         m_config->ffmpegDir.string(),
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
                         fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),
-                        fmt::format("\"{}_stack_{}.mp4\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
+                        fmt::format("\"{}_stack_{}.avi\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
                       );
 
         spdlog::info("Starting video encoding {}", encodingCmd);
@@ -282,6 +296,7 @@ void MainWindow::Initialize() {
     if (!m_camera->Open(0)) {
         spdlog::error("Failed to open camera 0");
         emit sig_show_error("Camera could not be found, please plug in camera and restart application");
+        return;
     }
 
     m_camInfo = m_camera->GetInfo();
@@ -313,13 +328,10 @@ void MainWindow::Initialize() {
     double max_fps = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_config->lineTimes[m_expSettings.spdTableIdx]);
     spdlog::info("Max frame rate: {}", max_fps);
 
-    ui.frameRateEdit->setMaximum(max_fps);
-    ui.frameRateEdit->setValue((m_config->fps <= max_fps) ? m_config->fps : max_fps);
-    ui.durationEdit->setValue(m_config->duration);
+    emit sig_set_fps_duration(max_fps, (m_config->fps <= max_fps) ? m_config->fps : max_fps, m_config->duration);
 
     //set options for plate formats drop down
-    ui.plateFormatDropDown->addItems(vectorToQStringList(m_plateFormats));
-    ui.plateFormatDropDown->setCurrentIndex(-1);
+    emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
 
     //Wait for stage calibration
     if (m_config->asyncInit) {
