@@ -10,6 +10,7 @@ Added:
 Fixed:
 ^^^^^^
 - Advanced settings dialog crash
+- Close raw file before video encoding
 
 
 0.1.27 (2023-05-23)
