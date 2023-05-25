@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.29 (2023-05-26)
+-------------------
+
+Added:
+^^^^^^
+- Exp backoff for starting video encoding
+
+
 0.1.28 (2023-05-25)
 -------------------
 

@@ -180,6 +180,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
@@ -187,11 +188,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        spdlog::error("External analysis error: {}", err);
-        ui.startAcquisitionBtn->setText("Start Acquisition");
+            spdlog::error("External analysis error: {}", err);
+            ui.startAcquisitionBtn->setText("Start Acquisition");
 
-        //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+            //need to check if there is enough space for another acquisition
+            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
     });
 
     connect(this, &MainWindow::sig_start_analysis, this, [&] {
@@ -232,7 +233,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        spdlog::error("Video encoding error: {}", err);
+        if (++m_extEncodingRetries < 5) {
+            double backoff = m_extRetryBackoffms * std::pow(m_extEncodingRetries, 2);
+            spdlog::error("External video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
+
+            std::thread t([&] {
+                std::this_thread::sleep_for(std::chrono::duration<double>(backoff / 1000.0)); //in seconds
+                emit sig_start_encoding();
+            });
+            t.detach();
+        } else {
+            spdlog::error("External video encoding failed: {}", err);
+        }
     });
 
     //live view timer signals
