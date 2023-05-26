@@ -206,6 +206,10 @@ class MainWindow : public QMainWindow {
         QLabel* m_waitingLabel;
         QMovie* m_waitingMov;
 
+        //ext analysis retries
+        uint8_t m_extEncodingRetries{0};
+        double m_extRetryBackoffms{250};
+
     private:
         void EnableAll(bool enable);
 
