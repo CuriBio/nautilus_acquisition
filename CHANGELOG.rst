@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.30 (2023-05-26)
+-------------------
+
+Added:
+^^^^^^
+- Added check for already running process
+
+
 0.1.29 (2023-05-26)
 -------------------
 

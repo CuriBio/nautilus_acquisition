@@ -38,7 +38,7 @@
 #include <stdlib.h>
 #include <thread>
 
-#ifdef _WIN32
+#ifdef _WIN64
 #include <windows.h>
 #include <fileapi.h>
 #endif
@@ -79,6 +79,8 @@
 MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
     m_config = params;
+
+
 
     m_settings = new Settings(this, m_config->path, m_config->prefix);
     m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
@@ -266,6 +268,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
     m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
     m_taskApplyLut = std::make_shared<TaskApplyLut16>();
+
+
+    //check if already running on windows
+#ifdef _WIN64
+    HANDLE m = CreateMutexA(NULL, FALSE, "Global\\Nautilus");
+    if (m && GetLastError() == ERROR_ALREADY_EXISTS) {
+        spdlog::error("Application is already running");
+        emit sig_show_error("Nautilus application is already running");
+    }
+#endif
 }
 
 
@@ -274,8 +286,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
  */
 void MainWindow::Initialize() {
     //disable all controls while initializing
-
     emit sig_enable_controls(false);
+
+
     //
     //check if stage connected and show error
     if (!m_stageControl->Connected()) {
