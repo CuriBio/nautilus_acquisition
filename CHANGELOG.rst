@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.31 (2023-06-01)
+-------------------
+
+Fixed:
+^^^^^^
+- Updated recording date fmt string to match what p3d expects
+
+
 0.1.30 (2023-05-26)
 -------------------
 

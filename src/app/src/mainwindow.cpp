@@ -1003,7 +1003,7 @@ void MainWindow::postProcess() {
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
             { "instrument_name", "Nautilus" },
             { "software_version", m_config->version },
-            { "recording_date", m_startAcquisitionTS },
+            { "recording_date", m_recordingDateFmt },
             { "led_intensity", m_config->ledIntensity },
             { "output_dir_path", m_expSettings.acquisitionDir.string() },
             { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
@@ -1122,6 +1122,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
             // make subdirectory to write to
             std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
+            std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
             std::string subdir = cls->m_config->prefix + std::string(cls->m_startAcquisitionTS);
 
             cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;

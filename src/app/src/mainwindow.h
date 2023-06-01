@@ -67,6 +67,7 @@
 
 #define TASKS 8
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
+#define RECORDING_DATE_FMT "%Y-%m-%d %H:%M:%S"
 
 using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
@@ -164,6 +165,7 @@ class MainWindow : public QMainWindow {
         std::string m_testImgPath;
 
         char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
+        char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
 
         bool m_acquisitionRunning {false};
         bool m_liveScanRunning {false};
