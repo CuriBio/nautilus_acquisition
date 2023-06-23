@@ -105,8 +105,6 @@ class FramePool {
             }
 
             return obj;
-            /* return std::shared_ptr<F>(obj.release(), */
-            /*         std::bind(&FramePool::Release, this, std::placeholders::_1)); */
         }
 
         /*
@@ -114,7 +112,7 @@ class FramePool {
          *
          * @return size_t The size of the frame pool.
          */
-        size_t Size() {
+        size_t Size() noexcept {
             std::lock_guard<std::mutex> lock(m_poolLock);
             return m_pool.size();
         }
@@ -125,7 +123,7 @@ class FramePool {
          *
          * @param size Minimum size of frame pool.
          */
-        void EnsurePoolSize(uint64_t size) {
+        void EnsurePoolSize(uint64_t size) noexcept {
             std::lock_guard<std::mutex> lock(m_poolLock);
 
             if (m_pool.size() < size) {

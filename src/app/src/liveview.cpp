@@ -33,6 +33,23 @@
 #include "liveview.h"
 #include "qpainter.h"
 
+std::string vertShader = R"(
+attribute vec2 vPosition;
+varying vec2 v_pos;
+
+void main() {
+    v_pos = vPosition.xy;
+    gl_Position = vec4(vPosition.xy, 0.0, 1.0);
+})";
+
+std::string fragShader = R"(
+#version 440
+layout(location = 0) out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+})";
+
 /*
  * @breif Constructs live view widget.
  *
@@ -108,7 +125,7 @@ void LiveView::SetImageFormat(ImageFormat fmt) {
 void LiveView::Clear() {
     std::unique_lock<std::mutex> lock(m_lock);
     if (m_imageData) {
-        memset(m_imageData, 128, m_totalPx);
+        memset(m_imageData, 0, m_totalPx);
         this->update();
     }
 }
@@ -141,6 +158,37 @@ void LiveView::UpdateImage(uint16_t* data) {
 void LiveView::initializeGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+    f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // m_frag = new QOpenGLShader(QOpenGLShader::Fragment);
+    // m_vertex = new QOpenGLShader(QOpenGLShader::Vertex);
+    //
+    // m_program = new QOpenGLShaderProgram(QOpenGLContext::currentContext());
+    // m_texture = new QOpenGLTexture(m_image);
+    //
+    // if (!m_vertex->compileSourceCode(vertShader.c_str())) {
+    //     spdlog::info("Failed to compile vertex shader");
+    // }
+    //
+    // if (!m_frag->compileSourceCode(fragShader.c_str())) {
+    //     spdlog::info("Failed to compile fragment shader");
+    // }
+    //
+    // if (!m_program->addShader(m_vertex)) {
+    //     spdlog::info("Failed to add vertex shader");
+    // }
+    //
+    // if (!m_program->addShader(m_frag)) {
+    //     spdlog::info("Failed to add fragment shader");
+    // }
+    //
+    // if (!m_program->link()) {
+    //     spdlog::info("Failed to link shader");
+    // }
+    //
+    // if (!m_program->bind()) {
+    //     spdlog::info("Failed to bind shader");
+    // }
 }
 
 
@@ -149,7 +197,17 @@ void LiveView::initializeGL() {
  */
 void LiveView::paintGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    f->glClear(GL_COLOR_BUFFER_BIT);
+    f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // uint texture_unit = 1;
+    // m_texture.bind(texture_unit);
+
+    // draw a quad over the entire widget
+    // GLfloat vertices[]{ -1.0f, -1.0f, 1.0f, -1.0f, -1.0f,  1.0f, 1.0f, 1.0f };
+    // m_program->enableAttributeArray(0);
+    // m_program->setAttributeArray(0, GL_FLOAT, vertices, 2);
+    // f->glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+    // m_program->disableAttributeArray(0);
 
     QPainter painter(this);
     painter.drawImage(m_target, m_image, m_target, Qt::MonoOnly);

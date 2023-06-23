@@ -54,157 +54,128 @@
 #include <VideoEncoder.h>
 #include <RawFile.h>
 
+#define DATA_DIR "data"
+
+std::string appStateToStr(AppState state) {
+    switch (state) {
+        case Uninitialized: return "Uninitialized";
+        case Initializing: return "Initializing";
+        case Idle: return "Idle";
+        case LiveViewBtnPress: return "LiveViewBtnPress";
+        case LiveViewRunning: return "LiveViewRunning";
+        case AcquisitionBtnPress: return "AcquisitionBtnPress";
+        case AcquisitionRunning: return "AcquisitionRunning";
+        case LiveViewAcquisitionRunning: return "LiveViewAcquisitionRunning";
+        case AdvSetupBtnPress: return "AdvSetupBtnPress";
+        case AdvSetupOpen: return "AdvSetupOpen";
+        case AdvSetupClosed: return "AdvSetupClosed";
+        case SettingsBtnPress: return "SettingsBtnPress";
+        case SettingsOpen: return "SettingsOpen";
+        case SettingsClosed: return "SettingsClosed";
+        case UserCanceled: return "UserCanceled";
+        case AcquisitionDone: return "AcquisitionDone";
+        case PostProcessing: return "PostProcessing";
+        case PostProcessingLiveView: return "PostProcessingLiveView";
+        case PostProcessingDone: return "PostProcessingDone";
+        case Error: return "Error";
+        default: return fmt::format("UNKNOWN STATE {}", state);
+    }
+}
 
 /*
  * Instance of the main Nautilus application window.
  *
- * @param path The output path for captured images.
- * @param prefix The prefix value for captured image names.
- * @param niDev The name of the NIDAQmx device controlling the LED light.
- * @param testImgPath The path to a test image used for testing acquisition software.
- * @param fps The initial frames per second setting.
- * @param duration The initial capture duration setting.
- * @param expTimeMs The initial exposure time.
- * @param spdtable The initial speed table index.
- * @param ledIntensity The initial led intensity settings.
- * @param bufferCount The size of circular buffer to use for acquisition.
- * @param frameCount The initial frame count for acquisition.
- * @param storageType The initial image storage type.
- * @param triggerMode The camera trigger mode.
- * @param exposureMode The camera exposure mode.
- * @param maxVoltage The max voltage for the LED controller.
- * @param autoConBright Flag to disable auto contrast/brightness for live view.
+ * @param params The config params class.
  * @param parent Pointer to parent widget.
  */
 MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
     m_config = params;
 
-
-
-    m_settings = new Settings(this, m_config->path, m_config->prefix);
-    m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
-
-
-    //Setup NIDAQmx controller for LED
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
-
-    //Get all plate format file names
-    m_plateFormats = getFileNamesFromDirectory("./plate_formats");
-
-    //setup width/height and initial exposure settings
-    m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
-    m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
-
-    m_expSettings.workingDir = m_config->path;
-    m_expSettings.acquisitionDir = m_config->path;
-    m_expSettings.filePrefix = m_config->prefix;
-    m_expSettings.spdTableIdx = m_config->spdtable;
-    m_expSettings.expTimeMS = m_config->expTimeMs,
-    m_expSettings.frameCount = m_config->frameCount;
-    m_expSettings.bufferCount = m_config->bufferCount;
-    m_expSettings.storageType = m_config->storageType;
-    m_expSettings.trigMode = m_config->triggerMode;
-    m_expSettings.expModeOut = m_config->exposureMode;
-    m_expSettings.region = {
-        .s1 = uns16(m_config->rgn.s1), .s2 = uns16(m_config->rgn.s2), .sbin = m_config->rgn.sbin,
-        .p1 = uns16(m_config->rgn.p1), .p2 = uns16(m_config->rgn.p2), .pbin = m_config->rgn.pbin
-    };
-
-    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
-        m_expSettings.region.s1, m_expSettings.region.s2,
-        m_expSettings.region.p1, m_expSettings.region.p2,
-        m_expSettings.region.sbin, m_expSettings.region.pbin
-    );
-    spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
-
-    //acquisition progress bar
-    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint);
-    m_acquisitionProgress->cancel();
+    connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
+    connect(this, &MainWindow::sig_disable_all, this, [this]() { enableUI(false); });
+    connect(this, &MainWindow::sig_enable_all, this, [this]() { enableUI(true); });
 
     //show error popup
-    connect(this, &MainWindow::sig_show_error, this, [&](std::string msg) {
+    connect(this, &MainWindow::sig_show_error, this, [this](std::string msg) {
         QMessageBox messageBox;
         messageBox.critical(0,"Error", msg.c_str());
         messageBox.setFixedSize(500,200);
         if (!m_config->ignoreErrors) { exit(1); }
     });
 
-    //progress bar
-    connect(this, &MainWindow::sig_progress_start, this, [&](std::string msg, int n) {
-        m_acquisitionProgress->setMinimum(0);
-        m_acquisitionProgress->setMaximum(n);
-        m_acquisitionProgress->setValue(0);
-        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
-        m_acquisitionProgress->show();
-    });
-    connect(this, &MainWindow::sig_progress_text, this, [&](std::string msg) {
-        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
-    });
-    connect(this, &MainWindow::sig_progress_update, this, [&](size_t n) {
-        m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
-    });
-    connect(this, &MainWindow::sig_progress_done, this, [&]() {
-        m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
-    });
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [&] {
-        m_userCanceled = true;
-        on_startAcquisitionBtn_clicked();
-        //StopAcquisition();
+
+    //set platmapFormat
+    m_plateFormats = getFileNamesFromDirectory("./plate_formats");
+    connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
+        ui.plateFormatDropDown->addItems(qs);
+        ui.plateFormatDropDown->setCurrentIndex(-1);
     });
 
-    connect(this, &MainWindow::sig_acquisition_done, this, &MainWindow::acquisition_done);
-    connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settings_changed);
+    //settings dialog
+    m_settings = new Settings(this, m_config->path, m_config->prefix);
+    connect(m_settings, &Settings::finished, this, [this]() { emit sig_update_state(SettingsClosed); });
+    connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settingsChanged);
+
+    //stage control
+    m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
+    connect(m_stageControl, &StageControl::finished, this, [this]() {
+        if (m_curState != AcquisitionRunning && m_curState != LiveViewAcquisitionRunning) {
+            ui.stageNavigationBtn->setEnabled(true);
+        }
+    });
+    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this](size_t count) {
+        availableDriveSpace(m_config->fps, m_config->duration, count);
+    });
+
+    //Setup NIDAQmx controller for LED
+    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() {
+        emit sig_update_state(AdvSetupClosed);
+    });
+
 
     //fps, duration update
-    connect(this, &MainWindow::sig_set_fps_duration, this, [&](int maxfps, int fps, int duration) {
+    connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
         ui.frameRateEdit->setMaximum(maxfps);
         ui.frameRateEdit->setValue((m_config->fps <= maxfps) ? m_config->fps : maxfps);
         ui.durationEdit->setValue(m_config->duration);
     });
 
-    //set platmapFormat
-    connect(this, &MainWindow::sig_set_platmapFormat, this, [&](QStringList qs) {
-        ui.plateFormatDropDown->addItems(qs);
-        ui.plateFormatDropDown->setCurrentIndex(-1);
+    //progress bar
+    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    m_acquisitionProgress->cancel();
+    m_acquisitionProgress->setCancelButton(nullptr);
+
+    connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
+        m_acquisitionProgress->setMinimum(0);
+        m_acquisitionProgress->setMaximum(n);
+        m_acquisitionProgress->setValue(0);
+        //m_acquisitionProgress->cancel();
+        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
+        m_acquisitionProgress->show();
+    });
+    connect(this, &MainWindow::sig_progress_text, this, [this](std::string msg) {
+        m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
+    });
+    connect(this, &MainWindow::sig_progress_update, this, [this](size_t n) {
+        if (m_acquisitionProgress->value() + n < m_acquisitionProgress->maximum()) {
+            m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
+        } else {
+            m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
+            m_acquisitionProgress->cancel();
+        }
+    }, Qt::QueuedConnection);
+    connect(this, &MainWindow::sig_progress_done, this, [this]() {
+        m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
+        m_acquisitionProgress->cancel();
+    });
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [this] {
+        emit sig_update_state(UserCanceled);
     });
 
-    //stage control signals
-    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, &MainWindow::stagelist_updated);
-
-    /*
-     * Start external analysis
-     */
-    connect(&m_extAnalysis, &QProcess::started, this, [this] {
-        spdlog::info("Process started");
-    });
-
-    connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
-        m_extEncodingRetries = 0;
-        ui.startAcquisitionBtn->setText("Start Acquisition");
-
-        //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
-    });
-
-    connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-            spdlog::error("External analysis error: {}", err);
-            ui.startAcquisitionBtn->setText("Start Acquisition");
-
-            //need to check if there is enough space for another acquisition
-            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
-    });
-
-    connect(this, &MainWindow::sig_start_analysis, this, [&] {
-        //run external analysis, probably want to start another progress bar/spinner
-        std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-        spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
-
-        m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
-        m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
-    });
+    //connect(this, &MainWindow::sig_start_postprocess, this, &MainWindow::postProcess);
 
     /*
      *  Start video encoding
@@ -232,6 +203,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("Video encoding finished");
+        emit sig_start_analysis();
     });
 
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
@@ -246,16 +218,80 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             t.detach();
         } else {
             spdlog::error("External video encoding failed: {}", err);
+            emit sig_progress_done();
+            emit sig_update_state(PostProcessingDone);
         }
     });
+
+    /*
+     * Start external analysis
+     */
+    connect(&m_extAnalysis, &QProcess::started, this, [this] {
+        spdlog::info("Process started");
+        emit sig_progress_text("Running Analysis");
+    });
+
+    connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
+        spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        m_extEncodingRetries = 0;
+        ui.startAcquisitionBtn->setText("Start Acquisition");
+
+        //need to check if there is enough space for another acquisition
+        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        emit sig_progress_done();
+        emit sig_update_state(PostProcessingDone);
+    });
+
+    connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
+            spdlog::error("External analysis error: {}", err);
+            ui.startAcquisitionBtn->setText("Start Acquisition");
+
+            //need to check if there is enough space for another acquisition
+            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+            emit sig_progress_done();
+            emit sig_update_state(PostProcessingDone);
+    });
+
+    connect(this, &MainWindow::sig_start_analysis, this, [&] {
+        //run external analysis, probably want to start another progress bar/spinner
+        std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
+        spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+
+        m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
+        m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
+    });
+
+    //setup width/height and initial exposure settings
+    m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
+    m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
+
+    m_expSettings.workingDir = m_config->path;
+    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.filePrefix = m_config->prefix;
+    m_expSettings.spdTableIdx = m_config->spdtable;
+    m_expSettings.expTimeMS = m_config->expTimeMs,
+    m_expSettings.frameCount = m_config->frameCount;
+    m_expSettings.bufferCount = m_config->bufferCount;
+    m_expSettings.storageType = m_config->storageType;
+    m_expSettings.trigMode = m_config->triggerMode;
+    m_expSettings.expModeOut = m_config->exposureMode;
+    m_expSettings.region = {
+        .s1 = uns16(m_config->rgn.s1), .s2 = uns16(m_config->rgn.s2), .sbin = m_config->rgn.sbin,
+        .p1 = uns16(m_config->rgn.p1), .p2 = uns16(m_config->rgn.p2), .pbin = m_config->rgn.pbin
+    };
+
+    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
+        m_expSettings.region.s1, m_expSettings.region.s2,
+        m_expSettings.region.p1, m_expSettings.region.p2,
+        m_expSettings.region.sbin, m_expSettings.region.pbin
+    );
+    spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
+
 
     //live view timer signals
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
-
-    //initialization signals
-    connect(this, &MainWindow::sig_enable_controls, this, &MainWindow::EnableAll);
-
+   
     //initialize histogram buffer
     m_hist = new uint32_t[(1<<16) - 1];
     memset((void*)m_hist, 0, sizeof(uint32_t)*((1<<16)-1));
@@ -269,50 +305,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
     m_taskApplyLut = std::make_shared<TaskApplyLut16>();
 
-
-    //check if already running on windows
-#ifdef _WIN64
-    HANDLE m = CreateMutexA(NULL, FALSE, "Global\\Nautilus");
-    if (m && GetLastError() == ERROR_ALREADY_EXISTS) {
-        spdlog::error("Application is already running");
-        emit sig_show_error("Nautilus application is already running");
-    }
-#endif
+    emit sig_update_state(Initializing);
 }
-
 
 /*
  * Initializes main window and camera/acquisition objects.
  */
 void MainWindow::Initialize() {
-    //disable all controls while initializing
-    emit sig_enable_controls(false);
-
-
-    //
-    //check if stage connected and show error
-    if (!m_stageControl->Connected()) {
-        emit sig_show_error("Stage not found, please plug in all devices and restart applicatoin");
-    }
-
-    //Async calibrate stage
-    if (m_config->asyncInit) {
-        m_stageCalibrate = std::async(std::launch::async, [&] {
-            return m_stageControl->Calibrate();
-        });
-
-        m_niSetup = std::async(std::launch::async, [&] {
-            setupNIDev(m_config->niDev);
-            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
-        });
-    } else {
-        //calibrate stage
-        m_stageControl->Calibrate();
-
-        //setup NI device
-        setupNIDev(m_config->niDev);
-        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
-    }
+    //set options for plate formats drop down
+    emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
+    emit sig_progress_start("Initializing Camera", 0);
 
     spdlog::info("Initialize camera");
     m_camera = std::make_shared<pmCamera>();
@@ -326,6 +328,26 @@ void MainWindow::Initialize() {
 
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
+
+    emit sig_progress_text("Calibrating stage");
+    //Async calibrate stage
+    if (m_config->asyncInit) {
+        m_stageCalibrate = std::async(std::launch::async, [&] {
+            return m_stageControl->Calibrate();
+        });
+
+        m_niSetup = std::async(std::launch::async, [&] {
+            setupNIDev(m_config->niDev);
+            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+        });
+    } else {
+        m_stageControl->Calibrate();
+        emit sig_progress_done();
+
+        //setup NI device
+        setupNIDev(m_config->niDev);
+        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+    }
 
     //for 8 bit image conversion for liveview, might not need it anymore
     m_img16 = new uint16_t[m_width*m_height];
@@ -347,16 +369,13 @@ void MainWindow::Initialize() {
         m_acquisition->LoadTestData(m_config->testImgPath);
     }
 
+
     ui.ledIntensityEdit->setValue(m_config->ledIntensity);
 
     //Get max Frame rate
-    double max_fps = calcMaxFrameRate(m_expSettings.region.p1, m_expSettings.region.p2, m_config->lineTimes[m_expSettings.spdTableIdx]);
-    spdlog::info("Max frame rate: {}", max_fps);
-
+    double max_fps = 1000000.0 / double(m_config->lineTimes[m_expSettings.spdTableIdx] * abs(m_expSettings.region.p2 - m_expSettings.region.p1));
     emit sig_set_fps_duration(max_fps, (m_config->fps <= max_fps) ? m_config->fps : max_fps, m_config->duration);
-
-    //set options for plate formats drop down
-    emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
+    spdlog::info("Max frame rate: {}", max_fps);
 
     //Wait for stage calibration
     if (m_config->asyncInit) {
@@ -371,23 +390,29 @@ void MainWindow::Initialize() {
         m_niSetup.wait();
     }
 
-    //enable ui
-    emit sig_enable_controls(true);
+    emit sig_progress_done();
+    emit sig_update_state(Idle);
 }
 
-void MainWindow::EnableAll(bool enable) {
-    //set cursor if waiting for ui init
-    if (!enable) {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+void MainWindow::updateState(AppState state) {
+    auto fn = m_appTransitions[{m_curState, state}];
+    if (fn) {
+        spdlog::info("Update state {} -> {}", appStateToStr(m_curState), appStateToStr(state));
+        fn();
+        spdlog::info("Update state {} -> {}", appStateToStr(state), appStateToStr(m_curState));
     } else {
-        QApplication::restoreOverrideCursor();
+        spdlog::error("Invalid state transition: {} -> {}", appStateToStr(m_curState), appStateToStr(state));
     }
+}
 
+void MainWindow::enableUI(bool enable) {
     //probably should be moved, but when the QComboBox is enabled after being disabled
     //it resets the index to 0, which is not what we want on startup
     ui.plateFormatDropDown->setEnabled(enable);
     if (enable) {
-        ui.plateFormatDropDown->setCurrentIndex(-1);
+        ui.plateFormatDropDown->setCurrentIndex(m_plateFormatCurrentIndex);
+    } else {
+        m_plateFormatCurrentIndex = ui.plateFormatDropDown->currentIndex();
     }
 
     ui.durationEdit->setEnabled(enable);
@@ -395,9 +420,362 @@ void MainWindow::EnableAll(bool enable) {
     ui.ledIntensityEdit->setEnabled(enable);
     ui.startAcquisitionBtn->setEnabled(enable);
     ui.liveScanBtn->setEnabled(enable);
-    ui.stageNavigationBtn->setEnabled(enable);
     ui.advancedSetupBtn->setEnabled(enable);
     ui.settingsBtn->setEnabled(enable);
+    ui.stageNavigationBtn->setEnabled(enable && !m_stageControl->isVisible());
+
+    if (!enable) {
+        emit m_stageControl->sig_disable_all();
+    } else {
+        emit m_stageControl->sig_enable_all();
+    }
+}
+
+//state handlers
+bool MainWindow::startLiveView() {
+    spdlog::info("Starting liveview");
+    emit sig_disable_all();
+
+    ui.liveScanBtn->setEnabled(true);
+    ui.startAcquisitionBtn->setEnabled(true);
+    ui.ledIntensityEdit->setEnabled(true);
+    ui.stageNavigationBtn->setEnabled(!m_stageControl->isVisible());
+    emit m_stageControl->sig_enable_all();
+
+    double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
+    ledON(voltage, false);
+
+    // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
+    double minFps = std::min<double>(m_config->fps, 24.0);
+    m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+    ui.liveScanBtn->setText("Stop Live Scan");
+
+    double expTimeMs = (1.0 / m_config->fps) * 1000;
+    spdlog::info("Setting expTimeMS: {} ({})", static_cast<uint32_t>(expTimeMs), expTimeMs);
+
+    m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
+    m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
+    m_camera->UpdateExp(m_expSettings);
+    spdlog::info("Starting live view: expTimeMS {}", m_expSettings.expTimeMS);
+
+    if (!m_acquisition) {
+        spdlog::info("Creating acquisition");
+        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+    }
+    m_acquisition->StartLiveView();
+
+    return true;
+}
+
+bool MainWindow::stopLiveView() {
+    spdlog::info("Stop liveview");
+    emit sig_enable_all();
+    ui.liveScanBtn->setText("Live Scan");
+    ledOFF();
+
+    m_liveViewTimer->stop();
+    m_acquisition->StopAll();
+    m_acquisition->WaitForStop();
+
+    return true;
+}
+
+bool MainWindow::stopLiveView_PostProcessing() {
+    spdlog::info("Stop liveview post processing");
+    //emit sig_enable_all();
+    emit m_stageControl->sig_enable_all();
+    ui.liveScanBtn->setText("Live Scan");
+    ledOFF();
+
+    m_liveViewTimer->stop();
+    m_acquisition->StopAll();
+    m_acquisition->WaitForStop();
+
+    return true;
+
+}
+
+bool MainWindow::startAcquisition() {
+    spdlog::info("Starting acquisition");
+    emit sig_disable_all();
+
+    m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
+        &QThread::quit;
+        delete m_acquisitionThread;
+        m_acquisitionThread = nullptr;
+    });
+    m_acquisitionThread->start();
+
+    ui.liveScanBtn->setEnabled(true);
+    ui.startAcquisitionBtn->setEnabled(true);
+    ui.ledIntensityEdit->setEnabled(true);
+    ui.startAcquisitionBtn->setText("Stop Acquisition");
+    m_userCanceled = false;
+    return true;
+}
+
+bool MainWindow::stopAcquisition() {
+    spdlog::info("Stopping acquisition");
+    emit sig_enable_all();
+    emit m_stageControl->sig_enable_all();
+    emit sig_progress_done();
+
+    ui.startAcquisitionBtn->setText("Start Acquisition");
+    ledOFF();
+
+    m_acquisition->StopAll();
+    m_acquisition->WaitForStop();
+    m_userCanceled = true;
+
+    return true;
+}
+
+bool MainWindow::startLiveView_AcquisitionRunning() {
+    spdlog::info("Live view + Acquisition starting");
+    ui.liveScanBtn->setText("Stop Live Scan");
+
+    // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
+    double minFps = std::min<double>(m_config->fps, 24.0);
+    m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+    m_acquisition->StartLiveView();
+
+    return true;
+}
+
+bool MainWindow::startAcquisition_LiveViewRunning() {
+    spdlog::info("Live view + Acquisition starting");
+    emit m_stageControl->sig_disable_all();
+    ui.startAcquisitionBtn->setText("Stop Acquisition");
+    ui.stageNavigationBtn->setEnabled(false);
+
+    m_userCanceled = false;
+    m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
+        &QThread::quit;
+        delete m_acquisitionThread;
+        m_acquisitionThread = nullptr;
+    });
+    m_acquisitionThread->start();
+
+    return true;
+}
+
+bool MainWindow::stopAcquisition_LiveViewRunning() {
+    spdlog::info("Stopping Acquisition, Live view still running");
+    ui.startAcquisitionBtn->setText("Start Acquisition");
+    ui.stageNavigationBtn->setEnabled(true);
+    emit m_stageControl->sig_enable_all();
+
+    m_acquisition->StopCapture();
+    m_userCanceled = true;
+    emit sig_progress_done();
+
+    return true;
+}
+
+bool MainWindow::stopLiveView_AcquisitionRunning() {
+    spdlog::info("Stopping Live view, acquisition still running");
+    ui.liveScanBtn->setText("Live Scan");
+    m_liveViewTimer->stop();
+    m_acquisition->StopLiveView();
+
+    return true;
+
+}
+
+bool MainWindow::advSetupOpen() {
+    spdlog::info("Opening Advanced Setup Dialog");
+    emit sig_disable_all();
+    m_advancedSettingsDialog->show();
+    return true;
+}
+
+bool MainWindow::advSetupClosed() {
+    spdlog::info("Advanced Setup Closed");
+    emit sig_enable_all();
+    return true;
+}
+
+bool MainWindow::settingsOpen() {
+    spdlog::info("Open Settings Dialog");
+    emit sig_disable_all();
+    m_settings->show();
+    return true;
+}
+
+bool MainWindow::settingsClosed() {
+    spdlog::info("Settings Closed");
+    emit sig_enable_all();
+    return true;
+}
+
+bool MainWindow::startPostProcessing() {
+    spdlog::info("Start PostProcessing");
+    ui.startAcquisitionBtn->setEnabled(false);
+    m_acquisition->StopAll();
+
+    std::thread postProcessThread([this]() {
+        spdlog::info("Starting post processing thread");
+        ledOFF();
+        m_acquisition->WaitForStop();
+
+        postProcess();
+
+        m_userCanceled = false;
+        //emit sig_progress_done();
+
+        std::thread deleteT([this]() {
+            spdlog::info("Deleting files");
+            std::uintmax_t n = std::filesystem::remove_all(m_expSettings.acquisitionDir / DATA_DIR);
+            spdlog::info("Deleted {} files", n);
+        });
+        deleteT.detach();
+
+        if (m_config->encodeVideo) {
+            emit sig_progress_start("Encoding Video", 0);
+            emit sig_start_encoding();
+        } else {
+            emit sig_update_state(PostProcessingDone);
+        } 
+    });
+
+    postProcessThread.detach();
+    return true;
+}
+
+bool MainWindow::startPostProcessing_LiveViewRunning() {
+    spdlog::info("Start PostProcessing + Live View Running");
+    ui.startAcquisitionBtn->setEnabled(false);
+
+    m_acquisition->StopCapture();
+
+    std::thread postProcessThread([this]() {
+        spdlog::info("Starting post processing thread");
+        postProcess();
+
+        m_userCanceled = false;
+        spdlog::info("emit sig_progress_done");
+        emit sig_progress_done();
+
+        std::thread deleteT([this]() {
+            spdlog::info("Deleting files");
+            std::uintmax_t n = std::filesystem::remove_all(m_expSettings.acquisitionDir / DATA_DIR);
+            spdlog::info("Deleted {} files", n);
+        });
+        deleteT.detach();
+
+        if (m_config->encodeVideo) {
+            emit sig_progress_start("Encoding Video", 0);
+            emit sig_start_encoding();
+        } else {
+            m_acquisition->WaitForStop();
+            emit sig_update_state(PostProcessingDone);
+        } 
+    });
+
+    postProcessThread.detach();
+    return true;
+}
+
+bool MainWindow::postProcessingDone() {
+    spdlog::info("Post Processing Done");
+
+    emit sig_enable_all();
+    emit m_stageControl->sig_enable_all();
+    return true;
+}
+
+bool MainWindow::postProcessingDone_LiveViewRunning() {
+    spdlog::info("Post Processing Done + Live View Running");
+    emit sig_disable_all();
+
+    ui.liveScanBtn->setEnabled(true);
+    ui.startAcquisitionBtn->setEnabled(true);
+    ui.ledIntensityEdit->setEnabled(true);
+    ui.stageNavigationBtn->setEnabled(!m_stageControl->isVisible());
+    emit m_stageControl->sig_enable_all();
+    return true;
+}
+
+/*
+ * Frame Rate edit box slot, called when users changes the FPS value.
+ *
+ * @param value The updated FPS value.
+ */
+void MainWindow::on_frameRateEdit_valueChanged(double value) {
+    if (value * m_config->duration < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
+        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setStyleSheet("background-color: red");
+    } else {
+        ui.frameRateEdit->setStyleSheet("background-color: white");
+        ui.durationEdit->setStyleSheet("background-color: white");
+
+        m_config->fps = value;
+        m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+        m_expSettings.frameCount = m_config->duration * m_config->fps;
+
+        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    }
+
+    if (m_curState == LiveViewRunning) {
+        m_liveViewTimer->stop();
+        double minFps = std::min<double>(m_config->fps, 24.0);
+        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+    }
+
+    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+}
+
+
+void MainWindow::on_plateFormatDropDown_activated(int index) {
+    m_config->plateFormat = m_plateFormats[index];
+    m_plateFormatCurrentIndex = index;
+    m_stageControl->loadList(m_config->plateFormat.string());
+}
+
+
+/*
+ * Duration edit box slot, called when users changes duration value.
+ *
+ * @param value The updated duration value in seconds.
+ */
+void MainWindow::on_durationEdit_valueChanged(double value) {
+    if (value * m_config->fps < 1.0) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
+        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setStyleSheet("background-color: red");
+    } else {
+        ui.frameRateEdit->setStyleSheet("background-color: white");
+        ui.durationEdit->setStyleSheet("background-color: white");
+    }
+
+    m_config->duration = value;
+    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+    m_expSettings.frameCount = m_config->duration * m_config->fps;
+
+    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+
+    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+}
+
+
+/*
+ * Signal to indicate the user has modified the settings.
+ *
+ * @param path The path to save captured images to.
+ * @param prefix The file prefix to use for captured images.
+ */
+void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix) {
+    spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
+    m_config->path = path;
+    m_config->prefix = prefix;
+
+    m_expSettings.workingDir = m_config->path;
+    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.filePrefix = m_config->prefix;
+    m_camera->UpdateExp(m_expSettings);
 }
 
 
@@ -427,14 +805,84 @@ void MainWindow::setupNIDev(std::string niDev) {
 
 
 /*
- * Led Intensity edit box slot, called when user changes the led intensity value.
+ * Turns on LED with given voltage.
  *
- * @param value The updated led intensity value.
+ * @param voltage The value to set analog output voltage to.
+ *
+ * @return True if successful, false otherwise.
  */
-void MainWindow::on_ledIntensityEdit_valueChanged(double value) {
-    m_config->ledIntensity = value;
-    double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
-    ledSetVoltage(voltage);
+bool MainWindow::ledON(double voltage, bool delay) {
+    const double data[1] = { voltage };
+    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
+    bool rtnval = true;
+
+    spdlog::info("m_led: {}", m_led);
+    if (!m_led) {
+        if (!ledSetVoltage(voltage)) {
+            spdlog::error("Failed to run taskAO");
+        }
+
+       bool taskDO_result = (
+            m_DAQmx.StartTask(m_taskDO) && \
+            m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+            m_DAQmx.StopTask(m_taskDO)
+        );
+
+        if (!taskDO_result) {
+            spdlog::error("Failed to run taskDO");
+            m_DAQmx.StopTask(m_taskDO);
+            rtnval = false;
+        }
+
+        if (delay) {
+            spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
+            std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
+            m_led = true;
+        }
+    }
+    return rtnval;
+}
+
+
+/*
+ * Turns off LED.
+ *
+ * @return true if successful, false otherwise.
+ */
+bool MainWindow::ledOFF() {
+    if (m_led) {
+        spdlog::info("led OFF");
+        uint8_t lines[8] = {0,0,0,0,0,0,0,0};
+        bool taskDO_result = (
+            m_DAQmx.StartTask(m_taskDO) && \
+            m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+            m_DAQmx.StopTask(m_taskDO)
+        );
+
+        if (!taskDO_result) {
+            spdlog::error("Failed to run taskDO");
+            return m_DAQmx.StopTask(m_taskDO);
+        }
+        m_led = false;
+    }
+    return true;
+}
+
+
+/*
+ * Sets analog output voltage for LED controller.
+ *
+ * @param voltage The voltage value to set on analog output channel.
+ *
+ * @return true is successufl, false otherwise.
+ */
+bool MainWindow::ledSetVoltage(double voltage) {
+    const double data[1] = { voltage };
+    return (
+        m_DAQmx.StartTask(m_taskAO) && \
+        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_taskAO)
+    );
 }
 
 
@@ -488,277 +936,25 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
 #endif
 }
 
-
 /*
- * Frame Rate edit box slot, called when users changes the FPS value.
- *
- * @param value The updated FPS value.
+ * @brief Iterate through files in directory and return vector of names
  */
-void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    if (value * m_config->duration < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        ui.frameRateEdit->setStyleSheet("background-color: white");
-        ui.durationEdit->setStyleSheet("background-color: white");
-
-        m_config->fps = value;
-        m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-        m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-    }
-
-    if (m_liveScanRunning) {
-        m_liveViewTimer->stop();
-        double minFps = std::min<double>(m_config->fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-    }
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
-}
-
-
-void MainWindow::on_plateFormatDropDown_activated(int index){
-    m_config->plateFormat = m_plateFormats[index];
-    m_stageControl->loadList(m_config->plateFormat.string());
-}
-
-
-/*
- * Duration edit box slot, called when users changes duration value.
- *
- * @param value The updated duration value in seconds.
- */
-void MainWindow::on_durationEdit_valueChanged(double value) {
-    if (value * m_config->fps < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        ui.frameRateEdit->setStyleSheet("background-color: white");
-        ui.durationEdit->setStyleSheet("background-color: white");
-    }
-
-    m_config->duration = value;
-    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-    m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
-}
-
-
-/*
- * Advanced setup button slot, called when user clicks on advanced setup button.
- */
-void MainWindow::on_advancedSetupBtn_clicked() {
-    m_advancedSettingsDialog->show();
-}
-
-
-/*
- * Settings button slot, called when user clicks on settings button.
- * Currently displays settings dialog.
- */
-void MainWindow::on_settingsBtn_clicked() {
-    m_settings->exec();
-}
-
-
-/*
- * Live Scan button slot, called when user clicks on live scan button.
- * Will toggle live scan from stopped to running or running to stopped
- * depending on the current state.
- */
-void MainWindow::on_liveScanBtn_clicked() {
-    spdlog::info("liveScanBtn clicked. m_liveScanRunning: {}, m_acquisitionRunning: {}", m_liveScanRunning, m_acquisitionRunning);
-
-    if (!m_liveScanRunning) {
-        spdlog::info("Starting live scan");
-        m_liveScanRunning = true;
-        m_userCanceled = false;
-
-        // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
-        double minFps = std::min<double>(m_config->fps, 24.0);
-        m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
-
-        if (!m_acquisitionRunning) {
-            StartAcquisition(false);
-        }
-        ui.liveScanBtn->setText("Stop Live Scan");
-    } else {
-        m_liveScanRunning = false;
-
-        if (!m_acquisitionRunning) {
-            // this will also stop the live view timer
-            m_userCanceled = true;
-            StopAcquisition();
-        } else {
-            m_liveViewTimer->stop();
+std::vector<std::filesystem::path> MainWindow::getFileNamesFromDirectory(std::filesystem::path path) {
+    std::vector<std::filesystem::path> files;
+    for (const auto& entry : std::filesystem::directory_iterator{path}) {
+        if (entry.is_regular_file()) {
+            files.push_back(entry);
         }
     }
-
-    ui.frameRateEdit->setEnabled(!m_liveScanRunning);
+    return files;
 }
 
-
-/*
- * Start Acquisition button slot, called when user clicks on start acquisition.
- */
-void MainWindow::on_startAcquisitionBtn_clicked() {
-    if (!m_acquisitionRunning) {
-        spdlog::info("on_startAcquisitionBtn_clicked");
-        ui.startAcquisitionBtn->setText("Stop Acquisition");
-        m_acquisitionRunning = true;
-        m_userCanceled = false;
-        StartAcquisition(true);
-    } else {
-        m_userCanceled = true;
-
-        if (m_liveScanRunning) { // keep livescan running
-            emit sig_progress_done();
-            m_acquisition->Stop();
-        } else {
-            StopAcquisition();
-        }
-
-        m_acquisitionRunning = false;
-        ui.startAcquisitionBtn->setText("Start Acquisition");
+QStringList MainWindow::vectorToQStringList(const std::vector<std::filesystem::path>& paths) {
+    QStringList qStringList;
+    for (std::filesystem::path filePath : paths) {
+        qStringList.append(QString::fromStdString(filePath.replace_extension().filename().string()));
     }
-}
-
-/*
- * Starts a new acquisition only if acquisition is currently stopped.
- * This method will first start the LED, update the exposure settings
- * based on user input (fps, duration, output dir) and then start the
- * acquisition. If `saveToDisk` is false then not images will be captured.
- *
- * @param saveToDisk Flag to tell acquisition if images should be streamed
- * to disk or only to live view.
- */
-void MainWindow::StartAcquisition(bool saveToDisk) {
-    std::unique_lock<std::mutex> lock(m_lock);
-
-    if (m_config->duration > 0 && m_config->fps > 0) {
-        if (!m_acquisition) {
-            spdlog::error("m_acquisition is invalid");
-            return;
-        }
-
-        if (!m_led && m_config->ledIntensity > 0.0) {
-            m_led = !m_led;
-            double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
-            spdlog::info("Setting led intensity {}, voltage {}, max voltage {}", m_config->ledIntensity, voltage, m_config->maxVoltage);
-            ledON(voltage);
-        }
-
-        switch (m_acquisition->GetState()) {
-            case AcquisitionState::AcqStopped:
-                {
-                    spdlog::info("StartAcquisition, current state AcqStopped");
-
-                    double expTimeMs = (1.0 / m_config->fps) * 1000;
-                    spdlog::info("Setting expTimeMS: {} ({})", static_cast<uint32_t>(expTimeMs), expTimeMs);
-
-                    m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
-                    m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
-                    m_camera->UpdateExp(m_expSettings);
-                    spdlog::info("Starting acquisition: expTimeMS {}, frameCount {}", m_expSettings.expTimeMS, m_expSettings.frameCount);
-
-                    if (!m_acqusitionThread) {
-                        m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
-                        m_acqusitionThread->start();
-                    } else {
-                        emit sig_progress_start("Acquiring images", m_expSettings.frameCount * m_stageControl->GetPositions().size());
-                        m_acquisition->Start(saveToDisk, [&](size_t n) { emit sig_progress_update(n); }, 0.0, nullptr);
-                    }
-                }
-                break;
-            case AcquisitionState::AcqLiveScan:
-                spdlog::info("StartAcquisition, current state AcqLiveScan");
-
-                if (!m_acqusitionThread) {
-                    m_acqusitionThread = QThread::create(MainWindow::acquisitionThread, this);
-                    m_acqusitionThread->start();
-                } else {
-                    //need to stop first before starting capture otherwise liveview will block
-                    spdlog::info("Signal live view to stop");
-                    m_acquisition->Stop();
-                }
-                break;
-            case AcquisitionState::AcqCapture:
-                spdlog::info("StartAcquisition, current state AcqCapture");
-                spdlog::warn("Acquisition is already running");
-                break;
-            default:
-                spdlog::error("Error: Invalid state");
-                break;
-        }
-
-        //disable controls when capture is running, ignore for livescan only
-        if (saveToDisk) {
-            ui.frameRateEdit->setEnabled(false);
-            ui.durationEdit->setEnabled(false);
-            ui.ledIntensityEdit->setEnabled(false);
-        }
-    }
-}
-
-
-/*
- * Stops a running acquisition and turns off LED.
- */
-void MainWindow::StopAcquisition() {
-    spdlog::info("StopAcquisition called");
-    std::unique_lock<std::mutex> lock(m_lock);
-    if (!m_acquisition) {
-        spdlog::error("m_acquisition is invalid");
-        return;
-    }
-
-    switch (m_acquisition->GetState()) {
-        case AcquisitionState::AcqLiveScan:
-            if (m_liveScanRunning) {
-                spdlog::info("Stopping live Scan");
-                m_liveViewTimer->stop();
-                m_liveScanRunning = false;
-            }
-            if (!m_acquisitionRunning) {
-                spdlog::info("Stopping acquisition");
-                m_acquisition->Stop();
-            } else {
-                spdlog::info("Stopping live scan, capture still running");
-            }
-            break;
-        case AcquisitionState::AcqCapture:
-            spdlog::info("Stopping Capture");
-            if (m_acquisitionRunning && !m_liveScanRunning) {
-                //shut it all down
-                spdlog::info("Stopping capture");
-                m_acquisitionRunning = false;
-                m_acquisition->Stop();
-            } else if (m_acquisitionRunning && m_liveScanRunning) {
-                //only stop capture, keep live scan running
-                spdlog::info("Stopping capture, live view still running");
-                m_acquisition->Start(false, [&](size_t n) { emit sig_progress_update(n); }, 0.0, nullptr);
-                m_acquisitionRunning = false;
-            }
-            break;
-        case AcquisitionState::AcqStopped:
-            spdlog::info("Acquisition not running");
-            break;
-        default:
-            spdlog::error("Error: Invalid state");
-            break;
-    }
-
-    //enable controls when capture is finished
-    ui.frameRateEdit->setEnabled(true);
-    ui.durationEdit->setEnabled(true);
-    ui.ledIntensityEdit->setEnabled(true);
+    return qStringList;
 }
 
 
@@ -766,7 +962,8 @@ void MainWindow::StopAcquisition() {
  * Updates live view with latest image, this is called
  * by a timer at ~24 FPS.
  */
-void MainWindow::updateLiveView() {
+void MainWindow::updateLiveView() noexcept {
+    std::unique_lock<std::mutex> lock(m_liveViewLock);
     if (m_acquisition) {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
@@ -779,7 +976,7 @@ void MainWindow::updateLiveView() {
             m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
             if (!m_config->noAutoConBright) {
-                AutoConBright(data);
+                autoConBright(data);
                 ui.liveView->UpdateImage((uint16_t*)m_img16);
             } else {
                 ui.liveView->UpdateImage(data);
@@ -797,7 +994,7 @@ void MainWindow::updateLiveView() {
  *
  * @param data Raw pixel data to run auto contrast/brightness on.
  */
-void MainWindow::AutoConBright(const uint16_t* data) {
+void MainWindow::autoConBright(const uint16_t* data) {
     /* //Update lut */
     m_taskUpdateLut->Setup(m_min, m_max);
     m_parTask.Start(m_taskUpdateLut);
@@ -806,179 +1003,6 @@ void MainWindow::AutoConBright(const uint16_t* data) {
     //Apply lut
     m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
     m_parTask.Start(m_taskApplyLut);
-}
-
-
-/*
- * Signal to indicate acquisition has finished.
- */
-void MainWindow::acquisition_done(bool runPostProcess) {
-    spdlog::info("Acquisition done signal");
-    std::unique_lock<std::mutex> lock(m_lock);
-
-    if (!m_liveScanRunning) { //livescan isn't running
-        if (m_led) {
-            m_led = !m_led;
-            ledOFF();
-        }
-
-        m_liveViewTimer->stop();
-        //ui.liveView->Clear();
-        ui.liveScanBtn->setText("Live Scan");
-
-        m_liveScanRunning = false;
-
-        delete m_acqusitionThread;
-        m_acqusitionThread = nullptr;
-    }
-
-    m_acquisitionRunning = false;
-
-    if (runPostProcess) {
-        //run post processing steps in new thread
-        std::thread postProcessThread([&]() {
-            spdlog::info("Starting post processing thread");
-            //run images post processing steps
-            spdlog::info("calling postProcess");
-            postProcess();
-
-            m_userCanceled = false;
-            emit sig_progress_done();
-
-            uint16_t rowsxcols = m_config->rows * m_config->cols;
-            if (m_config->autoTile && rowsxcols == m_stageControl->GetPositions().size() && rowsxcols == m_config->tileMap.size()) {
-                emit sig_start_analysis();
-            }
-        });
-
-        postProcessThread.detach();
-    }
-
-    ui.startAcquisitionBtn->setText("Start Acquisition");
-    ui.frameRateEdit->setEnabled(true);
-    ui.durationEdit->setEnabled(true);
-    ui.ledIntensityEdit->setEnabled(true);
-
-}
-
-/*
- * Signal to indicate the user has modified the settings.
- *
- * @param path The path to save captured images to.
- * @param prefix The file prefix to use for captured images.
- */
-void MainWindow::settings_changed(std::filesystem::path path, std::string prefix) {
-    spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
-    m_config->path = path;
-    m_config->prefix = prefix;
-
-    m_expSettings.workingDir = m_config->path;
-    m_expSettings.acquisitionDir = m_config->path;
-    m_expSettings.filePrefix = m_config->prefix;
-    m_camera->UpdateExp(m_expSettings);
-}
-
-/*
- * Signal to indicate the stage position list has changed.
- *
- * @param count The length of the stage position list.
- */
-void MainWindow::stagelist_updated(size_t count) {
-    availableDriveSpace(m_config->fps, m_config->duration, count);
-}
-
-
-/*
- * Turns on LED with given voltage.
- *
- * @param voltage The value to set analog output voltage to.
- *
- * @return True if successful, false otherwise.
- */
-bool MainWindow::ledON(double voltage) {
-    const double data[1] = { voltage };
-    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
-    bool rtnval = true;
-
-    if (!ledSetVoltage(voltage)) {
-        spdlog::error("Failed to run taskAO");
-    }
-
-   bool taskDO_result = (
-        m_DAQmx.StartTask(m_taskDO) && \
-        m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
-        m_DAQmx.StopTask(m_taskDO)
-    );
-
-    if (!taskDO_result) {
-        spdlog::error("Failed to run taskDO");
-        m_DAQmx.StopTask(m_taskDO);
-        rtnval = false;
-    }
-
-    spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
-    std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
-
-    return rtnval;
-}
-
-
-/*
- * Turns off LED.
- *
- * @return true if successful, false otherwise.
- */
-bool MainWindow::ledOFF() {
-    spdlog::info("led OFF");
-    uint8_t lines[8] = {0,0,0,0,0,0,0,0};
-    bool taskDO_result = (
-        m_DAQmx.StartTask(m_taskDO) && \
-        m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
-        m_DAQmx.StopTask(m_taskDO)
-    );
-
-    if (!taskDO_result) {
-        spdlog::error("Failed to run taskDO");
-        return m_DAQmx.StopTask(m_taskDO);
-    }
-    return true;
-}
-
-
-/*
- * Sets analog output voltage for LED controller.
- *
- * @param voltage The voltage value to set on analog output channel.
- *
- * @return true is successufl, false otherwise.
- */
-bool MainWindow::ledSetVoltage(double voltage) {
-    const double data[1] = { voltage };
-    return (
-        m_DAQmx.StartTask(m_taskAO) && \
-        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-        m_DAQmx.StopTask(m_taskAO)
-    );
-}
-
-
-void MainWindow::acquire(bool saveToDisk) {
-    auto progressCB = [&](size_t n) { emit sig_progress_update(n); };
-
-    if (m_acquisition) {
-        spdlog::info("Reusing existing acquistion");
-    } else {
-        spdlog::info("Creating acquisition");
-        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
-    }
-
-    spdlog::info("Starting acquisition, live view: {}", !saveToDisk);
-    if (!m_acquisition->Start(saveToDisk, progressCB, 0.0, nullptr)) {
-        spdlog::error("Failed starting acquisition");
-    }
-
-    spdlog::info("Waiting for acquisition");
-    m_acquisition->WaitForStop();
 }
 
 /*
@@ -1051,21 +1075,10 @@ void MainWindow::postProcess() {
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
 
-            /* if (m_config->encodeVideo) { */
-            /*     std::string aviFile = fmt::format("{}_stack_{}.avi", m_config->prefix, std::string(m_startAcquisitionTS)); */
-            /*     std::filesystem::path vidOut = (m_expSettings.acquisitionDir / aviFile); */
-
-            /*     venc = std::make_shared<VideoEncoder>(vidOut, "mpeg4", m_config->fps, m_config->cols*m_width, m_config->rows*m_height); */
-            /*     if (!venc->Initialize()) { */
-            /*         spdlog::error("Failed to initialize video encoder"); */
-            /*     } */
-            /* } */
-
-            emit sig_progress_text("Tiling images");
-            emit sig_progress_update(1);
+            emit sig_progress_start("Tiling images", m_expSettings.frameCount);
 
             PostProcess::AutoTile(
-                m_expSettings.acquisitionDir,
+                (m_expSettings.acquisitionDir / DATA_DIR),
                 m_config->prefix,
                 m_expSettings.frameCount,
                 m_config->rows,
@@ -1083,114 +1096,104 @@ void MainWindow::postProcess() {
             );
 
             raw->Close();
-
-            if (m_config->encodeVideo) {
-                emit sig_start_encoding();
-                /* venc->close(); */
-            } 
+            emit sig_progress_done();
         }
+
     }
 }
 
-/*
- * Thread that starts actual acquisition and waits for acquisition to finish.
- *
- * @param cls Main window object pointer.
- * @param saveToDisk Flag to enable/disable streaming to disk.
- */
+
+// handle acquisition done signal from thread finished slot
 void MainWindow::acquisitionThread(MainWindow* cls) {
-    bool needPostProcess = false;
-    do {
-        if (cls->m_liveScanRunning) {
-            cls->acquire(false);
+    auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
+
+    double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
+    cls->ledON(voltage);
+
+    cls->m_needsPostProcessing = true;
+
+    spdlog::info("Starting acquistions");
+    int pos = 1;
+
+    if (cls->m_stageControl->GetPositions().empty()) {
+        spdlog::info("No stage positions set, adding current position");
+        cls->m_stageControl->AddCurrentPosition();
+    }
+
+    // get local timestamp to add to subdir name
+    auto now = std::chrono::system_clock::now();
+    auto timestamp = std::chrono::system_clock::to_time_t(now);
+    std::tm *tm = std::localtime(&timestamp);
+
+    // make subdirectory to write to
+    std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
+    std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
+    std::string subdir = cls->m_config->prefix + std::string(cls->m_startAcquisitionTS);
+
+    cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
+    if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
+        std::filesystem::create_directories(cls->m_expSettings.acquisitionDir);
+        std::filesystem::create_directories(cls->m_expSettings.acquisitionDir / DATA_DIR);
+        spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
+    }
+
+    cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
+    cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
+
+    emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
+
+    for (auto& loc : cls->m_stageControl->GetPositions()) {
+        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+        emit cls->sig_progress_text("Moving stage");
+        cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
+        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
+
+        cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
+        cls->m_camera->UpdateExp(cls->m_expSettings);
+
+
+        if (!cls->m_acquisition) {
+            cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);
         }
 
-        if (cls->m_acquisitionRunning) {
-            int pos = 1;
-            spdlog::info("Starting acquistions");
-            needPostProcess = true;
+        cls->m_acquisition->StartAcquisition(progressCB);
 
-            if (cls->m_stageControl->GetPositions().empty()) {
-                spdlog::info("No stage positions set, adding current position");
-                cls->m_stageControl->AddCurrentPosition();
-            }
+        spdlog::info("Waiting for acquisition");
+        cls->m_acquisition->WaitForAcquisition();
 
-            // get local timestamp to add to subdir name
-            auto now = std::chrono::system_clock::now();
-            auto timestamp = std::chrono::system_clock::to_time_t(now);
-            std::tm *tm = std::localtime(&timestamp);
-
-            // make subdirectory to write to
-            std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
-            std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-            std::string subdir = cls->m_config->prefix + std::string(cls->m_startAcquisitionTS);
-
-            cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
-            if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
-                std::filesystem::create_directories(cls->m_expSettings.acquisitionDir);
-                spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
-            }
-
-            cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
-            cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
-
-            emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
-            for (auto& loc : cls->m_stageControl->GetPositions()) {
-                spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
-                emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
-                cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
-
-                cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
-                cls->m_camera->UpdateExp(cls->m_expSettings);
-
-                cls->acquire(true);
-                //TODO check for user cancel and jump out
-                if (cls->m_userCanceled) {
-                    spdlog::info("User canceled acquisition");
-                    break;
-                }
-
-                spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
-            }
-
-            cls->m_acquisitionRunning = false;
+        //TODO check for user cancel and jump out
+        if (cls->m_userCanceled) {
+            spdlog::info("User canceled acquisition");
+            cls->m_needsPostProcessing = false;
+            break;
         }
+        spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
+    }
+
+    uint16_t rowsxcols = cls->m_config->rows * cls->m_config->cols;
+    bool sizeMatches = (rowsxcols == cls->m_stageControl->GetPositions().size() && rowsxcols == cls->m_config->tileMap.size());
+
+    if (cls->m_config->autoTile && sizeMatches && cls->m_needsPostProcessing) {
+        emit cls->sig_update_state(PostProcessing);
+    } else if(!cls->m_userCanceled) {
         spdlog::info("Acquisition done, sending signal");
-        emit cls->sig_acquisition_done(needPostProcess);
-        //need this so stopping liveview doesn't trigger post processing if liveview was active during capture
-        needPostProcess = false;
-
-    } while (cls->m_liveScanRunning);
-
-}
-
-
-/**
- * Helper function that will take the line time for each mode from the config file and
- * calculate the max frame rate based on the caputure reagion height.
-*/
-double MainWindow::calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time) {
-    return 1000000.0 / (line_time * abs(p2 - p1));
-}
-
-/*
- * @brief Iterate through files in directory and return vector of names
- */
-std::vector<std::filesystem::path> MainWindow::getFileNamesFromDirectory(std::filesystem::path path) {
-    std::vector<std::filesystem::path> files;
-    for (const auto& entry : std::filesystem::directory_iterator{path}) {
-        if (entry.is_regular_file()) {
-            files.push_back(entry);
-        }
+        emit cls->sig_update_state(AcquisitionDone);
     }
-    return files;
+
+    spdlog::info("Acquisition Thread Stopped");
 }
 
-QStringList MainWindow::vectorToQStringList(const std::vector<std::filesystem::path>& paths) {
-    QStringList qStringList;
-    for (std::filesystem::path filePath : paths) {
-        qStringList.append(QString::fromStdString(filePath.replace_extension().filename().string()));
+void MainWindow::closeEvent(QCloseEvent *event) {
+    m_userCanceled = true;
+
+    if (m_curState == LiveViewRunning) {
+        stopLiveView();
     }
-    return qStringList;
+    if (m_curState == AcquisitionRunning) {
+        stopAcquisition();
+    }
+    if (m_curState == LiveViewAcquisitionRunning) {
+        stopAcquisition_LiveViewRunning();
+        stopLiveView();
+    }
 }
-

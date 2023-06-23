@@ -356,25 +356,23 @@ CameraInfo& pm::Camera<F>::GetInfo() {
 
 template<FrameConcept F>
 bool pm::Camera<F>::StopExp() {
-    if (ctx->imaging) {
-        std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
+    std::lock_guard<std::mutex> lock(ctx->lock); //lock mutex
 
-        if(ctx->imaging) {
-            if (PV_OK != pl_exp_abort(ctx->hcam, CCS_HALT)) {
-                spdlog::error("Failed to abort acquisition, error ignored ({})", GetError());
-            }
-
-            if (PV_OK != pl_exp_finish_seq(ctx->hcam, ctx->buffer.get(), 0)) {
-                spdlog::error("Failed to finish sequence, error ignored ({})", GetError());
-            }
-
-            ctx->imaging = false;
-
-            // Do not deregister callbacks before pl_exp_abort, abort could freeze then
-            if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_EOF)) {
-                spdlog::error("Failed to deregister EOF callback, error ignored ({})", GetError());
-            }
+    if(ctx->imaging) {
+        if (PV_OK != pl_exp_abort(ctx->hcam, CCS_HALT)) {
+            spdlog::error("Failed to abort acquisition, error ignored ({})", GetError());
         }
+
+        if (PV_OK != pl_exp_finish_seq(ctx->hcam, ctx->buffer.get(), 0)) {
+            spdlog::error("Failed to finish sequence, error ignored ({})", GetError());
+        }
+
+        // Do not deregister callbacks before pl_exp_abort, abort could freeze then
+        if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_EOF)) {
+            spdlog::error("Failed to deregister EOF callback, error ignored ({})", GetError());
+        }
+
+        ctx->imaging = false;
     }
 
     return true;
@@ -393,7 +391,7 @@ bool pm::Camera<F>::SetupExp(ExpSettings& settings) {
 
     //return if already imaging
     if (ctx->imaging) {
-        spdlog::error("Camera::SetupExp, Imaging already running for camera {}", ctx->info.name);
+        spdlog::info("Camera::SetupExp, Imaging already running for camera {}", ctx->info.name);
         return false;
     }
 
@@ -503,8 +501,7 @@ bool pm::Camera<F>::UpdateExp(const ExpSettings& settings) {
 
     //return if already imaging
     if (ctx->imaging) {
-        spdlog::error("Camera::UpdateExp, Imaging already running for camera {}", ctx->info.name);
-        return false;
+        spdlog::info("Camera::UpdateExp, Imaging already running for camera {}", ctx->info.name);
     }
 
     return updateExp(settings);

@@ -98,7 +98,6 @@ namespace PostProcess {
         std::function<void(size_t n)> progressCB,
         std::shared_ptr<RawFile<6>> r,
         StorageType storageType)
-        //std::shared_ptr<VideoEncoder> v)
     {
         ThreadPool p(static_cast<concurrency_t>(rows*cols));
 
@@ -114,7 +113,6 @@ namespace PostProcess {
         for (auto fr = 0; fr < frames; fr++) {
             //reset each frame
             memset((void*)frameData, 0, sizeof(uint16_t) * rows * cols * width * height);
-            std::vector<std::string> pendingDelete = {};
 
             //read each image, 1-based index for file names
             for(uint32_t row = 0; row < rows; row++) {
@@ -125,14 +123,12 @@ namespace PostProcess {
                         case StorageType::Tiff:
                             {
                                 std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileMap[col+row*cols]+1, fr);
-                                pendingDelete.push_back((indir / f).string());
                                 p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
                             }
                             break;
                         case StorageType::Raw:
                             {
                                 std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileMap[col+row*cols]+1, fr);
-                                pendingDelete.push_back((indir / f).string());
                                 p.AddTask(CopyRawTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
                             }
                             break;
@@ -141,53 +137,8 @@ namespace PostProcess {
             }
             p.WaitForAll();
 
-            // delete files in thread after copy task is finished
-            std::thread deleteFilesT([&pendingDelete]() {
-                for (auto &f : pendingDelete) { std::remove(f.c_str()); }
-            });
-
-            /* if (autoConBright && v) { */
-            /*     uint32_t min{0}, max{0}, hmax{0}; */
-
-            /*     uint32_t* hist = new uint32_t[(1<<16)-1]; */
-            /*     memset((void*)hist, 0, sizeof(uint32_t)*((1<<16)-1)); */
-
-            /*     uint16_t* img16 = new uint16_t[rows*height*cols*width]; */
-            /*     memset((void*)img16, 0, sizeof(uint16_t)*rows*height*cols*width); */
-
-            /*     TaskFrameStats frameStats(rows*cols); */
-            /*     TaskFrameLut16 frameLut; */
-            /*     TaskApplyLut16 applyLut; */
-
-            /*     frameStats.Setup(frameData, hist, cols*width, rows*height); */
-            /*     for (uint8_t i = 0; i < rows*cols; i++) { */
-            /*         p.AddTask([&](uint8_t n) { frameStats.Run(rows*cols, n); }, i); */
-            /*     } */
-            /*     p.WaitForAll(); */
-            /*     frameStats.Results(min, max, hmax); */
-
-            /*     frameLut.Setup(min, max); */
-            /*     for (uint8_t i = 0; i < rows*cols; i++) { */
-            /*         p.AddTask([&](uint8_t n) { frameLut.Run(rows*cols, n); }, i); */
-            /*     } */
-            /*     p.WaitForAll(); */
-            /*     uint16_t* lut16 = frameLut.Results(); */
-
-            /*     applyLut.Setup(frameData, img16, lut16, rows*cols*width*height); */
-            /*     for (uint8_t i = 0; i < rows*cols; i++) { */
-            /*         p.AddTask([&](uint8_t n) { applyLut.Run(rows*cols, n); }, i); */
-            /*     } */
-            /*     p.WaitForAll(); */
-            /*     v->writeFrame(img16, fr+1); */
-            /* } else if (v) { */
-            /*     v->writeFrame(frameData, fr+1); */
-            /* } */
-
             r->Write(frameData, fr);
-            progressCB(fr);
-
-            //wait for delete to finish
-            deleteFilesT.join();
+            progressCB(1);
         }
     }
 };

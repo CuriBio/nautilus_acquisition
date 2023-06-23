@@ -97,22 +97,27 @@ class ThreadPool {
 
         /** @brief Add task with no return value */
         template <typename F, typename... A>
-        void AddTask(F&& fn, A&&... args) {
-            std::function<void()> task = std::bind(std::forward<F>(fn), std::forward<A>(args)...);
+        void AddTask(F&& fn, A&&... args) noexcept {
             {
                 std::unique_lock<std::mutex> _lock(m_tasksMutex);
+                std::function<void()> task = std::bind(std::forward<F>(fn), std::forward<A>(args)...);
                 m_tasks.push(task);
-                m_totalTasks++;
+                ++m_totalTasks;
+                m_taskReady.notify_one();
             }
-            m_taskReady.notify_one();
         }
 
         /** @brief Wait for all running tasks */
-        void WaitForAll() {
+        void WaitForAll() noexcept {
             std::unique_lock<std::mutex> _lock(m_tasksFinishedMutex);
             if (m_totalTasks > 0 ) {
                 m_tasksFinished.wait(_lock, [this]() { return m_totalTasks == 0; });
             }
+        }
+
+        size_t Size() noexcept {
+            std::unique_lock<std::mutex> _lock(m_tasksMutex);
+            return m_tasks.size();
         }
 
         concurrency_t ThreadCount() const {
@@ -154,24 +159,20 @@ class ThreadPool {
         }
 
         /** @brief Thread worker loop */
-        void worker(size_t workerId) {
+        void worker(size_t workerId) noexcept {
             std::function<void()> task = {};
 
+            std::unique_lock<std::mutex> lock(m_tasksMutex);
             while (m_running) {
-                std::unique_lock<std::mutex> lock(m_tasksMutex);
                 m_taskReady.wait(lock, [&]() { return !m_tasks.empty() || !m_running; });
 
                 if (!m_tasks.empty()) {
                     task = std::move(m_tasks.front());
                     m_tasks.pop();
-                    lock.unlock();
-                } else {
-                    continue;
-                }
 
-                task();
-                {
-                    std::unique_lock<std::mutex> _finished(m_tasksMutex);
+                    lock.unlock();
+                    task();
+                    lock.lock();
                     if (--m_totalTasks == 0) { m_tasksFinished.notify_one(); }
                 }
             }

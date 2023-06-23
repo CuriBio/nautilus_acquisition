@@ -77,6 +77,8 @@ class StageControl : public QDialog {
 
     signals:
         void sig_stagelist_updated(size_t count);
+        void sig_disable_all();
+        void sig_enable_all();
 
     private slots:
         void on_addBtn_clicked();
@@ -105,6 +107,8 @@ class StageControl : public QDialog {
 
     private:
         void saveList(std::string fileName, bool fileExists);
+        void disableAll();
+        void enableAll();
 };
 
 #endif // STAGECONTROL_H

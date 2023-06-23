@@ -11,6 +11,10 @@
 
 StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
+    connect(this, &StageControl::sig_enable_all, this, &StageControl::enableAll);
+    connect(this, &StageControl::sig_disable_all, this, &StageControl::disableAll);
+
+
     m_comPort = comPort;
     m_stepSizes = stepSizes;
     m_config = config;
@@ -202,5 +206,54 @@ void StageControl::on_gotoPosBtn_clicked() {
     } else {
         spdlog::info("Invalid selection");
     }
+
+}
+
+void StageControl::disableAll() {
+    ui->addBtn->setEnabled(false);
+    ui->deleteBtn->setEnabled(false);
+    ui->saveListBtn->setEnabled(false);
+    ui->loadListBtn->setEnabled(false);
+    ui->gotoPosBtn->setEnabled(false);
+
+    ui->stageRightBtn1->setEnabled(false);
+    ui->stageRightBtn2->setEnabled(false);
+    ui->stageRightBtn3->setEnabled(false);
+
+    ui->stageLeftBtn1->setEnabled(false);
+    ui->stageLeftBtn2->setEnabled(false);
+    ui->stageLeftBtn3->setEnabled(false);
+
+    ui->stageUpBtn1->setEnabled(false);
+    ui->stageUpBtn2->setEnabled(false);
+    ui->stageUpBtn3->setEnabled(false);
+
+    ui->stageDownBtn1->setEnabled(false);
+    ui->stageDownBtn2->setEnabled(false);
+    ui->stageDownBtn3->setEnabled(false);
+}
+
+void StageControl::enableAll() {
+    ui->addBtn->setEnabled(true);
+    ui->deleteBtn->setEnabled(true);
+    ui->saveListBtn->setEnabled(true);
+    ui->loadListBtn->setEnabled(true);
+    ui->gotoPosBtn->setEnabled(true);
+
+    ui->stageRightBtn1->setEnabled(true);
+    ui->stageRightBtn2->setEnabled(true);
+    ui->stageRightBtn3->setEnabled(true);
+
+    ui->stageLeftBtn1->setEnabled(true);
+    ui->stageLeftBtn2->setEnabled(true);
+    ui->stageLeftBtn3->setEnabled(true);
+
+    ui->stageUpBtn1->setEnabled(true);
+    ui->stageUpBtn2->setEnabled(true);
+    ui->stageUpBtn3->setEnabled(true);
+
+    ui->stageDownBtn1->setEnabled(true);
+    ui->stageDownBtn2->setEnabled(true);
+    ui->stageDownBtn3->setEnabled(true);
 
 }

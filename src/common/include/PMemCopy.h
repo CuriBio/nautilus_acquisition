@@ -37,6 +37,8 @@
 #include <thread>
 #include <vector>
 
+#include <spdlog/spdlog.h>
+
 
 /*
 * Parallel memory copy.
