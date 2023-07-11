@@ -278,7 +278,7 @@ class MainWindow : public QMainWindow {
                 m_curState = (postProcessingDone()) ? Idle : Error;
             }},
             { {PostProcessing, LiveViewBtnPress}, [this]() {
-                m_curState = (startLiveView()) ? PostProcessingLiveView : Error;
+                m_curState = (startLiveView_PostProcessing()) ? PostProcessingLiveView : Error;
             }},
             { {PostProcessingLiveView, PostProcessingDone}, [this]() {
                 m_curState = (postProcessingDone_LiveViewRunning()) ? LiveViewRunning : Error;
@@ -306,6 +306,7 @@ class MainWindow : public QMainWindow {
         void closeEvent(QCloseEvent *event);
 
         bool startLiveView();
+        bool startLiveView_PostProcessing();
         bool stopLiveView();
         bool startLiveView_AcquisitionRunning();
         bool stopLiveView_AcquisitionRunning();

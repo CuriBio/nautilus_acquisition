@@ -467,6 +467,37 @@ bool MainWindow::startLiveView() {
     return true;
 }
 
+bool MainWindow::startLiveView_PostProcessing() {
+    spdlog::info("Starting liveview post processing");
+    emit sig_disable_all();
+    ui.liveScanBtn->setEnabled(true);
+    emit m_stageControl->sig_enable_all();
+
+    double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
+    ledON(voltage, false);
+
+    // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
+    double minFps = std::min<double>(m_config->fps, 24.0);
+    m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
+    ui.liveScanBtn->setText("Stop Live Scan");
+
+    double expTimeMs = (1.0 / m_config->fps) * 1000;
+    spdlog::info("Setting expTimeMS: {} ({})", static_cast<uint32_t>(expTimeMs), expTimeMs);
+
+    m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
+    m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
+    m_camera->UpdateExp(m_expSettings);
+    spdlog::info("Starting live view: expTimeMS {}", m_expSettings.expTimeMS);
+
+    if (!m_acquisition) {
+        spdlog::info("Creating acquisition");
+        m_acquisition = std::make_unique<pmAcquisition>(m_camera);
+    }
+    m_acquisition->StartLiveView();
+    return true;
+
+}
+
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
     emit sig_enable_all();
