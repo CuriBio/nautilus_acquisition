@@ -43,7 +43,9 @@
 enum AcquisitionState {
     AcqStopped,
     AcqLiveScan,
-    AcqCapture
+    AcqCapture,
+    AcqCaptureLiveScan,
+    AcqIdle,
 };
 
 
@@ -58,9 +60,13 @@ enum AcquisitionState {
 */
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
 concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB) {
-    { c.Start(bool(), progressCB, double(), cctx) } -> std::same_as<bool>;
-    { c.Stop() } -> std::same_as<bool>;
+    { c.StartAcquisition(progressCB, double(), cctx) } -> std::same_as<void>;
+    { c.StartLiveView() } -> std::same_as<void>;
+    { c.StopAll() } -> std::same_as<void>;
+    { c.StopCapture() } -> std::same_as<void>;
+    { c.StopLiveView() } -> std::same_as<void>;
     { c.WaitForStop() } -> std::same_as<void>;
+    { c.WaitForAcquisition() } -> std::same_as<void>;
     { c.IsRunning() } -> std::same_as<bool>;
     { c.GetLatestFrame() } -> std::same_as<F*>;
     { c.GetState() } -> std::same_as<AcquisitionState>;

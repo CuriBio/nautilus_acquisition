@@ -41,6 +41,7 @@
 #include <QStringList>
 #include <QProcess>
 #include <QProgressDialog>
+#include <QCloseEvent>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -65,13 +66,36 @@
 #include "stagecontrol.h"
 #include "advancedsetupdialog.h"
 
-#define TASKS 8
+#define TASKS 4
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
 #define RECORDING_DATE_FMT "%Y-%m-%d %H:%M:%S"
 
 using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
 using pmColorConfig = pm::ColorConfig<ph_color_context>;
+
+enum AppState {
+    Uninitialized,
+    Initializing,
+    Idle,
+    LiveViewBtnPress,
+    LiveViewRunning,
+    AcquisitionBtnPress,
+    AcquisitionRunning,
+    LiveViewAcquisitionRunning,
+    AdvSetupBtnPress,
+    AdvSetupOpen,
+    AdvSetupClosed,
+    SettingsBtnPress,
+    SettingsOpen,
+    SettingsClosed,
+    UserCanceled,
+    AcquisitionDone,
+    PostProcessing,
+    PostProcessingLiveView,
+    PostProcessingDone,
+    Error,
+};
 
 /*
  * Nautilus main window class.
@@ -81,115 +105,64 @@ class MainWindow : public QMainWindow {
 
     public:
         explicit MainWindow(std::shared_ptr<Config> params, QMainWindow* parent = nullptr);
-
-        ~MainWindow() {
-            delete m_lut16;
-            m_lut16 = nullptr;
-
-            delete m_hist;
-            m_hist = nullptr;
-
-            delete m_img16;
-            m_img16 = nullptr;
-
-            delete m_acquisitionProgress;
-            m_acquisitionProgress = nullptr;
-        }
-
+        ~MainWindow() { }
         void Initialize();
 
     signals:
+        void sig_update_state(AppState newState);
+        void sig_disable_all();
+        void sig_enable_all();
+        void sig_set_platmapFormat(QStringList qs);
+        void sig_set_fps_duration(int maxfps, int fps, int duration);
+        void sig_show_error(std::string msg);
         void sig_progress_start(std::string msg, int n);
         void sig_progress_update(size_t n);
         void sig_progress_text(std::string msg);
         void sig_progress_done();
-        void sig_acquisition_done(bool runPostProcess);
-        void sig_livescan_stopped();
+        void sig_start_acquisition(bool saveToDisk);
+        void sig_stop_acquisition();
+        //void sig_acquisition_done();
+        void sig_start_postprocess();
         void sig_start_analysis();
         void sig_start_encoding();
-        void sig_enable_controls(bool enable);
-        void sig_show_error(std::string msg);
-        void sig_set_fps_duration(int maxfps, int fps, int duration);
-        void sig_set_platmapFormat(QStringList qs);
 
     public slots:
-        void acquisition_done(bool runPostProcess);
-        void settings_changed(std::filesystem::path path, std::string prefix);
-        void stagelist_updated(size_t count);
 
     private slots:
-        void on_ledIntensityEdit_valueChanged(double value);
+        void updateState(AppState newState);
+
+        void on_liveScanBtn_clicked() { emit sig_update_state(LiveViewBtnPress); }
+        void on_startAcquisitionBtn_clicked() { emit sig_update_state(AcquisitionBtnPress); }
+        void on_advancedSetupBtn_clicked() { emit sig_update_state(AdvSetupBtnPress); }
+        void on_settingsBtn_clicked() { emit sig_update_state(SettingsBtnPress); }
+
         void on_frameRateEdit_valueChanged(double value);
-        void on_durationEdit_valueChanged(double value);
         void on_plateFormatDropDown_activated(int index);
-
-
-        void on_advancedSetupBtn_clicked();
-        void on_liveScanBtn_clicked();
-        void on_settingsBtn_clicked();
-        void on_startAcquisitionBtn_clicked();
+        void on_durationEdit_valueChanged(double value);
 
         void on_stageNavigationBtn_clicked() {
             m_stageControl->show();
+            ui.stageNavigationBtn->setEnabled(false);
         }
 
-        void updateLiveView();
+        void on_ledIntensityEdit_valueChanged(double value) {
+            m_config->ledIntensity = value;
+            double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
+            ledSetVoltage(voltage);
+        }
 
     private:
         Ui::MainWindow ui;
-        StageControl* m_stageControl{nullptr};
-        AdvancedSetupDialog * m_advancedSettingsDialog{nullptr};
-
         std::shared_ptr<Config> m_config = nullptr;
-        Settings* m_settings {nullptr};
-        std::mutex m_lock;
 
-        std::string m_configFile{};
+        Settings* m_settings {nullptr};
+        AdvancedSetupDialog* m_advancedSettingsDialog{nullptr};
+        StageControl* m_stageControl{nullptr};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
-
-        QThread* m_acqusitionThread {nullptr};
-        QTimer* m_liveViewTimer {nullptr};
-        QProgressDialog* m_acquisitionProgress {nullptr};
-        QProcess m_extAnalysis;
-        QProcess m_extVidEncoder;
-
-        NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
-        std::string m_taskAO, m_devAO;
-        std::string m_taskDO, m_devDO;
-        bool m_led{false};
-
-        std::filesystem::path m_path;
-        std::string m_prefix;
-        std::string m_testImgPath;
-
-        char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
-        char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
-
-        bool m_acquisitionRunning {false};
-        bool m_liveScanRunning {false};
-        bool m_userCanceled {false};
-
-        std::vector<std::filesystem::path> m_plateFormats;
-
-        uint16_t* m_img16;
-
-        uint32_t m_width, m_height;
-        uint32_t m_min, m_max;
-        uint32_t m_hmax;
-
-        uint8_t* m_lut16{nullptr};
-        uint32_t* m_hist{nullptr};
-
-        ParTask m_parTask{TASKS};
-        std::shared_ptr<TaskFrameStats> m_taskFrameStats;
-        std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
-        std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
-
-        double m_curPosX{0}, m_curPosY{0};
-
         CameraInfo m_camInfo;
+
         ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
             .region = {} ,
@@ -202,40 +175,174 @@ class MainWindow : public QMainWindow {
             .bufferCount = 100
         };
 
-        std::future<void> m_niSetup = {};
-        std::future<bool> m_stageCalibrate = {};
+        QThread* m_acquisitionThread {nullptr};
+        QTimer* m_liveViewTimer {nullptr};
+        QProgressDialog* m_acquisitionProgress {nullptr};
 
-        QLabel* m_waitingLabel;
-        QMovie* m_waitingMov;
-
-        //ext analysis retries
+        QProcess m_extAnalysis;
+        QProcess m_extVidEncoder;
         uint8_t m_extEncodingRetries{0};
         double m_extRetryBackoffms{250};
 
+        std::vector<std::filesystem::path> m_plateFormats;
+        int m_plateFormatCurrentIndex{-1}; 
+
+        NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
+        std::string m_taskAO, m_devAO;
+        std::string m_taskDO, m_devDO;
+        bool m_led{false};
+
+        std::future<void> m_niSetup = {};
+        std::future<bool> m_stageCalibrate = {};
+
+        uint32_t m_width, m_height;
+        uint32_t m_min, m_max;
+        uint32_t m_hmax;
+
+        uint16_t* m_img16;
+        uint8_t* m_lut16{nullptr};
+        uint32_t* m_hist{nullptr};
+
+        ParTask m_parTask{TASKS};
+        std::shared_ptr<TaskFrameStats> m_taskFrameStats;
+        std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
+        std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
+
+        std::string m_testImgPath;
+            
+        char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
+        char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
+
+        bool m_userCanceled{false};
+        bool m_needsPostProcessing{false};
+
+        std::mutex m_fileCleanupLock;
+        std::condition_variable m_fileCleanupCond;
+
+        std::mutex m_lock;
+        std::mutex m_liveViewLock;
+        AppState m_curState = Uninitialized;
+
+        std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
+            { {Uninitialized, Initializing}, [this]() {
+                enableUI(false);
+                m_curState = Initializing;
+            }},
+            { {Initializing, Idle}, [this]() { 
+                enableUI(true);
+                m_curState = Idle;
+            }},
+            //live view states
+            { {Idle, LiveViewBtnPress}, [this]() {
+                m_curState = (startLiveView()) ? LiveViewRunning : Error;
+            }},
+            { {LiveViewRunning, LiveViewBtnPress}, [this]() {
+                m_curState = (stopLiveView()) ? Idle : Error;
+            }},
+            //acquisition states
+            { {Idle, AcquisitionBtnPress}, [this]() {
+                m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
+            }},
+            { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
+                m_curState = (stopAcquisition()) ? Idle : Error;
+            }},
+            { {AcquisitionRunning, AcquisitionDone}, [this]() {
+                m_curState = (stopAcquisition()) ? Idle : Error;
+            }},
+            //live view + acquisition
+            { {LiveViewRunning, AcquisitionBtnPress}, [this]() {
+                m_curState = (startAcquisition_LiveViewRunning()) ? LiveViewAcquisitionRunning : Error;
+            }},
+            { {AcquisitionRunning, LiveViewBtnPress}, [this]() {
+                m_curState = (startLiveView_AcquisitionRunning()) ? LiveViewAcquisitionRunning : Error;
+            }},
+            { {AcquisitionRunning, AcquisitionDone}, [this]() {
+                m_curState = (stopAcquisition()) ? Idle : Error;
+            }},
+            { {AcquisitionRunning, PostProcessing}, [this]() {
+                m_curState = (startPostProcessing()) ? PostProcessing : Error;
+            }},
+            { {LiveViewAcquisitionRunning, LiveViewBtnPress}, [this]() {
+                m_curState = (stopLiveView_AcquisitionRunning()) ? AcquisitionRunning : Error;
+            }},
+            { {LiveViewAcquisitionRunning, AcquisitionBtnPress}, [this]() {
+                m_curState = (stopAcquisition_LiveViewRunning()) ? LiveViewRunning : Error;
+            }},
+            { {LiveViewAcquisitionRunning, AcquisitionDone}, [this]() {
+                m_curState = (stopAcquisition_LiveViewRunning()) ? LiveViewRunning : Error;
+            }},
+            { {LiveViewAcquisitionRunning, PostProcessing}, [this]() {
+                m_curState = (startPostProcessing_LiveViewRunning()) ? PostProcessingLiveView : Error;
+            }},
+            { {PostProcessing, PostProcessingDone}, [this]() {
+                m_curState = (postProcessingDone()) ? Idle : Error;
+            }},
+            { {PostProcessing, LiveViewBtnPress}, [this]() {
+                m_curState = (startLiveView()) ? PostProcessingLiveView : Error;
+            }},
+            { {PostProcessingLiveView, PostProcessingDone}, [this]() {
+                m_curState = (postProcessingDone_LiveViewRunning()) ? LiveViewRunning : Error;
+            }},
+            { {PostProcessingLiveView, LiveViewBtnPress}, [this]() {
+                m_curState = (stopLiveView_PostProcessing()) ? PostProcessing : Error;
+            }},
+            //advanced setup
+            { {Idle, AdvSetupBtnPress}, [this]() {
+                m_curState = (advSetupOpen()) ? AdvSetupOpen : Error; 
+            }},
+            { {AdvSetupOpen, AdvSetupClosed}, [this]() {
+                m_curState = (advSetupClosed()) ? Idle : Error;  
+            }},
+            //settings dialog
+            { {Idle, SettingsBtnPress}, [this]() {
+                m_curState = (settingsOpen()) ? SettingsOpen : Error;
+            }},
+            { {SettingsOpen, SettingsClosed}, [this]() {
+                m_curState = (settingsClosed()) ? Idle : Error;
+            }},
+        };
+        
     private:
-        void EnableAll(bool enable);
+        void closeEvent(QCloseEvent *event);
 
-        void StartAcquisition(bool saveToDisk);
-        void StopAcquisition();
+        bool startLiveView();
+        bool stopLiveView();
+        bool startLiveView_AcquisitionRunning();
+        bool stopLiveView_AcquisitionRunning();
+        bool stopLiveView_PostProcessing();
+        bool startAcquisition();
+        bool stopAcquisition();
+        bool startAcquisition_LiveViewRunning();
+        bool stopAcquisition_LiveViewRunning();
+        bool advSetupOpen();
+        bool advSetupClosed();
+        bool settingsOpen();
+        bool settingsClosed();
+        bool startPostProcessing();
+        bool startPostProcessing_LiveViewRunning();
+        bool postProcessingDone();
+        bool postProcessingDone_LiveViewRunning();
 
-        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
-        void AutoConBright(const uint16_t* data);
-        bool ledON(double voltage);
+        void enableUI(bool enable);
+
+        void setupNIDev(std::string niDev);
+
+        bool ledON(double voltage, bool delay=true);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
-        void setupNIDev(std::string new_m_niDev);
-        double calcMaxFrameRate(uint16_t p1, uint16_t p2, double line_time);
 
-        //postProcess helper
-        void postProcess();
+        void settingsChanged(std::filesystem::path path, std::string prefix);
 
-        //acquire helper function
-        void acquire(bool saveToDisk);
-
+        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
-        //threads
+        void updateLiveView() noexcept;
+        void autoConBright(const uint16_t* data);
+
+        void acquisitionDone(bool runPostProcess); 
         static void acquisitionThread(MainWindow* cls);
+        void postAcquisition();
+        void postProcess();
 };
 #endif

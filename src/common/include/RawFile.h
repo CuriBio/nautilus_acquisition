@@ -41,6 +41,7 @@ class RawFile {
             m_height = height;
             m_bitDepth = bitDepth;
             m_count = count;
+            m_file = file;
 
 #ifndef _WIN32
             m_fd = open(file.string().c_str(), O_WRONLY | O_CREAT, 0640);
@@ -50,11 +51,11 @@ class RawFile {
 #else
             m_fd = CreateFileA(file.string().c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_WRITE, NULL, CREATE_NEW, FILE_FLAG_OVERLAPPED, NULL);
             if (m_fd == INVALID_HANDLE_VALUE) {
-                spdlog::error("Error opening file: {}", GetLastError());
+                spdlog::error("RawFile error opening file ({}): {}", file.string(), GetLastError());
             }
 
             for (auto i = 0; i < PWRITES; i++) {
-                m_hEvents[i] = CreateEventA(NULL, FALSE, FALSE, NULL);
+                m_hEvents[i] = CreateEventA(NULL, TRUE, FALSE, NULL);
             }
 #endif
         }
@@ -103,19 +104,24 @@ class RawFile {
                             spdlog::error("GetOverlappedResult error: {}", lastError);
                     };
                 }
-
             };
 
-            for (uint64_t i = 0; i < PWRITES - 1; i++) {
+            for (uint64_t i = 0; i < PWRITES-1; i++) {
                 _write(i, chunk, chunk);
             }
-
             _write(PWRITES-1, chunk, chunk+chunkRem);
 
-            if (WAIT_FAILED == WaitForMultipleObjects(PWRITES, m_hEvents, TRUE, INFINITE)) {
-                spdlog::error("WaitForMultipleObjects failed: {}", GetLastError());
+            DWORD rtn = WaitForMultipleObjects(PWRITES, m_hEvents, TRUE, 3000);
+
+            if (rtn == WAIT_FAILED) {
+                spdlog::error("WaitForMultipleObjects WAIT_FAILED: {}", GetLastError());
+            } else if (rtn == WAIT_TIMEOUT) {
+                spdlog::error("WaitForMultipleObjects WAIT_TIMEOUT: file {}", m_file.string());
+            } else if (rtn >= WAIT_ABANDONED_0 && rtn <= WAIT_ABANDONED_0+PWRITES-1) {
+                spdlog::error("WaitForMultipleObjects WAIT_ABANDONED_0");
             }
-            return chunk*PWRITES;
+
+            return chunk*PWRITES+chunkRem;
 #endif
         }
 

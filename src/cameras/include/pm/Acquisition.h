@@ -66,21 +66,26 @@ namespace pm {
                 std::shared_ptr<pm::Camera<F>> m_camera;
                 std::mutex m_lock;
                 std::mutex m_stopLock;
+                bool m_hasNotified{false};
 
                 bool m_running{ false };
                 bool m_diskThreadAbortFlag{ false };
                 bool m_acquireThreadAbortFlag{ false };
                 AcquisitionState m_state { AcquisitionState::AcqStopped };
 
+                std::mutex m_frameQueueLock;
                 std::mutex m_frameWriterLock;
                 std::condition_variable m_frameWriterCond;
                 std::queue<F*> m_frameWriterQueue;
 
+                std::mutex m_frameWriterReadyLock;
+                std::condition_variable m_frameWriterReadyCond;
                 std::thread* m_frameWriterThread{ nullptr };
 
-                std::mutex m_cbLock;
-                /* std::thread* m_writerThread{ nullptr }; */
+                std::mutex m_acquisitionFinishedLock;
+                std::condition_variable m_acquisitionFinishedCond;
 
+                std::atomic<size_t> m_frameIndex{0};
                 uint64_t m_framesMax{0};
                 std::unique_ptr<FramePool<F>> m_unusedFramePool{nullptr};
 
@@ -121,22 +126,32 @@ namespace pm {
                  *
                  * Starts this acquisition with configured params.
                  *
-                 * @param saveToDisk Flag to control streaming to disk.
                  * @param tiffFillValue Value to use as fill value if enabled.
                  * @param tiffColorCtx Color context, nullptr if not needed.
                  *
                  * @return true if successful, false otherwise.
                  */
-                bool Start(bool saveToDisk, std::function<void(size_t)> progressCB, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+                void StartAcquisition(std::function<void(size_t)> progressCB, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+
+                /*
+                 * @brief Starts live view.
+                 */
+                void StartLiveView();
 
                 /*
                  * @brief Stops this acquisition.
-                 *
-                 * Stops this acquisition, does not block.
-                 *
-                 * @return true if successful, false otherwise.
                  */
-                bool Stop();
+                void StopAll();
+
+                /*
+                 * @brief Stops this acquisition, leave live view running.
+                 */
+                void StopCapture();
+
+                /*
+                 * @brief Stops liveview, leaves capture running..
+                 */
+                void StopLiveView();
 
                 /*
                  * @brief Waits for acquisition to stop.
@@ -144,6 +159,13 @@ namespace pm {
                  * Blocks until acquisition is finished.
                  */
                 void WaitForStop();
+
+                /*
+                 * @brief Waits for acquisition to notifiy is finished;
+                 *
+                 * Blocks until acquisition is finished.
+                 */
+                void WaitForAcquisition();
 
                 /*
                  * @brief Checks if acquisition is running.
@@ -188,7 +210,7 @@ namespace pm {
                 void LoadTestData(std::string testImgPath);
 
             public:
-                size_t m_capturedFrames{0};
+                std::atomic<size_t> m_capturedFrames{0};
 
             private:
                 /*
@@ -199,12 +221,17 @@ namespace pm {
                  * @param frameInfo The captured frame info struct.
                  * @param ctx The acquisition context.
                  */
-                static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* ctx);
+                static void PV_DECL EofCallback(FRAME_INFO* frameInfo, void* ctx) noexcept;
 
                 /*
                  * @brief Thread for processing incoming frames.
                  */
-                void frameWriterThread();
+                void frameWriterThread() noexcept;
+
+                /*
+                 * @brief Write frame
+                */
+                void writeFrame(F* frame) noexcept;
 
                 /*
                  * @brief Checks for lost frames.
@@ -215,7 +242,7 @@ namespace pm {
                  * @param lastFrame The last captured frame number.
                  * @param i Frame index value.
                  */
-                void checkLostFrame(uint32_t frameN, uint32_t& lastFrame, uint8_t i);
+                void checkLostFrame(uint32_t frameN, uint32_t& lastFrame, uint8_t i) noexcept;
         };
 }
 

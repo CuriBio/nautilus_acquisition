@@ -34,6 +34,9 @@
 #include <QOpenGLWidget>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
+#include <QOpenGLShader>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 
 #include <BitmapFormat.h>
 
@@ -75,6 +78,11 @@ class LiveView : public QOpenGLWidget {
         QImage m_image;
         QRectF m_target;
         QImage::Format m_imageOutFmt;
+        QOpenGLTexture *m_texture;
+
+        QOpenGLShader *m_frag;
+        QOpenGLShader *m_vertex;
+        QOpenGLShaderProgram *m_program;
 };
 
 #endif //LIVEVIEW_H

@@ -65,7 +65,7 @@ unsigned long long getTotalSystemMemory()
 
 /* THREADS */
 template<FrameConcept F, ColorConfigConcept C>
-void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx) {
+void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx) noexcept {
     Acquisition* cls = static_cast<Acquisition*>(ctx);
 
     if (!frameInfo) {
@@ -88,99 +88,143 @@ void PV_DECL pm::Acquisition<F, C>::EofCallback(FRAME_INFO* frameInfo, void* ctx
         cls->checkLostFrame(cbFrameNr, cls->m_lastFrameInCallback, 0);
     }
 
-
     if (!frame) {
         //TODO handle error
         spdlog::error("Could not acquire unused frame from frame pool");
         return;
     }
 
-
     auto state = cls->GetState();
     //TODO if m_frameWriterQueue.size is valid
     {
-        std::unique_lock<std::mutex> lock(cls->m_frameWriterLock);
-        cls->m_frameWriterQueue.push(frame);
-    }
-
-    if (state == AcquisitionState::AcqCapture) {
-        //queue frame for processing
-        uint32_t frameCount = cls->m_camera->ctx->curExp->frameCount;
-        cls->m_capturedFrames++;
-
-        if (cls->m_capturedFrames >= frameCount) {
-            //Got all requested frames
-            cls->m_camera->StopExp();
+        std::unique_lock<std::mutex> lock(cls->m_frameQueueLock);
+        if (cbFrameNr % 1000 == 0) {
+            spdlog::info("Current Frame ({}), framePoolSize: {}, writerQueue size: {}", cbFrameNr, cls->m_unusedFramePool->Size(), cls->m_frameWriterQueue.size());
         }
-        //notify thread
-    }
+        cls->m_frameWriterQueue.push(frame);
 
+    }
     cls->m_frameWriterCond.notify_one();
+
+    if (state == AcquisitionState::AcqCapture || state == AcquisitionState::AcqCaptureLiveScan) {
+        ++cls->m_capturedFrames;
+    }
 
     return;
 }
 
 
 template<FrameConcept F, ColorConfigConcept C>
-void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame, uint8_t i) {
+void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame, uint8_t i) noexcept {
     std::unique_lock<std::mutex> lock(m_lock);
     if (frameN > lastFrame + 1) {
         //TODO keep frame stats for lost frames
         // Log all the frame numbers we missed
-        for (uint32_t nr = lastFrame + 1; nr < frameN; nr++) {
-            spdlog::warn("({}) Current Frame ({}), Lost frame # {}", i, frameN, nr);
-        }
+        spdlog::warn("({}) Current Frame ({}), Last Frame ({}), framePoolSize: {}, writerQueue size: {}", i, frameN, lastFrame, m_unusedFramePool->Size(), m_frameWriterQueue.size());
+        // for (uint32_t nr = lastFrame + 1; nr < frameN; nr++) {
+        //     spdlog::warn("({}) Current Frame ({}), Lost frame # {}", i, frameN, nr);
+        // }
     }
     lastFrame = frameN;
 }
 
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::writeFrame(F* frame) noexcept {
+    //TODO support different storage types
+    switch (m_camera->ctx->curExp->storageType) {
+        case StorageType::Tiff:
+        case StorageType::BigTiff: //TODO Actually handle this
+        {
+            std::string file = fmt::format("{}{:04}.tiff", m_camera->ctx->curExp->filePrefix, m_frameIndex);
+            std::string path = (m_camera->ctx->curExp->acquisitionDir / "data" / file).string();
+
+            TiffFile tiff(
+                m_camera->ctx->curExp->region,
+                m_camera->ctx->info.imageFormat,
+                m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
+                (m_camera->ctx->curExp->storageType == StorageType::TiffStack) ? m_camera->ctx->curExp->frameCount : 1
+            );
+
+            tiff.Open(path);
+            tiff.WriteFrame<F>(frame);
+            m_unusedFramePool->Release(frame);
+            tiff.Close();
+        }
+        break;
+        case StorageType::Raw:
+        {
+            std::string file = fmt::format("{}{:04}.raw", m_camera->ctx->curExp->filePrefix, m_frameIndex);
+            std::filesystem::path rawpath = (m_camera->ctx->curExp->acquisitionDir / "data" / file);
+
+            uint32_t width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin;
+            uint32_t height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin;
+
+            RawFile<3> raw(
+                rawpath,
+                16, //bitdepth
+                width,
+                height,
+                m_camera->ctx->curExp->frameCount
+            );
+
+            raw.Write(frame->GetData(), 0);
+            m_unusedFramePool->Release(frame);
+            raw.Close();
+        }
+        break;
+    }
+    frame = nullptr;
+
+    return;
+}
 
 template<FrameConcept F, ColorConfigConcept C>
-void pm::Acquisition<F, C>::frameWriterThread() {
-    size_t frameIndex = 0;
-    size_t startFrame = 0;
-
+void pm::Acquisition<F, C>::frameWriterThread() noexcept {
+    m_frameIndex = 0;
     F* frame{nullptr};
+    m_running = true;
+    bool captured = false;
 
-    ThreadPool writerPool(20);
-
-    std::string fileName = m_camera->ctx->curExp->filePrefix;
-    std::filesystem::path filePath = m_camera->ctx->curExp->acquisitionDir;
-
-
-    spdlog::info("Capture mode is enabled: {}", (m_state == AcquisitionState::AcqCapture) ? "true" : "false");
     if (!m_camera->StartExp((void*)&pm::Acquisition<F, C>::EofCallback, this)) {
         //TODO handle error
-        spdlog::error("StartExp failed");
+        spdlog::error("frameWriterThread StartExp failed");
+        m_running = false;
+        return;
     }
 
     if (m_fakeData) {
         spdlog::warn("Using test image data from {}", m_testImgPath);
     }
 
-    m_running = true;
     m_lastFrameInProcessing = 0;
+    m_frameWriterReadyCond.notify_all();
 
     do {
         {
             std::unique_lock<std::mutex> lock(m_frameWriterLock);
-            if (m_capturedFrames < m_camera->ctx->curExp->frameCount) {
-                const bool timedOut = !m_frameWriterCond.wait_for(
-                            lock,
-                            std::chrono::milliseconds(5000),
-                            [this]() { return !m_frameWriterQueue.empty(); }
-                            );
+            const bool timedOut = !m_frameWriterCond.wait_for(
+                        lock,
+                        std::chrono::milliseconds(200),
+                        [this]() { return !m_frameWriterQueue.empty(); }
+                        );
 
-                if (timedOut) {
-                    //TODO handle timeout
-                    spdlog::info("m_frameWriterCond timeout");
-                    continue;
-                }
+            if (timedOut) {
+                //TODO handle timeout
+                spdlog::info("m_frameWriterCond timeout");
+                continue;
+            }
+            if (m_diskThreadAbortFlag) {
+                spdlog::info("m_diskThreadAbortFlag: {}", m_diskThreadAbortFlag);
+                continue;
             }
 
+        } //release lock
+
+        {
+            std::unique_lock<std::mutex> lock(m_frameQueueLock);
             frame = m_frameWriterQueue.front();
             m_frameWriterQueue.pop();
-        } //release lock
+        }
 
         const uint32_t frameNr = frame->GetInfo()->frameNr;
         if (m_lastFrameInProcessing == 0) {
@@ -197,132 +241,91 @@ void pm::Acquisition<F, C>::frameWriterThread() {
         // Check to make sure we didn't skip a frame
         checkLostFrame(frameNr, m_lastFrameInProcessing, 1);
 
-        switch (m_state) {
-            case AcquisitionState::AcqCapture:
-                {
-                    if (m_fakeData) {
-                        frame->SetData((void*)m_fakeData);
-                    }
-
-                    //copy frame
-                    if (!frame->CopyData()) {
-                        spdlog::info("Failed to copy frame data");
-                        continue;
-                    }
-                    {
-                        std::unique_lock<std::mutex> lock(m_lock);
-                        m_latestFrame = frame;
-                    }
-
-                    //TODO support different storage types
-                    switch (m_camera->ctx->curExp->storageType) {
-                        case StorageType::Tiff:
-                        case StorageType::BigTiff: //TODO Actually handle this
-                        {
-                            std::string file = fmt::format("{}{:04}.tiff", fileName, frameIndex);
-                            std::string path = (filePath / file).string();
-
-                            writerPool.AddTask([this, path, frame] {
-                                TiffFile file(
-                                    m_camera->ctx->curExp->region,
-                                    m_camera->ctx->info.imageFormat,
-                                    m_camera->ctx->info.spdTable[m_camera->ctx->curExp->spdTableIdx].bitDepth,
-                                    (m_camera->ctx->curExp->storageType == StorageType::TiffStack) ? m_camera->ctx->curExp->frameCount : 1
-                                );
-
-                                file.Open(path);
-                                file.WriteFrame<F>(frame);
-                                m_unusedFramePool->Release(frame);
-                                file.Close();
-                            });
-                        }
-                        break;
-                        /* case StorageType::TiffStack: //Defaults to using BigTiff */
-                        /*     if (frameIndex == 0) { */
-                        /*         std::stringstream ss; */
-                        /*         ss << std::setfill('0') << std::setw(4) << frameIndex; */
-                        /*         file->Open((filePath / (fileName + ss.str() + ".tiff")).string()); */
-                        /*     } */
-                        /*     break; */
-                        case StorageType::Raw:
-                        {
-                            std::string file = fmt::format("{}{:04}.raw", fileName, frameIndex);
-                            std::filesystem::path rawpath = (filePath / file);
-
-                            writerPool.AddTask([this, rawpath, frame] {
-                                uint32_t width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin;
-                                uint32_t height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin;
-
-                                RawFile<8> raw(
-                                    rawpath,
-                                    16, //bitdepth
-                                    width,
-                                    height,
-                                    m_camera->ctx->curExp->frameCount
-                                );
-
-                                raw.Write(frame->GetData(), 0);
-                                m_unusedFramePool->Release(frame);
-                                raw.Close();
-                            });
-                        }
-                        break;
-                    }
-
-
-
-                    if (m_progress) { m_progress(1); }
-                    frameIndex++;
-                }
-                break;
-            case AcquisitionState::AcqLiveScan:
-                {
-                    if (m_fakeData) {
-                        frame->SetData((void*)m_fakeData);
-                    }
-
-                    if (!frame->CopyData()) {
-                        spdlog::info("Failed to copy frame data");
-                        continue;
-                    }
-                    {
-                        std::unique_lock<std::mutex> lock(m_lock);
-                        m_latestFrame = frame;
-                    }
-                    //live view only, release frame
-                    m_unusedFramePool->Release(frame);
-                }
-                break;
-            case AcquisitionState::AcqStopped:
-                spdlog::info("Shutting down acquisition");
-                break;
-            default:
-                spdlog::error("Error: AcquisitionState");
-                break;
+        if (m_fakeData) {
+            frame->SetData((void*)m_fakeData);
         }
 
-        //m_unusedFramePool->Release(frame);
-        frame = nullptr;
-    } while (m_state == AcquisitionState::AcqLiveScan || (!m_diskThreadAbortFlag && (frameIndex < m_camera->ctx->curExp->frameCount)));
+        //copy frame
+        if (!frame->CopyData()) {
+            spdlog::info("Failed to copy frame data");
+            return;
+        }
+        {
+            std::unique_lock<std::mutex> lock(m_lock);
+            m_latestFrame = frame;
+        }
 
-    spdlog::info("Acquisition finished. flag: {}, frameIndex: {}, frameCount: {}", m_diskThreadAbortFlag, frameIndex, m_camera->ctx->curExp->frameCount);
+        switch (m_state) {
+            case AcquisitionState::AcqStopped: {
+                spdlog::info("Shutting down acquisition");
+                m_diskThreadAbortFlag = true;
+                continue;
+            }
+            case AcquisitionState::AcqIdle:
+            case AcquisitionState::AcqLiveScan: { //live view only, release frame
+                m_unusedFramePool->Release(frame);
+                frame = nullptr;
+                continue;
+            }
+            case AcquisitionState::AcqCaptureLiveScan:
+            case AcquisitionState::AcqCapture: {
+                if (m_frameIndex >= m_camera->ctx->curExp->frameCount) {
+                    spdlog::info("m_frameIndex > frameCount");
+                    m_unusedFramePool->Release(frame);
+                    frame = nullptr;
+
+                    if (m_state == AcquisitionState::AcqCaptureLiveScan) {
+                        m_state = AcquisitionState::AcqLiveScan;
+                    } else {
+                        m_state = AcquisitionState::AcqIdle;
+                    }
+
+                    spdlog::info("Notify acquisition finished");
+                    std::unique_lock<std::mutex> lock(m_acquisitionFinishedLock);
+                    m_acquisitionFinishedCond.notify_all();
+                    m_hasNotified = true;
+                } else if (m_frameIndex < m_camera->ctx->curExp->frameCount) {
+                    writeFrame(frame);
+                    ++m_frameIndex;
+                    if (m_progress) { m_progress(1); }
+                    captured = true;
+                }
+            }
+        }
+
+    } while (!m_diskThreadAbortFlag);
+
+    spdlog::info("Acquisition finished. flag: {}, frameIndex: {}, frameCount: {}", m_diskThreadAbortFlag, m_frameIndex, m_camera->ctx->curExp->frameCount);
     m_camera->StopExp();
+
+    while (!m_frameWriterQueue.empty() && captured) {
+        {
+            std::unique_lock<std::mutex> lock(m_frameQueueLock);
+            frame = m_frameWriterQueue.front();
+            m_frameWriterQueue.pop();
+        }
+
+        //copy frame
+        if (!frame->CopyData()) {
+            spdlog::info("Failed to copy frame data");
+            return;
+        }
+
+        if (m_frameIndex < m_camera->ctx->curExp->frameCount) {
+            writeFrame(frame);
+            ++m_frameIndex;
+        }
+        m_unusedFramePool->Release(frame);
+    }
+
     m_lastFrameInProcessing = 0;
-
-    writerPool.WaitForAll();
-
-    /* if (file) { */
-    /*     file->Close(); */
-    /*     delete file; */
-    /*     file = nullptr; */
-    /* } */
 }
 
 
 template<FrameConcept F, ColorConfigConcept C>
 pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_camera(camera), m_running(false) {
     m_pCopy = std::make_shared<PMemCopy>();
-    m_parTask = std::make_shared<ParTask>(8);
+    m_parTask = std::make_shared<ParTask>(3);
 
     //TODO preallocate unused frame pool size based on acquisition size
     const uint64_t bufferCount = m_camera->ctx->curExp->bufferCount;
@@ -335,12 +338,13 @@ pm::Acquisition<F, C>::Acquisition(std::shared_ptr<pm::Camera<F>> camera) : m_ca
 #else
     m_framesMax = (0xFFFFFFFF - 1) / frameBytes;
 #endif
+
     //TODO parameterize min value
-    m_framesMax = std::min<uint64_t>(std::max<uint64_t>(500, frameCount), m_framesMax);
+    //m_framesMax = std::min<uint64_t>(std::max<uint64_t>(500, frameCount), m_framesMax);
     //const uint64_t recommendedFrameCount = std::min<uint64_t>(10 + std::min<uint64_t>(frameCount, framesMax), bufferCount);
 
-    spdlog::info("Initializing frame pool with {} objects of size {}", m_framesMax, frameBytes);
-    m_unusedFramePool = std::make_unique<FramePool<F>>(m_framesMax, frameBytes, true, m_parTask);
+    spdlog::info("Initializing frame pool with {} objects of size {}", std::min<uint64_t>(1000, frameCount), frameBytes);
+    m_unusedFramePool = std::make_unique<FramePool<F>>(std::min<uint64_t>(1000, m_framesMax), frameBytes, true, m_parTask);
 
     spdlog::info("Get speed table {}", m_camera->ctx->curExp->spdTableIdx);
     uint16_t spdTblIdx = m_camera->ctx->curExp->spdTableIdx;
@@ -357,48 +361,124 @@ pm::Acquisition<F, C>::~Acquisition() {
 
 
 template<FrameConcept F, ColorConfigConcept C>
-bool pm::Acquisition<F, C>::Start(bool saveToDisk, std::function<void(size_t)> progressCB, double tiffFillValue, const C* tiffColorCtx) {
+void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progressCB, double tiffFillValue, const C* tiffColorCtx) {
     //TODO implement colorCtx support
     std::unique_lock<std::mutex> lock(m_lock);
+
     m_progress = progressCB;
+    m_hasNotified = false;
+    m_frameIndex = 0;
+    m_capturedFrames = 0;
 
-    //adjust frame pool size
-    m_unusedFramePool->EnsurePoolSize(std::min<uint64_t>(m_framesMax, m_camera->ctx->curExp->frameCount));
+    m_unusedFramePool->EnsurePoolSize(std::min<uint64_t>(m_camera->ctx->curExp->frameCount, m_framesMax));
 
-    if (!m_running) {
-        m_state = (saveToDisk) ? AcquisitionState::AcqCapture : AcquisitionState::AcqLiveScan;
-
-
-        if (!m_frameWriterThread) {
-            spdlog::info("Starting frame writer thread: frameCount {}", m_camera->ctx->curExp->frameCount);
-            m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
-        }
-
-        if (m_frameWriterThread) {
-            m_running = true;
-            return true;
-        }
-    } else if (m_running && m_state == AcquisitionState::AcqLiveScan && saveToDisk) {
-        //live view is running but not capturing so enable capture
-        spdlog::info("Switching from LiveScan to Capture");
-        m_state = AcquisitionState::AcqCapture;
-        return true;
-    } else if (m_running && m_state == AcquisitionState::AcqCapture) {
-        spdlog::error("Acquisition with capture is already running");
-        return false;
+    switch (m_state) {
+        case AcquisitionState::AcqIdle:
+        case AcquisitionState::AcqStopped:
+            m_state = AcquisitionState::AcqCapture;
+            break;
+        case AcquisitionState::AcqLiveScan:
+            m_state = AcquisitionState::AcqCaptureLiveScan;
+            break;
+        default:
+            break;
     }
 
-    m_running = false;
-    return false;
+
+    if (!m_frameWriterThread) {
+        std::unique_lock<std::mutex> lock(m_frameWriterReadyLock);
+        spdlog::info("Starting frame writer thread: frameCount {}", m_camera->ctx->curExp->frameCount);
+        m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
+        m_frameWriterReadyCond.wait(lock);
+    } else {
+        spdlog::info("Starting capture");
+        if (!m_camera->StartExp((void*)&pm::Acquisition<F, C>::EofCallback, this)) {
+            //TODO handle error
+            spdlog::error("StartExp failed");
+        }
+    }
+
+    return;
 }
 
 
 template<FrameConcept F, ColorConfigConcept C>
-bool pm::Acquisition<F, C>::Stop() {
+void pm::Acquisition<F, C>::StartLiveView() {
+    std::unique_lock<std::mutex> lock(m_lock);
+
+    switch (m_state) {
+        case AcquisitionState::AcqIdle:
+        case AcquisitionState::AcqStopped: 
+            m_state = AcquisitionState::AcqLiveScan;
+            break;
+        case AcquisitionState::AcqCapture:
+            m_state = AcquisitionState::AcqCaptureLiveScan;
+            break;
+        default:
+            return;
+    }
+
+    if (!m_frameWriterThread) {
+        std::unique_lock<std::mutex> lock(m_frameWriterReadyLock);
+        spdlog::info("Starting frame writer thread for live view");
+        m_frameWriterThread = new std::thread(&Acquisition<F, C>::frameWriterThread, this);
+        m_frameWriterReadyCond.wait(lock);
+    } else {
+        spdlog::info("Starting capture");
+        if (!m_camera->StartExp((void*)&pm::Acquisition<F, C>::EofCallback, this)) {
+            //TODO handle error
+            spdlog::error("StartExp failed");
+        }
+    }
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::StopCapture() {
+    switch (m_state) {
+        case AcquisitionState::AcqCapture: {
+            StopAll();
+            return;
+        }
+        case AcquisitionState::AcqCaptureLiveScan: {
+            m_state = AcquisitionState::AcqLiveScan;
+            return;
+        }
+        case AcquisitionState::AcqLiveScan: {
+            return;
+        }
+        default: {
+            return;
+        }
+    }
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::StopLiveView() {
+    switch (m_state) {
+        case AcquisitionState::AcqCapture: {
+            return;
+        }
+        case AcquisitionState::AcqCaptureLiveScan: {
+            m_state = AcquisitionState::AcqCapture;
+            return;
+        }
+        case AcquisitionState::AcqLiveScan: {
+            StopAll();
+            return;
+        }
+        default: {
+            return;
+        }
+    }
+
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::StopAll() {
+    //m_camera->StopExp();
     m_diskThreadAbortFlag = true;
     m_state = AcquisitionState::AcqStopped;
-
-    return true;
+    m_frameWriterCond.notify_one();
 }
 
 
@@ -406,10 +486,14 @@ template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::WaitForStop() {
     std::unique_lock<std::mutex> lock(m_stopLock);
     if (m_frameWriterThread && m_running) {
+        m_frameWriterCond.notify_one();
         m_frameWriterThread->join();
 
         m_frameWriterThread = nullptr;
         m_running = false;
+    } else {
+        spdlog::error("m_frameWriterThread not running");
+        
     }
 
     m_capturedFrames = 0;
@@ -417,8 +501,17 @@ void pm::Acquisition<F, C>::WaitForStop() {
     m_lastFrameInProcessing = m_lastFrameInCallback;
     //m_lastFrameInCallback = 0;
     m_diskThreadAbortFlag = false;
+    m_frameWriterThread = nullptr;
+    m_running = false;
 
     return;
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::WaitForAcquisition() {
+    std::unique_lock<std::mutex> lock(m_acquisitionFinishedLock);
+    m_acquisitionFinishedCond.wait(lock);
+
 }
 
 

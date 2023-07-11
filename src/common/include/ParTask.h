@@ -33,6 +33,7 @@
 #include <condition_variable>
 #include <memory> // std::unique_ptr
 #include <mutex>
+#include <chrono>
 #include <shared_mutex>
 #include <thread>
 #include <vector>
@@ -46,9 +47,7 @@
 */
 class ParTask {
     private:
-        static inline uint32_t taskCount;
-
-        static inline std::mutex m_taskLock;
+        std::mutex m_taskLock;
         std::mutex m_queueMutex;
 
         std::mutex m_waitMutex;
@@ -59,7 +58,7 @@ class ParTask {
         std::vector<std::thread> m_threads;
 
         uint8_t m_threadCount{0};
-        uint8_t m_running{0};
+        std::atomic<uint8_t> m_running{0};
 
         bool m_stopFlag{false};
         std::function<void(uint8_t, uint8_t)> m_task;
@@ -101,9 +100,13 @@ class ParTask {
          * @param task Pointer to the task object.
          */
         template<TaskConcept T>
-        void Start(std::shared_ptr<T> task) {
+        void Start(std::shared_ptr<T> task) noexcept {
             std::unique_lock<std::mutex> lock(m_taskLock);
-            m_task = std::bind(&T::Run, task, std::placeholders::_1, std::placeholders::_2);
+            {
+                std::unique_lock<std::mutex> qlock(m_queueMutex);
+                m_task = std::bind(&T::Run, task, std::placeholders::_1, std::placeholders::_2);
+                m_running = m_threadCount;
+            }
             start();
         }
 
@@ -111,15 +114,15 @@ class ParTask {
         /*
          * Starts task on all threads.
          */
-        void start() {
-            m_running = m_threadCount;
-            {
-                std::unique_lock<std::mutex> lock(m_queueMutex);
-                m_mutexCond.notify_all();
-            }
+        void start() noexcept {
+            // {
+            //     std::unique_lock<std::mutex> lock(m_queueMutex);
+            //     m_mutexCond.notify_all();
+            // }
+            m_mutexCond.notify_all();
 
             std::unique_lock<std::mutex> lock(m_waitMutex);
-            m_waitCond.wait(lock, [&]() { return (m_running == 0); });
+            m_waitCond.wait(lock, [this]() { return (m_running == 0); });
         }
 
         /*
@@ -127,24 +130,25 @@ class ParTask {
          *
          * @param taskNum The thread id.
          */
-        void executor(uint8_t taskNum) {
-            size_t rem = 0;
+        void executor(uint8_t taskNum) noexcept {
+            //size_t rem = 0;
 
-            {
-                std::unique_lock<std::mutex> lock(m_queueMutex);
-                m_mutexCond.wait(lock);
-            }
+            std::unique_lock<std::mutex> exeLock(m_queueMutex);
+            m_mutexCond.wait(exeLock);
 
             while (!m_stopFlag) {
                 //run task
+                exeLock.unlock(); 
                 m_task(m_threadCount, taskNum);
-                {
-                    std::unique_lock<std::mutex> lock(m_queueMutex);
-                    m_running--;
+                exeLock.lock();
 
-                    if (m_running == 0) { m_waitCond.notify_one(); }
-                    m_mutexCond.wait(lock);
+                {
+                    std::unique_lock<std::mutex> lock(m_waitMutex);
+                    m_running--;
+                    m_waitCond.notify_one();
                 }
+
+                m_mutexCond.wait(exeLock);
             }
         }
 };
