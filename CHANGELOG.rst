@@ -1,5 +1,16 @@
 Changelog for Nautilus
 ======================
+0.1.33 (2023-07-12)
+-------------------
+
+Fixed:
+^^^^^^
+- Updated UI state handling
+- Changed signal to manual reset to fix WriteFile hanging issue
+- Changed so live view can run between image acquisitions
+- Output frame queue size every 1000 frames
+
+
 0.1.31 (2023-06-01)
 -------------------
 
