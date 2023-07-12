@@ -135,6 +135,7 @@ class MainWindow : public QMainWindow {
         void on_startAcquisitionBtn_clicked() { emit sig_update_state(AcquisitionBtnPress); }
         void on_advancedSetupBtn_clicked() { emit sig_update_state(AdvSetupBtnPress); }
         void on_settingsBtn_clicked() { emit sig_update_state(SettingsBtnPress); }
+        void on_levelsSlider_valueChanged(int value);
 
         void on_frameRateEdit_valueChanged(double value);
         void on_plateFormatDropDown_activated(int index);
