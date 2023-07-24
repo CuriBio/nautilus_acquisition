@@ -92,6 +92,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.setupUi(this);
     m_config = params;
 
+    //setup width/height and initial exposure settings
+    m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
+    m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
+
+    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
+    ui.liveViewLayout->addWidget(m_liveView);
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
     connect(this, &MainWindow::sig_disable_all, this, [this]() { enableUI(false); });
@@ -103,6 +109,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         messageBox.critical(0,"Error", msg.c_str());
         messageBox.setFixedSize(500,200);
         if (!m_config->ignoreErrors) { exit(1); }
+    });
+
+    connect(this, &MainWindow::sig_disable_ui_moving_stage, this, [this]() {
+        ui.startAcquisitionBtn->setEnabled(false);
+        //ui.liveScanBtn->setEnabled(false);
+    });
+
+    connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
+        ui.startAcquisitionBtn->setEnabled(true);
+        //ui.liveScanBtn->setEnabled(true);
     });
 
     //set platmapFormat
@@ -135,7 +151,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         emit sig_update_state(AdvSetupClosed);
     });
 
-
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
         ui.frameRateEdit->setMaximum(maxfps);
@@ -152,7 +167,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
-        //m_acquisitionProgress->cancel();
         m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
         m_acquisitionProgress->show();
     });
@@ -261,9 +275,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
     });
 
-    //setup width/height and initial exposure settings
-    m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
-    m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
     m_expSettings.workingDir = m_config->path;
     m_expSettings.acquisitionDir = m_config->path;
@@ -353,7 +364,7 @@ void MainWindow::Initialize() {
     m_img16 = new uint16_t[m_width*m_height];
 
     //Set sensor size for live view
-    ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
+    //ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
     ui.histView->Init(m_hist, m_width*m_height);
 
     //log speed table
@@ -514,7 +525,7 @@ bool MainWindow::stopLiveView() {
     ledOFF();
 
     m_liveViewTimer->stop();
-    ui.liveView->update();
+    m_liveView->update();
     m_acquisition->StopAll();
     m_acquisition->WaitForStop();
 
@@ -523,13 +534,12 @@ bool MainWindow::stopLiveView() {
 
 bool MainWindow::stopLiveView_PostProcessing() {
     spdlog::info("Stop liveview post processing");
-    //emit sig_enable_all();
     emit m_stageControl->sig_enable_all();
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
     m_liveViewTimer->stop();
-    ui.liveView->update();
+    m_liveView->update();
     m_acquisition->StopAll();
     m_acquisition->WaitForStop();
 
@@ -620,8 +630,8 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
     spdlog::info("Stopping Live view, acquisition still running");
     ui.liveScanBtn->setText("Live Scan");
     m_liveViewTimer->stop();
-    ui.liveView->update();
-    m_acquisition->StopLiveView();
+    m_liveView->update();
+    //m_acquisition->StopLiveView();
 
     return true;
 
@@ -743,8 +753,9 @@ bool MainWindow::postProcessingDone_LiveViewRunning() {
 
 void MainWindow::on_levelsSlider_valueChanged(int value) {
     ui.levelMax->setText(QString::number(value));
-    ui.liveView->SetLevel(value);
-    ui.liveView->update();
+    m_liveView->SetLevel(value);
+    //ui.liveView->SetLevel(value);
+    m_liveView->update();
 }
 
 /*
@@ -1026,9 +1037,11 @@ void MainWindow::updateLiveView() noexcept {
 
             if (!m_config->noAutoConBright) {
                 autoConBright(data);
-                ui.liveView->UpdateImage((uint16_t*)m_img16);
+                m_liveView->UpdateImage((uint16_t*)m_img16);
+                //ui.liveView->UpdateImage((uint16_t*)m_img16);
             } else {
-                ui.liveView->UpdateImage(data);
+                //ui.liveView->UpdateImage(data);
+                m_liveView->UpdateImage(data);
             }
 
             ui.histView->Update(m_hmax, m_min, m_max);
@@ -1197,9 +1210,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
 
     for (auto& loc : cls->m_stageControl->GetPositions()) {
+        emit cls->sig_disable_ui_moving_stage();
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
         emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
+        emit cls->sig_enable_ui_moving_stage();
 
         cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
 

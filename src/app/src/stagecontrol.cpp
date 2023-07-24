@@ -9,6 +9,8 @@
 #include "stagecontrol.h"
 #include "ui_stagecontrol.h"
 
+//using namespace std::chrono_literals;
+
 StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
     connect(this, &StageControl::sig_enable_all, this, &StageControl::enableAll);
@@ -53,6 +55,7 @@ void StageControl::SetRelativePosition(double x, double y) {
 }
 
 void StageControl::SetAbsolutePosition(double x, double y) {
+    //std::this_thread::sleep_for(2000ms);
     m_tango->SetAbsolutePos(x, y, true);
     m_tango->GetCurrentPos(m_curX, m_curY);
 }

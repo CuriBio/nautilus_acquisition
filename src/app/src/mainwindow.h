@@ -65,6 +65,7 @@
 #include "ui_mainwindow.h"
 #include "stagecontrol.h"
 #include "advancedsetupdialog.h"
+#include "liveview.h"
 
 #define TASKS 4
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
@@ -121,10 +122,11 @@ class MainWindow : public QMainWindow {
         void sig_progress_done();
         void sig_start_acquisition(bool saveToDisk);
         void sig_stop_acquisition();
-        //void sig_acquisition_done();
         void sig_start_postprocess();
         void sig_start_analysis();
         void sig_start_encoding();
+        void sig_disable_ui_moving_stage();
+        void sig_enable_ui_moving_stage();
 
     public slots:
 
@@ -159,6 +161,7 @@ class MainWindow : public QMainWindow {
         Settings* m_settings {nullptr};
         AdvancedSetupDialog* m_advancedSettingsDialog{nullptr};
         StageControl* m_stageControl{nullptr};
+        LiveView* m_liveView{nullptr};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
