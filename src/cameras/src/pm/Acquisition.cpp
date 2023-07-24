@@ -496,6 +496,8 @@ void pm::Acquisition<F, C>::WaitForStop() {
         
     }
 
+    m_camera->StopExp();
+
     m_capturedFrames = 0;
     m_state = AcquisitionState::AcqStopped;
     m_lastFrameInProcessing = m_lastFrameInCallback;

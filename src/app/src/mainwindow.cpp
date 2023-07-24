@@ -454,6 +454,11 @@ bool MainWindow::startLiveView() {
 
     m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
     m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
+
+    //have to set to this camera mode for live view, user might be using external ttl trigger
+    //which won't start capture until the ttl signal.
+    m_expSettings.trigMode = EXT_TRIG_INTERNAL;
+
     m_camera->UpdateExp(m_expSettings);
     spdlog::info("Starting live view: expTimeMS {}", m_expSettings.expTimeMS);
 
@@ -485,6 +490,11 @@ bool MainWindow::startLiveView_PostProcessing() {
 
     m_expSettings.expTimeMS = static_cast<uint32_t>(expTimeMs);
     m_expSettings.frameCount = uint32_t(m_config->duration * m_config->fps);
+
+    //have to set to this camera mode for live view, user might be using external ttl trigger
+    //which won't start capture until the ttl signal.
+    m_expSettings.trigMode = EXT_TRIG_INTERNAL;
+
     m_camera->UpdateExp(m_expSettings);
     spdlog::info("Starting live view: expTimeMS {}", m_expSettings.expTimeMS);
 
@@ -1185,17 +1195,25 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
         emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
-        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
 
         cls->m_expSettings.filePrefix = fmt::format("{}_{}_", cls->m_config->prefix, pos++);
-        cls->m_camera->UpdateExp(cls->m_expSettings);
-
 
         if (!cls->m_acquisition) {
             cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);
         }
 
+        cls->m_acquisition->StopAll();
+        cls->m_acquisition->WaitForStop();
+
+        cls->m_expSettings.trigMode = cls->m_config->triggerMode;
+        cls->m_camera->UpdateExp(cls->m_expSettings);
+
+        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
         cls->m_acquisition->StartAcquisition(progressCB);
+
+        if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
+            cls->m_acquisition->StartLiveView();
+        }
 
         spdlog::info("Waiting for acquisition");
         cls->m_acquisition->WaitForAcquisition();
@@ -1221,6 +1239,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     spdlog::info("Acquisition Thread Stopped");
 }
+
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     m_userCanceled = true;
