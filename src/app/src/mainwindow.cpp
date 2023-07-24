@@ -1100,6 +1100,13 @@ void MainWindow::postProcess() {
 
         outfile << std::setw(100) << settings << std::endl;
 
+        const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths{
+            { "output_dir_path", m_expSettings.acquisitionDir.string() },
+            { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
+        };
+
+        outfile << std::setw(300) << paths << std::endl;
+
         //output platemap format
         if (m_config->plateFormat != "") {
             auto platemapFormat = toml::parse(m_config->plateFormat);
