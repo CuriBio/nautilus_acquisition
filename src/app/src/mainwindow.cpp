@@ -1078,8 +1078,6 @@ void MainWindow::postProcess() {
             { "software_version", m_config->version },
             { "recording_date", m_recordingDateFmt },
             { "led_intensity", m_config->ledIntensity },
-            { "output_dir_path", m_expSettings.acquisitionDir.string() },
-            { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
             { "auto_contrast_brightness", !m_config->noAutoConBright },
             { "fps", m_config->fps },
             { "duration", m_config->duration },
@@ -1249,16 +1247,20 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-    m_userCanceled = true;
+    if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
+        event->ignore();
+    } else {
+        m_userCanceled = true;
 
-    if (m_curState == LiveViewRunning) {
-        stopLiveView();
-    }
-    if (m_curState == AcquisitionRunning) {
-        stopAcquisition();
-    }
-    if (m_curState == LiveViewAcquisitionRunning) {
-        stopAcquisition_LiveViewRunning();
-        stopLiveView();
+        if (m_curState == LiveViewRunning) {
+            stopLiveView();
+        }
+        if (m_curState == AcquisitionRunning) {
+            stopAcquisition();
+        }
+        if (m_curState == LiveViewAcquisitionRunning) {
+            stopAcquisition_LiveViewRunning();
+            stopLiveView();
+        }
     }
 }

@@ -3,14 +3,13 @@ Changelog for Nautilus
 0.1.34 (2023-07-24)
 -------------------
 
-Updated:
+Added:
 ^^^^^^^
 - Set trigger mode to internal trigger when starting live view only
 - Change trigger to value in config when starting acquisition
 - Fully stop acquisition after stage move before restarting for next region
-
-Fixed:
-^^^^^^
+- Disable exit when post processing
+- Prevent line-wrapping in settings.toml for long paths
 - Error on non-E drive selection
 
 
