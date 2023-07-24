@@ -26,6 +26,8 @@
 
 #include <QFileDialog>
 #include <QString>
+#include <QMessageBox>
+
 #include "settings.h"
 
 /*
@@ -59,9 +61,19 @@ Settings::~Settings() {
  */
 void Settings::on_dirChoiceBtn_clicked() {
     auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", "E:\\");
+    QString prefix = "E:\\";
 
-    ui.dirChoice->setPlainText(dir);
-    spdlog::info("Selected dir: {}", dir.toStdString());
+    if (!dir.startsWith(prefix)) {
+        spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
+        QMessageBox messageBox;
+        messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
+        messageBox.setFixedSize(500,200);
+
+    } else {
+        spdlog::info("Selected dir: {}", dir.toStdString());
+        ui.dirChoice->setPlainText(dir);
+    }
+
 }
 
 
