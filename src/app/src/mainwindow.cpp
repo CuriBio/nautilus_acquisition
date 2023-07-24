@@ -92,6 +92,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.setupUi(this);
     m_config = params;
 
+
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
     connect(this, &MainWindow::sig_disable_all, this, [this]() { enableUI(false); });
     connect(this, &MainWindow::sig_enable_all, this, [this]() { enableUI(true); });
@@ -103,7 +104,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         messageBox.setFixedSize(500,200);
         if (!m_config->ignoreErrors) { exit(1); }
     });
-
 
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
@@ -356,7 +356,6 @@ void MainWindow::Initialize() {
     ui.liveView->Init(m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
     ui.histView->Init(m_hist, m_width*m_height);
 
-
     //log speed table
     spdlog::info("Speed Table:");
     for(auto& i : m_camInfo.spdTable) {
@@ -505,6 +504,7 @@ bool MainWindow::stopLiveView() {
     ledOFF();
 
     m_liveViewTimer->stop();
+    ui.liveView->update();
     m_acquisition->StopAll();
     m_acquisition->WaitForStop();
 
@@ -519,6 +519,7 @@ bool MainWindow::stopLiveView_PostProcessing() {
     ledOFF();
 
     m_liveViewTimer->stop();
+    ui.liveView->update();
     m_acquisition->StopAll();
     m_acquisition->WaitForStop();
 
@@ -609,6 +610,7 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
     spdlog::info("Stopping Live view, acquisition still running");
     ui.liveScanBtn->setText("Live Scan");
     m_liveViewTimer->stop();
+    ui.liveView->update();
     m_acquisition->StopLiveView();
 
     return true;
@@ -727,6 +729,12 @@ bool MainWindow::postProcessingDone_LiveViewRunning() {
     ui.stageNavigationBtn->setEnabled(!m_stageControl->isVisible());
     emit m_stageControl->sig_enable_all();
     return true;
+}
+
+void MainWindow::on_levelsSlider_valueChanged(int value) {
+    ui.levelMax->setText(QString::number(value));
+    ui.liveView->SetLevel(value);
+    ui.liveView->update();
 }
 
 /*

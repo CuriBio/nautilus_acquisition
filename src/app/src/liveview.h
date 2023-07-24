@@ -34,12 +34,18 @@
 #include <QOpenGLWidget>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
+#include <QOpenGLExtraFunctions>
 #include <QOpenGLShader>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
 #include <BitmapFormat.h>
 
+const int IMAGE_WIDTH = 800;
+const int IMAGE_HEIGHT = 600;
+const int CHANNEL_COUNT = 2;
+const int DATA_SIZE       = IMAGE_WIDTH * IMAGE_HEIGHT * CHANNEL_COUNT;
+const GLenum PIXEL_FORMAT    = GL_BGRA;
 
 /*
  *  LiveView display widget.
@@ -58,6 +64,7 @@ class LiveView : public QOpenGLWidget {
         void Clear();
         void UpdateImage(uint16_t* data);
         void SetImageFormat(ImageFormat fmt);
+        void SetLevel(int level) { m_level = level; };
 
         //QT Overrides
         void initializeGL();
@@ -67,9 +74,10 @@ class LiveView : public QOpenGLWidget {
         uint8_t* m_imageData{nullptr};
         std::mutex m_lock;
 
-        uint32_t m_width{0};
-        uint32_t m_height{0};
+        uint32_t m_width{IMAGE_WIDTH};
+        uint32_t m_height{IMAGE_HEIGHT};
         uint32_t m_totalPx{0};
+        int m_level{4096};
 
         bool m_vflip{false};
         bool m_hflip{false};
@@ -78,11 +86,20 @@ class LiveView : public QOpenGLWidget {
         QImage m_image;
         QRectF m_target;
         QImage::Format m_imageOutFmt;
-        QOpenGLTexture *m_texture;
 
-        QOpenGLShader *m_frag;
-        QOpenGLShader *m_vertex;
-        QOpenGLShaderProgram *m_program;
+        float m_uniforms[4] = {IMAGE_WIDTH, IMAGE_HEIGHT, 0.0f, 1.0f};
+        GLuint m_vao, m_vbo, m_ibo;
+        unsigned int m_vertexShader, m_fragmentShader, m_shaderProgram;
+        uint8_t* m_texData = nullptr;
+
+        GLuint m_blockIndex, m_texColor, m_R;
+        GLint m_binding, m_texLoc;
+        std::vector<GLubyte> m_teximage;
+
+        GLuint m_pbo[2];           // IDs of PBOs
+        int m_pboIndex{0};
+
+        void updatePixels(GLubyte* ptr, size_t len);
 };
 
 #endif //LIVEVIEW_H
