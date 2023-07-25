@@ -202,17 +202,20 @@ void pm::Acquisition<F, C>::frameWriterThread() noexcept {
     do {
         {
             std::unique_lock<std::mutex> lock(m_frameWriterLock);
-            const bool timedOut = !m_frameWriterCond.wait_for(
-                        lock,
-                        std::chrono::milliseconds(200),
-                        [this]() { return !m_frameWriterQueue.empty(); }
-                        );
+            if (m_frameWriterQueue.empty()) {
+                const bool timedOut = !m_frameWriterCond.wait_for(
+                            lock,
+                            std::chrono::milliseconds(200),
+                            [this]() { return !m_frameWriterQueue.empty(); }
+                            );
 
-            if (timedOut) {
-                //TODO handle timeout
-                spdlog::info("m_frameWriterCond timeout");
-                continue;
+                if (timedOut) {
+                    //TODO handle timeout
+                    spdlog::info("m_frameWriterCond timeout");
+                    continue;
+                }
             }
+
             if (m_diskThreadAbortFlag) {
                 spdlog::info("m_diskThreadAbortFlag: {}", m_diskThreadAbortFlag);
                 continue;
