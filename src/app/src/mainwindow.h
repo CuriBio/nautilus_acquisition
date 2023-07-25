@@ -67,7 +67,7 @@
 #include "advancedsetupdialog.h"
 #include "liveview.h"
 
-#define TASKS 4
+#define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
 #define RECORDING_DATE_FMT "%Y-%m-%d %H:%M:%S"
 
@@ -209,9 +209,6 @@ class MainWindow : public QMainWindow {
 
         ParTask m_parTask{TASKS};
         std::shared_ptr<TaskFrameStats> m_taskFrameStats;
-        std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
-        std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
-
         std::string m_testImgPath;
             
         char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
@@ -343,7 +340,6 @@ class MainWindow : public QMainWindow {
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
         void updateLiveView() noexcept;
-        void autoConBright(const uint16_t* data);
 
         void acquisitionDone(bool runPostProcess); 
         static void acquisitionThread(MainWindow* cls);

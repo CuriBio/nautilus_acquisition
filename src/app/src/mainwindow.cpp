@@ -313,8 +313,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //create task pools
     m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
-    m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
-    m_taskApplyLut = std::make_shared<TaskApplyLut16>();
+    //m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
+    //m_taskApplyLut = std::make_shared<TaskApplyLut16>();
 
     emit sig_update_state(Initializing);
 }
@@ -1035,37 +1035,20 @@ void MainWindow::updateLiveView() noexcept {
             m_parTask.Start(m_taskFrameStats);
             m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
+            float scale = 1.0f;
+            float autoMin = 0.0f;
+
             if (!m_config->noAutoConBright) {
-                autoConBright(data);
-                m_liveView->UpdateImage((uint16_t*)m_img16);
-                //ui.liveView->UpdateImage((uint16_t*)m_img16);
-            } else {
-                //ui.liveView->UpdateImage(data);
-                m_liveView->UpdateImage(data);
+                autoMin = static_cast<float>(m_min / 65535.0f);
+                scale = (m_min == m_max) ? 1.0 : 1.0 / ((m_max - m_min) / 65535.0);
             }
 
+            m_liveView->UpdateImage(data, scale, autoMin);
             ui.histView->Update(m_hmax, m_min, m_max);
         }
     }
 }
 
-
-/*
- * Applies the auto contrast and brightness algorithm
- * to the current live view image if enabled.
- *
- * @param data Raw pixel data to run auto contrast/brightness on.
- */
-void MainWindow::autoConBright(const uint16_t* data) {
-    /* //Update lut */
-    m_taskUpdateLut->Setup(m_min, m_max);
-    m_parTask.Start(m_taskUpdateLut);
-    uint16_t* lut = m_taskUpdateLut->Results();
-
-    //Apply lut
-    m_taskApplyLut->Setup(data, m_img16, lut, m_width * m_height);
-    m_parTask.Start(m_taskApplyLut);
-}
 
 /*
  * @brief PostProcess acquisition data

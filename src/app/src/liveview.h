@@ -58,7 +58,8 @@ class LiveView : public QOpenGLWidget {
 
         //void Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         void Clear();
-        void UpdateImage(uint16_t* data);
+        //void UpdateImage(uint16_t* data);
+        void UpdateImage(uint16_t* data, float scale, float min);
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
 
@@ -83,7 +84,7 @@ class LiveView : public QOpenGLWidget {
         QRectF m_target;
         QImage::Format m_imageOutFmt;
 
-        float m_uniforms[4] = {0, 0, 0.0f, 1.0f};
+        float m_uniforms[6] = {0, 0, 0.0f, 1.0f, 0.0f, 0.0f};
         GLuint m_vao, m_vbo, m_ibo;
         unsigned int m_vertexShader, m_fragmentShader, m_shaderProgram;
         uint8_t* m_texData = nullptr;

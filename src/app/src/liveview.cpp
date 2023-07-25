@@ -52,6 +52,7 @@ layout (location = 1) in vec2 texCoord;
 layout (binding = 0) uniform R { 
     vec2 iResolution;
     vec2 iLevels;
+    vec2 iAuto;
 };
 uniform sampler2D u_image;
 vec2 fragCoord = gl_FragCoord.xy;
@@ -59,7 +60,7 @@ vec2 fragCoord = gl_FragCoord.xy;
 void main() {
     vec2 uv = fragCoord / iResolution.xy;
 
-    float px = texture(u_image, texCoord).r;
+    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
     if (px < iLevels.x) {
         fragColor = vec4(0.0, 0.0, 1.0, 1.0);
     } else if (px > iLevels.y) {
@@ -78,10 +79,13 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     m_width = width;
     m_height = height;
     m_imageInFmt = fmt;
+
     m_vflip = vflip;
     m_hflip = hflip;
+
     m_texData = new uint8_t[m_width * m_height * CHANNEL_COUNT];
     memset(m_texData, 255, m_width * m_height * CHANNEL_COUNT);
+
     m_uniforms[0] = m_width;
     m_uniforms[1] = m_height;
 
@@ -148,21 +152,20 @@ void LiveView::Clear() {
  *
  * @param data The raw pixel data to display.
  */
-void LiveView::UpdateImage(uint16_t* data) {
+void LiveView::UpdateImage(uint16_t* data, float scale, float min) {
     std::unique_lock<std::mutex> lock(m_lock);
     m_uniforms[0] = float(this->size().width());
     m_uniforms[1] = float(this->size().height());
     m_uniforms[2] = 0.0f;
     m_uniforms[3] = float(m_level) / 4096.0f;
+    m_uniforms[4] = scale;
+    m_uniforms[5] = min;
 
     if (m_imageData) {
         auto s = std::max(this->size().width(), this->size().height());
         m_target = QRectF(0.0, 0.0, s, s);
 
         m_imageData = (uint8_t*)(data);
-        //m_image = QImage((uchar*)m_imageData, m_width, m_height, m_imageOutFmt).scaled(s, s, Qt::KeepAspectRatio);
-        //m_image.mirror(m_hflip, m_vflip);
-        //m_texture->setData(m_image);
         this->update();
     }
 }
