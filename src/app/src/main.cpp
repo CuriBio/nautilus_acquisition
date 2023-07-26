@@ -36,6 +36,8 @@
 #include <cxxopts.hpp>
 #include <fmt/chrono.h>
 #include <QtWidgets/QApplication>
+#include <QFile>
+#include <QIcon>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/logger.h>
@@ -121,7 +123,8 @@ int main(int argc, char* argv[]) {
       ("test_img", "Use test image", cxxopts::value<std::string>())
       ("version", "Nautilus version")
       ("h,help", "Usage")
-      ;
+    ;
+      
     auto userargs = options.parse(argc, argv);
 
     //Return version only, this needs to happen before anything
@@ -146,10 +149,17 @@ int main(int argc, char* argv[]) {
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
+        app.setWindowIcon(QIcon(QString("./resources/logo.png")));
+
+        spdlog::info("Loading theme {}", "./resources/curibio.qss");
+        QFile styleSheetFile("./resources/curibio.qss");
+        styleSheetFile.open(QFile::ReadOnly);
+        QString styleSheet = QLatin1String(styleSheetFile.readAll());
+        app.setStyleSheet(styleSheet);
 
         MainWindow win(config);
 
-        win.resize(800, 640);
+        win.resize(1800, 1011);
         win.setVisible(true);
 
         if (config->asyncInit) {

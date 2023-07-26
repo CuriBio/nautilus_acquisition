@@ -65,10 +65,12 @@ class LiveView : public QOpenGLWidget {
 
         //QT Overrides
         void initializeGL();
+        void resizeGL();
         void paintGL();
 
     private:
         uint8_t* m_imageData{nullptr};
+        uint16_t* m_backgroundImage;
         std::mutex m_lock;
 
         uint32_t m_width{0};
@@ -91,7 +93,7 @@ class LiveView : public QOpenGLWidget {
 
         GLuint m_blockIndex, m_texColor, m_R;
         GLint m_binding, m_texLoc;
-        std::vector<GLubyte> m_teximage;
+        //std::vector<GLubyte> m_teximage;
 
         GLuint m_pbo[2];           // IDs of PBOs
         int m_pboIndex{0};

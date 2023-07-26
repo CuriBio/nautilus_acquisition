@@ -1,0 +1,167 @@
+QWidget {
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+
+QDoubleSpinBox {
+  background-color: #2F2F2F;
+  border: none;
+}
+
+QListWidget,
+QToolButton,
+QPushButton {
+  background-color: #1C1C1C;
+  color: #B7B7B7;
+}
+
+QListWidget:item:hover,
+QToolButton:hover,
+QPushButton:hover {
+  background-color: #2F2F2F;
+  color: #FFFFFF;
+}
+
+QToolButton:disabled,
+QPushButton:disabled {
+  background-color: #4C4C4C;
+}
+
+QPlainTextEdit,
+QComboBox {
+  background-color: #1C1C1C;
+  selection-background-color: #1C1C1C;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #1C1C1C;
+    height: 4px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background-color: #6E6F73;
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color: #1C1C1C;
+    width: 10px;
+    height: 20px;
+    border-radius: 3px;
+    margin: -10px 0;
+}
+
+QSlider::handle:horizontal:hover{
+    background-color: #2F2F2F;
+}
+
+QPushButton[accessibleName="stageUpBtn3"] {
+   background-color: transparent;
+   image: url(resources/up3.png);
+}
+QPushButton[accessibleName="stageUpBtn3"]:hover {
+   background-color: transparent;
+   image: url(resources/up3_active.png);
+}
+
+QPushButton[accessibleName="stageUpBtn2"] {
+   background-color: transparent;
+   image: url(resources/up2.png);
+}
+QPushButton[accessibleName="stageUpBtn2"]:hover {
+   background-color: transparent;
+   image: url(resources/up2_active.png);
+}
+
+QPushButton[accessibleName="stageUpBtn1"] {
+   background-color: transparent;
+   image: url(resources/up1.png);
+}
+QPushButton[accessibleName="stageUpBtn1"]:hover {
+   background-color: transparent;
+   image: url(resources/up1_active.png);
+}
+
+QPushButton[accessibleName="stageDownBtn3"] {
+   background-color: transparent;
+   image: url(resources/down3.png);
+}
+QPushButton[accessibleName="stageDownBtn3"]:hover {
+   background-color: transparent;
+   image: url(resources/down3_active.png);
+}
+
+QPushButton[accessibleName="stageDownBtn2"] {
+   background-color: transparent;
+   image: url(resources/down2.png);
+}
+QPushButton[accessibleName="stageDownBtn2"]:hover {
+   background-color: transparent;
+   image: url(resources/down2_active.png);
+}
+
+QPushButton[accessibleName="stageDownBtn1"] {
+   background-color: transparent;
+   image: url(resources/down1.png);
+}
+QPushButton[accessibleName="stageDownBtn1"]:hover {
+   background-color: transparent;
+   image: url(resources/down1_active.png);
+}
+
+
+QPushButton[accessibleName="stageLeftBtn3"] {
+   background-color: transparent;
+   image: url(resources/left3.png);
+}
+QPushButton[accessibleName="stageLeftBtn3"]:hover {
+   background-color: transparent;
+   image: url(resources/left3_active.png);
+}
+
+QPushButton[accessibleName="stageLeftBtn2"] {
+   background-color: transparent;
+   image: url(resources/left2.png);
+}
+QPushButton[accessibleName="stageLeftBtn2"]:hover {
+   background-color: transparent;
+   image: url(resources/left2_active.png);
+}
+
+QPushButton[accessibleName="stageLeftBtn1"] {
+   background-color: transparent;
+   image: url(resources/left1.png);
+}
+QPushButton[accessibleName="stageLeftBtn1"]:hover {
+   background-color: transparent;
+   image: url(resources/left1_active.png);
+}
+
+QPushButton[accessibleName="stageRightBtn3"] {
+   background-color: transparent;
+   image: url(resources/right3.png);
+}
+QPushButton[accessibleName="stageRightBtn3"]:hover {
+   background-color: transparent;
+   image: url(resources/right3_active.png);
+}
+
+QPushButton[accessibleName="stageRightBtn2"] {
+   background-color: transparent;
+   image: url(resources/right2.png);
+}
+QPushButton[accessibleName="stageRightBtn2"]:hover {
+   background-color: transparent;
+   image: url(resources/right2_active.png);
+}
+
+QPushButton[accessibleName="stageRightBtn1"] {
+   background-color: transparent;
+   image: url(resources/right1.png);
+}
+QPushButton[accessibleName="stageRightBtn1"]:hover {
+   background-color: transparent;
+   image: url(resources/right1_active.png);
+}
+
+QLabel[accessibleName="platemap"] {
+  border-radius: 5px;
+}

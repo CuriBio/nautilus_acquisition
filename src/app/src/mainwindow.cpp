@@ -48,6 +48,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QProcess>
+#include <QPixmap>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -123,9 +124,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
+    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.png"));
+    }
+    ui.platemap->setScaledContents(false);
+    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
         ui.plateFormatDropDown->addItems(qs);
         ui.plateFormatDropDown->setCurrentIndex(-1);
+    });
+    connect(this, &MainWindow::sig_set_platemap, this, [this](size_t n) {
+        ui.platemap->setPixmap(*m_plateFormatImgs[n]);
     });
 
     //settings dialog
@@ -769,8 +779,8 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        ui.frameRateEdit->setStyleSheet("background-color: white");
-        ui.durationEdit->setStyleSheet("background-color: white");
+        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
 
         m_config->fps = value;
         m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
@@ -793,6 +803,31 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_config->plateFormat = m_plateFormats[index];
     m_plateFormatCurrentIndex = index;
     m_stageControl->loadList(m_config->plateFormat.string());
+
+    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+        delete m_plateFormatImgs[i];
+    }
+
+    spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
+    if (m_plateFormats[index].string() == "./plate_formats\\CuriBio 24 Well Plate.toml") {
+        m_plateFormatImgs[0] = new QPixmap(QString("./resources/Nautilus-software_24-well-plate-inactive.png"));
+        for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
+            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.png", i)));
+        }
+        ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+    } else if (m_plateFormats[index].string() == "./plate_formats\\Costar 96 Well Plate.toml") {
+        m_plateFormatImgs[0] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.png"));
+        for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
+            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.png", i)));
+        }
+    } else {
+        for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+            m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_plate-base.png"));
+        }
+    }
+
+    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+
 }
 
 
@@ -807,8 +842,8 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        ui.frameRateEdit->setStyleSheet("background-color: white");
-        ui.durationEdit->setStyleSheet("background-color: white");
+        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
     }
 
     m_config->duration = value;
@@ -1194,6 +1229,8 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     for (auto& loc : cls->m_stageControl->GetPositions()) {
         emit cls->sig_disable_ui_moving_stage();
+        emit cls->sig_set_platemap(pos);
+
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
         emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
@@ -1229,6 +1266,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         }
         spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
     }
+    emit cls->sig_set_platemap(0);
 
     uint16_t rowsxcols = cls->m_config->rows * cls->m_config->cols;
     bool sizeMatches = (rowsxcols == cls->m_stageControl->GetPositions().size() && rowsxcols == cls->m_config->tileMap.size());

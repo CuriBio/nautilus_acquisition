@@ -1,5 +1,14 @@
 Changelog for Nautilus
 ======================
+0.1.35 (2023-07-27)
+-------------------
+
+Added:
+^^^^^^^
+- Move live view auto level calculation to shader pipeline
+- Add brand style
+
+
 0.1.34 (2023-07-24)
 -------------------
 
