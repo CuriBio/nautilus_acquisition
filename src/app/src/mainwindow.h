@@ -67,9 +67,10 @@
 #include "advancedsetupdialog.h"
 #include "liveview.h"
 
-#define TASKS 4
+#define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
 #define RECORDING_DATE_FMT "%Y-%m-%d %H:%M:%S"
+#define PLATEMAP_COUNT 7
 
 using pmCamera = Camera<pm::Camera, pm::Frame>;
 using pmAcquisition = Acquisition<pm::Acquisition, pm::ColorConfig, ph_color_context, pm::Camera, pm::Frame>;
@@ -127,6 +128,7 @@ class MainWindow : public QMainWindow {
         void sig_start_encoding();
         void sig_disable_ui_moving_stage();
         void sig_enable_ui_moving_stage();
+        void sig_set_platemap(size_t n);
 
     public slots:
 
@@ -190,6 +192,7 @@ class MainWindow : public QMainWindow {
 
         std::vector<std::filesystem::path> m_plateFormats;
         int m_plateFormatCurrentIndex{-1}; 
+        QPixmap* m_plateFormatImgs[PLATEMAP_COUNT];
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;
@@ -209,9 +212,6 @@ class MainWindow : public QMainWindow {
 
         ParTask m_parTask{TASKS};
         std::shared_ptr<TaskFrameStats> m_taskFrameStats;
-        std::shared_ptr<TaskFrameLut16> m_taskUpdateLut;
-        std::shared_ptr<TaskApplyLut16> m_taskApplyLut;
-
         std::string m_testImgPath;
             
         char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
@@ -343,7 +343,6 @@ class MainWindow : public QMainWindow {
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
         void updateLiveView() noexcept;
-        void autoConBright(const uint16_t* data);
 
         void acquisitionDone(bool runPostProcess); 
         static void acquisitionThread(MainWindow* cls);

@@ -176,14 +176,14 @@
            <property name="geometry">
             <rect>
              <x>145</x>
-             <y>0</y>
+             <y>15</y>
              <width>36</width>
              <height>120</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_13">
             <property name="spacing">
-             <number>-1</number>
+             <number>2</number>
             </property>
             <property name="sizeConstraint">
              <enum>QLayout::SetFixedSize</enum>
@@ -203,35 +203,22 @@
             <item>
              <widget class="QPushButton" name="stageUpBtn3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>40</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>40</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageUpBtn3</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/up3.png</normaloff>resources/up3.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>32</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -241,41 +228,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageUpBtn2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>40</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>40</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageUpBtn2</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/up2.png</normaloff>resources/up2.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>20</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -285,41 +265,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageUpBtn1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>30</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>30</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageUpBtn1</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/up1.png</normaloff>resources/up1.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>20</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -329,6 +302,12 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -338,7 +317,7 @@
            <property name="geometry">
             <rect>
              <x>190</x>
-             <y>133</y>
+             <y>130</y>
              <width>130</width>
              <height>40</height>
             </rect>
@@ -357,7 +336,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <property name="spacing">
-             <number>-1</number>
+             <number>2</number>
             </property>
             <property name="sizeConstraint">
              <enum>QLayout::SetFixedSize</enum>
@@ -377,29 +356,22 @@
             <item>
              <widget class="QPushButton" name="stageRightBtn1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageRightBtn1</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/right1.png</normaloff>resources/right1.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -409,35 +381,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageRightBtn2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>35</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>35</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageRightBtn2</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/right2.png</normaloff>resources/right2.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -447,41 +418,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageRightBtn3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>40</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>40</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageRightBtn3</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/right3.png</normaloff>resources/right3.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>16</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -491,6 +455,12 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -499,15 +469,15 @@
           <widget class="QWidget" name="stageLeft" native="true">
            <property name="geometry">
             <rect>
-             <x>9</x>
-             <y>133</y>
+             <x>23</x>
+             <y>130</y>
              <width>130</width>
              <height>40</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_14">
             <property name="spacing">
-             <number>-1</number>
+             <number>2</number>
             </property>
             <property name="sizeConstraint">
              <enum>QLayout::SetFixedSize</enum>
@@ -527,35 +497,22 @@
             <item>
              <widget class="QPushButton" name="stageLeftBtn3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>40</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>40</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageLeftBtn3</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/left3.png</normaloff>resources/left3.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>16</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -565,35 +522,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageLeftBtn2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>35</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>35</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageLeftBtn2</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/left2.png</normaloff>resources/left2.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -603,35 +559,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageLeftBtn1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>26</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>26</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageLeftBtn1</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/left1.png</normaloff>resources/left1.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -641,6 +596,12 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -650,14 +611,14 @@
            <property name="geometry">
             <rect>
              <x>145</x>
-             <y>173</y>
+             <y>165</y>
              <width>36</width>
              <height>120</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">
             <property name="spacing">
-             <number>-1</number>
+             <number>2</number>
             </property>
             <property name="sizeConstraint">
              <enum>QLayout::SetFixedSize</enum>
@@ -677,29 +638,22 @@
             <item>
              <widget class="QPushButton" name="stageDownBtn1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>30</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>30</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageDownBtn1</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/down1.png</normaloff>resources/down1.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -709,35 +663,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageDownBtn2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>40</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>40</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageDownBtn2</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/down2.png</normaloff>resources/down2.png</iconset>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -747,41 +700,34 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="stageDownBtn3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>26</width>
-                <height>40</height>
+                <width>36</width>
+                <height>36</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>26</width>
-                <height>40</height>
-               </size>
+              <property name="accessibleName">
+               <string>stageDownBtn3</string>
               </property>
               <property name="text">
                <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>resources/down3.png</normaloff>resources/down3.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>32</height>
-               </size>
               </property>
               <property name="autoRepeat">
                <bool>true</bool>
@@ -791,6 +737,12 @@
               </property>
               <property name="autoRepeatInterval">
                <number>200</number>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>

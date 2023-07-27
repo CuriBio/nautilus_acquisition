@@ -52,6 +52,7 @@ layout (location = 1) in vec2 texCoord;
 layout (binding = 0) uniform R { 
     vec2 iResolution;
     vec2 iLevels;
+    vec2 iAuto;
 };
 uniform sampler2D u_image;
 vec2 fragCoord = gl_FragCoord.xy;
@@ -59,7 +60,7 @@ vec2 fragCoord = gl_FragCoord.xy;
 void main() {
     vec2 uv = fragCoord / iResolution.xy;
 
-    float px = texture(u_image, texCoord).r;
+    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
     if (px < iLevels.x) {
         fragColor = vec4(0.0, 0.0, 1.0, 1.0);
     } else if (px > iLevels.y) {
@@ -78,10 +79,18 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     m_width = width;
     m_height = height;
     m_imageInFmt = fmt;
+
     m_vflip = vflip;
     m_hflip = hflip;
+
     m_texData = new uint8_t[m_width * m_height * CHANNEL_COUNT];
     memset(m_texData, 255, m_width * m_height * CHANNEL_COUNT);
+
+    m_backgroundImage = new uint16_t[m_width*m_height];
+    for (size_t i = 0; i < m_width*m_height; i++) {
+        m_backgroundImage[i] = 0x6000;
+    }
+
     m_uniforms[0] = m_width;
     m_uniforms[1] = m_height;
 
@@ -110,14 +119,10 @@ void LiveView::SetImageFormat(ImageFormat fmt) {
         case ImageFormat::Mono16:       //16bit mono, 2 bytes per pixel.
             m_imageOutFmt = QImage::Format::Format_Grayscale16;
             m_totalPx = 2*m_width * m_height;
-            m_imageData = new uint8_t[m_totalPx];
-            memset(m_imageData, 256, m_totalPx);
             break;
         case ImageFormat::Mono8:       //8bit mono
             m_imageOutFmt = QImage::Format::Format_Grayscale8;
             m_totalPx = m_width * m_height;
-            m_imageData = new uint8_t[m_totalPx];
-            memset(m_imageData, 256, m_totalPx);
             break;
         default:
             spdlog::warn("Image format conversion not implemented, defaulting to Grayscale8");
@@ -148,23 +153,17 @@ void LiveView::Clear() {
  *
  * @param data The raw pixel data to display.
  */
-void LiveView::UpdateImage(uint16_t* data) {
+void LiveView::UpdateImage(uint16_t* data, float scale, float min) {
     std::unique_lock<std::mutex> lock(m_lock);
-    m_uniforms[0] = float(this->size().width());
-    m_uniforms[1] = float(this->size().height());
+    m_uniforms[0] = m_width; //float(this->size().width());
+    m_uniforms[1] = m_height; //float(this->size().height());
     m_uniforms[2] = 0.0f;
     m_uniforms[3] = float(m_level) / 4096.0f;
+    m_uniforms[4] = scale;
+    m_uniforms[5] = min;
 
-    if (m_imageData) {
-        auto s = std::max(this->size().width(), this->size().height());
-        m_target = QRectF(0.0, 0.0, s, s);
-
-        m_imageData = (uint8_t*)(data);
-        //m_image = QImage((uchar*)m_imageData, m_width, m_height, m_imageOutFmt).scaled(s, s, Qt::KeepAspectRatio);
-        //m_image.mirror(m_hflip, m_vflip);
-        //m_texture->setData(m_image);
-        this->update();
-    }
+    m_imageData = (uint8_t*)(data);
+    this->update();
 }
 
 
@@ -198,6 +197,10 @@ void LiveView::initializeGL() {
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo[1]);
     f->glBufferData(GL_PIXEL_UNPACK_BUFFER, m_width*m_height*CHANNEL_COUNT, 0, GL_STREAM_DRAW);
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+    float aspect = float(m_width) / float(m_height);
+    int min = std::min(this->size().height(), this->size().width());
+    f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
 
     GLint status;
     //vertex shader
@@ -284,6 +287,13 @@ void LiveView::initializeGL() {
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
 }
 
+void LiveView::resizeGL() {
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+
+    float aspect = float(m_width) / float(m_height);
+    int min = std::min(this->size().height(), this->size().width());
+    f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
+}
 
 /*
  * @breif Draws the pixel data to the screen.
@@ -301,9 +311,15 @@ void LiveView::paintGL() {
     m_uniforms[2] = 0.0f;
     m_uniforms[3] = float(m_level) / 4096.0f;
 
-    float aspect = float(m_width) / float(m_height);
-    int min = std::min(this->size().height(), this->size().width());
-    f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
+    if (!m_imageData) {
+        m_uniforms[3] = 1.0f;
+        m_uniforms[4] = 1.0f;
+        m_uniforms[5] = 0.0f;
+    }
+
+    // float aspect = float(m_width) / float(m_height);
+    // int min = std::min(this->size().height(), this->size().width());
+    // f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
 
     f->glBufferData(GL_UNIFORM_BUFFER, sizeof(m_uniforms), m_uniforms, GL_DYNAMIC_DRAW);
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
@@ -319,7 +335,11 @@ void LiveView::paintGL() {
     f->glBufferData(GL_PIXEL_UNPACK_BUFFER, m_width*m_height*CHANNEL_COUNT, 0, GL_STREAM_DRAW);
     GLubyte* ptr = (GLubyte*)fx->glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, m_width*m_height*CHANNEL_COUNT, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
     if(ptr) {
-        if (m_imageData) { memcpy(ptr, m_imageData, m_width*m_height*CHANNEL_COUNT); }
+        if (m_imageData) { 
+            memcpy(ptr, m_imageData, m_width*m_height*CHANNEL_COUNT);
+        } else {
+            memcpy(ptr, (uint8_t*)m_backgroundImage, m_width*m_height*CHANNEL_COUNT);
+        }
         fx->glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);  // release pointer to mapping buffer
     }
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -332,5 +352,5 @@ void LiveView::paintGL() {
     // unbind texture
     f->glBindTexture(GL_TEXTURE_2D, 0);
     m_pboIndex = 1 - m_pboIndex;
-    f->glViewport(0, 0, this->size().width(), this->size().height());
+    //f->glViewport(0, 0, this->size().width(), this->size().height());
 }

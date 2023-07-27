@@ -89,7 +89,7 @@ void HistView::Update(uint32_t histMax, uint32_t imgMin, uint32_t imgMax) {
  */
 void HistView::initializeGL() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    f->glClearColor(0.06f, 0.06f, 0.06f, 1.0f);
 }
 
 
@@ -126,7 +126,7 @@ void HistView::drawHistogram(QPainter* p) {
         y = std::clamp<int32_t>(y, 0, h);
 
         if (y > 0) {
-            p->fillRect(x, h-y, scalex, y, QColor(45,45,45));
+            p->fillRect(x, h-y, scalex, y, QColor(0x6e,0x6f, 0x73));
         }
     }
 }

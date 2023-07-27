@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.1.34)
+set(NAUTILUS_VERSION 0.1.35)
 
 project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
 set(PROJECT_BRIEF "Nautilus Acquisition")
@@ -72,22 +72,39 @@ install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
 #Install config file
 install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilus.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+#install stylesheet
+install(FILES ${CMAKE_SOURCE_DIR}/resources/curibio.qss DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
 #install icons
 install(FILES ${CMAKE_SOURCE_DIR}/resources/up1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up1_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/up2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up2_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/up3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/up3_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 install(FILES ${CMAKE_SOURCE_DIR}/resources/down1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down1_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/down2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down2_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/down3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/down3_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 install(FILES ${CMAKE_SOURCE_DIR}/resources/right1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right1_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/right2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right2_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/right3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/right3_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left1.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left1_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left2.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left2_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/left3.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/left3_active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+
+install(FILES ${CMAKE_SOURCE_DIR}/resources/logo.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 #loading gif
 install(FILES ${CMAKE_SOURCE_DIR}/resources/loading.gif DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
@@ -97,6 +114,43 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/well_data.exe DESTINATION ${CMAKE_IN
 
 #install plate formats folder
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources/plate_formats DESTINATION ${CMAKE_INSTALL_BINDIR}/)
+
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_plate-base.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-inactive.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section1-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section2-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section3-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section4-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section5-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section6-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-inactive.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section1-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section2-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section3-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section4-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section5-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-round-section6-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-inactive.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section1-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section2-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section3-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section4-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section5-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_96-well-plate-square-section6-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-inactive.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section1-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section2-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section3-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section4-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section5-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-circle-section6-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-inactive.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section6-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section1-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section2-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section3-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section4-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_384-well-plate-square-section5-active.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
 
 add_subdirectory(libs)
 add_subdirectory(src)

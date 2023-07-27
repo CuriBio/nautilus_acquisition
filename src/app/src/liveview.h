@@ -58,16 +58,19 @@ class LiveView : public QOpenGLWidget {
 
         //void Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         void Clear();
-        void UpdateImage(uint16_t* data);
+        //void UpdateImage(uint16_t* data);
+        void UpdateImage(uint16_t* data, float scale, float min);
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
 
         //QT Overrides
         void initializeGL();
+        void resizeGL();
         void paintGL();
 
     private:
         uint8_t* m_imageData{nullptr};
+        uint16_t* m_backgroundImage;
         std::mutex m_lock;
 
         uint32_t m_width{0};
@@ -83,14 +86,14 @@ class LiveView : public QOpenGLWidget {
         QRectF m_target;
         QImage::Format m_imageOutFmt;
 
-        float m_uniforms[4] = {0, 0, 0.0f, 1.0f};
+        float m_uniforms[6] = {0, 0, 0.0f, 1.0f, 0.0f, 0.0f};
         GLuint m_vao, m_vbo, m_ibo;
         unsigned int m_vertexShader, m_fragmentShader, m_shaderProgram;
         uint8_t* m_texData = nullptr;
 
         GLuint m_blockIndex, m_texColor, m_R;
         GLint m_binding, m_texLoc;
-        std::vector<GLubyte> m_teximage;
+        //std::vector<GLubyte> m_teximage;
 
         GLuint m_pbo[2];           // IDs of PBOs
         int m_pboIndex{0};
