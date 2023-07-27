@@ -101,8 +101,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
-    connect(this, &MainWindow::sig_disable_all, this, [this]() { enableUI(false); });
-    connect(this, &MainWindow::sig_enable_all, this, [this]() { enableUI(true); });
 
     //show error popup
     connect(this, &MainWindow::sig_show_error, this, [this](std::string msg) {
@@ -113,13 +111,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_disable_ui_moving_stage, this, [this]() {
-        ui.startAcquisitionBtn->setEnabled(false);
-        //ui.liveScanBtn->setEnabled(false);
+        disableMask(StartAcquisitionMask);
     });
 
     connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
-        ui.startAcquisitionBtn->setEnabled(true);
-        //ui.liveScanBtn->setEnabled(true);
+        setMask(StartAcquisitionMask);
     });
 
     //set platmapFormat
@@ -130,36 +126,53 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.platemap->setScaledContents(false);
     ui.platemap->setPixmap(*m_plateFormatImgs[0]);
 
+
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
         ui.plateFormatDropDown->addItems(qs);
         ui.plateFormatDropDown->setCurrentIndex(-1);
     });
+
     connect(this, &MainWindow::sig_set_platemap, this, [this](size_t n) {
         ui.platemap->setPixmap(*m_plateFormatImgs[n]);
     });
+
 
     //settings dialog
     m_settings = new Settings(this, m_config->path, m_config->prefix);
     connect(m_settings, &Settings::finished, this, [this]() { emit sig_update_state(SettingsClosed); });
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settingsChanged);
 
+
     //stage control
     m_stageControl = new StageControl(m_config->stageComPort, m_config, m_config->stageStepSizes, this);
     connect(m_stageControl, &StageControl::finished, this, [this]() {
         if (m_curState != AcquisitionRunning && m_curState != LiveViewAcquisitionRunning) {
-            ui.stageNavigationBtn->setEnabled(true);
+            enableMask(StageNavigationMask);
         }
     });
+
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this](size_t count) {
         availableDriveSpace(m_config->fps, m_config->duration, count);
     });
 
+    connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
+        emit sig_progress_start("Moving stage", 0);
+        m_savedMask = m_curMask;
+        setMask(DISABLE_ALL);
+    });
+
+    connect(m_stageControl, &StageControl::sig_end_move, this, [this]() {
+        emit sig_progress_done();
+        m_curMask = m_savedMask;
+        updateInputs();
+    });
+
+
     //Setup NIDAQmx controller for LED
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() {
-        emit sig_update_state(AdvSetupClosed);
-    });
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() { emit sig_update_state(AdvSetupClosed); });
+
 
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
@@ -167,6 +180,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.frameRateEdit->setValue((m_config->fps <= maxfps) ? m_config->fps : maxfps);
         ui.durationEdit->setValue(m_config->duration);
     });
+
 
     //progress bar
     m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
@@ -180,9 +194,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
         m_acquisitionProgress->show();
     });
+
     connect(this, &MainWindow::sig_progress_text, this, [this](std::string msg) {
         m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
     });
+
     connect(this, &MainWindow::sig_progress_update, this, [this](size_t n) {
         if (m_acquisitionProgress->value() + n < m_acquisitionProgress->maximum()) {
             m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
@@ -191,15 +207,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             m_acquisitionProgress->cancel();
         }
     }, Qt::QueuedConnection);
+
     connect(this, &MainWindow::sig_progress_done, this, [this]() {
         m_acquisitionProgress->setValue(m_acquisitionProgress->maximum());
         m_acquisitionProgress->cancel();
     });
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [this] {
-        emit sig_update_state(UserCanceled);
-    });
 
-    //connect(this, &MainWindow::sig_start_postprocess, this, &MainWindow::postProcess);
+
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [this] { emit sig_update_state(UserCanceled); });
 
     /*
      *  Start video encoding
@@ -221,14 +236,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_extVidEncoder.start(QString::fromStdString(encodingCmd));
     });
 
-    connect(&m_extVidEncoder, &QProcess::started, this, [this] {
-        spdlog::info("Process started");
-    });
+    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Process started"); });
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("Video encoding finished");
         emit sig_start_analysis();
     });
+
 
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         if (++m_extEncodingRetries < 5) {
@@ -323,9 +337,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //create task pools
     m_taskFrameStats = std::make_shared<TaskFrameStats>(TASKS);
-    //m_taskUpdateLut = std::make_shared<TaskFrameLut16>();
-    //m_taskApplyLut = std::make_shared<TaskApplyLut16>();
-
     emit sig_update_state(Initializing);
 }
 
@@ -425,42 +436,40 @@ void MainWindow::updateState(AppState state) {
     }
 }
 
-void MainWindow::enableUI(bool enable) {
+void MainWindow::updateInputs() {
     //probably should be moved, but when the QComboBox is enabled after being disabled
     //it resets the index to 0, which is not what we want on startup
-    ui.plateFormatDropDown->setEnabled(enable);
-    if (enable) {
+    ui.plateFormatDropDown->setEnabled(testMask(PlateMapMask));
+    if (testMask(PlateMapMask)) {
         ui.plateFormatDropDown->setCurrentIndex(m_plateFormatCurrentIndex);
     } else {
         m_plateFormatCurrentIndex = ui.plateFormatDropDown->currentIndex();
     }
 
-    ui.durationEdit->setEnabled(enable);
-    ui.frameRateEdit->setEnabled(enable);
-    ui.ledIntensityEdit->setEnabled(enable);
-    ui.startAcquisitionBtn->setEnabled(enable);
-    ui.liveScanBtn->setEnabled(enable);
-    ui.advancedSetupBtn->setEnabled(enable);
-    ui.settingsBtn->setEnabled(enable);
-    ui.stageNavigationBtn->setEnabled(enable && !m_stageControl->isVisible());
+    ui.durationEdit->setEnabled(testMask(DurationMask));
+    ui.frameRateEdit->setEnabled(testMask(FrameRateMask));
+    ui.ledIntensityEdit->setEnabled(testMask(LedIntensityMask));
+    ui.startAcquisitionBtn->setEnabled(testMask(StartAcquisitionMask));
+    ui.liveScanBtn->setEnabled(testMask(LiveScanMask));
+    ui.advancedSetupBtn->setEnabled(testMask(AdvancedSetupMask));
+    ui.settingsBtn->setEnabled(testMask(SettingsMask));
+    ui.stageNavigationBtn->setEnabled(testMask(StageNavigationMask) && !m_stageControl->isVisible());
 
-    if (!enable) {
-        emit m_stageControl->sig_disable_all();
+    if (!testMask(StageNavigationMask)) {
+        emit m_stageControl->sig_stage_disable_all();
     } else {
-        emit m_stageControl->sig_enable_all();
+        emit m_stageControl->sig_stage_enable_all();
     }
 }
+
 
 //state handlers
 bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
-    emit sig_disable_all();
+    //emit sig_disable_all();
 
-    ui.liveScanBtn->setEnabled(true);
-    ui.startAcquisitionBtn->setEnabled(true);
-    ui.ledIntensityEdit->setEnabled(true);
-    ui.stageNavigationBtn->setEnabled(!m_stageControl->isVisible());
-    emit m_stageControl->sig_enable_all();
+    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
+    emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
     ledON(voltage, false);
@@ -494,9 +503,9 @@ bool MainWindow::startLiveView() {
 
 bool MainWindow::startLiveView_PostProcessing() {
     spdlog::info("Starting liveview post processing");
-    emit sig_disable_all();
-    ui.liveScanBtn->setEnabled(true);
-    emit m_stageControl->sig_enable_all();
+    setMask(LiveScanMask);
+
+    emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
     ledON(voltage, false);
@@ -530,7 +539,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
-    emit sig_enable_all();
+    setMask(ENABLE_ALL);
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -544,7 +553,7 @@ bool MainWindow::stopLiveView() {
 
 bool MainWindow::stopLiveView_PostProcessing() {
     spdlog::info("Stop liveview post processing");
-    emit m_stageControl->sig_enable_all();
+    emit m_stageControl->sig_stage_enable_all();
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -559,7 +568,6 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
 bool MainWindow::startAcquisition() {
     spdlog::info("Starting acquisition");
-    emit sig_disable_all();
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
@@ -569,9 +577,7 @@ bool MainWindow::startAcquisition() {
     });
     m_acquisitionThread->start();
 
-    ui.liveScanBtn->setEnabled(true);
-    ui.startAcquisitionBtn->setEnabled(true);
-    ui.ledIntensityEdit->setEnabled(true);
+    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask);
     ui.startAcquisitionBtn->setText("Stop Acquisition");
     m_userCanceled = false;
     return true;
@@ -579,8 +585,8 @@ bool MainWindow::startAcquisition() {
 
 bool MainWindow::stopAcquisition() {
     spdlog::info("Stopping acquisition");
-    emit sig_enable_all();
-    emit m_stageControl->sig_enable_all();
+    setMask(ENABLE_ALL);
+    emit m_stageControl->sig_stage_enable_all();
     emit sig_progress_done();
 
     ui.startAcquisitionBtn->setText("Start Acquisition");
@@ -607,9 +613,9 @@ bool MainWindow::startLiveView_AcquisitionRunning() {
 
 bool MainWindow::startAcquisition_LiveViewRunning() {
     spdlog::info("Live view + Acquisition starting");
-    emit m_stageControl->sig_disable_all();
+    emit m_stageControl->sig_stage_disable_all();
     ui.startAcquisitionBtn->setText("Stop Acquisition");
-    ui.stageNavigationBtn->setEnabled(false);
+    disableMask(StageNavigationMask);
 
     m_userCanceled = false;
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
@@ -626,8 +632,8 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
 bool MainWindow::stopAcquisition_LiveViewRunning() {
     spdlog::info("Stopping Acquisition, Live view still running");
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    ui.stageNavigationBtn->setEnabled(true);
-    emit m_stageControl->sig_enable_all();
+    enableMask(StageNavigationMask);
+    emit m_stageControl->sig_stage_enable_all();
 
     m_acquisition->StopCapture();
     m_userCanceled = true;
@@ -649,33 +655,33 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
 
 bool MainWindow::advSetupOpen() {
     spdlog::info("Opening Advanced Setup Dialog");
-    emit sig_disable_all();
+    setMask(DISABLE_ALL);
     m_advancedSettingsDialog->show();
     return true;
 }
 
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
-    emit sig_enable_all();
+    setMask(ENABLE_ALL);
     return true;
 }
 
 bool MainWindow::settingsOpen() {
     spdlog::info("Open Settings Dialog");
-    emit sig_disable_all();
+    setMask(DISABLE_ALL);
     m_settings->show();
     return true;
 }
 
 bool MainWindow::settingsClosed() {
     spdlog::info("Settings Closed");
-    emit sig_enable_all();
+    setMask(ENABLE_ALL);
     return true;
 }
 
 bool MainWindow::startPostProcessing() {
     spdlog::info("Start PostProcessing");
-    ui.startAcquisitionBtn->setEnabled(false);
+    disableMask(StartAcquisitionMask);
     m_acquisition->StopAll();
 
     std::thread postProcessThread([this]() {
@@ -686,7 +692,6 @@ bool MainWindow::startPostProcessing() {
         postProcess();
 
         m_userCanceled = false;
-        //emit sig_progress_done();
 
         std::thread deleteT([this]() {
             spdlog::info("Deleting files");
@@ -744,27 +749,22 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
 bool MainWindow::postProcessingDone() {
     spdlog::info("Post Processing Done");
 
-    emit sig_enable_all();
-    emit m_stageControl->sig_enable_all();
+    setMask(ENABLE_ALL);
+    emit m_stageControl->sig_stage_enable_all();
     return true;
 }
 
 bool MainWindow::postProcessingDone_LiveViewRunning() {
     spdlog::info("Post Processing Done + Live View Running");
-    emit sig_disable_all();
+    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
+    emit m_stageControl->sig_stage_enable_all();
 
-    ui.liveScanBtn->setEnabled(true);
-    ui.startAcquisitionBtn->setEnabled(true);
-    ui.ledIntensityEdit->setEnabled(true);
-    ui.stageNavigationBtn->setEnabled(!m_stageControl->isVisible());
-    emit m_stageControl->sig_enable_all();
     return true;
 }
 
 void MainWindow::on_levelsSlider_valueChanged(int value) {
     ui.levelMax->setText(QString::number(value));
     m_liveView->SetLevel(value);
-    //ui.liveView->SetLevel(value);
     m_liveView->update();
 }
 
