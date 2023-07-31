@@ -1,5 +1,16 @@
 Changelog for Nautilus
 ======================
+0.1.36 (2023-07-32)
+-------------------
+
+Added:
+^^^^^^^
+- UI widget masks
+- Async stage dialog control do ui isn't blocked when moving stage
+
+
+Added:
+^^^^^^^
 0.1.35 (2023-07-27)
 -------------------
 
