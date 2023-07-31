@@ -16,6 +16,17 @@
 #include "config.h"
 #include <TangoStage.h>
 
+enum InputMasks {
+    AddPos = (1 << 0),
+    DeletePos = (1 << 1),
+    GotoPos = (1 << 2),
+    SaveList = (1 << 3),
+    LoadList = (1 << 4),
+    MoveControls = (1 << 5),
+};
+
+// #define ENABLE_ALL = AddPos | DeletePos | GotoPos | SaveList | LoadList | MoveControls
+// #define DISABLE_ALL = 0
 
 namespace Ui {
 class StageControl;
@@ -52,6 +63,8 @@ class StageControl : public QDialog {
         std::vector<int> m_stepSizes;
         double m_curX{0.0}, m_curY{0.0};
 
+        uint32_t m_inputMask, m_prevInputMask;
+
     public:
         explicit StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
@@ -77,8 +90,10 @@ class StageControl : public QDialog {
 
     signals:
         void sig_stagelist_updated(size_t count);
-        void sig_disable_all();
-        void sig_enable_all();
+        void sig_stage_disable_all();
+        void sig_stage_enable_all();
+        void sig_start_move();
+        void sig_end_move();
 
     private slots:
         void on_addBtn_clicked();
@@ -104,6 +119,7 @@ class StageControl : public QDialog {
         void on_stageDownBtn1_clicked() { SetRelativeY(-m_stepSizes[0]); };
         void on_stageDownBtn2_clicked() { SetRelativeY(-m_stepSizes[1]); };
         void on_stageDownBtn3_clicked() { SetRelativeY(-m_stepSizes[2]); };
+
 
     private:
         void saveList(std::string fileName, bool fileExists);

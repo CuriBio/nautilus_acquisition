@@ -33,6 +33,8 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <bitset>
+#include <stack>
 
 #include <toml.hpp>
 #include <tsl/ordered_map.h>
@@ -99,6 +101,23 @@ enum AppState {
     Error,
 };
 
+
+enum InputMask {
+    LedIntensityMask = (1U << 0),
+    FrameRateMask = (1U << 1),
+    DurationMask = (1U << 2),
+
+    AdvancedSetupMask = (1U << 3),
+    LiveScanMask = (1U << 4),
+    SettingsMask = (1U << 5),
+    StartAcquisitionMask = (1U << 6),
+    StageNavigationMask = (1U << 7),
+    PlateMapMask = (1U << 8),
+};
+
+#define ENABLE_ALL LedIntensityMask | FrameRateMask | DurationMask | AdvancedSetupMask | LiveScanMask | SettingsMask | StartAcquisitionMask | StageNavigationMask | PlateMapMask
+#define DISABLE_ALL 0x0
+
 /*
  * Nautilus main window class.
  */
@@ -112,8 +131,6 @@ class MainWindow : public QMainWindow {
 
     signals:
         void sig_update_state(AppState newState);
-        void sig_disable_all();
-        void sig_enable_all();
         void sig_set_platmapFormat(QStringList qs);
         void sig_set_fps_duration(int maxfps, int fps, int duration);
         void sig_show_error(std::string msg);
@@ -129,8 +146,6 @@ class MainWindow : public QMainWindow {
         void sig_disable_ui_moving_stage();
         void sig_enable_ui_moving_stage();
         void sig_set_platemap(size_t n);
-
-    public slots:
 
     private slots:
         void updateState(AppState newState);
@@ -206,6 +221,9 @@ class MainWindow : public QMainWindow {
         uint32_t m_min, m_max;
         uint32_t m_hmax;
 
+        std::bitset<32> m_curMask;
+        std::bitset<32> m_savedMask;
+
         uint16_t* m_img16;
         uint8_t* m_lut16{nullptr};
         uint32_t* m_hist{nullptr};
@@ -225,15 +243,16 @@ class MainWindow : public QMainWindow {
 
         std::mutex m_lock;
         std::mutex m_liveViewLock;
+
         AppState m_curState = Uninitialized;
 
         std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
             { {Uninitialized, Initializing}, [this]() {
-                enableUI(false);
+                setMask(DISABLE_ALL);
                 m_curState = Initializing;
             }},
             { {Initializing, Idle}, [this]() { 
-                enableUI(true);
+                setMask(ENABLE_ALL);
                 m_curState = Idle;
             }},
             //live view states
@@ -328,7 +347,25 @@ class MainWindow : public QMainWindow {
         bool postProcessingDone();
         bool postProcessingDone_LiveViewRunning();
 
-        void enableUI(bool enable);
+        void updateInputs();
+        void setMask(uint32_t mask) {
+            m_curMask = std::bitset<32>(mask);
+            updateInputs();
+        }
+
+        void enableMask(uint32_t mask) {
+            m_curMask |= std::bitset<32>(mask);
+            updateInputs();
+        }
+
+        void disableMask(uint32_t mask) {
+            m_curMask &= ~std::bitset<32>(mask);
+            updateInputs();
+        }
+
+        bool testMask(uint32_t mask) {
+            return ((m_curMask & std::bitset<32>(mask)) != std::bitset<32>(0));
+        }
 
         void setupNIDev(std::string niDev);
 

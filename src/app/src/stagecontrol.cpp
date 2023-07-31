@@ -13,9 +13,8 @@
 
 StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent) : QDialog(parent), ui(new Ui::StageControl) {
     ui->setupUi(this);
-    connect(this, &StageControl::sig_enable_all, this, &StageControl::enableAll);
-    connect(this, &StageControl::sig_disable_all, this, &StageControl::disableAll);
-
+    connect(this, &StageControl::sig_stage_enable_all, this, &StageControl::enableAll);
+    connect(this, &StageControl::sig_stage_disable_all, this, &StageControl::disableAll);
 
     m_comPort = comPort;
     m_stepSizes = stepSizes;
@@ -199,17 +198,21 @@ void StageControl::loadList(std::string fileName) {
 
 
 void StageControl::on_gotoPosBtn_clicked() {
-    int row = ui->stageLocations->currentRow();
+    emit sig_start_move();
+    std::thread t([this] {
+        int row = ui->stageLocations->currentRow();
 
-    if (row >= 0) {
-        StagePosition* item = static_cast<StagePosition*>(ui->stageLocations->item(row));
-        spdlog::info("Setting stage to position x: {}, y: {}", item->x, item->y);
-        m_tango->SetAbsolutePos(item->x, item->y, true);
-        m_tango->GetCurrentPos(m_curX, m_curY);
-    } else {
-        spdlog::info("Invalid selection");
-    }
-
+        if (row >= 0) {
+            StagePosition* item = static_cast<StagePosition*>(ui->stageLocations->item(row));
+            spdlog::info("Setting stage to position x: {}, y: {}", item->x, item->y);
+            m_tango->SetAbsolutePos(item->x, item->y, true);
+            m_tango->GetCurrentPos(m_curX, m_curY);
+        } else {
+            spdlog::info("Invalid selection");
+        }
+        emit sig_end_move();
+    });
+    t.detach();
 }
 
 void StageControl::disableAll() {
