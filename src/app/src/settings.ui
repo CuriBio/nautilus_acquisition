@@ -145,29 +145,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPlainTextEdit" name="filePrefix">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="plainText">
-        <string>default_</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::TextEditable|Qt::TextSelectableByMouse</set>
-       </property>
-       <property name="placeholderText">
-        <string/>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="filePrefix"></widget>
      </item>
      <item>
       <widget class="QLabel" name="fileTypeLabel">

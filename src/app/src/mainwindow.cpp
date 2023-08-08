@@ -873,7 +873,7 @@ void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix)
         m_expSettings.filePrefix = m_config->prefix;
         m_camera->UpdateExp(m_expSettings);
     } else {
-        spdlog::info("Settings not updated, invalid prefix");
+        spdlog::info("Settings not changed, invalid prefix");
     }
 }
 

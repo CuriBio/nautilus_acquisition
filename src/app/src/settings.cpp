@@ -44,7 +44,7 @@ Settings::Settings(QWidget* parent, std::filesystem::path path, std::string pref
     ui.dirChoice->setPlainText(qpath);
     ui.dirChoice->setPlaceholderText(qpath);
 
-    ui.filePrefix->setPlainText(prefix.c_str());
+    ui.filePrefix->setText(prefix.c_str());
 }
 
 
@@ -56,8 +56,8 @@ Settings::~Settings() {
 
 
 bool Settings::validateDirAndPrefix() {
-    auto filePrefixStd = ui.filePrefix->toPlainText().toStdString();
-    auto dirChoiceStd = ui.filePrefix->toPlainText().toStdString();
+    auto filePrefixStd = ui.filePrefix->text().toStdString();
+    auto dirChoiceStd = ui.dirChoice->toPlainText().toStdString();
 
     bool isPrefixValid = dirChoiceStd.length() + (2 * filePrefixStd.length()) < 200;
     QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
@@ -100,7 +100,7 @@ void Settings::on_filePrefix_textChanged() {
 void Settings::on_modalChoice_accepted() {
     emit sig_settings_changed(
         ui.dirChoice->toPlainText().toStdString(),
-        ui.filePrefix->toPlainText().toStdString()
+        ui.filePrefix->text().toStdString()
     );
     this->accept();
 }
