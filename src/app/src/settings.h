@@ -42,6 +42,8 @@ class Settings : public QDialog {
         explicit Settings(QWidget* parent, std::filesystem::path path, std::string prefix);
         virtual ~Settings();
 
+        bool validateDirAndPrefix();
+
     private:
         Ui::Settings ui;
 

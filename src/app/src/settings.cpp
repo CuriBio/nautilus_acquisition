@@ -55,6 +55,18 @@ Settings::~Settings() {
 }
 
 
+bool Settings::validateDirAndPrefix() {
+    auto filePrefixStd = ui.filePrefix->toPlainText().toStdString();
+    auto dirChoiceStd = ui.filePrefix->toPlainText().toStdString();
+
+    bool isPrefixValid = dirChoiceStd.length() + (2 * filePrefixStd.length()) < 200;
+    QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
+    ui.filePrefix->setStyleSheet(newStyle);
+
+    return isPrefixValid;
+}
+
+
 /*
  * Directory choice button slot, called when user clicks on directory selector.
  * Sets the output directory path.
@@ -74,15 +86,13 @@ void Settings::on_dirChoiceBtn_clicked() {
         ui.dirChoice->setPlainText(dir);
     }
 
-    // TODO check full path length
-
+    validateDirAndPrefix();
 }
 
 
 void Settings::on_filePrefix_textChanged() {
-    spdlog::info("New prefix: {}", ui.filePrefix->toPlainText().toStdString());
+    validateDirAndPrefix();
 }
-
 
 /*
  * Emits signal for when a user accepts changes to settings.
