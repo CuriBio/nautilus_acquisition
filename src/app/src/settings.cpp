@@ -74,6 +74,13 @@ void Settings::on_dirChoiceBtn_clicked() {
         ui.dirChoice->setPlainText(dir);
     }
 
+    // TODO check full path length
+
+}
+
+
+void Settings::on_filePrefix_textChanged() {
+    spdlog::info("New prefix: {}", ui.filePrefix->toPlainText().toStdString());
 }
 
 

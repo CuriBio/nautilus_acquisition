@@ -50,6 +50,7 @@ class Settings : public QDialog {
 
     private slots:
         void on_dirChoiceBtn_clicked();
+        void on_filePrefix_textChanged();
         void on_modalChoice_accepted();
         void on_modalChoice_rejected();
 };
