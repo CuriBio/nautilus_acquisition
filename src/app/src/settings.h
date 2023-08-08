@@ -42,6 +42,8 @@ class Settings : public QDialog {
         explicit Settings(QWidget* parent, std::filesystem::path path, std::string prefix);
         virtual ~Settings();
 
+        void validateDirAndPrefix();
+
     private:
         Ui::Settings ui;
 
@@ -50,6 +52,7 @@ class Settings : public QDialog {
 
     private slots:
         void on_dirChoiceBtn_clicked();
+        void on_filePrefix_textChanged();
         void on_modalChoice_accepted();
         void on_modalChoice_rejected();
 };

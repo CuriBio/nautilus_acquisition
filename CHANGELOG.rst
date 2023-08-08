@@ -1,6 +1,17 @@
 Changelog for Nautilus
 ======================
-0.1.36 (2023-07-32)
+
+
+0.1.37 (unreleased)
+-------------------
+
+Added:
+^^^^^^^
+- Check limiting the length of recording directory + file prefix path
+
+
+
+0.1.36 (2023-07-31)
 -------------------
 
 Added:

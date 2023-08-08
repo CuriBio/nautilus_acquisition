@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QMessageBox>
+#include <QPushButton>
 
 #include "settings.h"
 
@@ -44,7 +45,7 @@ Settings::Settings(QWidget* parent, std::filesystem::path path, std::string pref
     ui.dirChoice->setPlainText(qpath);
     ui.dirChoice->setPlaceholderText(qpath);
 
-    ui.filePrefix->setPlainText(prefix.c_str());
+    ui.filePrefix->setText(prefix.c_str());
 }
 
 
@@ -52,6 +53,18 @@ Settings::Settings(QWidget* parent, std::filesystem::path path, std::string pref
  * Settings destructor.
  */
 Settings::~Settings() {
+}
+
+
+void Settings::validateDirAndPrefix() {
+    auto filePrefixStd = ui.filePrefix->text().toStdString();
+    auto dirChoiceStd = ui.dirChoice->toPlainText().toStdString();
+
+    bool isPrefixValid = dirChoiceStd.length() + (2 * filePrefixStd.length()) < 200;
+    QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
+    ui.filePrefix->setStyleSheet(newStyle);
+
+    ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
 }
 
 
@@ -74,8 +87,13 @@ void Settings::on_dirChoiceBtn_clicked() {
         ui.dirChoice->setPlainText(dir);
     }
 
+    validateDirAndPrefix();
 }
 
+
+void Settings::on_filePrefix_textChanged() {
+    validateDirAndPrefix();
+}
 
 /*
  * Emits signal for when a user accepts changes to settings.
@@ -83,7 +101,7 @@ void Settings::on_dirChoiceBtn_clicked() {
 void Settings::on_modalChoice_accepted() {
     emit sig_settings_changed(
         ui.dirChoice->toPlainText().toStdString(),
-        ui.filePrefix->toPlainText().toStdString()
+        ui.filePrefix->text().toStdString()
     );
     this->accept();
 }
