@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QMessageBox>
+#include <QPushButton>
 
 #include "settings.h"
 
@@ -55,7 +56,7 @@ Settings::~Settings() {
 }
 
 
-bool Settings::validateDirAndPrefix() {
+void Settings::validateDirAndPrefix() {
     auto filePrefixStd = ui.filePrefix->text().toStdString();
     auto dirChoiceStd = ui.dirChoice->toPlainText().toStdString();
 
@@ -63,7 +64,7 @@ bool Settings::validateDirAndPrefix() {
     QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
     ui.filePrefix->setStyleSheet(newStyle);
 
-    return isPrefixValid;
+    ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
 }
 
 

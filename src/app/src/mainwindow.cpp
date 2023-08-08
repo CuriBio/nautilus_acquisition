@@ -863,18 +863,14 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
  * @param prefix The file prefix to use for captured images.
  */
 void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix) {
-    if (m_settings->validateDirAndPrefix()) {
-        spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
-        m_config->path = path;
-        m_config->prefix = prefix;
+    spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
+    m_config->path = path;
+    m_config->prefix = prefix;
 
-        m_expSettings.workingDir = m_config->path;
-        m_expSettings.acquisitionDir = m_config->path;
-        m_expSettings.filePrefix = m_config->prefix;
-        m_camera->UpdateExp(m_expSettings);
-    } else {
-        spdlog::info("Settings not changed, invalid prefix");
-    }
+    m_expSettings.workingDir = m_config->path;
+    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.filePrefix = m_config->prefix;
+    m_camera->UpdateExp(m_expSettings);
 }
 
 
