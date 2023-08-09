@@ -40,7 +40,7 @@ class Settings : public QDialog {
     Q_OBJECT
 
     public:
-        explicit Settings(QWidget* parent, std::shared_ptr<Config> config);
+        explicit Settings(QWidget* parent, std::shared_ptr<const Config> config);
         virtual ~Settings();
 
         void show();
@@ -49,7 +49,7 @@ class Settings : public QDialog {
         void setupOptions();
         void validateDirAndPrefix();
 
-        std::shared_ptr<Config> m_config;
+        std::shared_ptr<const Config> m_config;
         Ui::Settings ui;
 
     signals:

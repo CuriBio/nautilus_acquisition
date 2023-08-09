@@ -38,7 +38,7 @@
  * @param path The initial output path value.
  * @param prefix The initial file prefix value.
  */
-Settings::Settings(QWidget* parent, std::shared_ptr<Config> config) : QDialog(parent) {
+Settings::Settings(QWidget* parent, std::shared_ptr<const Config> config) : QDialog(parent) {
     ui.setupUi(this);
 
     m_config = config;
