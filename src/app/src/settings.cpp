@@ -38,14 +38,12 @@
  * @param path The initial output path value.
  * @param prefix The initial file prefix value.
  */
-Settings::Settings(QWidget* parent, std::filesystem::path path, std::string prefix) : QDialog(parent) {
+Settings::Settings(QWidget* parent, std::shared_ptr<Config> config) : QDialog(parent) {
     ui.setupUi(this);
 
-    QString qpath = path.string().c_str();
-    ui.dirChoice->setPlainText(qpath);
-    ui.dirChoice->setPlaceholderText(qpath);
+    m_config = config;
 
-    ui.filePrefix->setText(prefix.c_str());
+    setupOptions();
 }
 
 
@@ -53,6 +51,15 @@ Settings::Settings(QWidget* parent, std::filesystem::path path, std::string pref
  * Settings destructor.
  */
 Settings::~Settings() {
+}
+
+
+void Settings::setupOptions() {
+    QString qpath = m_config->path.string().c_str();
+    ui.dirChoice->setPlainText(qpath);
+    ui.dirChoice->setPlaceholderText(qpath);
+
+    ui.filePrefix->setText(m_config->prefix.c_str());
 }
 
 
@@ -67,6 +74,11 @@ void Settings::validateDirAndPrefix() {
     ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
 }
 
+
+void Settings::show() {
+    setupOptions();
+    QDialog::show();
+}
 
 /*
  * Directory choice button slot, called when user clicks on directory selector.
