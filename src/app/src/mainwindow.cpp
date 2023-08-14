@@ -904,6 +904,8 @@ void MainWindow::setupNIDev(std::string niDev) {
 * Runs when a new trigger mode is selected, re configure exposure settings of camera
 */
 void MainWindow::updateTriggerMode(int16_t triggerMode) {
+    spdlog::info("trigger mode updated: {}", triggerMode);
+
     m_config->triggerMode = triggerMode;
     m_expSettings.trigMode = triggerMode;
     m_camera->UpdateExp(m_expSettings);

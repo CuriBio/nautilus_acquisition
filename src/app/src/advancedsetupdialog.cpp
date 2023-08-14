@@ -46,9 +46,9 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 
     int currentTrigModeIndex = -1;
     switch (m_triggerMode) {
-        case EXT_TRIG_INTERNAL:
-            currentTrigModeIndex = 0;
         case EXT_TRIG_TRIG_FIRST:
+            currentTrigModeIndex = 0;
+        case EXT_TRIG_INTERNAL:
             currentTrigModeIndex = 1;
     }
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
@@ -94,8 +94,8 @@ void AdvancedSetupDialog::on_nidevice_currentTextChanged(const QString &text) {
 */
 void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &text) {
     if (text.toStdString() == (std::string) "Wait for trigger") {
-        m_triggerMode = EXT_TRIG_INTERNAL;
-    } else {  // "Start acquisition immediately"
         m_triggerMode = EXT_TRIG_TRIG_FIRST;
+    } else {  // "Start acquisition immediately"
+        m_triggerMode = EXT_TRIG_INTERNAL;
     }
 }
