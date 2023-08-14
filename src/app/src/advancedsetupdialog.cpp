@@ -43,6 +43,15 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     ui->triggerModeList->clear();
     ui->triggerModeList->addItem(QString("Wait for trigger"));
     ui->triggerModeList->addItem(QString("Start acquisition immediately"));
+
+    int currentTrigModeIndex;
+    switch (m_triggerMode) {
+        case EXT_TRIG_INTERNAL:
+            currentTrigModeIndex = 0;
+        case EXT_TRIG_TRIG_FIRST:
+            currentTrigModeIndex = 1;
+    }
+    ui->triggerModeList->setCurrentIndex(currentTrigModeIndex)
 }
 
 
