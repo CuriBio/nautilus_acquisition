@@ -84,7 +84,7 @@ void AdvancedSetupDialog::on_nidevice_currentTextChanged(const QString &text) {
 * @param text of new choice
 */
 void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &text) {
-    if (text.toStdString() == <std::string>("Wait for trigger")) {
+    if (text.toStdString() == (std::string) "Wait for trigger") {
         m_triggerMode = EXT_TRIG_INTERNAL;
     } else {  // "Start acquisition immediately"
         m_triggerMode = EXT_TRIG_TRIG_FIRST;

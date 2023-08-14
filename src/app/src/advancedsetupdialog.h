@@ -28,7 +28,7 @@ class AdvancedSetupDialog : public QDialog{
 
     signals:
         void sig_ni_dev_change(std::string new_m_nidev);
-        void sig_trigger_mode_change(PL_EXPOSURE_MODES triggerMode);
+        void sig_trigger_mode_change(int16_t triggerMode);
 
     private slots:
         void update_advanced_setup();
@@ -39,6 +39,6 @@ class AdvancedSetupDialog : public QDialog{
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;
-        PL_EXPOSURE_MODES m_triggerMode;
+        int16_t m_triggerMode;
 };
 #endif // ADVANCEDSETUPDIALOG_H
