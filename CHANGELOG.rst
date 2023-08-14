@@ -6,27 +6,27 @@ Changelog for Nautilus
 -------------------
 
 Added:
-^^^^^^^
+^^^^^^
 - Check limiting the length of recording directory + file prefix path
-
+- Ability to change trigger mode inside the Advanced Settings menu
 
 
 0.1.36 (2023-07-31)
 -------------------
 
 Added:
-^^^^^^^
+^^^^^^
 - UI widget masks
 - Async stage dialog control do ui isn't blocked when moving stage
 
 
 Added:
-^^^^^^^
+^^^^^^
 0.1.35 (2023-07-27)
 -------------------
 
 Added:
-^^^^^^^
+^^^^^^
 - Move live view auto level calculation to shader pipeline
 - Add brand style
 
@@ -35,7 +35,7 @@ Added:
 -------------------
 
 Added:
-^^^^^^^
+^^^^^^
 - Set trigger mode to internal trigger when starting live view only
 - Change trigger to value in config when starting acquisition
 - Fully stop acquisition after stage move before restarting for next region
