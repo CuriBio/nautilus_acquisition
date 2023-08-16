@@ -29,6 +29,7 @@
 #include <QDialog>
 #include <QWidget>
 
+#include "config.h"
 #include "ui_settings.h"
 
 
@@ -39,12 +40,16 @@ class Settings : public QDialog {
     Q_OBJECT
 
     public:
-        explicit Settings(QWidget* parent, std::filesystem::path path, std::string prefix);
+        explicit Settings(QWidget* parent, std::shared_ptr<const Config> config);
         virtual ~Settings();
 
-        void validateDirAndPrefix();
+        void show();
 
     private:
+        void setupOptions();
+        void validateDirAndPrefix();
+
+        std::shared_ptr<const Config> m_config;
         Ui::Settings ui;
 
     signals:

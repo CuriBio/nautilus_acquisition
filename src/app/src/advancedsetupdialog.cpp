@@ -3,6 +3,7 @@
 
 #include "advancedsetupdialog.h"
 #include "ui_advancedsetupdialog.h"
+#include <pm/Camera.h>
 
 /*
 * Instance of advanced setup options window.
@@ -14,7 +15,6 @@ AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget
     m_config = config;
 
     connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
-    connect(ui->nidevicelist, SIGNAL(currentIndexChanged(int)),this, SLOT(nidevice_indexChanged(int)));
 }
 
 
@@ -24,31 +24,45 @@ AdvancedSetupDialog::~AdvancedSetupDialog() {
 
 
 /*
-* Reads lists of ni devices and populates drop down menu,
-* Initialize othere options.
+* Populate dropdowns.
 *
 * @param vector of ni device names
 */
 void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     ui->nidevicelist->clear();
-    if(devicelist.size() == 0){
+    if (devicelist.size() == 0) {
         ui->nidevicelist->addItem("No NI devices detected");
-    }else{
+    } else {
         for(std::string nidevicename : devicelist){
             ui->nidevicelist->addItem(QString::fromStdString(nidevicename));
         }
     }
+
+    m_triggerMode = m_config->triggerMode;
+
+    ui->triggerModeList->clear();
+    ui->triggerModeList->addItem(QString("Wait for trigger"));
+    ui->triggerModeList->addItem(QString("Start acquisition immediately"));
+
+    int currentTrigModeIndex = -1;
+    switch (m_triggerMode) {
+        case EXT_TRIG_TRIG_FIRST:
+            currentTrigModeIndex = 0;
+        case EXT_TRIG_INTERNAL:
+            currentTrigModeIndex = 1;
+    }
+    ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
 }
 
 
 /*
-* If options are confirmed then update them.
+* Save the updates.
 */
 void AdvancedSetupDialog::update_advanced_setup(){
-    //only one setting to update right now
+    emit this->sig_trigger_mode_change(m_triggerMode);
 
-    //if new newdev selected then update toml and channels
-    if(m_niDev != "No NI devices detected"){
+    //if new nidev selected then update toml and channels
+    if (m_niDev != "No NI devices detected") {
         //save new ni device to toml file
         auto file = toml::parse(m_config->configFile);
         file["device"]["nidaqmx"]["device"] = m_niDev;
@@ -66,10 +80,22 @@ void AdvancedSetupDialog::update_advanced_setup(){
 /*
 * When user selects a different ni device, save changes to be confirmed later.
 *
-* @param index of new choice
+* @param text of new choice
 */
-void AdvancedSetupDialog::nidevice_indexChanged(int index){
-    m_niDev = ui->nidevicelist->currentText().toStdString();
+void AdvancedSetupDialog::on_nidevice_currentTextChanged(const QString &text) {
+    m_niDev = text.toStdString();
 }
 
 
+/*
+* When user selects a different trigger mode, save changes to be confirmed later.
+*
+* @param text of new choice
+*/
+void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &text) {
+    if (text.toStdString() == (std::string) "Wait for trigger") {
+        m_triggerMode = EXT_TRIG_TRIG_FIRST;
+    } else {  // "Start acquisition immediately"
+        m_triggerMode = EXT_TRIG_INTERNAL;
+    }
+}

@@ -138,7 +138,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
 
     //settings dialog
-    m_settings = new Settings(this, m_config->path, m_config->prefix);
+    m_settings = new Settings(this, m_config);
     connect(m_settings, &Settings::finished, this, [this]() { emit sig_update_state(SettingsClosed); });
     connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settingsChanged);
 
@@ -171,6 +171,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //Setup NIDAQmx controller for LED
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
 
@@ -896,6 +897,18 @@ void MainWindow::setupNIDev(std::string niDev) {
 
     m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
+}
+
+
+/*
+* Runs when a new trigger mode is selected, re configure exposure settings of camera
+*/
+void MainWindow::updateTriggerMode(int16_t triggerMode) {
+    spdlog::info("trigger mode updated: {}", triggerMode);
+
+    m_config->triggerMode = triggerMode;
+    m_expSettings.trigMode = triggerMode;
+    m_camera->UpdateExp(m_expSettings);
 }
 
 
