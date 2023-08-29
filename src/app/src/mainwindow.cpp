@@ -422,6 +422,10 @@ void MainWindow::Initialize() {
         m_niSetup.wait();
     }
 
+    // Add data type options
+    ui.dataTypeList->addItem(QString("Calcium Imaging"));
+    ui.dataTypeList->addItem(QString("Voltage Imaging"));
+
     emit sig_progress_done();
     emit sig_update_state(Idle);
 }
@@ -1137,7 +1141,8 @@ void MainWindow::postProcess() {
             { "num_vertical_pixels", m_config->rows * m_height },
             { "rows", m_config->rows },
             { "cols", m_config->cols },
-            { "xy_pixel_size", m_config->xyPixelSize }
+            { "xy_pixel_size", m_config->xyPixelSize },
+            { "data_type", ui.dataTypeList->currentText().toStdString() }
         };
 
         outfile << std::setw(100) << settings << std::endl;
