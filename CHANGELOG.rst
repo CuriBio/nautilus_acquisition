@@ -10,6 +10,9 @@ Added:
 - Check limiting the length of recording directory + file prefix path
 - Ability to change trigger mode inside the Advanced Settings menu
 
+Fixed:
+^^^^^^
+- Platemap active well indicator PNGs are only displayed in gray
 
 0.1.36 (2023-07-31)
 -------------------
