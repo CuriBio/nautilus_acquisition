@@ -9,6 +9,8 @@ Added:
 ^^^^^^
 - Check limiting the length of recording directory + file prefix path
 - Ability to change trigger mode inside the Advanced Settings menu
+- Ability to specify the type of data being recorded. Current options are ``Calcium Imaging``
+  and ``Voltage Imaging``
 
 
 0.1.36 (2023-07-31)
