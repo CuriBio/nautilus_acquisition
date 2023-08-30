@@ -425,6 +425,7 @@ void MainWindow::Initialize() {
     // Add data type options
     ui.dataTypeList->addItem(QString("Calcium Imaging"));
     ui.dataTypeList->addItem(QString("Voltage Imaging"));
+    ui.dataTypeList->setCurrentIndex(0);
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
