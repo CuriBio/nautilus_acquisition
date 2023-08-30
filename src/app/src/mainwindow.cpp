@@ -1216,7 +1216,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_needsPostProcessing = true;
 
-    spdlog::info("Starting acquistions");
+    spdlog::info("Starting acquisitions");
     int pos = 1;
 
     if (cls->m_stageControl->GetPositions().empty()) {

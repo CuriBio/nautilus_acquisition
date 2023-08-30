@@ -23,9 +23,9 @@
  */
 
 /*********************************************************************
- * @file  Acquistion.cpp
+ * @file  Acquisition.cpp
  * 
- * @brief Implementation of the Acquistion class.
+ * @brief Implementation of the Acquisition class.
  *********************************************************************/
 #include <cassert>
 #include <chrono>
