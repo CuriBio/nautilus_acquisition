@@ -823,9 +823,9 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         }
         ui.platemap->setPixmap(*m_plateFormatImgs[0]);
     } else if (m_plateFormats[index].string() == "./plate_formats\\Costar 96 Well Plate.toml") {
-        m_plateFormatImgs[0] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.png"));
+        m_plateFormatImgs[0] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg"));
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.png", i)));
+            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i)));
         }
     } else {
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
