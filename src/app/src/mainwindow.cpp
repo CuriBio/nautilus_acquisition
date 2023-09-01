@@ -639,7 +639,7 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
 bool MainWindow::stopAcquisition_LiveViewRunning() {
     spdlog::info("Stopping Acquisition, Live view still running");
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    enableMask(StageNavigationMask);
+    enableMask(StageNavigationMask | LiveScanMask);
     emit m_stageControl->sig_stage_enable_all();
 
     m_acquisition->StopCapture();
