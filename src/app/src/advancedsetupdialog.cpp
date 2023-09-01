@@ -52,6 +52,10 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
             currentTrigModeIndex = 1;
     }
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
+
+    ui->checkEnableLiveViewDuringAcq->setCheckState(
+        m_config->enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked
+    );
 }
 
 
