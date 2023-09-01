@@ -584,7 +584,7 @@ bool MainWindow::startAcquisition() {
     });
     m_acquisitionThread->start();
 
-    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask);
+    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
     ui.startAcquisitionBtn->setText("Stop Acquisition");
     m_userCanceled = false;
     return true;
