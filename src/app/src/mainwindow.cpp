@@ -118,14 +118,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
+    ui.platemap = new QtSvgWidget();
+
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
-    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_24-well-plate-inactive.svg"));
-    }
-    ui.platemap->setScaledContents(true);
-    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
-
+    // for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+    //     m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.svg"));
+    // }
+    ui.platemap->load(QString::fromStdString("./resources/Nautilus-software_24-well-plate-inactive.svg"));
+    // ui.platemap->setScaledContents(false);
+    // ui.platemap->setPixmap(*m_plateFormatImgs[0]);
 
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
         ui.plateFormatDropDown->addItems(qs);
