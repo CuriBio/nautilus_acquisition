@@ -121,7 +121,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.png"));
+        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.svg"));
     }
     ui.platemap->setScaledContents(false);
     ui.platemap->setPixmap(*m_plateFormatImgs[0]);

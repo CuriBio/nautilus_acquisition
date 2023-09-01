@@ -115,7 +115,7 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/well_data.exe DESTINATION ${CMAKE_IN
 #install plate formats folder
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources/plate_formats DESTINATION ${CMAKE_INSTALL_BINDIR}/)
 
-install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_plate-base.png DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_plate-base.svg DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-inactive.svg DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section1-active.svg DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
 install(FILES ${CMAKE_SOURCE_DIR}/resources/Nautilus-software_24-well-plate-section2-active.svg DESTINATION ${CMAKE_INSTALL_BINDIR}/resources)
