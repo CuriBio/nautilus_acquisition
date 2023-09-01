@@ -100,6 +100,9 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     };
 
     //acquisition.live_view
+    enableLiveViewDuringAcquisition = toml::find_or<bool>(
+        config, "acquisition", "live_view", "enable_live_view_during_acquisition", true
+    );
     vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
     hflip = toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false);
 

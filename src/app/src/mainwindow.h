@@ -375,6 +375,7 @@ class MainWindow : public QMainWindow {
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);
+        void updateEnableLiveViewDuringAcquisition(bool enable);
 
         bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);

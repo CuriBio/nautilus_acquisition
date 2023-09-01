@@ -60,6 +60,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 */
 void AdvancedSetupDialog::update_advanced_setup(){
     emit this->sig_trigger_mode_change(m_triggerMode);
+    emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
@@ -98,4 +99,14 @@ void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &t
     } else {  // "Start acquisition immediately"
         m_triggerMode = EXT_TRIG_INTERNAL;
     }
+}
+
+
+/*
+* When user updates this checkbox, save changes to be confirmed later.
+*
+* @param text of new choice
+*/
+void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state) {
+    m_enableLiveViewDuringAcquisition = state;
 }

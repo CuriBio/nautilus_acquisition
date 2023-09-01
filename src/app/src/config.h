@@ -38,6 +38,7 @@ class Config {
         Region rgn;
 
         //acquisition.live_view options
+        bool enableLiveViewDuringAcquisition;
         bool vflip;
         bool hflip;
 
