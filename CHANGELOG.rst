@@ -12,6 +12,10 @@ Added:
 - Ability to specify the type of data being recorded. Current options are ``Calcium Imaging``
   and ``Voltage Imaging``
 
+Fixed:
+^^^^^^
+- HiLo look up table max is now 4095
+
 
 0.1.36 (2023-07-31)
 -------------------
