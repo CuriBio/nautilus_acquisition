@@ -274,7 +274,14 @@ class MainWindow : public QMainWindow {
             }},
             //live view + acquisition
             { {LiveViewRunning, AcquisitionBtnPress}, [this]() {
-                m_curState = (startAcquisition_LiveViewRunning()) ? LiveViewAcquisitionRunning : Error;
+                if (m_config->enableLiveViewDuringAcquisition) {
+                    m_curState = (startAcquisition_LiveViewRunning()) ? LiveViewAcquisitionRunning : Error;
+                } else {
+                    m_curState = (stopLiveView()) ? Idle : Error;
+                    if (m_curState == Idle) {
+                        m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
+                    }
+                }
             }},
             { {AcquisitionRunning, LiveViewBtnPress}, [this]() {
                 m_curState = (startLiveView_AcquisitionRunning()) ? LiveViewAcquisitionRunning : Error;
