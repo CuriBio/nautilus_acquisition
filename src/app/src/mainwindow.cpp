@@ -828,8 +828,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         }
     } else {
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-            // m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_plate-base.png"));
-            m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_24-well-plate-section1-active.svg"));
+            m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_plate-base.svg"));
         }
     }
 
