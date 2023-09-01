@@ -49,7 +49,6 @@
 #include <QTimer>
 #include <QProcess>
 #include <QPixmap>
-#include <QSvgWidget>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
