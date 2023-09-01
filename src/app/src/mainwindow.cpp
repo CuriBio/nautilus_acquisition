@@ -49,6 +49,7 @@
 #include <QTimer>
 #include <QProcess>
 #include <QPixmap>
+#include <QSvgWidget>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -118,16 +119,19 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-    ui.platemap = new QtSvgWidget();
-
+    
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
-    // for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-    //     m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.svg"));
-    // }
-    ui.platemap->load(QString::fromStdString("./resources/Nautilus-software_24-well-plate-inactive.svg"));
+    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.svg"));
+    }
     // ui.platemap->setScaledContents(false);
-    // ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+    int w = ui.platemap->width();
+    int h = ui.platemap->height();
+    // set a scaled pixmap to a w x h window keeping its aspect ratio 
+    label->setPixmap(p.scaled(w,h,Qt::KeepAspectRatio);
+
+    ui.platemap->setPixmap((*m_plateFormatImgs[0]).scaled(w,h,Qt::KeepAspectRatio));
 
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
         ui.plateFormatDropDown->addItems(qs);
