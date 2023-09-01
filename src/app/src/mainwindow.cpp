@@ -118,8 +118,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-    ui::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
