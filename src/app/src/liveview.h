@@ -76,7 +76,7 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_width{0};
         uint32_t m_height{0};
         uint32_t m_totalPx{0};
-        int m_level{4096};
+        int m_level{4095};
 
         bool m_vflip{false};
         bool m_hflip{false};
