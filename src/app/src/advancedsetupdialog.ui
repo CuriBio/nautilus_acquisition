@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>536</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,30 +16,33 @@
   <widget class="QComboBox" name="nidevicelist">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>310</x>
      <y>40</y>
      <width>161</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>130</x>
      <y>40</y>
-     <width>111</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>Select NI Device:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="updatesetupbtn">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>190</x>
      <y>260</y>
      <width>150</width>
      <height>30</height>
@@ -52,24 +55,59 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>160</x>
      <y>80</y>
-     <width>71</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>Trigger In:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QComboBox" name="triggerModeList">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>310</x>
      <y>80</y>
      <width>161</width>
      <height>22</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkEnableLiveViewDuringAcq">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>120</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enable live view during acquisition:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
  </widget>

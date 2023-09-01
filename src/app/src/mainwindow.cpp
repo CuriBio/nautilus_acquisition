@@ -178,6 +178,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
+    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
 
@@ -589,7 +590,7 @@ bool MainWindow::startAcquisition() {
     });
     m_acquisitionThread->start();
 
-    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask);
+    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
     ui.startAcquisitionBtn->setText("Stop Acquisition");
     m_userCanceled = false;
     return true;
@@ -644,7 +645,7 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
 bool MainWindow::stopAcquisition_LiveViewRunning() {
     spdlog::info("Stopping Acquisition, Live view still running");
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    enableMask(StageNavigationMask);
+    enableMask(StageNavigationMask | LiveScanMask);
     emit m_stageControl->sig_stage_enable_all();
 
     m_acquisition->StopCapture();
@@ -919,6 +920,16 @@ void MainWindow::updateTriggerMode(int16_t triggerMode) {
     m_config->triggerMode = triggerMode;
     m_expSettings.trigMode = triggerMode;
     m_camera->UpdateExp(m_expSettings);
+}
+
+
+/*
+* Runs when state is changed for this value
+*/
+void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
+    spdlog::info("enable live view during acquisition updated: {}", enable);
+
+    m_config->enableLiveViewDuringAcquisition = enable;
 }
 
 
@@ -1221,7 +1232,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_needsPostProcessing = true;
 
-    spdlog::info("Starting acquistions");
+    spdlog::info("Starting acquisitions");
     int pos = 1;
 
     if (cls->m_stageControl->GetPositions().empty()) {

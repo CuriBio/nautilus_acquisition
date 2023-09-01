@@ -11,6 +11,11 @@ Added:
 - Ability to change trigger mode inside the Advanced Settings menu
 - Ability to specify the type of data being recorded. Current options are ``Calcium Imaging``
   and ``Voltage Imaging``
+- Ability to disable Live View while acquisition is running
+
+Fixed:
+^^^^^^
+- HiLo look up table max is now 4095
 
 
 0.1.36 (2023-07-31)
@@ -257,7 +262,7 @@ Fixed:
 
 Fixed:
 ^^^^^^
-- Moved output directory check from frame acquistion thread to updateExp method so it's not checking the output directory on every frame callback
+- Moved output directory check from frame acquisition thread to updateExp method so it's not checking the output directory on every frame callback
 - Change available_space_in_default_drive method so it is defined for non-win32 systems
 - Fix settings output, switch to toml output
 

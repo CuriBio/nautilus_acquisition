@@ -23,9 +23,9 @@
  */
 
 /*********************************************************************
- * @file  Acquistion.h
+ * @file  Acquisition.h
  * 
- * @brief Definition of the Acquistion class.
+ * @brief Definition of the Acquisition class.
  *********************************************************************/
 #ifndef PM_ACQUISITION_H
 #define PM_ACQUISITION_H
