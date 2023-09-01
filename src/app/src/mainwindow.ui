@@ -242,53 +242,27 @@
           <number>0</number>
          </property>
          <property name="verticalSpacing">
-          <number>5</number>
+          <number>18</number>
          </property>
-         <item row="4" column="0">
-          <widget class="QPushButton" name="stageNavigationBtn">
+         <item row="5" column="0">
+          <widget class="QPushButton" name="startAcquisitionBtn">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>60</height>
             </size>
            </property>
            <property name="text">
-            <string>Stage Navigation</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="settingsBtn">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Save Directory, Format, Name, Autoupload</string>
+            <string>Start Acquisition</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QPushButton" name="liveScanBtn">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Live Scan</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
           <widget class="QPushButton" name="advancedSetupBtn">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>60</height>
             </size>
            </property>
            <property name="text">
@@ -299,16 +273,80 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="startAcquisitionBtn">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="liveScanBtn">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>60</height>
             </size>
            </property>
            <property name="text">
-            <string>Start Acquisition</string>
+            <string>Live Scan</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QPushButton" name="stageNavigationBtn">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>60</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Stage Navigation</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QFrame" name="dataTypeFrame">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <widget class="QComboBox" name="dataTypeList">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>0</y>
+              <width>275</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QPushButton" name="settingsBtn">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>60</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Save Directory, Format, Name, Autoupload</string>
            </property>
           </widget>
          </item>
@@ -322,10 +360,6 @@
          <property name="rightMargin">
           <number>75</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QComboBox" name="dataTypeList">
-          </widget>
-         </item>
         </layout>
        </item>
        <item row="0" column="0">
@@ -585,12 +619,14 @@
   <tabstop>ledIntensityEdit</tabstop>
   <tabstop>frameRateEdit</tabstop>
   <tabstop>durationEdit</tabstop>
-  <tabstop>advancedSetupBtn</tabstop>
   <tabstop>liveScanBtn</tabstop>
+  <tabstop>advancedSetupBtn</tabstop>
+  <tabstop>dataTypeList</tabstop>
   <tabstop>settingsBtn</tabstop>
   <tabstop>startAcquisitionBtn</tabstop>
   <tabstop>stageNavigationBtn</tabstop>
   <tabstop>plateFormatDropDown</tabstop>
+  <tabstop>levelsSlider</tabstop>
  </tabstops>
  <resources/>
  <connections/>
