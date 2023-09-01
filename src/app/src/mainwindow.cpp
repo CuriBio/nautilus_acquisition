@@ -127,8 +127,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     int w = ui.platemap->width();
     int h = ui.platemap->height();
     // set a scaled pixmap to a w x h window keeping its aspect ratio 
-    label->setPixmap(p.scaled(w,h,Qt::KeepAspectRatio);
-
     ui.platemap->setPixmap((*m_plateFormatImgs[0]).scaled(w,h,Qt::KeepAspectRatio));
 
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
