@@ -29,16 +29,19 @@ class AdvancedSetupDialog : public QDialog{
     signals:
         void sig_ni_dev_change(std::string new_m_nidev);
         void sig_trigger_mode_change(int16_t triggerMode);
+        void sig_enable_live_view_during_acquisition_change(bool enable);
 
     private slots:
         void update_advanced_setup();
         void on_nidevice_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
+        void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
 
     private:
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;
         int16_t m_triggerMode;
+        bool m_enableLiveViewDuringAcquisition;
 };
 #endif // ADVANCEDSETUPDIALOG_H

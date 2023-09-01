@@ -19,7 +19,7 @@ class Config {
         std::filesystem::path ffmpegDir;
         double xyPixelSize;
 
-        //acquistion options
+        //acquisition options
         double fps;
         double duration;
         double ledIntensity;
@@ -34,10 +34,11 @@ class Config {
         double expTimeMs;
         std::vector<uint8_t> tileMap;
 
-        //acquistion.region options
+        //acquisition.region options
         Region rgn;
 
-        //acquistion.live_view options
+        //acquisition.live_view options
+        bool enableLiveViewDuringAcquisition;
         bool vflip;
         bool hflip;
 
