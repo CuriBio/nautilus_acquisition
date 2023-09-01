@@ -11,6 +11,7 @@ Added:
 - Ability to change trigger mode inside the Advanced Settings menu
 - Ability to specify the type of data being recorded. Current options are ``Calcium Imaging``
   and ``Voltage Imaging``
+- Ability to disable Live View while acquisition is running
 
 
 0.1.36 (2023-07-31)
