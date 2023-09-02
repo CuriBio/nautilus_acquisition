@@ -119,15 +119,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-   //set platmapFormat
+    //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     m_platemap = new QSvgWidget();
     ui.platemapLayout->addWidget(m_platemap, 1);
-
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
         m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
     }
-
     m_platemap->load(m_plateFormatImgs[0]);
 
 
