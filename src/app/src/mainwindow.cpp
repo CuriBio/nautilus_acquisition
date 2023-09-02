@@ -727,6 +727,7 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
 
     std::thread postProcessThread([this]() {
         spdlog::info("Starting post processing thread");
+        ledOFF();
         postProcess();
 
         m_userCanceled = false;
