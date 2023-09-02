@@ -44,6 +44,8 @@
 #include <QProcess>
 #include <QProgressDialog>
 #include <QCloseEvent>
+#include <QSvgWidget>
+#include <QString>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -207,7 +209,8 @@ class MainWindow : public QMainWindow {
 
         std::vector<std::filesystem::path> m_plateFormats;
         int m_plateFormatCurrentIndex{-1}; 
-        QPixmap* m_plateFormatImgs[PLATEMAP_COUNT];
+        QString m_plateFormatImgs[PLATEMAP_COUNT];
+        QSvgWidget* m_platemap;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;
@@ -274,14 +277,7 @@ class MainWindow : public QMainWindow {
             }},
             //live view + acquisition
             { {LiveViewRunning, AcquisitionBtnPress}, [this]() {
-                if (m_config->enableLiveViewDuringAcquisition) {
-                    m_curState = (startAcquisition_LiveViewRunning()) ? LiveViewAcquisitionRunning : Error;
-                } else {
-                    m_curState = (stopLiveView()) ? Idle : Error;
-                    if (m_curState == Idle) {
-                        m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
-                    }
-                }
+                m_curState = (startAcquisition_LiveViewRunning()) ? LiveViewAcquisitionRunning : Error;
             }},
             { {AcquisitionRunning, LiveViewBtnPress}, [this]() {
                 m_curState = (startLiveView_AcquisitionRunning()) ? LiveViewAcquisitionRunning : Error;
@@ -382,7 +378,6 @@ class MainWindow : public QMainWindow {
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);
-        void updateEnableLiveViewDuringAcquisition(bool enable);
 
         bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);

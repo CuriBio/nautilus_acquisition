@@ -49,6 +49,7 @@
 #include <QTimer>
 #include <QProcess>
 #include <QPixmap>
+#include <QSvgWidget>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -118,16 +119,17 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-    //set platmapFormat
+   //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
+    m_platemap = new QSvgWidget();
+    ui.platemapLayout->addWidget(m_platemap, 1);
+
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.svg"));
+        m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
     }
-    // ui.platemap->setScaledContents(false);
-    int w = ui.platemap->width();
-    int h = ui.platemap->height();
-    // set a scaled pixmap to a w x h window keeping its aspect ratio 
-    ui.platemap->setPixmap((*m_plateFormatImgs[0]).scaled(w,h,Qt::KeepAspectRatio));
+
+    m_platemap->load(m_plateFormatImgs[0]);
+
 
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
         ui.plateFormatDropDown->addItems(qs);
@@ -135,7 +137,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_set_platemap, this, [this](size_t n) {
-        ui.platemap->setPixmap(*m_plateFormatImgs[n]);
+        m_platemap->load(m_plateFormatImgs[n]);
     });
 
 
@@ -174,7 +176,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
 
@@ -586,7 +587,7 @@ bool MainWindow::startAcquisition() {
     });
     m_acquisitionThread->start();
 
-    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
+    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask);
     ui.startAcquisitionBtn->setText("Stop Acquisition");
     m_userCanceled = false;
     return true;
@@ -641,7 +642,7 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
 bool MainWindow::stopAcquisition_LiveViewRunning() {
     spdlog::info("Stopping Acquisition, Live view still running");
     ui.startAcquisitionBtn->setText("Start Acquisition");
-    enableMask(StageNavigationMask | LiveScanMask);
+    enableMask(StageNavigationMask);
     emit m_stageControl->sig_stage_enable_all();
 
     m_acquisition->StopCapture();
@@ -813,29 +814,23 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_plateFormatCurrentIndex = index;
     m_stageControl->loadList(m_config->plateFormat.string());
 
-    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        delete m_plateFormatImgs[i];
-    }
-
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
     if (m_plateFormats[index].string() == "./plate_formats\\CuriBio 24 Well Plate.toml") {
-        m_plateFormatImgs[0] = new QPixmap(QString("./resources/Nautilus-software_24-well-plate-inactive.svg"));
+        m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i)));
+            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i));
         }
-        ui.platemap->setPixmap(*m_plateFormatImgs[0]);
     } else if (m_plateFormats[index].string() == "./plate_formats\\Costar 96 Well Plate.toml") {
-        m_plateFormatImgs[0] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg"));
+        m_plateFormatImgs[0] = QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i)));
+            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
         }
     } else {
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_plate-base.svg"));
+            m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
         }
     }
-
-    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+    m_platemap->load(m_plateFormatImgs[0]);
 }
 
 
@@ -916,16 +911,6 @@ void MainWindow::updateTriggerMode(int16_t triggerMode) {
     m_config->triggerMode = triggerMode;
     m_expSettings.trigMode = triggerMode;
     m_camera->UpdateExp(m_expSettings);
-}
-
-
-/*
-* Runs when state is changed for this value
-*/
-void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
-    spdlog::info("enable live view during acquisition updated: {}", enable);
-
-    m_config->enableLiveViewDuringAcquisition = enable;
 }
 
 
@@ -1228,7 +1213,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_needsPostProcessing = true;
 
-    spdlog::info("Starting acquisitions");
+    spdlog::info("Starting acquistions");
     int pos = 1;
 
     if (cls->m_stageControl->GetPositions().empty()) {
