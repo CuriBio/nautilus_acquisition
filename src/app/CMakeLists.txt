@@ -24,7 +24,7 @@ find_package(spdlog)
 find_package(cxxopts)
 find_package(toml11)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets SvgWidgets)
 qt_standard_project_setup()
 
 # linking against the desired targets
@@ -37,6 +37,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGLWidgets
+    Qt6::SvgWidgets
     ordered_map
     PUBLIC
     spdlog::spdlog
@@ -62,6 +63,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGLWidgets
+    Qt6::SvgWidgets
     ordered_map
     PUBLIC
     spdlog::spdlog
