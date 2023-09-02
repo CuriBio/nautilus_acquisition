@@ -693,6 +693,7 @@ bool MainWindow::startPostProcessing() {
 
     std::thread postProcessThread([this]() {
         spdlog::info("Starting post processing thread");
+        ui.startAcquisitionBtn->setText("Start Acquisition");
         ledOFF();
         m_acquisition->WaitForStop();
 
@@ -727,6 +728,7 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
 
     std::thread postProcessThread([this]() {
         spdlog::info("Starting post processing thread");
+        ui.startAcquisitionBtn->setText("Start Acquisition");
         ledOFF();
         postProcess();
 
