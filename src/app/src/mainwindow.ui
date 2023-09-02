@@ -81,49 +81,6 @@
        <enum>QFrame::Sunken</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0" alignment="Qt::AlignTop">
-        <widget class="QLabel" name="platemap">
-         <property name="minimumSize">
-          <size>
-           <width>431</width>
-           <height>280</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>431</width>
-           <height>280</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>431</width>
-           <height>280</height>
-          </size>
-         </property>
-         <property name="accessibleName">
-          <string>platemap</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1C1C;</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="lineWidth">
-          <number>0</number>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QComboBox" name="plateFormatDropDown"/>
-       </item>
        <item row="2" column="0">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
@@ -136,6 +93,33 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="1" column="0">
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>431</width>
+           <height>280</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1C1C;</string>
+         </property>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>411</width>
+            <height>261</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="platemapLayout"/>
+         </widget>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QComboBox" name="plateFormatDropDown"/>
        </item>
       </layout>
      </widget>
