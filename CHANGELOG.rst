@@ -16,6 +16,8 @@ Added:
 Fixed:
 ^^^^^^
 - HiLo look up table max is now 4095
+- Turn off LED when acquisition completes while live view is running
+- Update button text to ``Start Acquisition`` when acquisition completes
 
 
 0.1.36 (2023-07-31)
