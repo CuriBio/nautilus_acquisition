@@ -119,7 +119,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-    //set platmapFormat
+   //set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     m_platemap = new QSvgWidget();
     ui.platemapLayout->addWidget(m_platemap, 1);
