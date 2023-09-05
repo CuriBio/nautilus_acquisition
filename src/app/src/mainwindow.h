@@ -305,7 +305,7 @@ class MainWindow : public QMainWindow {
                 m_curState = (stopAcquisition_LiveViewRunning()) ? LiveViewRunning : Error;
             }},
             { {LiveViewAcquisitionRunning, PostProcessing}, [this]() {
-                m_curState = (startPostProcessing_LiveViewRunning()) ? PostProcessingLiveView : Error;
+                m_curState = (startPostProcessing_LiveViewRunning()) ? PostProcessing : Error;
             }},
             { {PostProcessing, PostProcessingDone}, [this]() {
                 m_curState = (postProcessingDone()) ? Idle : Error;
