@@ -13,10 +13,13 @@ Added:
   and ``Voltage Imaging``
 - Ability to disable Live View while acquisition is running
 
+Changed:
+^^^^^^^^
+- Turn off live view and LED light when acquisition stops
+
 Fixed:
 ^^^^^^
 - HiLo look up table max is now 4095
-- Turn off LED when acquisition completes while live view is running
 - Use of platemap SVGs with green well active indicators
 
 
