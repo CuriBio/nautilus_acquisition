@@ -48,7 +48,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QProcess>
-#include <QPixmap>
+#include <QSvgWidget>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -118,13 +118,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         setMask(StartAcquisitionMask);
     });
 
-    //set platmapFormat
+    // set platmapFormat
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
+    m_platemap = new QSvgWidget();
+    ui.platemapLayout->addWidget(m_platemap, 1);
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        m_plateFormatImgs[i] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_plate-base.png"));
+        m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
     }
-    ui.platemap->setScaledContents(false);
-    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
+    m_platemap->load(m_plateFormatImgs[0]);
 
 
     connect(this, &MainWindow::sig_set_platmapFormat, this, [this](QStringList qs) {
@@ -133,7 +134,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_set_platemap, this, [this](size_t n) {
-        ui.platemap->setPixmap(*m_plateFormatImgs[n]);
+        m_platemap->load(m_plateFormatImgs[n]);
     });
 
 
@@ -811,30 +812,23 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_plateFormatCurrentIndex = index;
     m_stageControl->loadList(m_config->plateFormat.string());
 
-    for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-        delete m_plateFormatImgs[i];
-    }
-
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
     if (m_plateFormats[index].string() == "./plate_formats\\CuriBio 24 Well Plate.toml") {
-        m_plateFormatImgs[0] = new QPixmap(QString("./resources/Nautilus-software_24-well-plate-inactive.png"));
+        m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.png", i)));
+            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i));
         }
-        ui.platemap->setPixmap(*m_plateFormatImgs[0]);
     } else if (m_plateFormats[index].string() == "./plate_formats\\Costar 96 Well Plate.toml") {
-        m_plateFormatImgs[0] = new QPixmap(QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.png"));
+        m_plateFormatImgs[0] = QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.png", i)));
+            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
         }
     } else {
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = new QPixmap(QString("./resources/Nautilus-software_plate-base.png"));
+            m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
         }
     }
-
-    ui.platemap->setPixmap(*m_plateFormatImgs[0]);
-
+    m_platemap->load(m_plateFormatImgs[0]);
 }
 
 
