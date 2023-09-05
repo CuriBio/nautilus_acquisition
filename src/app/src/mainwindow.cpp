@@ -721,37 +721,9 @@ bool MainWindow::startPostProcessing() {
 }
 
 bool MainWindow::startPostProcessing_LiveViewRunning() {
-    spdlog::info("Start PostProcessing + Live View Running");
-    ui.startAcquisitionBtn->setEnabled(false);
-
-    m_acquisition->StopCapture();
-
-    std::thread postProcessThread([this]() {
-        spdlog::info("Starting post processing thread");
-        ledOFF();
-        postProcess();
-
-        m_userCanceled = false;
-        spdlog::info("emit sig_progress_done");
-        emit sig_progress_done();
-
-        std::thread deleteT([this]() {
-            spdlog::info("Deleting files");
-            std::uintmax_t n = std::filesystem::remove_all(m_expSettings.acquisitionDir / DATA_DIR);
-            spdlog::info("Deleted {} files", n);
-        });
-        deleteT.detach();
-
-        if (m_config->encodeVideo) {
-            emit sig_progress_start("Encoding Video", 0);
-            emit sig_start_encoding();
-        } else {
-            m_acquisition->WaitForStop();
-            emit sig_update_state(PostProcessingDone);
-        } 
-    });
-
-    postProcessThread.detach();
+    spdlog::info("Stopping Live View to Start Post Processing");
+    stopLiveView()
+    startPostProcessing()
     return true;
 }
 
@@ -956,8 +928,9 @@ bool MainWindow::ledON(double voltage, bool delay) {
         if (delay) {
             spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
             std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
-            m_led = true;
         }
+        
+        m_led = true;
     }
     return rtnval;
 }
