@@ -44,6 +44,8 @@
 #include <QProcess>
 #include <QProgressDialog>
 #include <QCloseEvent>
+#include <QSvgWidget>
+#include <QString>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -207,7 +209,8 @@ class MainWindow : public QMainWindow {
 
         std::vector<std::filesystem::path> m_plateFormats;
         int m_plateFormatCurrentIndex{-1}; 
-        QPixmap* m_plateFormatImgs[PLATEMAP_COUNT];
+        QString m_plateFormatImgs[PLATEMAP_COUNT];
+        QSvgWidget* m_platemap;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
         std::string m_taskAO, m_devAO;

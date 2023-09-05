@@ -17,7 +17,7 @@ Fixed:
 ^^^^^^
 - HiLo look up table max is now 4095
 - Turn off LED when acquisition completes while live view is running
-- Update button text to ``Start Acquisition`` when acquisition completes
+- Use of platemap SVGs with green well active indicators
 
 
 0.1.36 (2023-07-31)
@@ -29,8 +29,6 @@ Added:
 - Async stage dialog control do ui isn't blocked when moving stage
 
 
-Added:
-^^^^^^
 0.1.35 (2023-07-27)
 -------------------
 
