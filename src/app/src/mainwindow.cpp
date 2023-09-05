@@ -722,8 +722,9 @@ bool MainWindow::startPostProcessing() {
 
 bool MainWindow::startPostProcessing_LiveViewRunning() {
     spdlog::info("Stopping Live View to Start Post Processing");
-    stopLiveView()
-    startPostProcessing()
+    stopLiveView();
+    startPostProcessing();
+    
     return true;
 }
 
