@@ -575,6 +575,22 @@ bool MainWindow::stopLiveView_PostProcessing() {
 }
 
 bool MainWindow::startAcquisition() {
+    if (m_plateFormatCurrentIndex == -1) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warning!");
+        msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition."
+            " Click cancel and select the plate format to enable automatic analysis."
+            " Or would you like to continue the acquisition with automatic analysis disabled?");
+        msgBox.setIcon(QMessageBox::Warning)
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+
+        if (msgBox.exec() == QMessageBox::Cancel) {
+            return false;
+        }
+    }
+
     spdlog::info("Starting acquisition");
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
