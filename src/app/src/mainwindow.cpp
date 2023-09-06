@@ -476,7 +476,7 @@ bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
     //emit sig_disable_all();
 
-    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
+    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | StageNavigationMask);
     emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
