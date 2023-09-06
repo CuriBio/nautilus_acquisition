@@ -587,7 +587,8 @@ bool MainWindow::startAcquisition() {
         msgBox.addButton(QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
 
-        if (msgBox.exec() == QMessageBox::Cancel) {
+        m_userCanceledAcquisition = msgBox.exec() == QMessageBox::Cancel;
+        if (m_userCanceledAcquisition) {
             spdlog::info("User cancelled acquisition start because no platemap was selected.");
             return false;
         } else {

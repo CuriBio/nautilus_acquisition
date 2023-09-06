@@ -239,6 +239,7 @@ class MainWindow : public QMainWindow {
         char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
 
         bool m_userCanceled{false};
+        bool m_userCanceledAcquisition{false};
         bool m_needsPostProcessing{false};
 
         std::mutex m_fileCleanupLock;
@@ -268,6 +269,9 @@ class MainWindow : public QMainWindow {
             //acquisition states
             { {Idle, AcquisitionBtnPress}, [this]() {
                 m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
+                if (m_userCanceledAcquisition) {
+                    m_curState = Idle
+                }
             }},
             { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
                 m_curState = (stopAcquisition()) ? Idle : Error;
