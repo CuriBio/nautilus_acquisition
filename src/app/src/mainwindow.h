@@ -269,6 +269,7 @@ class MainWindow : public QMainWindow {
             //acquisition states
             { {Idle, AcquisitionBtnPress}, [this]() {
                 m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
+                // user can cancel if no plate map has been selected
                 if (m_userCanceledAcquisition) {
                     m_curState = Idle;
                 }

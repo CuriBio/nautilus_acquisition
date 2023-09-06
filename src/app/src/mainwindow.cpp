@@ -49,7 +49,6 @@
 #include <QTimer>
 #include <QProcess>
 #include <QSvgWidget>
-#include <QTranslator>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -577,16 +576,16 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
 bool MainWindow::startAcquisition() {
     if (m_plateFormatCurrentIndex == -1) {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Warning!");
-        msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
+        QMessageBox messageBox;
+        messageBox.setWindowTitle("Warning!");
+        messageBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
             "Click cancel and select the plate format to enable automatic analysis."
             " To continue the acquisition with automatic analysis disabled, click continue.");
-        msgBox.setIcon(QMessageBox::NoIcon);
-        msgBox.addButton(QString("Continue"), QMessageBox::NoRole);
-        msgBox.addButton(QMessageBox::Cancel);
+        messageBox.setIcon(QMessageBox::NoIcon);
+        messageBox.addButton(QMessageBox::Cancel);
+        messageBox.addButton(QString("Continue"), QMessageBox::NoRole);
 
-        m_userCanceledAcquisition = msgBox.exec() == QMessageBox::Cancel;
+        m_userCanceledAcquisition = messageBox.exec() == QMessageBox::Cancel;
         if (m_userCanceledAcquisition) {
             spdlog::info("User canceled acquisition start because no platemap was selected.");
             return false;
