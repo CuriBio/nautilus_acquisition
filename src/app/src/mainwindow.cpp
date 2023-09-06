@@ -581,7 +581,7 @@ bool MainWindow::startAcquisition() {
         msgBox.setWindowTitle("Warning!");
         msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
             "Click cancel and select the plate format to enable automatic analysis."
-            " To continue the acquisition with automatic analysis disabled, click continue");
+            " To continue the acquisition with automatic analysis disabled, click continue.");
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.addButton(QString("Continue"), QMessageBox::NoRole);
         msgBox.addButton(QMessageBox::Cancel);
@@ -589,7 +589,7 @@ bool MainWindow::startAcquisition() {
 
         m_userCanceledAcquisition = msgBox.exec() == QMessageBox::Cancel;
         if (m_userCanceledAcquisition) {
-            spdlog::info("User canceled acquisition start because no platemap was selected. {}", m_userCanceledAcquisition);
+            spdlog::info("User canceled acquisition start because no platemap was selected.");
             return false;
         } else {
             spdlog::info("User selected to continue acquisition with no platemap selected.");
