@@ -582,10 +582,11 @@ bool MainWindow::startAcquisition() {
         msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
             "Click cancel and select the plate format to enable automatic analysis."
             " To continue the acquisition with automatic analysis disabled, click continue.");
-        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setIcon(QMessageBox::NoIcon);
         msgBox.addButton(QString("Continue"), QMessageBox::NoRole);
         msgBox.addButton(QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Cancel);
+
+        msgBox.warning()
 
         m_userCanceledAcquisition = msgBox.exec() == QMessageBox::Cancel;
         if (m_userCanceledAcquisition) {
