@@ -49,6 +49,7 @@
 #include <QTimer>
 #include <QProcess>
 #include <QSvgWidget>
+#include <QTranslator>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
