@@ -583,7 +583,7 @@ bool MainWindow::startAcquisition() {
             "Click cancel and select the plate format to enable automatic analysis."
             " To continue the acquisition with automatic analysis disabled, click continue");
         msgBox.setIcon(QMessageBox::Warning);
-        msgBox.addButton(tr("Continue"));
+        msgBox.addButton(QString("Continue"), QMessageBox::NoRole);
         msgBox.addButton(QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
 
