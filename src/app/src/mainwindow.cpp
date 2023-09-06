@@ -578,16 +578,19 @@ bool MainWindow::startAcquisition() {
     if (m_plateFormatCurrentIndex == -1) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("Warning!");
-        msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition."
-            " Click cancel and select the plate format to enable automatic analysis."
-            " Or would you like to continue the acquisition with automatic analysis disabled?");
+        msgBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
+            "Click cancel and select the plate format to enable automatic analysis."
+            " To continue the acquisition with automatic analysis disabled, click continue");
         msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(tr("Continue"));
         msgBox.addButton(QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
 
         if (msgBox.exec() == QMessageBox::Cancel) {
+            spdlog::info("User cancelled acquisition start because no platemap was selected.");
             return false;
+        } else {
+            spdlog::info("User selected to continue acquisition with no platemap selected.");
         }
     }
 
