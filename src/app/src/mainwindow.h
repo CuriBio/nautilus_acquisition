@@ -270,7 +270,7 @@ class MainWindow : public QMainWindow {
             { {Idle, AcquisitionBtnPress}, [this]() {
                 m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
                 if (m_userCanceledAcquisition) {
-                    m_curState = Idle
+                    m_curState = Idle;
                 }
             }},
             { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
