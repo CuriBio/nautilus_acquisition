@@ -17,6 +17,7 @@ Fixed:
 ^^^^^^
 - HiLo look up table max is now 4095
 - Use of platemap SVGs with green well active indicators
+- Enable Stage Navigation buttons after selection while Live View is running
 
 
 0.1.36 (2023-07-31)
