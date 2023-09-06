@@ -65,10 +65,10 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 void AdvancedSetupDialog::update_advanced_setup(){
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
-
-    //if new nidev selected then update toml and channels
+    spdlog::info("outside dev {}", m_niDev);
+    // if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
-        //save new ni device to toml file
+        // save new ni device to toml file
         auto file = toml::parse(m_config->configFile);
         file["device"]["nidaqmx"]["device"] = m_niDev;
 
@@ -77,6 +77,7 @@ void AdvancedSetupDialog::update_advanced_setup(){
         outf.close();
 
         emit this->sig_ni_dev_change(m_niDev);
+        spdlog::info("inside dev {}", m_niDev);
     }
     this->close();
 }
