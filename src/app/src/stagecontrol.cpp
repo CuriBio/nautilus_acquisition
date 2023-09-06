@@ -210,6 +210,7 @@ void StageControl::on_gotoPosBtn_clicked() {
         } else {
             spdlog::info("Invalid selection");
         }
+        
         emit sig_end_move();
     });
     t.detach();

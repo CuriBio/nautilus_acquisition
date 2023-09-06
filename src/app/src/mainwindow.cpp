@@ -462,7 +462,7 @@ void MainWindow::updateInputs() {
     ui.advancedSetupBtn->setEnabled(testMask(AdvancedSetupMask));
     ui.settingsBtn->setEnabled(testMask(SettingsMask));
     ui.stageNavigationBtn->setEnabled(testMask(StageNavigationMask) && !m_stageControl->isVisible());
-
+    spdlog::info("Luc here: {}", testMask(StageNavigationMask));
     if (!testMask(StageNavigationMask)) {
         emit m_stageControl->sig_stage_disable_all();
     } else {
