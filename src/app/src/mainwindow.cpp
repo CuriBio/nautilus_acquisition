@@ -462,8 +462,8 @@ void MainWindow::updateInputs() {
     ui.advancedSetupBtn->setEnabled(testMask(AdvancedSetupMask));
     ui.settingsBtn->setEnabled(testMask(SettingsMask));
     ui.stageNavigationBtn->setEnabled(testMask(StageNavigationMask) && !m_stageControl->isVisible());
-    spdlog::info("Luc here: {}", testMask(StageNavigationMask));
-    if (!testMask(StageNavigationMask)) {
+
+    if (!testMask(StageNavigationMask) && !m_stageControl->isVisible()) {
         emit m_stageControl->sig_stage_disable_all();
     } else {
         emit m_stageControl->sig_stage_enable_all();
@@ -475,7 +475,6 @@ void MainWindow::updateInputs() {
 bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
     //emit sig_disable_all();
-    spdlog::info("Luc here 2: {}", StageNavigationMask);
 
     setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
     emit m_stageControl->sig_stage_enable_all();
