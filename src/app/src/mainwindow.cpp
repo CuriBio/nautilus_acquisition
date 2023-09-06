@@ -475,6 +475,7 @@ void MainWindow::updateInputs() {
 bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
     //emit sig_disable_all();
+    spdlog::info("Luc here 2: {}", StageNavigationMask);
 
     setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
     emit m_stageControl->sig_stage_enable_all();
