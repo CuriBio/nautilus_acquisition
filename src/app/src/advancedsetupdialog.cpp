@@ -34,6 +34,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         ui->nidevicelist->addItem("No NI devices detected");
     } else {
         for(std::string nidevicename : devicelist){
+            spdlog::info("added dev name {}", nidevicename);
             ui->nidevicelist->addItem(QString::fromStdString(nidevicename));
         }
     }
@@ -65,7 +66,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 void AdvancedSetupDialog::update_advanced_setup(){
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
-    spdlog::info("outside dev {}", m_niDev);
+    spdlog::info("update_advanced_setup {}", m_niDev);
     // if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
         // save new ni device to toml file
@@ -75,9 +76,9 @@ void AdvancedSetupDialog::update_advanced_setup(){
         std::ofstream outf(m_config->configFile);
         outf << std::setw(0) << file << std::endl;
         outf.close();
-
+        
         emit this->sig_ni_dev_change(m_niDev);
-        spdlog::info("inside dev {}", m_niDev);
+        
     }
     this->close();
 }
@@ -88,7 +89,8 @@ void AdvancedSetupDialog::update_advanced_setup(){
 *
 * @param text of new choice
 */
-void AdvancedSetupDialog::on_nidevice_currentTextChanged(const QString &text) {
+void AdvancedSetupDialog::on_nidevicelist_currentTextChanged(const QString &text) {
+    spdlog::info("on_nidevice_currentTextChanged {}", text.toStdString(););
     m_niDev = text.toStdString();
 }
 
