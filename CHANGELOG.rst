@@ -16,6 +16,7 @@ Added:
 Changed:
 ^^^^^^^^
 - Turn off live view and LED light when acquisition stops
+- Update plate format files
 
 Fixed:
 ^^^^^^
