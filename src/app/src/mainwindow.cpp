@@ -1270,6 +1270,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         cls->m_acquisition->WaitForStop();
 
         cls->m_expSettings.trigMode = cls->m_config->triggerMode;
+        spdlog::info("Using trigger mode {}", cls->m_config->triggerMode);
         cls->m_camera->UpdateExp(cls->m_expSettings);
 
         emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
@@ -1288,6 +1289,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             cls->m_needsPostProcessing = false;
             break;
         }
+
         spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
     }
     emit cls->sig_set_platemap(0);
