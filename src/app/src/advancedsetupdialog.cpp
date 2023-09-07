@@ -90,7 +90,7 @@ void AdvancedSetupDialog::update_advanced_setup(){
 * @param text of new choice
 */
 void AdvancedSetupDialog::on_nidevicelist_currentTextChanged(const QString &text) {
-    spdlog::info("on_nidevice_currentTextChanged {}", text.toStdString(););
+    spdlog::info("on_nidevice_currentTextChanged {}", text.toStdString());
     m_niDev = text.toStdString();
 }
 
