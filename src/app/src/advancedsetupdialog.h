@@ -33,7 +33,7 @@ class AdvancedSetupDialog : public QDialog{
 
     private slots:
         void update_advanced_setup();
-        void on_nidevice_currentTextChanged(const QString &text);
+        void on_nidevicelist_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
 
