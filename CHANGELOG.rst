@@ -12,6 +12,7 @@ Added:
 - Ability to specify the type of data being recorded. Current options are ``Calcium Imaging``
   and ``Voltage Imaging``
 - Ability to disable Live View while acquisition is running
+- Warn users when no platemap has been selected when starting acquisition
 
 Fixed:
 ^^^^^^
