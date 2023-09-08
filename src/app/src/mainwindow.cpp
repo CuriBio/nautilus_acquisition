@@ -188,9 +188,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //progress bar
     m_acquisitionProgress = new QProgressDialog("", "Send Trigger", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
-    // m_acquisitionProgress->setCancelButton(nullptr);
+    m_acquisitionProgress->setCancelButton(nullptr);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
+        m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? cancelButton : nullptr)
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
@@ -1281,7 +1282,6 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         cls->m_acquisition->WaitForStop();
 
         cls->m_expSettings.trigMode = cls->m_config->triggerMode;
-        spdlog::info("Using trigger mode {}", cls->m_config->triggerMode);
         cls->m_camera->UpdateExp(cls->m_expSettings);
 
         emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
