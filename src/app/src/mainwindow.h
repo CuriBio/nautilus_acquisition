@@ -337,6 +337,7 @@ class MainWindow : public QMainWindow {
         
     private:
         void closeEvent(QCloseEvent *event);
+        void sendUserTrigger();
 
         bool startLiveView();
         bool startLiveView_PostProcessing();
