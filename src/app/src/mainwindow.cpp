@@ -186,9 +186,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
 
     //progress bar
-    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    m_acquisitionProgress = new QProgressDialog("", "Send Trigger", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
-    m_acquisitionProgress->setCancelButton(nullptr);
+    // m_acquisitionProgress->setCancelButton(nullptr);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
         m_acquisitionProgress->setMinimum(0);
@@ -217,7 +217,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
 
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [this] { emit sig_update_state(UserCanceled); });
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
 
     /*
      *  Start video encoding
@@ -897,6 +897,17 @@ void MainWindow::setupNIDev(std::string niDev) {
 
     m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
+
+    //Setup NIDAQmx controller for manual trigger
+    m_taskAO2 = "Analog_Out_Or"; //Task for setting Analog Output voltage
+    m_devAO2 = "TODO/ao0"; //Device name for analog output
+    spdlog::info("Using NI device {} for analog output", m_devAO2);
+    m_DAQmx.ClearTask(m_taskAO2);
+
+    m_DAQmx.CreateTask(m_taskAO2);
+
+    // TODO update with values from Shane
+    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO2, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
 }
 
 
@@ -1307,6 +1318,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition Thread Stopped");
 }
 
+void MainWindow::sendUserTrigger() {
+    spdlog::info("inside sendUserTrigger");
+}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
