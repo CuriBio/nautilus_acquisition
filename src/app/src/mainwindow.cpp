@@ -191,7 +191,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress->setCancelButton(nullptr);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
-        m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? cancelButton : nullptr)
+        m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? cancelButton : nullptr);
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
