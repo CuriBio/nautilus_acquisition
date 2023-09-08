@@ -14,6 +14,11 @@ Added:
 - Ability to disable Live View while acquisition is running
 - Warn users when no platemap has been selected when starting acquisition
 
+Changed:
+^^^^^^^^
+- Turn off live view and LED light when acquisition stops
+- Update plate format files
+
 Fixed:
 ^^^^^^
 - HiLo look up table max is now 4095
