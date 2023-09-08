@@ -1323,12 +1323,10 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
 void MainWindow::sendUserTrigger() {
     spdlog::info("user is sending manual trigger");
-    const double data[1] = { 5 };
-    return (
-        m_DAQmx.StartTask(m_taskAO2) && \
-        m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-        m_DAQmx.StopTask(m_taskAO2)
-    );
+    // const double data[1] = { 5 };
+    // m_DAQmx.StartTask(m_taskAO2) && \
+    // m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+    // m_DAQmx.StopTask(m_taskAO2)
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
