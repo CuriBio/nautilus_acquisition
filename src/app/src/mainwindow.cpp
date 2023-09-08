@@ -190,9 +190,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress = new QProgressDialog("", "Send Trigger", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
     m_acquisitionProgress->setCancelButton(nullptr);
+    m_acquisitionProgress->setAutoClose(false);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
-        spdlog::info("BOOL {} {}", msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST, m_config->triggerMode);
         m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
@@ -220,6 +220,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
 
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
     connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
 
     /*
@@ -1321,7 +1322,13 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 }
 
 void MainWindow::sendUserTrigger() {
-    spdlog::info("inside sendUserTrigger");
+    spdlog::info("user is sending manual trigger");
+    const double data[1] = { 5 };
+    return (
+        m_DAQmx.StartTask(m_taskAO2) && \
+        m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_taskAO2)
+    );
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

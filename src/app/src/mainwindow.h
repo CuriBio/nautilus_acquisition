@@ -201,7 +201,6 @@ class MainWindow : public QMainWindow {
         QThread* m_acquisitionThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
         QProgressDialog* m_acquisitionProgress {nullptr};
-        // QPushButton* cancelButton;
 
         QProcess m_extAnalysis;
         QProcess m_extVidEncoder;
