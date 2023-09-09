@@ -219,8 +219,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->cancel();
     });
 
-
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
+    //disconnect canceled signal from all slots, specifically cancel, so that it doesn't auto close when clicked
+    disconnect(m_acquisitionProgress,  &QProgressDialog::canceled, 0, 0);
+    //then connect to sendUserTrigger
     connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
 
     /*
@@ -1322,11 +1323,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 }
 
 void MainWindow::sendUserTrigger() {
-    spdlog::info("user is sending manual trigger");
-    // const double data[1] = { 5 };
-    // m_DAQmx.StartTask(m_taskAO2) && \
-    // m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-    // m_DAQmx.StopTask(m_taskAO2)
+    spdlog::info("User is sending manual trigger");
+    const double data[1] = { 5 };
+    m_DAQmx.StartTask(m_taskAO2) && \
+    m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+    m_DAQmx.StopTask(m_taskAO2)
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
