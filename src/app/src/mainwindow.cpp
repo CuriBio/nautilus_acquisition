@@ -187,7 +187,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
 
     //progress bar
-    m_acquisitionProgress = new QProgressDialog("", "Send Trigger", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
     m_acquisitionProgress->setCancelButton(nullptr);
     m_acquisitionProgress->setAutoClose(false);
