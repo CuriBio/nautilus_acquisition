@@ -1325,9 +1325,17 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 void MainWindow::sendUserTrigger() {
     spdlog::info("User is sending manual trigger");
     const double data[1] = { 5 };
-    m_DAQmx.StartTask(m_taskAO2) && \
-    m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-    m_DAQmx.StopTask(m_taskAO2)
+    // TODO update with actual values necessary for line to trigger
+    bool taskAO2_result = (
+        m_DAQmx.StartTask(m_taskAO2) && \
+        m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_taskAO2)
+    );
+
+    if (!taskAO2_result) {
+        spdlog::error("Failed to send manual trigger");
+        return m_DAQmx.StopTask(m_taskAO2);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
