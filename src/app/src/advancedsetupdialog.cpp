@@ -129,7 +129,7 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
-    ui->binFactorList->setEnabled(!state);
+    ui->binFactorList->setEnabled(state);
     m_enableDownsampleRawFiles = state;
 }
 
