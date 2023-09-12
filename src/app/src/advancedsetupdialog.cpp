@@ -142,7 +142,7 @@ void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
     // reset additional settings
     if (!state) {
         ui->binFactorList->setCurrentIndex(0);
-        ui->checkKeepOriginalRaw->setChecked(false)
+        ui->checkKeepOriginalRaw->setChecked(false);
     }
 }
 
