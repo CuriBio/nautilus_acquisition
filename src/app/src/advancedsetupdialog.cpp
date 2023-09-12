@@ -106,7 +106,7 @@ void AdvancedSetupDialog::update_advanced_setup(){
 *
 * @param text of new choice
 */
-void AdvancedSetupDialog::on_nidevice_currentTextChanged(const QString &text) {
+void AdvancedSetupDialog::on_nidevicelist_currentTextChanged(const QString &text) {
     m_niDev = text.toStdString();
 }
 
