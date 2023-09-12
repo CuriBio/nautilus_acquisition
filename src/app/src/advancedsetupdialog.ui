@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>310</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>260</y>
+     <y>270</y>
      <width>150</width>
      <height>30</height>
     </rect>
@@ -151,6 +151,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font-size: 12px;</string>
+   </property>
    <property name="text">
     <string>Binning Factor:</string>
    </property>
@@ -166,7 +169,7 @@
     <rect>
      <x>310</x>
      <y>200</y>
-     <width>161</width>
+     <width>91</width>
      <height>22</height>
     </rect>
    </property>
@@ -195,6 +198,41 @@
      <string>12</string>
     </property>
    </item>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font-size: 12px;</string>
+   </property>
+   <property name="text">
+    <string>Keep original:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkKeepRawOriginal">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>230</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

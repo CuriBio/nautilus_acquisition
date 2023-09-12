@@ -85,6 +85,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     expTimeMs = 1000 * (1.0 / fps);
     enableDownsampleRawFiles = false;
     binFactor = 2;
+    keepOriginalRaw = false;
 
     //acquisition.region
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);

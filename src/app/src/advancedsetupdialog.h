@@ -37,6 +37,7 @@ class AdvancedSetupDialog : public QDialog{
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
         void on_checkDownsampleRawFiles_stateChanged(int state);
+        void on_checkKeepOriginalRaw_stateChanged(int state);
         void on_binFactorList_currentTextChanged(const QString &text);
 
     private:
@@ -46,6 +47,7 @@ class AdvancedSetupDialog : public QDialog{
         int16_t m_triggerMode;
         bool m_enableLiveViewDuringAcquisition;
         bool m_enableDownsampleRawFiles;
+        bool m_keepOriginalRaw;
         uint8_t m_binFactor;
 };
 #endif // ADVANCEDSETUPDIALOG_H

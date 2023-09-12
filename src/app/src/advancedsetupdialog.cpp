@@ -42,6 +42,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     m_triggerMode = m_config->triggerMode;
     m_binFactor = m_config->binFactor;
     m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
+    m_keepOriginalRaw = m_config->keepOriginalRaw
     m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
 
     ui->triggerModeList->clear();
@@ -55,12 +56,18 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         case EXT_TRIG_INTERNAL:
             currentTrigModeIndex = 1;
     }
-
+    // update to most recent user-confirmed state
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
-    ui->checkEnableLiveViewDuringAcq->setCheckState(m_enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked);
+    
+    ui->checkEnableLiveViewDuringAcq->setChecked(m_enableLiveViewDuringAcquisition);
+    
     ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
     ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
-    ui->checkDownsampleRawFiles->setCheckState(m_enableDownsampleRawFiles ? Qt::Checked : Qt::Unchecked);
+    
+    ui->checkDownsampleRawFiles->setChecked(m_enableDownsampleRawFiles);
+    
+    ui->checkKeepOriginalRaw->setChecked(m_keepOriginalRaw);
+    ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
 }
 
 
@@ -73,6 +80,7 @@ void AdvancedSetupDialog::update_advanced_setup(){
 
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
+    m_config->keepOriginalRaw = m_keepOriginalRaw;
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
@@ -131,6 +139,11 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
     ui->binFactorList->setEnabled(state);
     m_enableDownsampleRawFiles = state;
+    // reset additional settings
+    if (!state) {
+        ui->binFactorList->setCurrentIndex(0);
+        ui->checkKeepOriginalRaw->setChecked(false)
+    }
 }
 
 /*
@@ -140,4 +153,13 @@ void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
 */
 void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &text) {
     m_binFactor = text.toInt();
+}
+
+/*
+* When user updates this checkbox, save changes for confirmation.
+*
+* @param new checked state
+*/
+void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
+    m_keepOriginalRaw = state
 }
