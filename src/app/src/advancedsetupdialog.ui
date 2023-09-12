@@ -110,6 +110,92 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Downsample raw data file:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkDownsampleRawFiles">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>160</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Binning Factor:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="binningFactorList">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>200</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>12</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
  <connections/>
