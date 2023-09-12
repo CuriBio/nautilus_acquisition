@@ -42,7 +42,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     m_triggerMode = m_config->triggerMode;
     m_binFactor = m_config->binFactor;
     m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
-    m_keepOriginalRaw = m_config->keepOriginalRaw
+    m_keepOriginalRaw = m_config->keepOriginalRaw;
     m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
 
     ui->triggerModeList->clear();
@@ -160,6 +160,6 @@ void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &tex
 *
 * @param new checked state
 */
-void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
+void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
     m_keepOriginalRaw = state
 }
