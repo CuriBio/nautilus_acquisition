@@ -41,8 +41,8 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 
     m_triggerMode = m_config->triggerMode;
     m_binFactor = m_config->binFactor;
-    m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles
-    m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition
+    m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
+    m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
 
     ui->triggerModeList->clear();
     ui->triggerModeList->addItem(QString("Wait for trigger"));
@@ -71,9 +71,9 @@ void AdvancedSetupDialog::update_advanced_setup(){
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
 
-    m_config->m_enableDownsampleRawFiles = ui->enableDownsampleRawFiles->isChecked();
+    m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
-    
+
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
         //save new ni device to toml file
