@@ -16,7 +16,7 @@ AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget
     ui->setupUi(this);
     m_config = config;
 
-    connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
+    connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
 }
 
 
@@ -76,6 +76,8 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
 * Save the updates.
 */
 void AdvancedSetupDialog::update_advanced_setup(){
+    spdlog::info("User confirmed advanced settings");
+
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
 
