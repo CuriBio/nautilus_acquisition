@@ -5,6 +5,7 @@
 #include "ui_advancedsetupdialog.h"
 #include <pm/Camera.h>
 #include <string>
+#include <QCloseEvent>
 
 /*
 * Instance of advanced setup options window.
@@ -137,8 +138,12 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
+    // enable additional downsample settings
     ui->binFactorList->setEnabled(state);
+    ui->checkKeepOriginalRaw->setEnabled(state);
+
     m_enableDownsampleRawFiles = state;
+
     // reset additional settings
     if (!state) {
         ui->binFactorList->setCurrentIndex(0);
@@ -162,4 +167,8 @@ void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &tex
 */
 void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
     m_keepOriginalRaw = state;
+}
+
+void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
+    spdlog::info("Close advanced setup dialogue");
 }

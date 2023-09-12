@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QCloseEvent>
 #include <toml.hpp>
 
 #include "config.h"
@@ -41,6 +42,8 @@ class AdvancedSetupDialog : public QDialog{
         void on_binFactorList_currentTextChanged(const QString &text);
 
     private:
+        void closeEvent(QCloseEvent *event);
+
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;
