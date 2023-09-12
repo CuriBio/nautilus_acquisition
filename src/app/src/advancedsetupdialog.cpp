@@ -109,8 +109,27 @@ void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &t
 /*
 * When user updates this checkbox, save changes to be confirmed later.
 *
-* @param text of new choice
+* @param new checked state
 */
 void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state) {
     m_enableLiveViewDuringAcquisition = state;
+}
+
+/*
+* When user updates this checkbox, save new check state and disabled/enable binning factor dropdown accordingly.
+*
+* @param new checked state
+*/
+void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
+    m_enableDownsampleRawFiles = state;
+    ui->binningFactorList->setEnabled(!state);
+}
+
+/*
+* When user updates binning factor, save selection as int to be confirmed later.
+*
+* @param text of new choice
+*/
+void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &text) {
+    m_binFactor = stoi(text)
 }

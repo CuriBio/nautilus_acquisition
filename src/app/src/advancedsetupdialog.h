@@ -36,6 +36,8 @@ class AdvancedSetupDialog : public QDialog{
         void on_nidevice_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
+        void on_checkDownsampleRawFiles_stateChanged(int state);
+        void on_binFactorList_currentTextChanged(const QString &text);
 
     private:
         Ui::AdvancedSetupDialog *ui;
@@ -43,5 +45,7 @@ class AdvancedSetupDialog : public QDialog{
         std::string m_niDev;
         int16_t m_triggerMode;
         bool m_enableLiveViewDuringAcquisition;
+        bool m_enableDownsampleRawFiles;
+        int m_binFactor;
 };
 #endif // ADVANCEDSETUPDIALOG_H
