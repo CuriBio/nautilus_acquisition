@@ -60,7 +60,7 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     ui->checkEnableLiveViewDuringAcq->setCheckState(m_enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked);
     ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
     ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
-    ui->enableDownsampleRawFiles->setCheckState(m_enableDownsampleRawFiles ? Qt::Checked : Qt::Unchecked);
+    ui->checkDownsampleRawFiles->setCheckState(m_enableDownsampleRawFiles ? Qt::Checked : Qt::Unchecked);
 }
 
 
