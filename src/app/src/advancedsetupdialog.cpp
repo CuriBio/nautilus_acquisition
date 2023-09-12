@@ -161,5 +161,5 @@ void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &tex
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
-    m_keepOriginalRaw = state
+    m_keepOriginalRaw = state;
 }
