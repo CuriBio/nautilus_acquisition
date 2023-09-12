@@ -46,6 +46,6 @@ class AdvancedSetupDialog : public QDialog{
         int16_t m_triggerMode;
         bool m_enableLiveViewDuringAcquisition;
         bool m_enableDownsampleRawFiles;
-        int m_binFactor;
+        uint8_t m_binFactor;
 };
 #endif // ADVANCEDSETUPDIALOG_H

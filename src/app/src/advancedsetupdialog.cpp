@@ -40,6 +40,9 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     }
 
     m_triggerMode = m_config->triggerMode;
+    m_binFactor = m_config->binFactor;
+    m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles
+    m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition
 
     ui->triggerModeList->clear();
     ui->triggerModeList->addItem(QString("Wait for trigger"));
@@ -52,11 +55,12 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         case EXT_TRIG_INTERNAL:
             currentTrigModeIndex = 1;
     }
-    ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
 
-    ui->checkEnableLiveViewDuringAcq->setCheckState(
-        m_config->enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked
-    );
+    ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
+    ui->checkEnableLiveViewDuringAcq->setCheckState(m_enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked);
+    ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
+    ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
+    ui->enableDownsampleRawFiles->setCheckState(m_enableDownsampleRawFiles ? Qt::Checked : Qt::Unchecked);
 }
 
 
@@ -67,6 +71,9 @@ void AdvancedSetupDialog::update_advanced_setup(){
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
 
+    m_config->m_enableDownsampleRawFiles = ui->enableDownsampleRawFiles->isChecked();
+    m_config->binFactor = m_binFactor;
+    
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
         //save new ni device to toml file
@@ -117,13 +124,13 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 }
 
 /*
-* When user updates this checkbox, save new check state and disabled/enable binning factor dropdown accordingly.
+* When user updates this checkbox, disabled/enable binning factor dropdown accordingly.
 *
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
-    m_enableDownsampleRawFiles = state;
     ui->binFactorList->setEnabled(!state);
+    m_enableDownsampleRawFiles = state;
 }
 
 /*

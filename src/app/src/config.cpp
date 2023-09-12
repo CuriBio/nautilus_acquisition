@@ -79,12 +79,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
     tileMap = toml::find_or<std::vector<uint8_t>>(config, "acquisition", "tile_map", std::vector<uint8_t>{0,1,2,5,4,3});
     bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
-
     if (userargs.count("buffers")) { bufferCount = userargs["buffers"].as<uint32_t>(); }
 
     frameCount = static_cast<uint32_t>(duration * fps);
     expTimeMs = 1000 * (1.0 / fps);
-
+    enableDownsampleRawFiles = false;
+    binFactor = 2;
 
     //acquisition.region
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
@@ -221,6 +221,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
 
     asyncInit = toml::find_or<bool>(config, "debug", "async_init", true);
+    
 }
 
 void Config::Dump() {
