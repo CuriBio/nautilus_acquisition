@@ -4,6 +4,7 @@
 #include "advancedsetupdialog.h"
 #include "ui_advancedsetupdialog.h"
 #include <pm/Camera.h>
+#include <string>
 
 /*
 * Instance of advanced setup options window.
@@ -122,7 +123,7 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 */
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
     m_enableDownsampleRawFiles = state;
-    ui->binningFactorList->setEnabled(!state);
+    ui->binFactorList->setEnabled(!state);
 }
 
 /*
@@ -131,5 +132,5 @@ void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
 * @param text of new choice
 */
 void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &text) {
-    m_binFactor = stoi(text)
+    m_binFactor = text.toInt();
 }
