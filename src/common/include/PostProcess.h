@@ -143,4 +143,60 @@ namespace PostProcess {
     }
 };
 
+/** @brief Downsample images with user-defined bin factor */
+    void Downsample(
+        std::filesystem::path indir,
+        std::shared_ptr<RawFile<6>> r,
+        uint32_t rows,
+        uint32_t cols,
+        std::vector<uint8_t>& tileMap,
+        uint32_t width,
+        uint32_t height,
+        uint8_t binFactor
+    {
+        // ThreadPool p(static_cast<concurrency_t>(rows*cols));
+
+
+        // auto blockStart = [](uint8_t cols, uint8_t rowIdx, uint8_t colIdx, size_t width, size_t height) {
+        //     return static_cast<size_t>((rowIdx * height) * (width * cols) + (colIdx * width));
+        // };
+
+        // spdlog::info("Tiling images from {} with rows: {}, cols: {}, frames: {}, width: {}, height: {}, vflip: {}, hflip: {}, thread count: {}", indir.string(), rows, cols, frames, width, height, vflip, hflip, p.ThreadCount());
+        uint32_t newWidth = width / binFactor;
+        uint32_t newHeight = height / binFactor;
+        uint16_t *frameData = new uint16_t[rows * cols * newWidth * newHeight];
+
+        for (auto i = 2; i <= binFactor; fr+=2) {
+            //reset each frame
+            memset((void*)frameData, 0, sizeof(uint16_t) * rows * cols * newWidth * newHeight);
+
+            //read each image, 1-based index for file names
+            for(uint32_t row = 0; row < rows; row++) {
+                for(uint32_t col = 0; col < cols; col++) {
+
+                    size_t idx = blockStart(cols, row, col, width, height);
+                    switch (storageType) {
+                        case StorageType::Tiff:
+                            {
+                                std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileMap[col+row*cols]+1, fr);
+                                p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
+                            }
+                            break;
+                        case StorageType::Raw:
+                            {
+                                std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileMap[col+row*cols]+1, fr);
+                                p.AddTask(CopyRawTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
+                            }
+                            break;
+                    };
+                }
+            }
+            p.WaitForAll();
+
+            r->Write(frameData, fr);
+            progressCB(1);
+        }
+    }
+};
+
 #endif //POST_PROCESS_H

@@ -1153,6 +1153,7 @@ void MainWindow::postProcess() {
             const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
                 { "additional_bin_factor", m_config->binFactor },
                 { "keep_original", m_config->keepOriginalRaw },
+                { "downsampled_input_path", (m_expSettings.acquisitionDir / rawFileDownsampled).string() },
             };
 
             outfile << std::setw(100) << binSettings << std::endl;
@@ -1210,6 +1211,22 @@ void MainWindow::postProcess() {
             );
 
             raw->Close();
+
+            if (m_config->enableDownsampleRawFiles) {
+                std::shared_ptr<RawFile<6>> downsampledRaw = std::make_shared<RawFile<6>>(
+                    (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
+                
+                PostProcess::Downsample(
+                    raw, 
+                    downsampledRaw,  
+                    m_config->rows,
+                    m_config->cols,
+                    m_config->tileMap,
+                    m_width,
+                    m_height,
+                    m_config->binFactor
+                );
+            }
             
             emit sig_progress_done();
         }
