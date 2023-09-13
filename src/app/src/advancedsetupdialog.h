@@ -31,7 +31,7 @@ class AdvancedSetupDialog : public QDialog{
         void sig_ni_dev_change(std::string new_m_nidev);
         void sig_trigger_mode_change(int16_t triggerMode);
         void sig_enable_live_view_during_acquisition_change(bool enable);
-        void sig_close_adv_settings()
+        void sig_close_adv_settings();
 
     private slots:
         void update_advanced_setup();
