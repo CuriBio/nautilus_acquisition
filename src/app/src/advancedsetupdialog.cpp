@@ -173,5 +173,5 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
 
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
     spdlog::info("Close advanced setup dialogue");
-    ui->done()
+    event->accept();
 }
