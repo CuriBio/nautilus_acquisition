@@ -138,10 +138,10 @@ namespace PostProcess {
                 }
             }
             p.WaitForAll();
-            if (fr == 0) {
-                for (int i = frameData - 1; i >= 0; i--) 
-                    spdlog::info("fr data: {}", array[i]);
-            }
+            spdlog::info("f: {}", fr);
+            for (int i = frameData - 1; i >= 0; i--) 
+                spdlog::info("fr data: {}", array[i]);
+            
             r->Write(frameData, fr);
             // Downsample(fr, frameData, r2, rows, cols, tileMap, width, height, binFactor)
             progressCB(1);
