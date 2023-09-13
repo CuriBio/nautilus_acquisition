@@ -1118,6 +1118,9 @@ void MainWindow::postProcess() {
 
         //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
+        if (m_config->enableDownsampleRawFiles) {
+            std::string rawFileDownsampled = fmt::format("{}_{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
+        }
 
         //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
@@ -1145,6 +1148,15 @@ void MainWindow::postProcess() {
         };
 
         outfile << std::setw(100) << settings << std::endl;
+
+        if (m_config->enableDownsampleRawFiles) {
+            const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
+                { "additional_bin_factor", m_config->binFactor },
+                { "keep_original", m_config->keepOriginalRaw },
+            };
+
+            outfile << std::setw(100) << binSettings << std::endl;
+        }
 
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths{
             { "output_dir_path", m_expSettings.acquisitionDir.string() },
@@ -1198,6 +1210,7 @@ void MainWindow::postProcess() {
             );
 
             raw->Close();
+            
             emit sig_progress_done();
         }
 
