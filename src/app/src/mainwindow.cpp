@@ -1118,9 +1118,8 @@ void MainWindow::postProcess() {
 
         //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
-        if (m_config->enableDownsampleRawFiles) {
-            std::string rawFileDownsampled = fmt::format("{}_{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
-        }
+        std::string rawFileDownsampled = fmt::format("{}_{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
+        
 
         //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
@@ -1189,7 +1188,10 @@ void MainWindow::postProcess() {
             //std::shared_ptr<VideoEncoder> venc = nullptr;
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
-
+            
+            std::shared_ptr<RawFile<6>> downsampledRaw = std::make_shared<RawFile<6>>(
+                    (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
+            
             emit sig_progress_start("Tiling images", m_expSettings.frameCount);
 
             PostProcess::AutoTile(
@@ -1206,27 +1208,13 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                m_expSettings.storageType
+                downsampledRaw,
+                m_expSettings.storageType,
+                m_config->binFactor
                 //venc
             );
 
             raw->Close();
-
-            if (m_config->enableDownsampleRawFiles) {
-                std::shared_ptr<RawFile<6>> downsampledRaw = std::make_shared<RawFile<6>>(
-                    (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
-                
-                PostProcess::Downsample(
-                    raw, 
-                    downsampledRaw,  
-                    m_config->rows,
-                    m_config->cols,
-                    m_config->tileMap,
-                    m_width,
-                    m_height,
-                    m_config->binFactor
-                );
-            }
             
             emit sig_progress_done();
         }
