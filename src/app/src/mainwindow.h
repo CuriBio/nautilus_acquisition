@@ -178,7 +178,7 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<Config> m_config = nullptr;
 
         Settings* m_settings {nullptr};
-        AdvancedSetupDialog* m_advancedSettingsDialog{nullptr};
+        AdvancedSetupDialog* m_advancedSetupDialog{nullptr};
         StageControl* m_stageControl{nullptr};
         LiveView* m_liveView{nullptr};
 

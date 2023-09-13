@@ -169,12 +169,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     //Setup NIDAQmx controller for LED
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
-    connect(m_advancedSettingsDialogue, &AdvancedSetupDialogue::sig_downsample_raw_file_changes, this, &MainWindow::updateDownsampleRawFiles);
+    m_advancedSetupDialog = new AdvancedSetupDialog(m_config, this);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_downsample_raw_file_changes, this, &MainWindow::updateDownsampleRawFiles);
 
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
@@ -372,7 +372,7 @@ void MainWindow::Initialize() {
 
         m_niSetup = std::async(std::launch::async, [&] {
             setupNIDev(m_config->niDev);
-            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+            m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
     } else {
         m_stageControl->Calibrate();
@@ -380,7 +380,7 @@ void MainWindow::Initialize() {
 
         //setup NI device
         setupNIDev(m_config->niDev);
-        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+        m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
     }
 
     //for 8 bit image conversion for liveview, might not need it anymore
@@ -682,13 +682,12 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
 bool MainWindow::advSetupOpen() {
     spdlog::info("Opening Advanced Setup Dialog");
     setMask(DISABLE_ALL);
-    m_advancedSettingsDialog->show();
+    m_advancedSetupDialog->show();
     return true;
 }
 
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
-    m_advancedSettingsDialog->delete();
     setMask(ENABLE_ALL);
     return true;
 }
