@@ -63,7 +63,7 @@ void main() {
     float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
     if (px < iLevels.x) {
         fragColor = vec4(0.0, 0.0, 1.0, 1.0);
-    } else if (px > iLevels.y) {
+    } else if (px >= iLevels.y) {
         fragColor = vec4(1.0, 0.0, 0.0, 1.0);
     } else {
         fragColor = vec4(px, px, px, 1.0);
@@ -308,7 +308,7 @@ void LiveView::paintGL() {
 
     m_uniforms[0] = float(m_width);
     m_uniforms[1] = float(m_height);
-    m_uniforms[2] = 0.0f;
+    m_uniforms[2] = 1.0f / 4095.0f;
     m_uniforms[3] = float(m_level) / 4095.0f;
 
     if (!m_imageData) {
