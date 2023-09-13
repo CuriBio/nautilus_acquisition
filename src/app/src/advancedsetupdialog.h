@@ -32,9 +32,10 @@ class AdvancedSetupDialog : public QDialog{
         void sig_trigger_mode_change(int16_t triggerMode);
         void sig_enable_live_view_during_acquisition_change(bool enable);
         void sig_close_adv_settings();
+        void sig_downsample_raw_file_changes(bool enable, int8_t binFactor, bool keepOriginal);
 
     private slots:
-        void update_advanced_setup();
+        void updateAdvancedSetup();
         void on_nidevicelist_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
@@ -44,6 +45,7 @@ class AdvancedSetupDialog : public QDialog{
 
     private:
         void closeEvent(QCloseEvent *event);
+        void setDefaultValues();
 
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
@@ -53,5 +55,6 @@ class AdvancedSetupDialog : public QDialog{
         bool m_enableDownsampleRawFiles;
         bool m_keepOriginalRaw;
         uint8_t m_binFactor;
+        bool m_userConfirmed{false};
 };
 #endif // ADVANCEDSETUPDIALOG_H

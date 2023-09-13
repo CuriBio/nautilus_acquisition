@@ -15,7 +15,7 @@
 AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
     m_config = config;
-
+    setAttribute(Qt::WA_DeleteOnClose);
     connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
 }
 
@@ -40,6 +40,10 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         }
     }
 
+    setDefaultValues();
+}
+
+void AdvancedSetupDialog::setDefaultValues() {
     m_triggerMode = m_config->triggerMode;
     m_binFactor = m_config->binFactor;
     m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
@@ -71,16 +75,16 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
 }
 
-
 /*
 * Save the updates.
 */
-void AdvancedSetupDialog::update_advanced_setup(){
+void AdvancedSetupDialog::updateAdvancedSetup(){
     spdlog::info("User confirmed advanced settings");
+    m_userConfirmed = true;
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
-
+    // emit this->sig_downsample_raw_file_changes(m_enableDownsampleRawFiles, m_binFactor, m_keepOriginalRaw)
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
     m_config->keepOriginalRaw = m_keepOriginalRaw;
@@ -172,5 +176,11 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
 }
 
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
+    if (!m_userConfirmed) {
+        setDefaultValues();
+    } else {
+        m_userConfirmed = false;
+    }
+
     emit this->sig_close_adv_settings();
 }

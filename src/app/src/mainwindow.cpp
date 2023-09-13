@@ -168,14 +168,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         updateInputs();
     });
 
-
     //Setup NIDAQmx controller for LED
     m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
     connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
-
+    connect(m_advancedSettingsDialogue, &AdvancedSetupDialogue::sig_downsample_raw_file_changes, this, &MainWindow::updateDownsampleRawFiles);
 
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
@@ -689,7 +688,7 @@ bool MainWindow::advSetupOpen() {
 
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
-    m_advancedSettingsDialog->accept();
+    m_advancedSettingsDialog->delete();
     setMask(ENABLE_ALL);
     return true;
 }
@@ -1300,6 +1299,11 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition Thread Stopped");
 }
 
+void MainWindow::updateDownsampleRawFiles(bool enable, int8_t binFactor, bool keepOriginal) {
+    m_config->enableDownsampleRawFiles = enable;
+    m_config->binFactor = binFactor;
+    m_config->keepOriginalRaw = keepOriginal;
+}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
@@ -1319,3 +1323,5 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
     }
 }
+
+
