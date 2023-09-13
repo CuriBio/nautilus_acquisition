@@ -15,7 +15,6 @@
 AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
     m_config = config;
-    setAttribute(Qt::WA_DeleteOnClose);
     connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::updateAdvancedSetup);
 }
 
