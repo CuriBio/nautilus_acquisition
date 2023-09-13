@@ -689,6 +689,7 @@ bool MainWindow::advSetupOpen() {
 
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
+    m_advancedSettingsDialog->accept();
     setMask(ENABLE_ALL);
     return true;
 }
