@@ -1215,7 +1215,8 @@ void MainWindow::postProcess() {
             );
 
             raw->Close();
-            
+            downsampledRaw->Close();
+
             emit sig_progress_done();
         }
 
