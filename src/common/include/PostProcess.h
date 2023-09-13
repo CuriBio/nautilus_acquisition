@@ -148,7 +148,7 @@ namespace PostProcess {
 /** @brief Downsample images with user-defined bin factor */
     void Downsample(
         int fr,
-        uint16_t frameData,
+        uint16_t *frameData,
         std::shared_ptr<RawFile<6>> r,
         uint32_t rows,
         uint32_t cols,
