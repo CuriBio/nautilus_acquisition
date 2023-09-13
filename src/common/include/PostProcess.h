@@ -138,31 +138,26 @@ namespace PostProcess {
                 }
             }
             p.WaitForAll();
-            spdlog::info("f: {}", fr);
-            for (int i = frameData - 1; i >= 0; i--) 
-                spdlog::info("fr data: {}", array[i]);
-            
             r->Write(frameData, fr);
-            // Downsample(fr, frameData, r2, rows, cols, tileMap, width, height, binFactor)
+            Downsample(fr, frameData, r2, rows, cols, width, height, binFactor)
             progressCB(1);
         }
     }
 };
 
-// /** @brief Downsample images with user-defined bin factor */
-//     void Downsample(
-//         int fr,
-//         uint16_t frameData,
-//         std::shared_ptr<RawFile<6>> r,
-//         uint32_t rows,
-//         uint32_t cols,
-//         std::vector<uint8_t>& tileMap,
-//         uint32_t width,
-//         uint32_t height,
-//         uint8_t binFactor
-//     {
-        
-//     }
-// };
+/** @brief Downsample images with user-defined bin factor */
+    void Downsample(
+        int fr,
+        uint16_t frameData,
+        std::shared_ptr<RawFile<6>> r,
+        uint32_t rows,
+        uint32_t cols,
+        uint32_t width,
+        uint32_t height,
+        uint8_t binFactor
+    {
+        r->Write(frameData, fr); 
+    }
+};
 
 #endif //POST_PROCESS_H
