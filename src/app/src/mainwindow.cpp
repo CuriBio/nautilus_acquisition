@@ -174,7 +174,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
-    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_downsample_raw_file_changes, this, &MainWindow::updateDownsampleRawFiles);
 
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
@@ -242,6 +241,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("Video encoding finished");
+        if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
+            deleteOriginalRawFile();
+        }
         emit sig_start_analysis();
     });
 
@@ -596,11 +598,13 @@ bool MainWindow::startAcquisition() {
     spdlog::info("Starting acquisition");
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
         &QThread::quit;
         delete m_acquisitionThread;
         m_acquisitionThread = nullptr;
     });
+
     m_acquisitionThread->start();
 
     setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
@@ -730,6 +734,10 @@ bool MainWindow::startPostProcessing() {
             emit sig_progress_start("Encoding Video", 0);
             emit sig_start_encoding();
         } else {
+            if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
+                deleteOriginalRawFile();
+            }
+
             emit sig_update_state(PostProcessingDone);
         } 
     });
@@ -744,6 +752,16 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
     startPostProcessing();
     
     return true;
+}
+
+void MainWindow::deleteOriginalRawFile() {
+    std::string rawFile = fmt::format("{}_{}.raw", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS));
+    bool wasDeleted = std::filesystem::remove(rawFile);
+    if (wasDeleted) {
+        spdlog::info("Successfully deleted {}", rawFile);
+    } else {
+        spdlog::info("Failed to delete {}", rawFile);
+    }
 }
 
 bool MainWindow::postProcessingDone() {
@@ -1118,7 +1136,7 @@ void MainWindow::postProcess() {
 
         //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
-        std::string rawFileDownsampled = fmt::format("{}_{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
+        std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
         
 
         //output capture settings
@@ -1189,8 +1207,11 @@ void MainWindow::postProcess() {
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
             
-            std::shared_ptr<RawFile<6>> downsampledRaw = std::make_shared<RawFile<6>>(
+            std::shared_ptr<RawFile<6>> rawDownsampled = nullptr;
+            if (m_config->enableDownsampleRawFiles) {
+                rawDownsampled = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
+            }
             
             emit sig_progress_start("Tiling images", m_expSettings.frameCount);
 
@@ -1208,14 +1229,17 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                downsampledRaw,
+                rawDownsampled,
                 m_expSettings.storageType,
                 m_config->binFactor
                 //venc
             );
 
             raw->Close();
-            downsampledRaw->Close();
+
+            if (m_config->enableDownsampleRawFiles) {
+                rawDownsampled->Close();
+            }
 
             emit sig_progress_done();
         }
@@ -1315,12 +1339,6 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     }
 
     spdlog::info("Acquisition Thread Stopped");
-}
-
-void MainWindow::updateDownsampleRawFiles(bool enable, int8_t binFactor, bool keepOriginal) {
-    m_config->enableDownsampleRawFiles = enable;
-    m_config->binFactor = binFactor;
-    m_config->keepOriginalRaw = keepOriginal;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

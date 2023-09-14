@@ -83,10 +83,14 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
-    // emit this->sig_downsample_raw_file_changes(m_enableDownsampleRawFiles, m_binFactor, m_keepOriginalRaw)
+
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
     m_config->keepOriginalRaw = m_keepOriginalRaw;
+    
+    if (m_enableDownsampleRawFiles) {
+        spdlog::info("User enabled additional binning settings to a factor of {} and keep original to {}", m_binFactor, m_keepOriginalRaw);
+    }
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {

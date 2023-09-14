@@ -32,7 +32,6 @@ class AdvancedSetupDialog : public QDialog{
         void sig_trigger_mode_change(int16_t triggerMode);
         void sig_enable_live_view_during_acquisition_change(bool enable);
         void sig_close_adv_settings();
-        void sig_downsample_raw_file_changes(bool enable, int8_t binFactor, bool keepOriginal);
 
     private slots:
         void updateAdvancedSetup();

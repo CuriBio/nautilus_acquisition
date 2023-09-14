@@ -272,6 +272,8 @@ class MainWindow : public QMainWindow {
                 // user can cancel if no plate map has been selected
                 if (m_userCanceledAcquisition) {
                     m_curState = Idle;
+                    // always reset back to false
+                    m_userCanceledAcquisition = false;
                 }
             }},
             { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
@@ -391,7 +393,6 @@ class MainWindow : public QMainWindow {
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);
         void updateEnableLiveViewDuringAcquisition(bool enable);
-        void updateDownsampleRawFiles(bool enable, int8_t binFactor, bool keepOriginal);
 
         bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
@@ -403,5 +404,6 @@ class MainWindow : public QMainWindow {
         static void acquisitionThread(MainWindow* cls);
         void postAcquisition();
         void postProcess();
+        void deleteOriginalRawFile();
 };
 #endif
