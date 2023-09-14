@@ -169,14 +169,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         updateInputs();
     });
 
-
     //Setup NIDAQmx controller for LED
-    m_advancedSettingsDialog = new AdvancedSetupDialog(m_config, this);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
-    connect(m_advancedSettingsDialog, &AdvancedSetupDialog::finished, this, [this]() { emit sig_update_state(AdvSetupClosed); });
-
+    m_advancedSetupDialog = new AdvancedSetupDialog(m_config, this);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
     //fps, duration update
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
@@ -248,6 +246,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         spdlog::info("Video encoding finished");
+        if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
+            deleteOriginalRawFile();
+        }
         emit sig_start_analysis();
     });
 
@@ -378,7 +379,7 @@ void MainWindow::Initialize() {
 
         m_niSetup = std::async(std::launch::async, [&] {
             setupNIDev(m_config->niDev);
-            m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+            m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
     } else {
         m_stageControl->Calibrate();
@@ -386,7 +387,7 @@ void MainWindow::Initialize() {
 
         //setup NI device
         setupNIDev(m_config->niDev);
-        m_advancedSettingsDialog->Initialize(m_DAQmx.GetListOfDevices());
+        m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
     }
 
     //for 8 bit image conversion for liveview, might not need it anymore
@@ -602,11 +603,13 @@ bool MainWindow::startAcquisition() {
     spdlog::info("Starting acquisition");
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
         &QThread::quit;
         delete m_acquisitionThread;
         m_acquisitionThread = nullptr;
     });
+
     m_acquisitionThread->start();
 
     setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
@@ -688,7 +691,7 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
 bool MainWindow::advSetupOpen() {
     spdlog::info("Opening Advanced Setup Dialog");
     setMask(DISABLE_ALL);
-    m_advancedSettingsDialog->show();
+    m_advancedSetupDialog->show();
     return true;
 }
 
@@ -736,6 +739,10 @@ bool MainWindow::startPostProcessing() {
             emit sig_progress_start("Encoding Video", 0);
             emit sig_start_encoding();
         } else {
+            if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
+                deleteOriginalRawFile();
+            }
+
             emit sig_update_state(PostProcessingDone);
         } 
     });
@@ -750,6 +757,16 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
     startPostProcessing();
     
     return true;
+}
+
+void MainWindow::deleteOriginalRawFile() {
+    std::string rawFile = fmt::format("{}_{}.raw", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS));
+    bool wasDeleted = std::filesystem::remove(rawFile);
+    if (wasDeleted) {
+        spdlog::info("Successfully deleted {}", rawFile);
+    } else {
+        spdlog::info("Failed to delete {}", rawFile);
+    }
 }
 
 bool MainWindow::postProcessingDone() {
@@ -1135,6 +1152,8 @@ void MainWindow::postProcess() {
 
         //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
+        std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
+        
 
         //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
@@ -1162,6 +1181,16 @@ void MainWindow::postProcess() {
         };
 
         outfile << std::setw(100) << settings << std::endl;
+
+        if (m_config->enableDownsampleRawFiles) {
+            const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
+                { "additional_bin_factor", m_config->binFactor },
+                { "keep_original", m_config->keepOriginalRaw },
+                { "downsampled_input_path", (m_expSettings.acquisitionDir / rawFileDownsampled).string() },
+            };
+
+            outfile << std::setw(100) << binSettings << std::endl;
+        }
 
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths{
             { "output_dir_path", m_expSettings.acquisitionDir.string() },
@@ -1193,7 +1222,13 @@ void MainWindow::postProcess() {
             //std::shared_ptr<VideoEncoder> venc = nullptr;
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
-
+            
+            std::shared_ptr<RawFile<6>> rawDownsampled = nullptr;
+            if (m_config->enableDownsampleRawFiles) {
+                rawDownsampled = std::make_shared<RawFile<6>>(
+                    (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
+            }
+            
             emit sig_progress_start("Tiling images", m_expSettings.frameCount);
 
             PostProcess::AutoTile(
@@ -1210,11 +1245,18 @@ void MainWindow::postProcess() {
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
-                m_expSettings.storageType
+                rawDownsampled,
+                m_expSettings.storageType,
+                m_config->binFactor
                 //venc
             );
 
             raw->Close();
+
+            if (m_config->enableDownsampleRawFiles) {
+                rawDownsampled->Close();
+            }
+
             emit sig_progress_done();
         }
 
@@ -1350,3 +1392,5 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
     }
 }
+
+

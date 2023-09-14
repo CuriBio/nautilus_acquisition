@@ -4,6 +4,8 @@
 #include "advancedsetupdialog.h"
 #include "ui_advancedsetupdialog.h"
 #include <pm/Camera.h>
+#include <string>
+#include <QCloseEvent>
 
 /*
 * Instance of advanced setup options window.
@@ -13,8 +15,7 @@
 AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
     m_config = config;
-
-    connect(ui->updatesetupbtn, &QPushButton::released, this, &AdvancedSetupDialog::update_advanced_setup);
+    connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::updateAdvancedSetup);
 }
 
 
@@ -38,7 +39,15 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         }
     }
 
+    setDefaultValues();
+}
+
+void AdvancedSetupDialog::setDefaultValues() {
     m_triggerMode = m_config->triggerMode;
+    m_binFactor = m_config->binFactor;
+    m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
+    m_keepOriginalRaw = m_config->keepOriginalRaw;
+    m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
 
     ui->triggerModeList->clear();
     ui->triggerModeList->addItem(QString("Wait for trigger"));
@@ -51,21 +60,39 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         case EXT_TRIG_INTERNAL:
             currentTrigModeIndex = 1;
     }
+    // update to most recent user-confirmed state
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
-
-    ui->checkEnableLiveViewDuringAcq->setCheckState(
-        m_config->enableLiveViewDuringAcquisition ? Qt::Checked : Qt::Unchecked
-    );
+    
+    ui->checkEnableLiveViewDuringAcq->setChecked(m_enableLiveViewDuringAcquisition);
+    
+    ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
+    ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
+    
+    ui->checkDownsampleRawFiles->setChecked(m_enableDownsampleRawFiles);
+    
+    ui->checkKeepOriginalRaw->setChecked(m_keepOriginalRaw);
+    ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
 }
-
 
 /*
 * Save the updates.
 */
-void AdvancedSetupDialog::update_advanced_setup(){
+void AdvancedSetupDialog::updateAdvancedSetup(){
+    spdlog::info("User confirmed advanced settings");
+    m_userConfirmed = true;
+
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
-    // if new nidev selected then update toml and channels
+
+    m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
+    m_config->binFactor = m_binFactor;
+    m_config->keepOriginalRaw = m_keepOriginalRaw;
+    
+    if (m_enableDownsampleRawFiles) {
+        spdlog::info("User enabled additional binning settings to a factor of {} and keep original to {}", m_binFactor, m_keepOriginalRaw);
+    }
+
+    //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
         // save new ni device to toml file
         auto file = toml::parse(m_config->configFile);
@@ -109,8 +136,55 @@ void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &t
 /*
 * When user updates this checkbox, save changes to be confirmed later.
 *
-* @param text of new choice
+* @param new checked state
 */
 void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state) {
     m_enableLiveViewDuringAcquisition = state;
+}
+
+/*
+* When user updates this checkbox, disabled/enable binning factor dropdown accordingly.
+*
+* @param new checked state
+*/
+void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
+    // enable additional downsample settings
+    ui->binFactorList->setEnabled(state);
+    ui->checkKeepOriginalRaw->setEnabled(state);
+
+    m_enableDownsampleRawFiles = state;
+
+    // reset additional settings
+    if (!state) {
+        ui->binFactorList->setCurrentIndex(0);
+        ui->checkKeepOriginalRaw->setChecked(false);
+    }
+}
+
+/*
+* When user updates binning factor, save selection as int to be confirmed later.
+*
+* @param text of new choice
+*/
+void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &text) {
+    m_binFactor = text.toInt();
+}
+
+/*
+* When user updates this checkbox, save changes for confirmation.
+*
+* @param new checked state
+*/
+void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
+    m_keepOriginalRaw = state;
+}
+
+void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
+    if (!m_userConfirmed) {
+        setDefaultValues();
+    } else {
+        m_userConfirmed = false;
+    }
+
+    emit this->sig_close_adv_settings();
 }

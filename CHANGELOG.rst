@@ -4,9 +4,20 @@ Changelog for Nautilus
 0.1.38 (unreleased)
 -------------------
 
+Added:
+^^^^^^
+- Advanced setup option to downsample raw files by user-selected bin factor and delete original raw file
+
 Changed:
 ^^^^^^^^
 - Set shader thresholds to display blue if pixel is < 1.0 and red if pixel is >= max threshold value
+- Updated acquisition region settings in nautilus.toml
+
+Fixed:
+^^^^^^
+- NI device selection in advanced setup dialog
+- Only save advanced setup options when user confirms and not on dialog Close
+- Select platemap option after selecting ``Cancel`` in no platemap warning dialog
 
 
 0.1.37 (2023-09-12)
