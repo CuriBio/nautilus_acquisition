@@ -915,7 +915,7 @@ void MainWindow::setupNIDev(std::string niDev) {
 
     //Setup NIDAQmx controller for manual trigger
     m_taskDO_2 = "Digital_Out_2";
-    m_devDO_2 = fmt::format("{}/ao0", m_config->orDev);
+    m_devDO_2 = fmt::format("{}/port0/line0:7", m_config->orDev);
     spdlog::info("Using NI device {} for manual digital output", m_devDO_2);
     m_DAQmx.ClearTask(m_taskDO_2);
 

@@ -215,7 +215,7 @@ class MainWindow : public QMainWindow {
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_taskAO, m_devAO;
         std::string m_taskDO, m_devDO;
-        std::string m_taskAO2, m_devAO2;
+        std::string m_taskDO_2, m_devDO_2;
         bool m_led{false};
 
         std::future<void> m_niSetup = {};
