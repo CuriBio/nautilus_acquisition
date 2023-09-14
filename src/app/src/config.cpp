@@ -282,6 +282,7 @@ void Config::Dump() {
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
     spdlog::info("device.nidaqmx.device_2: {}", orDev);
+    spdlog::info("device.nidaqmx.num_dig_samples: {}", numDigSamples);
     spdlog::info("device.nidaqmx.max_voltage: {}", maxVoltage);
     spdlog::info("device.nidaqmx.shutter_delay_ms: {}", shutterDelayMs);
 
