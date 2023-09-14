@@ -914,15 +914,13 @@ void MainWindow::setupNIDev(std::string niDev) {
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
 
     //Setup NIDAQmx controller for manual trigger
-    m_taskAO2 = "Analog_Out_Or"; //Task for setting Analog Output voltage
-    m_devAO2 = "TODO/ao0"; //Device name for analog output
-    spdlog::info("Using NI device {} for analog output", m_devAO2);
-    m_DAQmx.ClearTask(m_taskAO2);
+    m_taskDO_2 = "Digital_Out_2";
+    m_devDO_2 = fmt::format("{}/ao0", m_config->orDev);
+    spdlog::info("Using NI device {} for manual digital output", m_devDO_2);
+    m_DAQmx.ClearTask(m_taskDO_2);
 
-    m_DAQmx.CreateTask(m_taskAO2);
-
-    // TODO update with values from Shane
-    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO2, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
+    m_DAQmx.CreateTask(m_taskDO_2);
+    m_DAQmx.CreateDigitalOutputChan(m_taskDO_2, m_devDO_2.c_str(), DAQmx_Val_ChanForAllLines);
 }
 
 
@@ -1022,7 +1020,6 @@ bool MainWindow::ledOFF() {
  * @return true is successufl, false otherwise.
  */
 bool MainWindow::ledSetVoltage(double voltage) {
-    const double data[1] = { voltage };
     return (
         m_DAQmx.StartTask(m_taskAO) && \
         m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
@@ -1360,17 +1357,17 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
 void MainWindow::sendUserTrigger() {
     spdlog::info("User is sending manual trigger");
-    const double data[1] = { 5 };
-    // TODO update with actual values necessary for line to trigger
-    bool taskAO2_result = (
-        m_DAQmx.StartTask(m_taskAO2) && \
-        m_DAQmx.WriteAnalogF64(m_taskAO2, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-        m_DAQmx.StopTask(m_taskAO2)
+    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
+
+    bool taskDO_2_result = (
+        m_DAQmx.StartTask(m_taskDO_2) && \
+        m_DAQmx.WriteDigitalLines(m_taskDO_2, m_config->numDigSamples, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+        m_DAQmx.StopTask(m_taskDO_2)
     );
 
-    if (!taskAO2_result) {
+    if (!taskDO_2_result) {
         spdlog::error("Failed to send manual trigger");
-        return m_DAQmx.StopTask(m_taskAO2);
+        return m_DAQmx.StopTask(m_taskDO_2);
     }
 }
 
