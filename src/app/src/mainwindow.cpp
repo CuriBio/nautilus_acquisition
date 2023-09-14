@@ -1020,6 +1020,7 @@ bool MainWindow::ledOFF() {
  * @return true is successufl, false otherwise.
  */
 bool MainWindow::ledSetVoltage(double voltage) {
+    const double data[1] = { voltage };
     return (
         m_DAQmx.StartTask(m_taskAO) && \
         m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
