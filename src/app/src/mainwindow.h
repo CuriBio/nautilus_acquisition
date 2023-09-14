@@ -178,7 +178,7 @@ class MainWindow : public QMainWindow {
         std::shared_ptr<Config> m_config = nullptr;
 
         Settings* m_settings {nullptr};
-        AdvancedSetupDialog* m_advancedSettingsDialog{nullptr};
+        AdvancedSetupDialog* m_advancedSetupDialog{nullptr};
         StageControl* m_stageControl{nullptr};
         LiveView* m_liveView{nullptr};
 
@@ -272,6 +272,8 @@ class MainWindow : public QMainWindow {
                 // user can cancel if no plate map has been selected
                 if (m_userCanceledAcquisition) {
                     m_curState = Idle;
+                    // always reset back to false
+                    m_userCanceledAcquisition = false;
                 }
             }},
             { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
@@ -402,5 +404,6 @@ class MainWindow : public QMainWindow {
         static void acquisitionThread(MainWindow* cls);
         void postAcquisition();
         void postProcess();
+        void deleteOriginalRawFile();
 };
 #endif

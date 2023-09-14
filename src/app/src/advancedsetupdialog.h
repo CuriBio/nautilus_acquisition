@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QCloseEvent>
 #include <toml.hpp>
 
 #include "config.h"
@@ -30,18 +31,29 @@ class AdvancedSetupDialog : public QDialog{
         void sig_ni_dev_change(std::string new_m_nidev);
         void sig_trigger_mode_change(int16_t triggerMode);
         void sig_enable_live_view_during_acquisition_change(bool enable);
+        void sig_close_adv_settings();
 
     private slots:
-        void update_advanced_setup();
-        void on_nidevice_currentTextChanged(const QString &text);
+        void updateAdvancedSetup();
+        void on_nidevicelist_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
+        void on_checkDownsampleRawFiles_stateChanged(int state);
+        void on_checkKeepOriginalRaw_stateChanged(int state);
+        void on_binFactorList_currentTextChanged(const QString &text);
 
     private:
+        void closeEvent(QCloseEvent *event);
+        void setDefaultValues();
+
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;
         int16_t m_triggerMode;
         bool m_enableLiveViewDuringAcquisition;
+        bool m_enableDownsampleRawFiles;
+        bool m_keepOriginalRaw;
+        uint8_t m_binFactor;
+        bool m_userConfirmed{false};
 };
 #endif // ADVANCEDSETUPDIALOG_H

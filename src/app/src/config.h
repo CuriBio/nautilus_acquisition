@@ -33,6 +33,9 @@ class Config {
         uint32_t frameCount;
         double expTimeMs;
         std::vector<uint8_t> tileMap;
+        bool enableDownsampleRawFiles;
+        bool keepOriginalRaw;
+        uint8_t binFactor;
 
         //acquisition.region options
         Region rgn;
