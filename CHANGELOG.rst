@@ -1,8 +1,15 @@
 Changelog for Nautilus
 ======================
 
+0.1.38 (unreleased)
+-------------------
 
-0.1.37 (unreleased)
+Changed:
+^^^^^^^^
+- Set shader thresholds to display blue if pixel is < 1.0 and red if pixel is >= max threshold value
+
+
+0.1.37 (2023-09-12)
 -------------------
 
 Added:
