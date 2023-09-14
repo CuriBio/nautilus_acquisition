@@ -580,6 +580,25 @@ bool MainWindow::stopLiveView_PostProcessing() {
 }
 
 bool MainWindow::startAcquisition() {
+    if (m_plateFormatCurrentIndex == -1) {
+        QMessageBox messageBox;
+        messageBox.setWindowTitle("Warning!");
+        messageBox.setText("Automatic analysis will not run because no plate format has been selected for this acquisition.\n"
+            "Click cancel and select the plate format to enable automatic analysis."
+            " To continue the acquisition with automatic analysis disabled, click continue.");
+        messageBox.setIcon(QMessageBox::NoIcon);
+        messageBox.addButton(QMessageBox::Cancel);
+        messageBox.addButton(QString("Continue"), QMessageBox::NoRole);
+
+        m_userCanceledAcquisition = messageBox.exec() == QMessageBox::Cancel;
+        if (m_userCanceledAcquisition) {
+            spdlog::info("User canceled acquisition start because no platemap was selected.");
+            return false;
+        } else {
+            spdlog::info("User selected to continue acquisition with no platemap selected.");
+        }
+    }
+
     spdlog::info("Starting acquisition");
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
@@ -726,36 +745,10 @@ bool MainWindow::startPostProcessing() {
 }
 
 bool MainWindow::startPostProcessing_LiveViewRunning() {
-    spdlog::info("Start PostProcessing + Live View Running");
-    ui.startAcquisitionBtn->setEnabled(false);
-
-    m_acquisition->StopCapture();
-
-    std::thread postProcessThread([this]() {
-        spdlog::info("Starting post processing thread");
-        postProcess();
-
-        m_userCanceled = false;
-        spdlog::info("emit sig_progress_done");
-        emit sig_progress_done();
-
-        std::thread deleteT([this]() {
-            spdlog::info("Deleting files");
-            std::uintmax_t n = std::filesystem::remove_all(m_expSettings.acquisitionDir / DATA_DIR);
-            spdlog::info("Deleted {} files", n);
-        });
-        deleteT.detach();
-
-        if (m_config->encodeVideo) {
-            emit sig_progress_start("Encoding Video", 0);
-            emit sig_start_encoding();
-        } else {
-            m_acquisition->WaitForStop();
-            emit sig_update_state(PostProcessingDone);
-        } 
-    });
-
-    postProcessThread.detach();
+    spdlog::info("Stopping Live View to Start Post Processing");
+    stopLiveView();
+    startPostProcessing();
+    
     return true;
 }
 
@@ -971,8 +964,9 @@ bool MainWindow::ledON(double voltage, bool delay) {
         if (delay) {
             spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
             std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
-            m_led = true;
         }
+        
+        m_led = true;
     }
     return rtnval;
 }

@@ -240,6 +240,7 @@ class MainWindow : public QMainWindow {
         char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
 
         bool m_userCanceled{false};
+        bool m_userCanceledAcquisition{false};
         bool m_needsPostProcessing{false};
 
         std::mutex m_fileCleanupLock;
@@ -269,6 +270,10 @@ class MainWindow : public QMainWindow {
             //acquisition states
             { {Idle, AcquisitionBtnPress}, [this]() {
                 m_curState = (startAcquisition()) ? AcquisitionRunning : Error;
+                // user can cancel if no plate map has been selected
+                if (m_userCanceledAcquisition) {
+                    m_curState = Idle;
+                }
             }},
             { {AcquisitionRunning, AcquisitionBtnPress}, [this]() {
                 m_curState = (stopAcquisition()) ? Idle : Error;
@@ -306,7 +311,7 @@ class MainWindow : public QMainWindow {
                 m_curState = (stopAcquisition_LiveViewRunning()) ? LiveViewRunning : Error;
             }},
             { {LiveViewAcquisitionRunning, PostProcessing}, [this]() {
-                m_curState = (startPostProcessing_LiveViewRunning()) ? PostProcessingLiveView : Error;
+                m_curState = (startPostProcessing_LiveViewRunning()) ? PostProcessing : Error;
             }},
             { {PostProcessing, PostProcessingDone}, [this]() {
                 m_curState = (postProcessingDone()) ? Idle : Error;

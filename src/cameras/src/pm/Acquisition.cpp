@@ -516,7 +516,6 @@ template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::WaitForAcquisition() {
     std::unique_lock<std::mutex> lock(m_acquisitionFinishedLock);
     m_acquisitionFinishedCond.wait(lock);
-
 }
 
 
