@@ -7,6 +7,7 @@ Changelog for Nautilus
 Added:
 ^^^^^^
 - Advanced setup option to downsample raw files by user-selected bin factor and delete original raw file
+- User ability to send manual trigger during acquisition when trigger mode is set to EXT_TRIG_TRIG_FIRST
 
 Changed:
 ^^^^^^^^

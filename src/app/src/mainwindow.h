@@ -212,9 +212,10 @@ class MainWindow : public QMainWindow {
         QString m_plateFormatImgs[PLATEMAP_COUNT];
         QSvgWidget* m_platemap;
 
-        NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs
+        NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_taskAO, m_devAO;
         std::string m_taskDO, m_devDO;
+        std::string m_taskDO_2, m_devDO_2;
         bool m_led{false};
 
         std::future<void> m_niSetup = {};
@@ -344,6 +345,7 @@ class MainWindow : public QMainWindow {
         
     private:
         void closeEvent(QCloseEvent *event);
+        void sendUserTrigger();
 
         bool startLiveView();
         bool startLiveView_PostProcessing();

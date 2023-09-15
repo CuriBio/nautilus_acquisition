@@ -189,7 +189,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     //device.nidaqmx options
     niDev = toml::find_or<std::string>(config, "device", "nidaqmx", "device", std::string("Dev2"));
+    orDev = toml::find_or<std::string>(config, "device", "nidaqmx", "device_2", std::string("DevOR"));
     if (userargs.count("ni_dev")) { niDev = userargs["ni_dev"].as<std::string>(); }
+    if (userargs.count("or_dev")) { orDev = userargs["or_dev"].as<std::string>(); }
+    
+    numDigSamples = toml::find_or<std::string>(config, "device", "nidaqmx", "num_dig_samples", 10);
+    if (userargs.count("num_dig_samples")) { numDigSamples = userargs["num_dig_samples"].as<std::unint8_t>(); }
 
     maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
     if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
@@ -276,6 +281,8 @@ void Config::Dump() {
 
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
+    spdlog::info("device.nidaqmx.device_2: {}", orDev);
+    spdlog::info("device.nidaqmx.num_dig_samples: {}", numDigSamples);
     spdlog::info("device.nidaqmx.max_voltage: {}", maxVoltage);
     spdlog::info("device.nidaqmx.shutter_delay_ms: {}", shutterDelayMs);
 

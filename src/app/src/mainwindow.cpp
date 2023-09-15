@@ -49,6 +49,7 @@
 #include <QTimer>
 #include <QProcess>
 #include <QSvgWidget>
+#include <QPushButton>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -187,8 +188,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
     m_acquisitionProgress->setCancelButton(nullptr);
+    m_acquisitionProgress->setAutoClose(false);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
+        m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
@@ -214,8 +217,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->cancel();
     });
 
-
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, [this] { emit sig_update_state(UserCanceled); });
+    //disconnect canceled signal from all slots, specifically cancel, so that it doesn't auto close when clicked
+    disconnect(m_acquisitionProgress,  &QProgressDialog::canceled, 0, 0);
+    //then connect to sendUserTrigger
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
 
     /*
      *  Start video encoding
@@ -907,6 +912,15 @@ void MainWindow::setupNIDev(std::string niDev) {
 
     m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
     m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
+
+    //Setup NIDAQmx controller for manual trigger
+    m_taskDO_2 = "Digital_Out_2";
+    m_devDO_2 = fmt::format("{}/port0/line0:7", m_config->orDev);
+    spdlog::info("Using NI device {} for manual digital output", m_devDO_2);
+    m_DAQmx.ClearTask(m_taskDO_2);
+
+    m_DAQmx.CreateTask(m_taskDO_2);
+    m_DAQmx.CreateDigitalOutputChan(m_taskDO_2, m_devDO_2.c_str(), DAQmx_Val_ChanForAllLines);
 }
 
 
@@ -1324,6 +1338,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             cls->m_needsPostProcessing = false;
             break;
         }
+
         spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
     }
     emit cls->sig_set_platemap(0);
@@ -1339,6 +1354,22 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     }
 
     spdlog::info("Acquisition Thread Stopped");
+}
+
+void MainWindow::sendUserTrigger() {
+    spdlog::info("User is sending manual trigger");
+    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
+
+    bool taskDO_2_result = (
+        m_DAQmx.StartTask(m_taskDO_2) && \
+        m_DAQmx.WriteDigitalLines(m_taskDO_2, m_config->numDigSamples, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+        m_DAQmx.StopTask(m_taskDO_2)
+    );
+
+    if (!taskDO_2_result) {
+        spdlog::error("Failed to send manual trigger");
+        return m_DAQmx.StopTask(m_taskDO_2);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

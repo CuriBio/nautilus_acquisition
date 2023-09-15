@@ -94,15 +94,16 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
-        //save new ni device to toml file
+        // save new ni device to toml file
         auto file = toml::parse(m_config->configFile);
         file["device"]["nidaqmx"]["device"] = m_niDev;
 
         std::ofstream outf(m_config->configFile);
         outf << std::setw(0) << file << std::endl;
         outf.close();
-
+        
         emit this->sig_ni_dev_change(m_niDev);
+        
     }
     this->close();
 }
