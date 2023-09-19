@@ -1368,7 +1368,7 @@ void MainWindow::sendUserTrigger() {
 
     if (!taskDO_2_result) {
         spdlog::error("Failed to send manual trigger");
-        return m_DAQmx.StopTask(m_taskDO_2);
+        m_DAQmx.StopTask(m_taskDO_2);
     }
 }
 
