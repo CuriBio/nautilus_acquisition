@@ -56,16 +56,13 @@ class LiveView : public QOpenGLWidget {
         LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         virtual ~LiveView();
 
-        //void Init(uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
         void Clear();
-        //void UpdateImage(uint16_t* data);
         void UpdateImage(uint16_t* data, float scale, float min);
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
 
         //QT Overrides
         void initializeGL();
-        void resizeGL();
         void paintGL();
 
     private:
@@ -93,7 +90,6 @@ class LiveView : public QOpenGLWidget {
 
         GLuint m_blockIndex, m_texColor, m_R;
         GLint m_binding, m_texLoc;
-        //std::vector<GLubyte> m_teximage;
 
         GLuint m_pbo[2];           // IDs of PBOs
         int m_pboIndex{0};
