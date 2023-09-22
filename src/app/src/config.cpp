@@ -193,8 +193,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     if (userargs.count("ni_dev")) { niDev = userargs["ni_dev"].as<std::string>(); }
     if (userargs.count("or_dev")) { orDev = userargs["or_dev"].as<std::string>(); }
     
-    numDigSamples = toml::find_or<std::string>(config, "device", "nidaqmx", "num_dig_samples", 10);
-    if (userargs.count("num_dig_samples")) { numDigSamples = userargs["num_dig_samples"].as<std::unint8_t>(); }
+    numDigSamples = toml::find_or<uint8_t>(config, "device", "nidaqmx", "num_dig_samples", 10);
+    if (userargs.count("num_dig_samples")) { numDigSamples = userargs["num_dig_samples"].as<std::uint8_t>(); }
 
     maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
     if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
