@@ -287,14 +287,6 @@ void LiveView::initializeGL() {
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
 }
 
-void LiveView::resizeGL() {
-    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-
-    float aspect = float(m_width) / float(m_height);
-    int min = std::min(this->size().height(), this->size().width());
-    f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
-}
-
 /*
  * @breif Draws the pixel data to the screen.
  */
@@ -317,9 +309,9 @@ void LiveView::paintGL() {
         m_uniforms[5] = 0.0f;
     }
 
-    // float aspect = float(m_width) / float(m_height);
-    // int min = std::min(this->size().height(), this->size().width());
-    // f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
+    float aspect = float(m_width) / float(m_height);
+    int min = std::min(this->size().height(), this->size().width());
+    f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
 
     f->glBufferData(GL_UNIFORM_BUFFER, sizeof(m_uniforms), m_uniforms, GL_DYNAMIC_DRAW);
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
@@ -352,5 +344,4 @@ void LiveView::paintGL() {
     // unbind texture
     f->glBindTexture(GL_TEXTURE_2D, 0);
     m_pboIndex = 1 - m_pboIndex;
-    //f->glViewport(0, 0, this->size().width(), this->size().height());
 }

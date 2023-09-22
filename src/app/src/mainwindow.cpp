@@ -99,6 +99,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
     m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
+    m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);

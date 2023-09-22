@@ -19,6 +19,7 @@ Fixed:
 - NI device selection in advanced setup dialog
 - Only save advanced setup options when user confirms and not on dialog Close
 - Select platemap option after selecting ``Cancel`` in no platemap warning dialog
+- Fixed regression in window resizing/aspect ratio
 
 
 0.1.37 (2023-09-12)
