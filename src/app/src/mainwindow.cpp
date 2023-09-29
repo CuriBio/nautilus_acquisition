@@ -142,8 +142,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //settings dialog
     m_settings = new Settings(this, m_config);
-    connect(m_settings, &Settings::finished, this, [this]() { emit sig_update_state(SettingsClosed); });
-    connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settingsChanged);
+    // connect(m_settings, &Settings::finished, this, [this]() { emit sig_update_state(SettingsClosed); });
+    // connect(m_settings, &Settings::sig_settings_changed, this, &MainWindow::settingsChanged);
 
 
     //stage control
