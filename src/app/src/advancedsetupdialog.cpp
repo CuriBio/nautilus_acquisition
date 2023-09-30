@@ -70,8 +70,8 @@ void AdvancedSetupDialog::setDefaultValues() {
     
     ui->checkDownsampleRawFiles->setChecked(m_enableDownsampleRawFiles);
     
-    ui->checkKeepOriginalRaw->setChecked(m_keepOriginalRaw);
-    ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
+    // ui->checkKeepOriginalRaw->setChecked(m_keepOriginalRaw);
+    // ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
 }
 
 /*
