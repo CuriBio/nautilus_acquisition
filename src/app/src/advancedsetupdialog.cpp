@@ -16,6 +16,7 @@ AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget
     ui->setupUi(this);
     m_config = config;
     connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::updateAdvancedSetup);
+    setDefaultValues();
 }
 
 
@@ -38,8 +39,6 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
             ui->nidevicelist->addItem(QString::fromStdString(nidevicename));
         }
     }
-
-    setDefaultValues();
 }
 
 void AdvancedSetupDialog::setDefaultValues() {
