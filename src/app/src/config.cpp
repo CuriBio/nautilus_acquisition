@@ -14,7 +14,6 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     }
     configFile = cfg.string();
 
-
     //nautilus table options
     path = toml::find_or<std::string>(config, "nautilus", "outdir", std::string("E:\\"));
     if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
@@ -36,6 +35,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
 
+    machineVarsFilePath = toml::find_or<std::string>(config, "nautilus", "machine_vars_file_path", std::string(""));
+    try {
+        machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
+    } catch(const std::exception& e) {
+        spdlog::error("Caught exception \"{}\"", e.what());
+    }
 
     //acquisition table options
     fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
@@ -239,6 +244,8 @@ void Config::Dump() {
     spdlog::info("nautilus.ext_analysis {}", extAnalysis.string());
     spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
+    spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath.string());
+    spdlog::info("nautilus.machine_vars: {}", toml::format(machineVars));
 
     //acquisition options
     spdlog::info("acquisition.fps: {}", fps);
