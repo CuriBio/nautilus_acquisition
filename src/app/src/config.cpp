@@ -41,7 +41,6 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     } catch(const std::exception& e) {
         spdlog::error("Caught exception \"{}\"", e.what());
     }
-    
 
     //acquisition table options
     fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
@@ -245,7 +244,7 @@ void Config::Dump() {
     spdlog::info("nautilus.ext_analysis {}", extAnalysis.string());
     spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
-    spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath);
+    spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath.string());
     // TODO will this work?  // spdlog::info("nautilus.machine_vars_file_path: {}", machineVars);
 
     //acquisition options
