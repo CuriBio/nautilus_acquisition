@@ -245,7 +245,7 @@ void Config::Dump() {
     spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
     spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath.string());
-    // TODO will this work?  // spdlog::info("nautilus.machine_vars_file_path: {}", machineVars);
+    spdlog::info("nautilus.machine_vars: {}", toml::format(machineVars));
 
     //acquisition options
     spdlog::info("acquisition.fps: {}", fps);
