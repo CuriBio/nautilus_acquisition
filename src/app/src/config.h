@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <toml.hpp>
 #include <cxxopts.hpp>
 #include <interfaces/CameraInterface.h>
 
@@ -18,6 +19,8 @@ class Config {
         std::filesystem::path extAnalysis;
         std::filesystem::path ffmpegDir;
         double xyPixelSize;
+        std::filesystem::path machineVarsFilePath;
+        toml::value machineVars;
 
         //acquisition options
         double fps;
