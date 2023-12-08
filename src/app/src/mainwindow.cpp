@@ -1178,10 +1178,11 @@ void MainWindow::postProcess() {
             { "xy_pixel_size", m_config->xyPixelSize },
             { "data_type", ui.dataTypeList->currentText().toStdString() }
         };
-
         outfile << std::setw(100) << settings << std::endl;
 
-        outfile << std::setw(100) << m_config->machineVars << std::endl;
+        if (m_config->machineVarsValid) {
+            outfile << std::setw(100) << m_config->machineVars << std::endl;
+        }
 
         if (m_config->enableDownsampleRawFiles) {
             const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
