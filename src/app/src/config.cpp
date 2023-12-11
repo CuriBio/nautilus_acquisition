@@ -10,7 +10,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
     } catch(const std::exception& e) {
-        spdlog::error("Caught exception \"{}\"", e.what());
+        spdlog::error("Failed to parse config file \"{}\"", e.what());
     }
     configFile = cfg.string();
 
@@ -38,8 +38,10 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     machineVarsFilePath = toml::find_or<std::string>(config, "nautilus", "machine_vars_file_path", std::string(""));
     try {
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
+        machineVarsValid = true;
     } catch(const std::exception& e) {
-        spdlog::error("Caught exception \"{}\"", e.what());
+        machineVarsValid = false;
+        spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
     }
 
     //acquisition table options
@@ -245,7 +247,6 @@ void Config::Dump() {
     spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
     spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath.string());
-    spdlog::info("nautilus.machine_vars: {}", toml::format(machineVars));
 
     //acquisition options
     spdlog::info("acquisition.fps: {}", fps);

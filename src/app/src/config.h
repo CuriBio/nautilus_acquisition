@@ -21,6 +21,7 @@ class Config {
         double xyPixelSize;
         std::filesystem::path machineVarsFilePath;
         toml::value machineVars;
+        bool machineVarsValid;
 
         //acquisition options
         double fps;
@@ -87,4 +88,5 @@ class Config {
         ~Config() { };
         void Dump();
 };
+
 #endif //__NAUTILUS_CONFIG_H

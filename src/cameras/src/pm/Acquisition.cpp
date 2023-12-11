@@ -159,7 +159,7 @@ void pm::Acquisition<F, C>::writeFrame(F* frame) noexcept {
             uint32_t width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin;
             uint32_t height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin;
 
-            RawFile<3> raw(
+            RawFile<4> raw(
                 rawpath,
                 16, //bitdepth
                 width,
