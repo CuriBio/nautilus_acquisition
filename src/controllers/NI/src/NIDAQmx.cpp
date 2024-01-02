@@ -318,10 +318,17 @@ std::vector<std::string> NIDAQmx::GetListOfDevices(){
         while(ss.good()){
             std::string nidevicename;
             getline(ss,nidevicename,',');
-
+            
+            // remove whitespace
+            size_t startpos = nidevicename.find_first_not_of(" \t");
+            if (std::string::npos != startpos ) {
+                nidevicename = nidevicename.substr( startpos );
+            }
+            
             if(nidevicename == ""){
                 break;
             }
+
             devices.push_back(nidevicename);
         }
     }

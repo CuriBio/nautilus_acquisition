@@ -28,14 +28,15 @@ class AdvancedSetupDialog : public QDialog{
         void Initialize(std::vector<std::string>);
 
     signals:
-        void sig_ni_dev_change(std::string new_m_nidev);
+        void sig_ni_dev_change(std::string m_niDev, std::string m_trigDev);
         void sig_trigger_mode_change(int16_t triggerMode);
         void sig_enable_live_view_during_acquisition_change(bool enable);
         void sig_close_adv_settings();
 
     private slots:
         void updateAdvancedSetup();
-        void on_nidevicelist_currentTextChanged(const QString &text);
+        void on_ledDeviceList_currentTextChanged(const QString &text);
+        void on_triggerDeviceList_currentTextChanged(const QString &text);
         void on_triggerModeList_currentTextChanged(const QString &text);
         void on_checkEnableLiveViewDuringAcq_stateChanged(int state);
         void on_checkDownsampleRawFiles_stateChanged(int state);
@@ -49,6 +50,7 @@ class AdvancedSetupDialog : public QDialog{
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;
+        std::string m_trigDev;
         int16_t m_triggerMode;
         bool m_enableLiveViewDuringAcquisition;
         bool m_enableDownsampleRawFiles;

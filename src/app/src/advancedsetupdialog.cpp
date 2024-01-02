@@ -31,12 +31,22 @@ AdvancedSetupDialog::~AdvancedSetupDialog() {
 * @param vector of ni device names
 */
 void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
-    ui->nidevicelist->clear();
+    ui->ledDeviceList->clear();
     if (devicelist.size() == 0) {
-        ui->nidevicelist->addItem("No NI devices detected");
+        ui->ledDeviceList->addItem("No NI devices detected");
+        ui->triggerDeviceList->addItem("No NI devices detected");
     } else {
-        for(std::string nidevicename : devicelist){
-            ui->nidevicelist->addItem(QString::fromStdString(nidevicename));
+        for (int i=0; i<devicelist.size(); i++) {
+            ui->ledDeviceList->addItem(QString::fromStdString(devicelist[i]));
+            ui->triggerDeviceList->addItem(QString::fromStdString(devicelist[i]));
+            
+            // ensure index is set to device name in config file for both led and trigger devices
+            if (devicelist[i] == m_config->niDev) {
+                ui->ledDeviceList->setCurrentIndex(i);
+            }
+            if (devicelist[i] == m_config->trigDev) {
+                ui->triggerDeviceList->setCurrentIndex(i);
+            }
         }
     }
 }
@@ -96,14 +106,15 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
         // save new ni device to toml file
         auto file = toml::parse(m_config->configFile);
         file["device"]["nidaqmx"]["device"] = m_niDev;
+        file["device"]["nidaqmx"]["device_2"] = m_trigDev;
 
         std::ofstream outf(m_config->configFile);
         outf << std::setw(0) << file << std::endl;
         outf.close();
         
-        emit this->sig_ni_dev_change(m_niDev);
-        
+        emit this->sig_ni_dev_change(m_niDev, m_trigDev);
     }
+
     this->close();
 }
 
@@ -113,8 +124,17 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 *
 * @param text of new choice
 */
-void AdvancedSetupDialog::on_nidevicelist_currentTextChanged(const QString &text) {
+void AdvancedSetupDialog::on_ledDeviceList_currentTextChanged(const QString &text) {
     m_niDev = text.toStdString();
+}
+
+/*
+* When user selects a different trigger device, save changes to be confirmed later.
+*
+* @param text of new choice
+*/
+void AdvancedSetupDialog::on_triggerDeviceList_currentTextChanged(const QString &text) {
+    m_trigDev = text.toStdString();
 }
 
 

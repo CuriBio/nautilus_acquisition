@@ -211,7 +211,6 @@ void pm::Acquisition<F, C>::frameWriterThread() noexcept {
 
                 if (timedOut) {
                     //TODO handle timeout
-                    spdlog::info("m_frameWriterCond timeout");
                     continue;
                 }
             }
