@@ -1,5 +1,13 @@
 Changelog for Nautilus
 ======================
+0.1.40 (unreleased)
+-------------------
+
+Fixed:
+^^^^^^
+- Manual trigger functionality
+
+
 0.1.39 (2023-12-11)
 -------------------
 

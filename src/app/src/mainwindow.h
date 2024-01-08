@@ -213,9 +213,9 @@ class MainWindow : public QMainWindow {
         QSvgWidget* m_platemap;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
-        std::string m_taskAO, m_devAO;
-        std::string m_taskDO, m_devDO;
-        std::string m_taskDO_2, m_devDO_2;
+        std::string m_ledTaskAO, m_ledDevAO;
+        std::string m_ledTaskDO, m_ledDevDO;
+        std::string m_trigTaskDO, m_trigDevDO;
         bool m_led{false};
 
         std::future<void> m_niSetup = {};
@@ -345,7 +345,7 @@ class MainWindow : public QMainWindow {
         
     private:
         void closeEvent(QCloseEvent *event);
-        void sendUserTrigger();
+        void sendManualTrigger();
 
         bool startLiveView();
         bool startLiveView_PostProcessing();
@@ -386,7 +386,7 @@ class MainWindow : public QMainWindow {
             return ((m_curMask & std::bitset<32>(mask)) != std::bitset<32>(0));
         }
 
-        void setupNIDev(std::string niDev);
+        void setupNIDevices(std::string niDev, std::string trigDev);
 
         bool ledON(double voltage, bool delay=true);
         bool ledOFF();

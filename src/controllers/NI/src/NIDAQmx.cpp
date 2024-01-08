@@ -309,7 +309,7 @@ std::vector<std::string> NIDAQmx::GetListOfDevices(){
     constexpr size_t bsize = 1000;
     char buf[bsize] = {};
 
-    if (DAQmxFailed(DAQmxGetSysDevNames(buf, bsize))){
+    if (DAQmxFailed(DAQmxGetSysDevNames(buf, bsize))) {
         spdlog::error("Failed to find NIDaq devices");
     } else {
         std::string tempstring(buf);
@@ -318,10 +318,17 @@ std::vector<std::string> NIDAQmx::GetListOfDevices(){
         while(ss.good()){
             std::string nidevicename;
             getline(ss,nidevicename,',');
-
-            if(nidevicename == ""){
+            
+            // remove whitespace
+            size_t startpos = nidevicename.find_first_not_of(" \t");
+            if (std::string::npos != startpos) {
+                nidevicename = nidevicename.substr(startpos);
+            }
+            
+            if(nidevicename == "") {
                 break;
             }
+
             devices.push_back(nidevicename);
         }
     }

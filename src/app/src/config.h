@@ -61,8 +61,7 @@ class Config {
 
         //device.nidaqmx
         std::string niDev;
-        std::string orDev;
-        uint8_t numDigSamples;
+        std::string trigDev;
         double maxVoltage;
         uint16_t shutterDelayMs;
 

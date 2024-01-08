@@ -172,7 +172,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //Setup NIDAQmx controller for LED
     m_advancedSetupDialog = new AdvancedSetupDialog(m_config, this);
-    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDev);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDevices);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
@@ -192,7 +192,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress->setAutoClose(false);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
-        m_acquisitionProgress->setCancelButton((msg == "Acquiring images" && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
+        m_acquisitionProgress->setCancelButton(nullptr);
         m_acquisitionProgress->setMinimum(0);
         m_acquisitionProgress->setMaximum(n);
         m_acquisitionProgress->setValue(0);
@@ -202,6 +202,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     connect(this, &MainWindow::sig_progress_text, this, [this](std::string msg) {
         m_acquisitionProgress->setLabelText(QString::fromStdString(msg));
+        m_acquisitionProgress->setCancelButton((msg.contains("Acquiring images") && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
     });
 
     connect(this, &MainWindow::sig_progress_update, this, [this](size_t n) {
@@ -220,8 +221,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     //disconnect canceled signal from all slots, specifically cancel, so that it doesn't auto close when clicked
     disconnect(m_acquisitionProgress,  &QProgressDialog::canceled, 0, 0);
-    //then connect to sendUserTrigger
-    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendUserTrigger);
+    //then connect to sendManualTrigger
+    connect(m_acquisitionProgress, &QProgressDialog::canceled, this, &MainWindow::sendManualTrigger);
 
     /*
      *  Start video encoding
@@ -379,7 +380,7 @@ void MainWindow::Initialize() {
         });
 
         m_niSetup = std::async(std::launch::async, [&] {
-            setupNIDev(m_config->niDev);
+            setupNIDevices(m_config->niDev, m_config->trigDev);
             m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
     } else {
@@ -387,7 +388,7 @@ void MainWindow::Initialize() {
         emit sig_progress_done();
 
         //setup NI device
-        setupNIDev(m_config->niDev);
+        setupNIDevices(m_config->niDev, m_config->trigDev);
         m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
     }
 
@@ -894,34 +895,34 @@ void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix)
 /*
 * Runs when a new ni device is selected, re configure ni device leds
 */
-void MainWindow::setupNIDev(std::string niDev) {
+void MainWindow::setupNIDevices(std::string niDev, std::string trigDev) {
     m_config->niDev = niDev;
+    m_config->trigDev = trigDev;
 
     //Setup NIDAQmx controller for LED
-    m_taskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
-    m_devAO = fmt::format("{}/ao0", m_config->niDev); //Device name for analog output
-    spdlog::info("Using NI device {} for analog output", m_devAO);
-    m_DAQmx.ClearTask(m_taskAO);
+    m_ledTaskAO = "Analog_Out_Volts"; //Task for setting Analog Output voltage
+    m_ledDevAO = fmt::format("{}/ao0", m_config->niDev); //Device name for analog output
+    spdlog::info("Using NI device {} for led analog output", m_ledDevAO);
+    m_DAQmx.ClearTask(m_ledTaskAO);
 
-    m_taskDO = "Digital_Out"; //Task for setting Digital Output
-    m_devDO = fmt::format("{}/port0/line0:7", m_config->niDev); //Device for digital output
-    spdlog::info("Using NI device {} for digital output", m_devDO);
-    m_DAQmx.ClearTask(m_taskDO);
-
-    m_DAQmx.CreateTask(m_taskAO);
-    m_DAQmx.CreateTask(m_taskDO);
-
-    m_DAQmx.CreateAnalogOutpuVoltageChan(m_taskAO, m_devAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
-    m_DAQmx.CreateDigitalOutputChan(m_taskDO, m_devDO.c_str(), DAQmx_Val_ChanForAllLines);
+    m_ledTaskDO = "Digital_Out"; //Task for setting Digital Output
+    m_ledDevDO = fmt::format("{}/port0/line0:7", m_config->niDev); //Device for digital output
+    spdlog::info("Using NI device {} for led digital output", m_ledDevDO);
+    m_DAQmx.ClearTask(m_ledTaskDO);
 
     //Setup NIDAQmx controller for manual trigger
-    m_taskDO_2 = "Digital_Out_2";
-    m_devDO_2 = fmt::format("{}/port0/line0:7", m_config->orDev);
-    spdlog::info("Using NI device {} for manual digital output", m_devDO_2);
-    m_DAQmx.ClearTask(m_taskDO_2);
+    m_trigTaskDO = "Trigger_Digital_Out";
+    m_trigDevDO = fmt::format("{}/port0/line0:7", trigDev);
+    spdlog::info("Using NI device {} for trigger digital output", m_trigDevDO);
+    m_DAQmx.ClearTask(m_trigTaskDO);
 
-    m_DAQmx.CreateTask(m_taskDO_2);
-    m_DAQmx.CreateDigitalOutputChan(m_taskDO_2, m_devDO_2.c_str(), DAQmx_Val_ChanForAllLines);
+    m_DAQmx.CreateTask(m_ledTaskAO);
+    m_DAQmx.CreateTask(m_ledTaskDO); 
+    m_DAQmx.CreateTask(m_trigTaskDO); 
+
+    m_DAQmx.CreateAnalogOutpuVoltageChan(m_ledTaskAO, m_ledDevAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
+    m_DAQmx.CreateDigitalOutputChan(m_ledTaskDO, m_ledDevDO.c_str(), DAQmx_Val_ChanForAllLines);
+    m_DAQmx.CreateDigitalOutputChan(m_trigTaskDO, m_trigDevDO.c_str(), DAQmx_Val_ChanForAllLines);
 }
 
 
@@ -966,14 +967,14 @@ bool MainWindow::ledON(double voltage, bool delay) {
         }
 
        bool taskDO_result = (
-            m_DAQmx.StartTask(m_taskDO) && \
-            m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
-            m_DAQmx.StopTask(m_taskDO)
+            m_DAQmx.StartTask(m_ledTaskDO) && \
+            m_DAQmx.WriteDigitalLines(m_ledTaskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+            m_DAQmx.StopTask(m_ledTaskDO)
         );
 
         if (!taskDO_result) {
             spdlog::error("Failed to run taskDO");
-            m_DAQmx.StopTask(m_taskDO);
+            m_DAQmx.StopTask(m_ledTaskDO);
             rtnval = false;
         }
 
@@ -998,14 +999,14 @@ bool MainWindow::ledOFF() {
         spdlog::info("led OFF");
         uint8_t lines[8] = {0,0,0,0,0,0,0,0};
         bool taskDO_result = (
-            m_DAQmx.StartTask(m_taskDO) && \
-            m_DAQmx.WriteDigitalLines(m_taskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
-            m_DAQmx.StopTask(m_taskDO)
+            m_DAQmx.StartTask(m_ledTaskDO) && \
+            m_DAQmx.WriteDigitalLines(m_ledTaskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
+            m_DAQmx.StopTask(m_ledTaskDO)
         );
 
         if (!taskDO_result) {
             spdlog::error("Failed to run taskDO");
-            return m_DAQmx.StopTask(m_taskDO);
+            return m_DAQmx.StopTask(m_ledTaskDO);
         }
         m_led = false;
     }
@@ -1023,9 +1024,9 @@ bool MainWindow::ledOFF() {
 bool MainWindow::ledSetVoltage(double voltage) {
     const double data[1] = { voltage };
     return (
-        m_DAQmx.StartTask(m_taskAO) && \
-        m_DAQmx.WriteAnalogF64(m_taskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
-        m_DAQmx.StopTask(m_taskAO)
+        m_DAQmx.StartTask(m_ledTaskAO) && \
+        m_DAQmx.WriteAnalogF64(m_ledTaskAO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, data, NULL) && \
+        m_DAQmx.StopTask(m_ledTaskAO)
     );
 }
 
@@ -1360,19 +1361,21 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition Thread Stopped");
 }
 
-void MainWindow::sendUserTrigger() {
+void MainWindow::sendManualTrigger() {
     spdlog::info("User is sending manual trigger");
-    uint8_t lines[8] = {1,1,1,1,1,1,1,1};
+    uint8_t on_lines[8] = {1,1,1,1,1,1,1,1};
+    uint8_t off_lines[8] = {0,0,0,0,0,0,0,0};
 
     bool taskDO_2_result = (
-        m_DAQmx.StartTask(m_taskDO_2) && \
-        m_DAQmx.WriteDigitalLines(m_taskDO_2, m_config->numDigSamples, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
-        m_DAQmx.StopTask(m_taskDO_2)
+        m_DAQmx.StartTask(m_trigTaskDO) && \
+        m_DAQmx.WriteDigitalLines(m_trigTaskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, off_lines, NULL) && \
+        m_DAQmx.WriteDigitalLines(m_trigTaskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, on_lines, NULL) && \
+        m_DAQmx.StopTask(m_trigTaskDO)
     );
 
     if (!taskDO_2_result) {
         spdlog::error("Failed to send manual trigger");
-        m_DAQmx.StopTask(m_taskDO_2);
+        m_DAQmx.StopTask(m_trigTaskDO);
     }
 }
 
