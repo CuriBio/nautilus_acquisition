@@ -17,7 +17,7 @@ class AdvancedSetupDialog;
 
 
 /*
- * Nautilus advanced setup window class.
+ * Nautilai advanced setup window class.
  */
 class AdvancedSetupDialog : public QDialog{
     Q_OBJECT

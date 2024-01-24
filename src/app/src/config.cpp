@@ -14,28 +14,28 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     }
     configFile = cfg.string();
 
-    //nautilus table options
-    path = toml::find_or<std::string>(config, "nautilus", "outdir", std::string("E:\\"));
+    //nautilai table options
+    path = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\"));
     if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
 
-    prefix = toml::find_or<std::string>(config, "nautilus", "prefix", std::string("default_"));
+    prefix = toml::find_or<std::string>(config, "nautilai", "prefix", std::string("default_"));
     if (userargs.count("prefix")) { prefix = userargs["prefix"].as<std::string>(); }
 
-    noAutoConBright = !toml::find_or<bool>(config, "nautilus", "auto_contrast_brightness", true);
+    noAutoConBright = !toml::find_or<bool>(config, "nautilai", "auto_contrast_brightness", true);
     if (userargs.count("no_autocb")) { noAutoConBright = true; }
 
-    plateFormat = toml::find_or<std::string>(config, "nautilus", "plate_format", std::string(""));
+    plateFormat = toml::find_or<std::string>(config, "nautilai", "plate_format", std::string(""));
     if (userargs.count("plateFormat")) { prefix = userargs["plate_format"].as<std::string>(); }
 
-    extAnalysis = toml::find_or<std::string>(config, "nautilus", "ext_analysis", std::string(""));
+    extAnalysis = toml::find_or<std::string>(config, "nautilai", "ext_analysis", std::string(""));
     if (userargs.count("ext_analysis")) { prefix = userargs["ext_analysis"].as<std::string>(); }
 
-    ffmpegDir = toml::find_or<std::string>(config, "nautilus", "ffmpeg_dir", std::string(""));
+    ffmpegDir = toml::find_or<std::string>(config, "nautilai", "ffmpeg_dir", std::string(""));
     if (userargs.count("ffmpeg_dir")) { prefix = userargs["ffmpeg_dir"].as<std::string>(); }
 
-    xyPixelSize = toml::find_or<double>(config, "nautilus", "xy_pixel_size", 1.0);
+    xyPixelSize = toml::find_or<double>(config, "nautilai", "xy_pixel_size", 1.0);
 
-    machineVarsFilePath = toml::find_or<std::string>(config, "nautilus", "machine_vars_file_path", std::string(""));
+    machineVarsFilePath = toml::find_or<std::string>(config, "nautilai", "machine_vars_file_path", std::string(""));
     try {
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
         machineVarsValid = true;
@@ -236,15 +236,15 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 }
 
 void Config::Dump() {
-    //nautilus options
-    spdlog::info("nautilus.outdir: {}", path.string());
-    spdlog::info("nautilus.prefix: {}", prefix);
-    spdlog::info("nautilus.auto_contrast_brightness: {}", !noAutoConBright);
-    spdlog::info("nautilus.plate_format {}", plateFormat.string());
-    spdlog::info("nautilus.ext_analysis {}", extAnalysis.string());
-    spdlog::info("nautilus.ffmpeg_dir {}", ffmpegDir.string());
-    spdlog::info("nautilus.xy_pixel_size: {}", xyPixelSize);
-    spdlog::info("nautilus.machine_vars_file_path: {}", machineVarsFilePath.string());
+    //nautilai options
+    spdlog::info("nautilai.outdir: {}", path.string());
+    spdlog::info("nautilai.prefix: {}", prefix);
+    spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
+    spdlog::info("nautilai.plate_format {}", plateFormat.string());
+    spdlog::info("nautilai.ext_analysis {}", extAnalysis.string());
+    spdlog::info("nautilai.ffmpeg_dir {}", ffmpegDir.string());
+    spdlog::info("nautilai.xy_pixel_size: {}", xyPixelSize);
+    spdlog::info("nautilai.machine_vars_file_path: {}", machineVarsFilePath.string());
 
     //acquisition options
     spdlog::info("acquisition.fps: {}", fps);

@@ -85,7 +85,7 @@ std::string appStateToStr(AppState state) {
 }
 
 /*
- * Instance of the main Nautilus application window.
+ * Instance of the main Nautilai application window.
  *
  * @param params The config params class.
  * @param parent Pointer to parent widget.
@@ -1157,7 +1157,7 @@ void MainWindow::postProcess() {
 
         //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
-            { "instrument_name", "Nautilus" },
+            { "instrument_name", "Nautilai" },
             { "software_version", m_config->version },
             { "recording_date", m_recordingDateFmt },
             { "led_intensity", m_config->ledIntensity },

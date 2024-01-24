@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILUS_VERSION 0.1.40)
+set(NAUTILAI_VERSION 0.1.41)
 
-project(nautilus LANGUAGES CXX C VERSION ${NAUTILUS_VERSION})
-set(PROJECT_BRIEF "Nautilus Acquisition")
+project(nautilai LANGUAGES CXX C VERSION ${NAUTILAI_VERSION})
+set(PROJECT_BRIEF "Nautilai Acquisition")
 
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -70,7 +70,7 @@ set(PROJECT_BUILD ${CMAKE_CURRENT_BINARY_DIR})
 install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 #Install config file
-install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilus.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilai.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 #install stylesheet
 install(FILES ${CMAKE_SOURCE_DIR}/resources/curibio.qss DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)

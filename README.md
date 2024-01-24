@@ -2,16 +2,16 @@
 
 - Install PVCAM drivers, https://downloads.curibio.com/software/nautilus/PVCam_3.9.10.5-PMQI_Release_Setup.zip
 - Install NiDAQmx drivers, https://downloads.curibio.com/software/nautilus/ni-daqmx_22.8_online.exe
-- Install nautilus software, [downloads.curibio.com/software/nautilus/Nautilus-0.1.1-win64.exe](http://downloads.curibio.com/software/nautilus/Nautilus-0.1.1-win64.exe)
+- Install nautilai software, [downloads.curibio.com/software/nautilai/Nautilai-0.1.1-win64.exe](http://downloads.curibio.com/software/nautilai/Nautilai-0.1.1-win64.exe)
 
-The Nautilus installer by default will install the application and create a start menu shortcut. To start the application find in start menu.
+The Nautilai installer by default will install the application and create a start menu shortcut. To start the application find in start menu.
 
 ## Configuration
 
-On first run the application will create a new config file at `C:\Users\<your user>\AppData\Local\Nautilus\nautilus.toml` that contains the following settings.
+On first run the application will create a new config file at `C:\Users\<your user>\AppData\Local\Nautilai\nautilai.toml` that contains the following settings.
 
 ```
-[nautilus]
+[nautilai]
 prefix = "default_"
 auto_contrast_brightness = true
 outdir = "E:\\"
@@ -57,7 +57,7 @@ sub_electron = 60.1
 com = "COM3"
 ```
 
-`[nautilus] settings`  
+`[nautilai] settings`  
 `prefix` is the value used as a prefix for each saved image. For example, the final image name using the default value will be as follows
 `default_N_XXX.tiff`  
 where `N` is a 1-based index of the stage position and `XXX` is the frame number
@@ -126,4 +126,4 @@ When running the software you must add at least one stage location through the s
 
 Live view can be on during acquisition, if you start live view and then start an acquisition the live view will remain on after the acquisition is finished. You must stop live view in order to turn off the LED panel.
 
-Log files are stored under `C:\Users\<user>\AppData\Nautilus`
+Log files are stored under `C:\Users\<user>\AppData\Nautilai`
