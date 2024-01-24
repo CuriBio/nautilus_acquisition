@@ -1,4 +1,4 @@
-Changelog for Nautilus
+Changelog for Nautilai
 ======================
 0.1.40 (unreleased)
 -------------------
