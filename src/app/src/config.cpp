@@ -96,10 +96,10 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     //acquisition.region
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
     uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
-    uint16_t sbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "sbin", toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1));
+    uint16_t sbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "sbin", toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 2));
     uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
-    uint16_t pbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "pbin", toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1));
+    uint16_t pbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "pbin", toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 2));
 
     rgn = Region {
         .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -111,7 +111,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         config, "acquisition", "live_view", "enable_live_view_during_acquisition", true
     );
     vflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "vflip", toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false));
-    hflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "hflip", toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false));
+    hflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "hflip", toml::find_or<bool>(config, "acquisition", "live_view", "hflip", true));
 
     //device.photometrics options
     triggerMode = toml::find_or<int16_t>(config, "device", "photometrics", "trigger_mode", 0);

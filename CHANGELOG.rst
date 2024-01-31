@@ -1,6 +1,22 @@
 Changelog for Nautilus
 ======================
-0.1.40 (unreleased)
+
+0.1.41 (unreleased)
+-------------------
+Added:
+^^^^^^
+- updated nautilai.toml file
+
+Changed:
+^^^^^^
+- Nautilai rename
+
+Fixed:
+^^^^^^
+- Machine-specific override variables
+
+
+0.1.40 (2024-01-10)
 -------------------
 
 Fixed:
