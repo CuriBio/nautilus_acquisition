@@ -94,8 +94,8 @@ install(
 get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
 get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
 
-set(CPACK_PACKAGE_NAME "Nautilus")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Nautilus Installation")
+set(CPACK_PACKAGE_NAME "Nautilai")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Nautilai Installation")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
@@ -104,18 +104,18 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
 message("###### CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nautilus")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nautilai")
     set(CPACK_NSIS_DISPLAY_NAME ${CMAKE_PACKAGE_NAME})
     set(CPACK_NSIS_COMPRESSOR lzma)
-    set(CPACK_NSIS_INSTALLED_ICON_NAME Nautilus.exe)
-    set(CPACK_NSIS_MENU_LINKS "Nautilus.exe" "Nautilus - Curi Bio")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME Nautilai.exe)
+    set(CPACK_NSIS_MENU_LINKS "Nautilai.exe" "Nautilai - Curi Bio")
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ${CMAKE_INSTALL_BINDIR})
     set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
 
     include(InstallRequiredSystemLibraries)
     find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
 
-    add_custom_command(TARGET nautilus POST_BUILD
+    add_custom_command(TARGET nautilai POST_BUILD
                        COMMAND ${WINDEPLOYQT_EXECUTABLE}
                                --release
                                --verbose 1

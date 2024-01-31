@@ -25,7 +25,7 @@
 /*********************************************************************
  * @file  main.cpp
  *
- * @brief Main entrypoint into the nautilus application.
+ * @brief Main entrypoint into the nautilai application.
  *********************************************************************/
 #include <deque>
 #include <filesystem>
@@ -58,7 +58,7 @@
 
 
 /*
- * Entry point for nautilus, creates camera/acquisition and sets initial settings.
+ * Entry point for nautilai, creates camera/acquisition and sets initial settings.
  *
  * @param argc The number of cli arguments.
  * @param argv Array of pointers to cli arguments.
@@ -74,21 +74,21 @@ int main(int argc, char* argv[]) {
     }
 
     //create AppData directory for log files/config
-    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilus");
-    std::filesystem::path configFile = (configPath / "nautilus.toml");
+    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
+    std::filesystem::path configFile = (configPath / "nautilai.toml");
 
     std::time_t ts = std::time(nullptr);
-    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilus.log", configPath.string(), fmt::localtime(ts));
+    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", configPath.string(), fmt::localtime(ts));
 
     auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
 
     std::vector<spdlog::sink_ptr> sinks{stderr_sink, file_sink};
-    auto logger = std::make_shared<spdlog::logger>("nautilus", std::begin(sinks), std::end(sinks));
+    auto logger = std::make_shared<spdlog::logger>("nautilai", std::begin(sinks), std::end(sinks));
     spdlog::flush_every(std::chrono::seconds(10));
     spdlog::set_default_logger(logger);
 
-    spdlog::info("Nautilus Version: {}", version);
+    spdlog::info("Nautilai Version: {}", version);
 
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());
@@ -97,13 +97,13 @@ int main(int argc, char* argv[]) {
 
     if (!std::filesystem::exists(configFile)) {
         spdlog::info("Creating {}", configFile.string());
-        auto cfg = toml::parse<toml::preserve_comments, tsl::ordered_map>(std::filesystem::path("nautilus.toml").string());
+        auto cfg = toml::parse<toml::preserve_comments, tsl::ordered_map>(std::filesystem::path("nautilai.toml").string());
         std::ofstream outf(configFile.string());
         outf << std::setw(0) << cfg << std::endl;
         outf.close();
     }
 
-    cxxopts::Options options("Nautilus", "CuriBio");
+    cxxopts::Options options("Nautilai", "CuriBio");
     options.add_options()
       ("a,no_autocb", "Disable auto contrast/brightness for live view", cxxopts::value<bool>())
       ("b,buffers", "Number of buffers", cxxopts::value<uint32_t>())
@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
       ("ni_dev", "Name of NIDAQmx device to use for LED control", cxxopts::value<std::string>())
       ("n,no_gui", "Disable GUI")
       ("test_img", "Use test image", cxxopts::value<std::string>())
-      ("version", "Nautilus version")
+      ("version", "Nautilai version")
       ("h,help", "Usage")
     ;
       

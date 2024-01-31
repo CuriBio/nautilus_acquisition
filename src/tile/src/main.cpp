@@ -26,7 +26,7 @@
 
 
 int main(int argc, char* argv[]) {
-    cxxopts::Options options("Nautilus AutoTile", "CuriBio");
+    cxxopts::Options options("Nautilai AutoTile", "CuriBio");
     options.add_options()
       ("o,outdir", "Output directory", cxxopts::value<std::string>())
       ("i,indir", "Input directory", cxxopts::value<std::string>())

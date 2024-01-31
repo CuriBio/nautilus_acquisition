@@ -153,7 +153,7 @@ void StageControl::saveList(std::string fileName, bool fileExists) {
         outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"debug", file["debug"].as_table()}};
     }
 
-    outf << std::setw(200) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"nautilus", file["nautilus"].as_table()}};
+    outf << std::setw(200) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"nautilai", file["nautilai"].as_table()}};
     outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"device", file["device"].as_table()}};
     outf << std::setw(40) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"acquisition", file["acquisition"].as_table()}};
     outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"stage", file["stage"].as_table()}};
