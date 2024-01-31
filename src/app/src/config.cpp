@@ -235,11 +235,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 }
 
 void Config::Dump() {
-<<<<<<< HEAD
-    //nautilus options
-=======
     //nautilai options
->>>>>>> main
     spdlog::info("nautilai.outdir: {}", path.string());
     spdlog::info("nautilai.prefix: {}", prefix);
     spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
