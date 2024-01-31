@@ -323,7 +323,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "Nautilius Latest MSVC", artifact: "Nautilius.zip", os: ubuntu-latest }
+          - { name: "Nautilai Latest MSVC", artifact: "Nautilai.zip", os: ubuntu-latest }
           - { name: "Windows Latest MinGW", artifact: "Windows-MinGW.7z", os: ubuntu-latest }
           - { name: "Ubuntu Latest GCC", artifact: "Linux.7z", os: ubuntu-latest }
           - { name: "macOS Latest Clang", artifact: "macOS.7z", os: ubuntu-latest }
