@@ -1,6 +1,14 @@
-Changelog for Nautilus
+Changelog for Nautilai
 ======================
-0.1.40 (unreleased)
+0.1.41 (unreleased)
+-------------------
+
+Changed:
+^^^^^^
+- Nautilai rename
+
+
+0.1.40 (2024-01-10)
 -------------------
 
 Fixed:

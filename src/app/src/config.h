@@ -1,5 +1,5 @@
-#ifndef __NAUTILUS_CONFIG_H
-#define __NAUTILUS_CONFIG_H
+#ifndef __NAUTILAI_CONFIG_H
+#define __NAUTILAI_CONFIG_H
 #include <stdlib.h>
 #include <filesystem>
 #include <string>
@@ -11,7 +11,7 @@
 
 class Config {
     public:
-        //nautilus options
+        //nautilai options
         std::string prefix;
         bool noAutoConBright;
         std::filesystem::path path;
@@ -88,4 +88,4 @@ class Config {
         void Dump();
 };
 
-#endif //__NAUTILUS_CONFIG_H
+#endif //__NAUTILAI_CONFIG_H

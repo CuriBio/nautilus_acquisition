@@ -121,7 +121,7 @@ enum InputMask {
 #define DISABLE_ALL 0x0
 
 /*
- * Nautilus main window class.
+ * Nautilai main window class.
  */
 class MainWindow : public QMainWindow {
     Q_OBJECT
