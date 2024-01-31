@@ -21,7 +21,6 @@ class Config {
         double xyPixelSize;
         std::filesystem::path machineVarsFilePath;
         toml::value machineVars;
-        bool machineVarsValid;
 
         //acquisition options
         double fps;

@@ -18,9 +18,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     try {
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
-        machineVarsValid = true;
     } catch(const std::exception& e) {
-        machineVarsValid = false;
         spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
     }
 
