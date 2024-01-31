@@ -25,10 +25,10 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     }
 
     //nautilus table options
-    path = toml::find_or<std::string>(machineVars, "nautilai", "outdir", toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\")));
+    path = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\"));
     if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
 
-    prefix = toml::find_or<std::string>(machineVars, "nautilai", "prefix", toml::find_or<std::string>(config, "nautilai", "prefix", std::string("default_")));
+    prefix = toml::find_or<std::string>(config, "nautilai", "prefix", std::string("default_"));
     if (userargs.count("prefix")) { prefix = userargs["prefix"].as<std::string>(); }
 
     noAutoConBright = !toml::find_or<bool>(config, "nautilai", "auto_contrast_brightness", true);
@@ -43,7 +43,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     ffmpegDir = toml::find_or<std::string>(config, "nautilai", "ffmpeg_dir", std::string(""));
     if (userargs.count("ffmpeg_dir")) { ffmpegDir = userargs["ffmpeg_dir"].as<std::string>(); }
 
-    xyPixelSize = toml::find_or<double>(config, "nautilai", "xy_pixel_size", 1.0);
+    xyPixelSize = toml::find_or<double>(machineVars, "nautilai", "xy_pixel_size", toml::find_or<double>(config, "nautilai", "xy_pixel_size", 1.0));
 
     //acquisition table options
     fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
@@ -98,10 +98,10 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     //acquisition.region
     uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
     uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
-    uint16_t sbin = toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1);
+    uint16_t sbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "sbin", toml::find_or<uint16_t>(config, "acquisition", "region", "sbin", 1));
     uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
     uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
-    uint16_t pbin = toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1);
+    uint16_t pbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "pbin", toml::find_or<uint16_t>(config, "acquisition", "region", "pbin", 1));
 
     rgn = Region {
         .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -112,8 +112,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     enableLiveViewDuringAcquisition = toml::find_or<bool>(
         config, "acquisition", "live_view", "enable_live_view_during_acquisition", true
     );
-    vflip = toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false);
-    hflip = toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false);
+    vflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "vflip", toml::find_or<bool>(config, "acquisition", "live_view", "vflip", false));
+    hflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "hflip", toml::find_or<bool>(config, "acquisition", "live_view", "hflip", false));
 
     //device.photometrics options
     triggerMode = toml::find_or<int16_t>(config, "device", "photometrics", "trigger_mode", 0);
@@ -202,14 +202,14 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     trigDev = toml::find_or<std::string>(config, "device", "nidaqmx", "device_2", std::string("DevOR"));
     if (userargs.count("trig_dev")) { trigDev = userargs["trig_dev"].as<std::string>(); }
 
-    maxVoltage = toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4);
+    maxVoltage = toml::find_or<double>(machineVars, "device", "nidaqmx", "max_voltage", toml::find_or<double>(config, "device", "nidaqmx", "max_voltage", 1.4));
     if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
 
-    shutterDelayMs = toml::find_or<uint16_t>(config, "device", "nidaqmx", "shutter_delay_ms", 1000);
+    shutterDelayMs = toml::find_or<uint16_t>(machineVars, "device", "nidaqmx", "max_voltage", toml::find_or<uint16_t>(config, "device", "nidaqmx", "shutter_delay_ms", 1000));
     if (userargs.count("shutter_delay_ms")) { shutterDelayMs = userargs["shutter_delay_ms"].as<uint16_t>(); }
 
     //device.tango
-    stageComPort = toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3"));
+    stageComPort = toml::find_or<std::string>(machineVars, "device", "tango", "com", toml::find_or<std::string>(config, "device", "tango", "com", std::string("COM3")));
     if (userargs.count("stage_com_port")) { stageComPort = userargs["stage_com_port"].as<std::string>(); }
 
     stageStepSizes = {
