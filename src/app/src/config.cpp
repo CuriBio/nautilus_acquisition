@@ -198,8 +198,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         trigDev = toml::find<std::string>(config, "device", "nidaqmx", "device_2");
         if (userargs.count("trig_dev")) { trigDev = userargs["trig_dev"].as<std::string>(); }
 
-        maxVoltage = toml::find<double>(machineVars, "device", "nidaqmx", "max_voltage");
-        if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
+        maxVoltage = toml::find<float>(machineVars, "device", "nidaqmx", "max_voltage");
+        if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<float>(); }
 
         shutterDelayMs = toml::find<uint16_t>(machineVars, "device", "nidaqmx", "max_voltage");
         if (userargs.count("shutter_delay_ms")) { shutterDelayMs = userargs["shutter_delay_ms"].as<uint16_t>(); }
