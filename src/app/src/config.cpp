@@ -223,14 +223,14 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         }
 
     } catch(const std::out_of_range& e) {
-        spdlog::error("Missing required config values \"{}\"", e.what());
+        s << "Missing required config values " << e.what();
+        spdlog::error(s.str());
+        
         if (configError.empty()) {
-            s << "Missing required config values " << e.what();
             configError = s.str();
         }
     }
 
-    spdlog::error("Config Error: \"{}\"", configError);
     //debug
     testImgPath = "";
     if (userargs.count("test_img")) { testImgPath = userargs["test_img"].as<std::string>(); }
