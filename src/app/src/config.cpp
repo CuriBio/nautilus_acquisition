@@ -201,7 +201,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         maxVoltage = toml::find<double>(machineVars, "device", "nidaqmx", "max_voltage");
         if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
 
-        shutterDelayMs = toml::find<uint16_t>(machineVars, "device", "nidaqmx", "max_voltage");
+        shutterDelayMs = toml::find<uint16_t>(machineVars, "device", "nidaqmx", "shutter_delay_ms");
         if (userargs.count("shutter_delay_ms")) { shutterDelayMs = userargs["shutter_delay_ms"].as<uint16_t>(); }
 
         //device.tango
