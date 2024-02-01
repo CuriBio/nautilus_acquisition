@@ -85,7 +85,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         rows = toml::find<uint8_t>(config, "acquisition", "rows");
         cols = toml::find<uint8_t>(config, "acquisition", "cols");
         tileMap = toml::find<std::vector<uint8_t>>(config, "acquisition", "tile_map");
-        bufferCount = toml::find<uint32_t>(config, "acquisition", "buffers");
+        bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
         if (userargs.count("buffers")) { bufferCount = userargs["buffers"].as<uint32_t>(); }
 
         frameCount = static_cast<uint32_t>(duration * fps);
