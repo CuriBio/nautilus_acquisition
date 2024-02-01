@@ -11,7 +11,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse config file \"{}\"", e.what());
-        configError = "Missing nautilai.toml file"
+        configError = "Missing nautilai.toml file";
     }
 
     configFile = cfg.string();
@@ -21,7 +21,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
-        configError = "Missing maching.toml file"
+        configError = "Missing maching.toml file";
     }
 
     try {
@@ -224,7 +224,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     } catch(const std::out_of_range& e) {
         spdlog::error("Missing required config values \"{}\"", e.what());
         if (configError.empty()) {
-            configError = "Missing required config values " + e.what()
+            configError = "Missing required config values " + e.what();
         }
     }
 
