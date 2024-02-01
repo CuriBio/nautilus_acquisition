@@ -24,40 +24,40 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     try {
         //nautilus table options
-        path = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\"));
+        path = toml::find<std::string>(config, "nautilai", "outdir");
         if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
 
-        prefix = toml::find_or<std::string>(config, "nautilai", "prefix", std::string("default_"));
+        prefix = toml::find<std::string>(config, "nautilai", "prefix");
         if (userargs.count("prefix")) { prefix = userargs["prefix"].as<std::string>(); }
 
-        noAutoConBright = !toml::find_or<bool>(config, "nautilai", "auto_contrast_brightness", true);
+        noAutoConBright = !toml::find<bool>(config, "nautilai", "auto_contrast_brightness");
         if (userargs.count("no_autocb")) { noAutoConBright = true; }
 
-        plateFormat = toml::find_or<std::string>(config, "nautilai", "plate_format", std::string(""));
+        plateFormat = toml::find<std::string>(config, "nautilai", "plate_format");
         if (userargs.count("plateFormat")) { plateFormat = userargs["plate_format"].as<std::string>(); }
 
-        extAnalysis = toml::find_or<std::string>(config, "nautilai", "ext_analysis", std::string(""));
+        extAnalysis = toml::find<std::string>(config, "nautilai", "ext_analysis");
         if (userargs.count("ext_analysis")) { extAnalysis = userargs["ext_analysis"].as<std::string>(); }
 
-        ffmpegDir = toml::find_or<std::string>(config, "nautilai", "ffmpeg_dir", std::string(""));
+        ffmpegDir = toml::find<std::string>(config, "nautilai", "ffmpeg_dir");
         if (userargs.count("ffmpeg_dir")) { ffmpegDir = userargs["ffmpeg_dir"].as<std::string>(); }
 
-        xyPixelSize = toml::find_or<double>(machineVars, "nautilai", "xy_pixel_size", toml::find<double>(config, "nautilai", "xy_pixel_size"));
+        xyPixelSize = toml::find<double>(machineVars, "nautilai", "xy_pixel_size");
 
         //acquisition table options
-        fps = toml::find_or<double>(config, "acquisition", "fps", 10.0);
+        fps = toml::find<double>(config, "acquisition", "fps");
         if (userargs.count("fps")) { fps = userargs["fps"].as<double>(); }
 
 
-        duration = toml::find_or<double>(config, "acquisition", "duration", 1.0);
+        duration = toml::find<double>(config, "acquisition", "duration");
         if (userargs.count("duration")) { duration = userargs["duration"].as<double>(); }
 
 
-        ledIntensity = toml::find_or<double>(config, "acquisition", "led_intensity", 50.0);
+        ledIntensity = toml::find<double>(config, "acquisition", "led_intensity");
         if (userargs.count("led")) { ledIntensity = userargs["led"].as<double>(); }
 
 
-        int storage_type = toml::find_or<int>(config, "acquisition", "storage_type", 0);
+        int storage_type = toml::find<int>(config, "acquisition", "storage_type");
         if (userargs.count("storage_type")) { storage_type = userargs["storage_type"].as<int>(); }
 
 
@@ -80,12 +80,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
                 if (!ignoreErrors) { exit(0); }
         }
 
-        autoTile = toml::find_or<bool>(config, "acquisition", "auto_tile", false);
-        encodeVideo = toml::find_or<bool>(config, "acquisition", "encode_video", true);
-        rows = toml::find_or<uint8_t>(config, "acquisition", "rows", 2);
-        cols = toml::find_or<uint8_t>(config, "acquisition", "cols", 3);
-        tileMap = toml::find_or<std::vector<uint8_t>>(config, "acquisition", "tile_map", std::vector<uint8_t>{0,1,2,5,4,3});
-        bufferCount = toml::find_or<uint32_t>(config, "acquisition", "buffers", 0);
+        autoTile = toml::find<bool>(config, "acquisition", "auto_tile");
+        encodeVideo = toml::find<bool>(config, "acquisition", "encode_video");
+        rows = toml::find<uint8_t>(config, "acquisition", "rows");
+        cols = toml::find<uint8_t>(config, "acquisition", "cols");
+        tileMap = toml::find<std::vector<uint8_t>>(config, "acquisition", "tile_map");
+        bufferCount = toml::find<uint32_t>(config, "acquisition", "buffers");
         if (userargs.count("buffers")) { bufferCount = userargs["buffers"].as<uint32_t>(); }
 
         frameCount = static_cast<uint32_t>(duration * fps);
@@ -95,12 +95,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         keepOriginalRaw = false;
 
         //acquisition.region
-        uint16_t s1 = toml::find_or<uint16_t>(config, "acquisition", "region", "s1", 800);
-        uint16_t s2 = toml::find_or<uint16_t>(config, "acquisition", "region", "s2", 2399);
-        uint16_t sbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "sbin", toml::find<uint16_t>(config, "acquisition", "region", "sbin"));
-        uint16_t p1 = toml::find_or<uint16_t>(config, "acquisition", "region", "p1", 1000);
-        uint16_t p2 = toml::find_or<uint16_t>(config, "acquisition", "region", "p2", 2199);
-        uint16_t pbin = toml::find_or<uint16_t>(machineVars, "acquisition", "region", "pbin", toml::find<uint16_t>(config, "acquisition", "region", "pbin"));
+        uint16_t s1 = toml::find<uint16_t>(config, "acquisition", "region", "s1");
+        uint16_t s2 = toml::find<uint16_t>(config, "acquisition", "region", "s2", 2399);
+        uint16_t sbin = toml::find<uint16_t>(machineVars, "acquisition", "region", "sbin");
+        uint16_t p1 = toml::find<uint16_t>(config, "acquisition", "region", "p1");
+        uint16_t p2 = toml::find<uint16_t>(config, "acquisition", "region", "p2");
+        uint16_t pbin = toml::find<uint16_t>(machineVars, "acquisition", "region", "pbin");
 
         rgn = Region {
             .s1 = s1, .s2 = s2, .sbin = sbin,
@@ -108,14 +108,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         };
 
         //acquisition.live_view
-        enableLiveViewDuringAcquisition = toml::find_or<bool>(
-            config, "acquisition", "live_view", "enable_live_view_during_acquisition", true
-        );
-        vflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "vflip", toml::find<bool>(config, "acquisition", "live_view", "vflip"));
-        hflip = toml::find_or<bool>(machineVars, "acquisition", "live_view", "hflip", toml::find<bool>(config, "acquisition", "live_view", "hflip"));
+        enableLiveViewDuringAcquisition = toml::find<bool>(config, "acquisition", "live_view", "enable_live_view_during_acquisition");
+        vflip = toml::find<bool>(machineVars, "acquisition", "live_view", "vflip");
+        hflip = toml::find<bool>(machineVars, "acquisition", "live_view", "hflip");
 
         //device.photometrics options
-        triggerMode = toml::find_or<int16_t>(config, "device", "photometrics", "trigger_mode", 0);
+        triggerMode = toml::find<int16_t>(config, "device", "photometrics", "trigger_mode");
 
         if (userargs.count("trigger_mode")) { triggerMode = userargs["trigger_mode"].as<int16_t>(); }
 
@@ -150,8 +148,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         }
 
 
-        exposureMode = toml::find_or<int16_t>(config, "device", "photometrics", "exposure_mode", 5);
-
+        exposureMode = toml::find<int16_t>(config, "device", "photometrics", "exposure_mode");
         if (userargs.count("exposure_mode")) { exposureMode = userargs["exposure_mode"].as<int16_t>(); }
 
         switch (exposureMode) {
@@ -182,52 +179,51 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
                 break;
         }
 
-        spdtable = toml::find_or<uint16_t>(config, "device", "photometrics", "speed_table_index", 0);
+        spdtable = toml::find<uint16_t>(config, "device", "photometrics", "speed_table_index");
         if (userargs.count("spdtable")) { spdtable = userargs["spdtable"].as<uint16_t>(); }
 
 
         //device.kinetix.line_read_times options
         lineTimes = {
-            toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sensitivity", 3.53125),
-            toml::find_or<double>(config, "device", "kinetix", "line_read_times", "speed", 0.625),
-            toml::find_or<double>(config, "device", "kinetix", "line_read_times", "dynamic_range", 3.75),
-            toml::find_or<double>(config, "device", "kinetix", "line_read_times", "sub_electron", 60.1)
+            toml::find<double>(config, "device", "kinetix", "line_read_times", "sensitivity"),
+            toml::find<double>(config, "device", "kinetix", "line_read_times", "speed"),
+            toml::find<double>(config, "device", "kinetix", "line_read_times", "dynamic_range"),
+            toml::find<double>(config, "device", "kinetix", "line_read_times", "sub_electron")
         };
 
         //device.nidaqmx options
-        niDev = toml::find_or<std::string>(config, "device", "nidaqmx", "device", std::string("Dev2"));
+        niDev = toml::find<std::string>(config, "device", "nidaqmx", "device");
         if (userargs.count("ni_dev")) { niDev = userargs["ni_dev"].as<std::string>(); }
 
-        trigDev = toml::find_or<std::string>(config, "device", "nidaqmx", "device_2", std::string("DevOR"));
+        trigDev = toml::find<std::string>(config, "device", "nidaqmx", "device_2");
         if (userargs.count("trig_dev")) { trigDev = userargs["trig_dev"].as<std::string>(); }
 
-        maxVoltage = toml::find_or<double>(machineVars, "device", "nidaqmx", "max_voltage", toml::find<double>(config, "device", "nidaqmx", "max_voltage"));
+        maxVoltage = toml::find<double>(machineVars, "device", "nidaqmx", "max_voltage");
         if (userargs.count("max_voltage")) { maxVoltage = userargs["max_voltage"].as<double>(); }
 
-        shutterDelayMs = toml::find_or<uint16_t>(machineVars, "device", "nidaqmx", "max_voltage", toml::find<uint16_t>(config, "device", "nidaqmx", "shutter_delay_ms"));
+        shutterDelayMs = toml::find<uint16_t>(machineVars, "device", "nidaqmx", "max_voltage");
         if (userargs.count("shutter_delay_ms")) { shutterDelayMs = userargs["shutter_delay_ms"].as<uint16_t>(); }
 
         //device.tango
-        stageComPort = toml::find_or<std::string>(machineVars, "device", "tango", "com", toml::find<std::string>(config, "device", "tango", "com"));
+        stageComPort = toml::find<std::string>(machineVars, "device", "tango", "com");
         if (userargs.count("stage_com_port")) { stageComPort = userargs["stage_com_port"].as<std::string>(); }
+
+        stageStepSizes = {
+            toml::find<int>(config, "device", "tango", "step_small"),
+            toml::find<int>(config, "device", "tango", "step_medium"),
+            toml::find<int>(config, "device", "tango", "step_large")
+        };
+
+        //stage.locations
+        stageLocations = {};
+        for (auto& v : toml::find<std::vector<toml::table>>(config, "stage", "location")) {
+            auto x = static_cast<double>(v.at("x").as_floating());
+            auto y = static_cast<double>(v.at("y").as_floating());
+            stageLocations.push_back(std::pair(x,y));
+        }
 
     } catch(const std::out_of_range& e) {
         spdlog::error("Missing required config values \"{}\"", e.what());
-    }
-
-    stageStepSizes = {
-        toml::find_or<int>(config, "device", "tango", "step_small", 5),
-        toml::find_or<int>(config, "device", "tango", "step_medium", 15),
-        toml::find_or<int>(config, "device", "tango", "step_large", 25)
-    };
-
-
-    //stage.locations
-    stageLocations = {};
-    for (auto& v : toml::find_or<std::vector<toml::table>>(config, "stage", "location", std::vector<toml::table>{})) {
-        auto x = static_cast<double>(v.at("x").as_floating());
-        auto y = static_cast<double>(v.at("y").as_floating());
-        stageLocations.push_back(std::pair(x,y));
     }
 
     //debug
