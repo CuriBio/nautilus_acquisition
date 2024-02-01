@@ -224,6 +224,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     } catch(const std::out_of_range& e) {
         spdlog::error("Missing required config values \"{}\"", e.what());
+    }  catch (const std::exception& ex) {
+        spdlog::error("EEEEE \"{}\"", e.what());
     }
 
     //debug
