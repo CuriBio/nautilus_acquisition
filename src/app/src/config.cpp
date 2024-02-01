@@ -96,7 +96,7 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
         //acquisition.region
         uint16_t s1 = toml::find<uint16_t>(config, "acquisition", "region", "s1");
-        uint16_t s2 = toml::find<uint16_t>(config, "acquisition", "region", "s2", 2399);
+        uint16_t s2 = toml::find<uint16_t>(config, "acquisition", "region", "s2");
         uint16_t sbin = toml::find<uint16_t>(machineVars, "acquisition", "region", "sbin");
         uint16_t p1 = toml::find<uint16_t>(config, "acquisition", "region", "p1");
         uint16_t p2 = toml::find<uint16_t>(config, "acquisition", "region", "p2");
