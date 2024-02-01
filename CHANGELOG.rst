@@ -10,10 +10,11 @@ Added:
 Changed:
 ^^^^^^
 - Nautilai rename
+- Removal of default config values
 
 Fixed:
 ^^^^^^
-- Machine-specific override variables
+- Machine-specific variable requirement
 
 
 0.1.40 (2024-01-10)
