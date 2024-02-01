@@ -80,6 +80,7 @@ class Config {
         //other
         std::string version;
         std::string configFile;
+        std::string configError;
 
     public:
         Config(std::filesystem::path cfg, cxxopts::ParseResult userargs);

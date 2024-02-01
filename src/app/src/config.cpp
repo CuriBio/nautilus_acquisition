@@ -11,15 +11,17 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse config file \"{}\"", e.what());
+        configError = "Missing nautilai.toml file"
     }
+
     configFile = cfg.string();
 
-    machineVarsFilePath = toml::find_or<std::string>(config, "nautilai", "machine_vars_file_path", std::string(""));
-
     try {
+        machineVarsFilePath = toml::find<std::string>(config, "nautilai", "machine_vars_file_path");
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
+        configError = "Missing maching.toml file"
     }
 
     try {
@@ -32,9 +34,6 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
         noAutoConBright = !toml::find<bool>(config, "nautilai", "auto_contrast_brightness");
         if (userargs.count("no_autocb")) { noAutoConBright = true; }
-
-        // plateFormat = toml::find<std::string>(config, "nautilai", "plate_format");
-        // if (userargs.count("plateFormat")) { plateFormat = userargs["plate_format"].as<std::string>(); }
 
         extAnalysis = toml::find<std::string>(config, "nautilai", "ext_analysis");
         if (userargs.count("ext_analysis")) { extAnalysis = userargs["ext_analysis"].as<std::string>(); }
@@ -208,8 +207,6 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         stageComPort = toml::find<std::string>(machineVars, "device", "tango", "com");
         if (userargs.count("stage_com_port")) { stageComPort = userargs["stage_com_port"].as<std::string>(); }
 
-        spdlog::info("Stage comm port: {}", stageComPort);
-
         stageStepSizes = {
             toml::find<int>(config, "device", "tango", "step_small"),
             toml::find<int>(config, "device", "tango", "step_medium"),
@@ -226,10 +223,12 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
 
     } catch(const std::out_of_range& e) {
         spdlog::error("Missing required config values \"{}\"", e.what());
-    }  catch (const std::exception& ex) {
-        spdlog::error("EEEEE \"{}\"", ex.what());
+        if (configError.empty()) {
+            configError = "Missing required config values " + e.what()
+        }
     }
 
+    spdlog::error("Config Error: \"{}\"", configError);
     //debug
     testImgPath = "";
     if (userargs.count("test_img")) { testImgPath = userargs["test_img"].as<std::string>(); }
@@ -244,7 +243,6 @@ void Config::Dump() {
     spdlog::info("nautilai.outdir: {}", path.string());
     spdlog::info("nautilai.prefix: {}", prefix);
     spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
-    // spdlog::info("nautilai.plate_format {}", plateFormat.string());
     spdlog::info("nautilai.ext_analysis {}", extAnalysis.string());
     spdlog::info("nautilai.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilai.xy_pixel_size: {}", xyPixelSize);
