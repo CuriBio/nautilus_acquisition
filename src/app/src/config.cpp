@@ -33,8 +33,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
         noAutoConBright = !toml::find<bool>(config, "nautilai", "auto_contrast_brightness");
         if (userargs.count("no_autocb")) { noAutoConBright = true; }
 
-        plateFormat = toml::find<std::string>(config, "nautilai", "plate_format");
-        if (userargs.count("plateFormat")) { plateFormat = userargs["plate_format"].as<std::string>(); }
+        // plateFormat = toml::find<std::string>(config, "nautilai", "plate_format");
+        // if (userargs.count("plateFormat")) { plateFormat = userargs["plate_format"].as<std::string>(); }
 
         extAnalysis = toml::find<std::string>(config, "nautilai", "ext_analysis");
         if (userargs.count("ext_analysis")) { extAnalysis = userargs["ext_analysis"].as<std::string>(); }
@@ -240,7 +240,7 @@ void Config::Dump() {
     spdlog::info("nautilai.outdir: {}", path.string());
     spdlog::info("nautilai.prefix: {}", prefix);
     spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
-    spdlog::info("nautilai.plate_format {}", plateFormat.string());
+    // spdlog::info("nautilai.plate_format {}", plateFormat.string());
     spdlog::info("nautilai.ext_analysis {}", extAnalysis.string());
     spdlog::info("nautilai.ffmpeg_dir {}", ffmpegDir.string());
     spdlog::info("nautilai.xy_pixel_size: {}", xyPixelSize);
