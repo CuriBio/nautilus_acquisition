@@ -144,7 +144,6 @@ int main(int argc, char* argv[]) {
     std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userargs);
     config->version = version;
     config->configFile = configFile.string();
-    if ()
     config->Dump();
 
     if (!userargs.count("no_gui")) {
