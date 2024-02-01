@@ -1,4 +1,5 @@
 #include <spdlog/spdlog.h>
+#include <sstream>
 #include <toml.hpp>
 #include <tsl/ordered_map.h>
 
@@ -224,7 +225,8 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     } catch(const std::out_of_range& e) {
         spdlog::error("Missing required config values \"{}\"", e.what());
         if (configError.empty()) {
-            configError = "Missing required config values " << e.what();
+            s << "Missing required config values " << e.what();
+            configError = s.str();
         }
     }
 
