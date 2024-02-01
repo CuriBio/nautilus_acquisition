@@ -10,19 +10,18 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     toml::value config;
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
+        configFile = cfg.string();
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse config file \"{}\"", e.what());
-        configError = "Missing nautilai.toml file";
+        configError = "Missing required nautilai.toml file";
     }
-
-    configFile = cfg.string();
 
     try {
         machineVarsFilePath = toml::find<std::string>(config, "nautilai", "machine_vars_file_path");
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
     } catch(const std::exception& e) {
         spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
-        configError = "Missing maching.toml file";
+        configError = "Missing required machine.toml file";
     }
 
     try {
@@ -225,13 +224,10 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
     } catch(const std::out_of_range& e) {
         s << "Missing required config values " << e.what();
         spdlog::error(s.str());
-
-        if (configError.empty()) {
-            configError = s.str();
-        }
+        configError = s.str();
     } catch(const std::exception& e2) {
-        s << "Second exception: " << e2.what();
-        spdlog::error(s.str());
+       // exception occurs if machine or nautilai.toml files are missing
+       spdlog::error("Unable to parse config variables due to missing toml file(s)");
     }
 
     //debug
