@@ -112,10 +112,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         if (!m_config->ignoreErrors) { exit(1); }
     });
 
-    if (!m_config->configError.empty()) {
-        emit sig_show_error(m_config->configError);
-    }
-
     connect(this, &MainWindow::sig_disable_ui_moving_stage, this, [this]() {
         disableMask(StartAcquisitionMask);
     });
@@ -359,6 +355,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
  * Initializes main window and camera/acquisition objects.
  */
 void MainWindow::Initialize() {
+    spdlog::info("Checking for config errors");
+    if (!m_config->configError.empty()) {
+        emit sig_show_error(m_config->configError);
+        return;
+    }
     //set options for plate formats drop down
     emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
     emit sig_progress_start("Initializing Camera", 0);
