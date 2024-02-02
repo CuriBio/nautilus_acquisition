@@ -2,6 +2,7 @@
 #define __NAUTILAI_CONFIG_H
 #include <stdlib.h>
 #include <filesystem>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -21,7 +22,6 @@ class Config {
         double xyPixelSize;
         std::filesystem::path machineVarsFilePath;
         toml::value machineVars;
-        bool machineVarsValid;
 
         //acquisition options
         double fps;
@@ -81,6 +81,8 @@ class Config {
         //other
         std::string version;
         std::string configFile;
+        std::string configError;
+        std::stringstream s;
 
     public:
         Config(std::filesystem::path cfg, cxxopts::ParseResult userargs);

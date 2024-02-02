@@ -1,11 +1,20 @@
 Changelog for Nautilai
 ======================
+
 0.1.41 (unreleased)
 -------------------
+Added:
+^^^^^^
+- updated nautilai.toml file
 
 Changed:
 ^^^^^^
 - Nautilai rename
+- Removal of default config values
+
+Fixed:
+^^^^^^
+- Machine-specific variable requirement
 
 
 0.1.40 (2024-01-10)

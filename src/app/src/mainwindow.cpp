@@ -355,6 +355,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
  * Initializes main window and camera/acquisition objects.
  */
 void MainWindow::Initialize() {
+    spdlog::info("Checking for config errors");
+    if (!m_config->configError.empty()) {
+        emit sig_show_error(m_config->configError);
+        return;
+    }
     //set options for plate formats drop down
     emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
     emit sig_progress_start("Initializing Camera", 0);
@@ -1180,10 +1185,6 @@ void MainWindow::postProcess() {
             { "data_type", ui.dataTypeList->currentText().toStdString() }
         };
         outfile << std::setw(100) << settings << std::endl;
-
-        if (m_config->machineVarsValid) {
-            outfile << std::setw(100) << m_config->machineVars << std::endl;
-        }
 
         if (m_config->enableDownsampleRawFiles) {
             const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{

@@ -1,56 +1,62 @@
+
 [nautilai]
 prefix = 'default_'
 auto_contrast_brightness = true
 outdir = 'E:\'
 ext_analysis = './resources/well_data.exe'
 ffmpeg_dir = 'C:\Program Files\ffmpeg\ffmpeg.exe'
-xy_pixel_size = 1.0
-machine_vars_file_path = 'C:\TODO'
+machine_vars_file_path = 'C:\AppData\Local\Nautilai\machine.toml'
+
+
+[device]
 
 [device.nidaqmx]
-device = "Dev2"
+device = "Dev1"
 device_2 = "DevOR"
 num_dig_samples = 10
-max_voltage = 1.4
-shutter_delay_ms = 1000
 
 [device.photometrics]
 trigger_mode = 1792
 exposure_mode = 5
 speed_table_index = 0
 
+[device.kinetix]
+
+[device.kinetix.line_read_times]
+speed = 0.625
+dynamic_range = 3.75
+sub_electron = 60.1
+sensitivity = 3.53125
+
+
+[device.tango]
+step_small = 50
+step_medium = 500
+step_large = 5000
+
+
 [acquisition]
-fps = 10.0
-duration = 1.0
-led_intensity = 50.0
+rows = 2
+fps = 250.0
+duration = 30.0
+tile_map = [0,1,2,3,4,5]
+led_intensity = 10.0
+encode_video = true
 storage_type = 2
 auto_tile = true
-encode_video = true
-rows = 2
 cols = 3
-tile_map = [0, 1, 2, 5, 4, 3]
 
 [acquisition.region]
 s1 = 1088
 p1 = 1088
 s2 = 2111
 p2 = 2111
-sbin = 2
-pbin = 2
+
 
 [acquisition.live_view]
 enable_live_view_during_acquisition = true
-vflip = false
-hflip = true
 
-[device.kinetix.line_read_times]
-dynamic_range = 3.75
-speed = 0.625
-sensitivity = 3.53125
-sub_electron = 60.1
 
-[device.tango]
-com = "COM3"
-step_small = 5
-step_medium = 15
-step_large = 25
+
+[stage]
+location = []
