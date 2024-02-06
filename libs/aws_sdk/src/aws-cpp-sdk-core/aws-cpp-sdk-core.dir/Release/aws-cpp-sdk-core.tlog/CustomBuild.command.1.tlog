@@ -1,0 +1,10 @@
+^D:\USERS\NAUTILUS\DESKTOP\NAUTILUS_ACQUISITION\LIBS\AWS_SDK\AWS-SDK-CPP\SRC\AWS-CPP-SDK-CORE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws_sdk/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws_sdk --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws_sdk/src/aws-cpp-sdk-core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

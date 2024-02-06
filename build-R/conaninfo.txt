@@ -1,0 +1,49 @@
+[settings]
+    arch=x86_64
+    build_type=Release
+    compiler=Visual Studio
+    compiler.runtime=MD
+    compiler.version=17
+    os=Windows
+
+[requires]
+    cxxopts/3.Y.Z
+    spdlog/1.Y.Z
+    toml11/3.Y.Z
+
+[options]
+
+
+[full_settings]
+    arch=x86_64
+    arch_build=x86_64
+    build_type=Release
+    compiler=Visual Studio
+    compiler.runtime=MD
+    compiler.version=17
+    os=Windows
+    os_build=Windows
+
+[full_requires]
+    cxxopts/3.0.0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    fmt/8.1.1:8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4
+    spdlog/1.10.0:70a17ef929dad20e1afdd6cf274326a965e13481
+    toml11/3.7.1:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+
+[full_options]
+    cxxopts:unicode=False
+    fmt:header_only=False
+    fmt:shared=False
+    fmt:with_fmt_alias=False
+    fmt:with_os_api=True
+    spdlog:header_only=False
+    spdlog:no_exceptions=False
+    spdlog:shared=False
+    spdlog:wchar_filenames=False
+    spdlog:wchar_support=False
+
+[recipe_hash]
+
+
+[env]
+
