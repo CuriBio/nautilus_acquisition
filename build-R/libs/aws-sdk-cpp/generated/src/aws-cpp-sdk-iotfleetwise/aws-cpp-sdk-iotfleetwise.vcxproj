@@ -1,0 +1,962 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2F42DC5B-2ACC-383D-8E90-8686EE3876CB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>aws-cpp-sdk-iotfleetwise</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-iotfleetwise.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-iotfleetwise</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\bin\DebugOpt\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-iotfleetwise.dir\DebugOpt\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-iotfleetwise</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-iotfleetwise.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-iotfleetwise</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-iotfleetwise.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-iotfleetwise</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-iotfleetwise.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-iotfleetwise</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Debug";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Debug\";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Debug/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Debug//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-iotfleetwise.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Debug/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Debug/aws-cpp-sdk-iotfleetwise.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="DebugOpt";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"DebugOpt\";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/DebugOpt/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/DebugOpt//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\DebugOpt\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\DebugOpt\aws-crt-cpp.lib;..\..\..\..\..\lib\DebugOpt\aws-c-mqtt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-event-stream.lib;..\..\..\..\..\lib\DebugOpt\aws-c-s3.lib;..\..\..\..\..\lib\DebugOpt\aws-c-auth.lib;..\..\..\..\..\lib\DebugOpt\aws-c-http.lib;..\..\..\..\..\lib\DebugOpt\aws-c-io.lib;..\..\..\..\..\lib\DebugOpt\aws-c-compression.lib;..\..\..\..\..\lib\DebugOpt\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-sdkutils.lib;..\..\..\..\..\lib\DebugOpt\aws-checksums.lib;..\..\..\..\..\lib\DebugOpt\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/DebugOpt/aws-cpp-sdk-iotfleetwise.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/DebugOpt/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/bin/DebugOpt/aws-cpp-sdk-iotfleetwise.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Release";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Release\";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Release/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Release//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-iotfleetwise.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/Release/exports.def</ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Release/aws-cpp-sdk-iotfleetwise.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="RelWithDebInfo";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"RelWithDebInfo\";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/RelWithDebInfo/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/RelWithDebInfo//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-iotfleetwise.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/RelWithDebInfo/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-iotfleetwise.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="MinSizeRel";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_IOTFLEETWISE_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"MinSizeRel\";aws_cpp_sdk_iotfleetwise_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/MinSizeRel/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/MinSizeRel//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-iotfleetwise.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/aws-cpp-sdk-iotfleetwise.dir/MinSizeRel/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-iotfleetwise.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-iotfleetwise/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\ub_IOTFLEETWISE.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseClient.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseEndpointProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseEndpointRules.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseErrorMarshaller.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseErrors.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWiseServiceClientModel.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\IoTFleetWise_EXPORTS.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Actuator.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\AssociateVehicleFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\AssociateVehicleFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Attribute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\BatchCreateVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\BatchCreateVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\BatchUpdateVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\BatchUpdateVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Branch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CampaignStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CampaignSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CanDbcDefinition.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CanInterface.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CanSignal.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CloudWatchLogDeliveryOptions.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CollectionScheme.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Compression.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ConditionBasedCollectionScheme.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ConflictException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateCampaignRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateCampaignResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateDecoderManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateDecoderManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateModelManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateModelManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateSignalCatalogRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateSignalCatalogResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateVehicleError.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateVehicleRequestItem.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateVehicleResponseItem.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CreateVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CustomProperty.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\CustomStruct.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DataDestinationConfig.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DataFormat.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DecoderManifestSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DecoderManifestValidationException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteCampaignRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteCampaignResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteDecoderManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteDecoderManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteModelManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteModelManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteSignalCatalogRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteSignalCatalogResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DeleteVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DiagnosticsMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DisassociateVehicleFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\DisassociateVehicleFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\EncryptionStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\EncryptionType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\FleetSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\FormattedVss.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetCampaignRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetCampaignResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetDecoderManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetDecoderManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetEncryptionConfigurationRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetEncryptionConfigurationResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetLoggingOptionsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetLoggingOptionsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetModelManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetModelManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetRegisterAccountStatusRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetRegisterAccountStatusResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetSignalCatalogRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetSignalCatalogResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetVehicleStatusRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\GetVehicleStatusResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\IamRegistrationResponse.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\IamResources.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ImportDecoderManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ImportDecoderManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ImportSignalCatalogRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ImportSignalCatalogResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InternalServerException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InvalidNetworkInterface.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InvalidNodeException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InvalidSignal.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InvalidSignalDecoder.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\InvalidSignalsException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\LimitExceededException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListCampaignsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListCampaignsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestNetworkInterfacesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestNetworkInterfacesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestSignalsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestSignalsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListDecoderManifestsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListFleetsForVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListFleetsForVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListFleetsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListFleetsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListModelManifestNodesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListModelManifestNodesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListModelManifestsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListModelManifestsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListSignalCatalogNodesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListSignalCatalogNodesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListSignalCatalogsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListSignalCatalogsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListTagsForResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListTagsForResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListVehiclesInFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListVehiclesInFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListVehiclesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ListVehiclesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\LogType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ManifestStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\MessageSignal.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ModelManifestSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NetworkFileDefinition.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NetworkInterface.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NetworkInterfaceFailureReason.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NetworkInterfaceType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Node.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NodeCounts.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NodeDataEncoding.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\NodeDataType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ObdInterface.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ObdSignal.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\PrimitiveMessageDefinition.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\PutEncryptionConfigurationRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\PutEncryptionConfigurationResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\PutLoggingOptionsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\PutLoggingOptionsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ROS2PrimitiveMessageDefinition.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ROS2PrimitiveType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\RegisterAccountRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\RegisterAccountResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\RegistrationStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ResourceNotFoundException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\S3Config.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Sensor.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalCatalogSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalDecoder.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalDecoderFailureReason.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalDecoderType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalInformation.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SignalNodeType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\SpoolingMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\StorageCompressionFormat.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\StructuredMessage.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\StructuredMessageFieldNameAndDataTypePair.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\StructuredMessageListDefinition.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\StructuredMessageListType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\Tag.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ThrottlingException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TimeBasedCollectionScheme.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TimestreamConfig.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TimestreamRegistrationResponse.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TimestreamResources.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\TriggerMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UntagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UntagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateCampaignAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateCampaignRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateCampaignResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateDecoderManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateDecoderManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateFleetRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateFleetResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateModelManifestRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateModelManifestResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateSignalCatalogRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateSignalCatalogResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateVehicleError.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateVehicleRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateVehicleRequestItem.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateVehicleResponseItem.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\UpdateVehicleResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ValidationException.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ValidationExceptionField.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\ValidationExceptionReason.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleAssociationBehavior.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleMiddleware.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleMiddlewareProtocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleState.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\include\aws\iotfleetwise\model\VehicleSummary.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseClient.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseEndpointProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseEndpointRules.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseErrorMarshaller.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseErrors.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\IoTFleetWiseRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Actuator.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\AssociateVehicleFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\AssociateVehicleFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Attribute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\BatchCreateVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\BatchCreateVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\BatchUpdateVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\BatchUpdateVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Branch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CampaignStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CampaignSummary.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CanDbcDefinition.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CanInterface.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CanSignal.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CloudWatchLogDeliveryOptions.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CollectionScheme.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Compression.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ConditionBasedCollectionScheme.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ConflictException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateCampaignRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateCampaignResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateDecoderManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateDecoderManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateModelManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateModelManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateSignalCatalogRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateSignalCatalogResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateVehicleError.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateVehicleRequestItem.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateVehicleResponseItem.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CreateVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CustomProperty.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\CustomStruct.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DataDestinationConfig.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DataFormat.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DecoderManifestSummary.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DecoderManifestValidationException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteCampaignRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteCampaignResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteDecoderManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteDecoderManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteModelManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteModelManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteSignalCatalogRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteSignalCatalogResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DeleteVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DiagnosticsMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DisassociateVehicleFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\DisassociateVehicleFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\EncryptionStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\EncryptionType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\FleetSummary.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\FormattedVss.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetCampaignRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetCampaignResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetDecoderManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetDecoderManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetEncryptionConfigurationRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetEncryptionConfigurationResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetLoggingOptionsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetLoggingOptionsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetModelManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetModelManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetRegisterAccountStatusRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetRegisterAccountStatusResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetSignalCatalogRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetSignalCatalogResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetVehicleStatusRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\GetVehicleStatusResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\IamRegistrationResponse.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\IamResources.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ImportDecoderManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ImportDecoderManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ImportSignalCatalogRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ImportSignalCatalogResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InternalServerException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InvalidNetworkInterface.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InvalidNodeException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InvalidSignal.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InvalidSignalDecoder.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\InvalidSignalsException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\LimitExceededException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListCampaignsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListCampaignsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestNetworkInterfacesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestNetworkInterfacesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestSignalsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestSignalsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListDecoderManifestsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListFleetsForVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListFleetsForVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListFleetsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListFleetsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListModelManifestNodesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListModelManifestNodesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListModelManifestsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListModelManifestsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListSignalCatalogNodesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListSignalCatalogNodesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListSignalCatalogsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListSignalCatalogsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListTagsForResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListTagsForResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListVehiclesInFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListVehiclesInFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListVehiclesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ListVehiclesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\LogType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ManifestStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\MessageSignal.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ModelManifestSummary.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NetworkFileDefinition.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NetworkInterface.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NetworkInterfaceFailureReason.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NetworkInterfaceType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Node.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NodeCounts.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NodeDataEncoding.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\NodeDataType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ObdInterface.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ObdSignal.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\PrimitiveMessageDefinition.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\PutEncryptionConfigurationRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\PutEncryptionConfigurationResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\PutLoggingOptionsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\PutLoggingOptionsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ROS2PrimitiveMessageDefinition.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ROS2PrimitiveType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\RegisterAccountRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\RegisterAccountResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\RegistrationStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ResourceNotFoundException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\S3Config.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Sensor.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalCatalogSummary.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalDecoder.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalDecoderFailureReason.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalDecoderType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalInformation.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SignalNodeType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\SpoolingMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\StorageCompressionFormat.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\StructuredMessage.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\StructuredMessageFieldNameAndDataTypePair.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\StructuredMessageListDefinition.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\StructuredMessageListType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\Tag.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ThrottlingException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TimeBasedCollectionScheme.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TimestreamConfig.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TimestreamRegistrationResponse.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TimestreamResources.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\TriggerMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UntagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UntagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateCampaignAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateCampaignRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateCampaignResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateDecoderManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateDecoderManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateFleetRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateFleetResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateModelManifestRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateModelManifestResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateSignalCatalogRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateSignalCatalogResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateVehicleError.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateVehicleRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateVehicleRequestItem.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateVehicleResponseItem.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\UpdateVehicleResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ValidationException.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ValidationExceptionField.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\ValidationExceptionReason.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleAssociationBehavior.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleMiddleware.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleMiddlewareProtocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleState.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\source\model\VehicleSummary.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\ZERO_CHECK.vcxproj">
+      <Project>{2A94530D-08BD-31CA-9990-E40651266C9A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\aws-c-auth.vcxproj">
+      <Project>{22E37EF3-0306-34C0-9A74-37879AC93D7A}</Project>
+      <Name>aws-c-auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\aws-c-cal.vcxproj">
+      <Project>{E94ACAE8-0D7A-3B8D-86D5-0C24776E6AA6}</Project>
+      <Name>aws-c-cal</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\aws-c-common.vcxproj">
+      <Project>{C673EA41-D6DE-3AA9-9244-5857EF31C452}</Project>
+      <Name>aws-c-common</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\aws-c-compression.vcxproj">
+      <Project>{3396112C-221E-3816-8E1A-38CEEC3FC8B2}</Project>
+      <Name>aws-c-compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\aws-c-event-stream.vcxproj">
+      <Project>{3CA794FD-542C-3D93-B7E0-9EDA1E4F7D63}</Project>
+      <Name>aws-c-event-stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\aws-c-http.vcxproj">
+      <Project>{E6CF2DE3-307A-33BC-85F6-6021E50975C8}</Project>
+      <Name>aws-c-http</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\aws-c-io.vcxproj">
+      <Project>{02CCF586-6AE5-33BB-91A0-8F400B19C7D5}</Project>
+      <Name>aws-c-io</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\aws-c-mqtt.vcxproj">
+      <Project>{654762F7-71A7-30C7-B1C3-2FCBE088BDBB}</Project>
+      <Name>aws-c-mqtt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\aws-c-s3.vcxproj">
+      <Project>{3163E11C-01EF-3618-AD0C-D87BD0AFB39E}</Project>
+      <Name>aws-c-s3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\aws-c-sdkutils.vcxproj">
+      <Project>{F1BCFE56-463E-3C7A-9A75-FF364DF5363B}</Project>
+      <Name>aws-c-sdkutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\aws-checksums.vcxproj">
+      <Project>{A851E7AC-24FF-360B-8518-AFD7563F1A2D}</Project>
+      <Name>aws-checksums</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\aws-cpp-sdk-core.vcxproj">
+      <Project>{2ECED905-A43F-3805-96CB-79ACDBEC7BC2}</Project>
+      <Name>aws-cpp-sdk-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\aws-crt-cpp.vcxproj">
+      <Project>{3C638684-5C02-318B-B6E4-436DEE732041}</Project>
+      <Name>aws-crt-cpp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

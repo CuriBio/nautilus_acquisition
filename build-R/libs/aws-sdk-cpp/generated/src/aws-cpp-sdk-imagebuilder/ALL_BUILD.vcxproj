@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D464EB07-B502-3D91-BB3C-DD2EA6832A95}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-imagebuilder/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\ZERO_CHECK.vcxproj">
+      <Project>{2A94530D-08BD-31CA-9990-E40651266C9A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\aws-cpp-sdk-imagebuilder.vcxproj">
+      <Project>{FD145604-D232-3B1D-814F-AE9B0E663D79}</Project>
+      <Name>aws-cpp-sdk-imagebuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

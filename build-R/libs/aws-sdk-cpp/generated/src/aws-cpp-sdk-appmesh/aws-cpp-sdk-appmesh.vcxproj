@@ -1,0 +1,1050 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A388218B-E1E5-3669-A799-03A064777C41}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>aws-cpp-sdk-appmesh</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-appmesh.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-appmesh</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\bin\DebugOpt\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-appmesh.dir\DebugOpt\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-appmesh</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-appmesh.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-appmesh</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-appmesh.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-appmesh</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-appmesh.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-appmesh</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Debug";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Debug\";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Debug/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Debug//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-appmesh.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Debug/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Debug/aws-cpp-sdk-appmesh.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="DebugOpt";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"DebugOpt\";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/DebugOpt/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/DebugOpt//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\DebugOpt\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\DebugOpt\aws-crt-cpp.lib;..\..\..\..\..\lib\DebugOpt\aws-c-mqtt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-event-stream.lib;..\..\..\..\..\lib\DebugOpt\aws-c-s3.lib;..\..\..\..\..\lib\DebugOpt\aws-c-auth.lib;..\..\..\..\..\lib\DebugOpt\aws-c-http.lib;..\..\..\..\..\lib\DebugOpt\aws-c-io.lib;..\..\..\..\..\lib\DebugOpt\aws-c-compression.lib;..\..\..\..\..\lib\DebugOpt\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-sdkutils.lib;..\..\..\..\..\lib\DebugOpt\aws-checksums.lib;..\..\..\..\..\lib\DebugOpt\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/DebugOpt/aws-cpp-sdk-appmesh.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/DebugOpt/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/bin/DebugOpt/aws-cpp-sdk-appmesh.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Release";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Release\";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Release/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Release//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-appmesh.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/Release/exports.def</ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Release/aws-cpp-sdk-appmesh.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="RelWithDebInfo";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"RelWithDebInfo\";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/RelWithDebInfo/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/RelWithDebInfo//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-appmesh.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/RelWithDebInfo/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-appmesh.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="MinSizeRel";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_APPMESH_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"MinSizeRel\";aws_cpp_sdk_appmesh_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/MinSizeRel/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/MinSizeRel//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-appmesh.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/aws-cpp-sdk-appmesh.dir/MinSizeRel/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-appmesh.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-appmesh/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\ub_APPMESH.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshClient.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshEndpointProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshEndpointRules.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshErrorMarshaller.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshErrors.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMeshServiceClientModel.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\AppMesh_EXPORTS.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\AccessLog.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\AwsCloudMapInstanceAttribute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\AwsCloudMapServiceDiscovery.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\Backend.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\BackendDefaults.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ClientPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ClientPolicyTls.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ClientTlsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateGatewayRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateGatewayRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateMeshRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateMeshResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualGatewayRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualGatewayResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualNodeRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualNodeResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualRouterRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualRouterResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualServiceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\CreateVirtualServiceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DefaultGatewayRouteRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteGatewayRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteGatewayRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteMeshRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteMeshResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualGatewayRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualGatewayResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualNodeRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualNodeResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualRouterRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualRouterResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualServiceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DeleteVirtualServiceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeGatewayRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeGatewayRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeMeshRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeMeshResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualGatewayRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualGatewayResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualNodeRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualNodeResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualRouterRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualRouterResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualServiceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DescribeVirtualServiceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DnsResponseType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DnsServiceDiscovery.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\Duration.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\DurationUnit.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\EgressFilter.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\EgressFilterType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\FileAccessLog.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteHostnameMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteHostnameRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteTarget.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GatewayRouteVirtualService.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcGatewayRoute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcGatewayRouteAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcGatewayRouteMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcGatewayRouteMetadata.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcGatewayRouteRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcMetadataMatchMethod.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRetryPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRetryPolicyEvent.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRoute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRouteAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRouteMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRouteMetadata.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcRouteMetadataMatchMethod.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\GrpcTimeout.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HeaderMatchMethod.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HealthCheckPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRoute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRouteAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRouteHeader.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRouteMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRoutePathRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRoutePrefixRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpGatewayRouteRewrite.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpMethod.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpPathMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpQueryParameter.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpRetryPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpRoute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpRouteAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpRouteHeader.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpRouteMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpScheme.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\HttpTimeout.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\IpPreference.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\JsonFormatRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListGatewayRoutesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListGatewayRoutesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListMeshesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListMeshesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListRoutesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListRoutesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListTagsForResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListTagsForResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualGatewaysRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualGatewaysResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualNodesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualNodesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualRoutersRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualRoutersResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualServicesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListVirtualServicesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\Listener.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTimeout.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTls.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsAcmCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsFileCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsSdsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsValidationContext.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ListenerTlsValidationContextTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\Logging.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\LoggingFormat.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MatchRange.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshServiceDiscovery.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\MeshStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\OutlierDetection.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\PortMapping.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\PortProtocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\QueryParameterMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ResourceMetadata.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\RouteData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\RouteRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\RouteSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\RouteStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\RouteStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\ServiceDiscovery.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\SubjectAlternativeNameMatchers.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\SubjectAlternativeNames.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TagRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TcpRetryPolicyEvent.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TcpRoute.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TcpRouteAction.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TcpRouteMatch.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TcpTimeout.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TlsValidationContext.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TlsValidationContextAcmTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TlsValidationContextFileTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TlsValidationContextSdsTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\TlsValidationContextTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UntagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UntagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateGatewayRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateGatewayRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateMeshRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateMeshResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateRouteRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateRouteResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualGatewayRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualGatewayResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualNodeRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualNodeResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualRouterRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualRouterResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualServiceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\UpdateVirtualServiceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayAccessLog.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayBackendDefaults.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayClientPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayClientPolicyTls.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayClientTlsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayFileAccessLog.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayGrpcConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayHealthCheckPolicy.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayHttp2ConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayHttpConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListener.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTls.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsAcmCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsFileCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsMode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsSdsCertificate.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsValidationContext.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayListenerTlsValidationContextTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayLogging.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayPortMapping.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayPortProtocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewaySpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayTlsValidationContext.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayTlsValidationContextAcmTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayTlsValidationContextFileTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayTlsValidationContextSdsTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualGatewayTlsValidationContextTrust.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeGrpcConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeHttp2ConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeHttpConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeServiceProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualNodeTcpConnectionPool.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterListener.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterServiceProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualRouterStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceBackend.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceData.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceRef.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceSpec.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\VirtualServiceStatusCode.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\include\aws\appmesh\model\WeightedTarget.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshClient.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshEndpointProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshEndpointRules.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshErrorMarshaller.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshErrors.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\AppMeshRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\AccessLog.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\AwsCloudMapInstanceAttribute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\AwsCloudMapServiceDiscovery.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\Backend.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\BackendDefaults.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ClientPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ClientPolicyTls.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ClientTlsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateGatewayRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateGatewayRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateMeshRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateMeshResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualGatewayRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualGatewayResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualNodeRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualNodeResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualRouterRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualRouterResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualServiceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\CreateVirtualServiceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DefaultGatewayRouteRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteGatewayRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteGatewayRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteMeshRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteMeshResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualGatewayRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualGatewayResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualNodeRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualNodeResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualRouterRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualRouterResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualServiceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DeleteVirtualServiceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeGatewayRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeGatewayRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeMeshRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeMeshResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualGatewayRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualGatewayResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualNodeRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualNodeResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualRouterRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualRouterResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualServiceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DescribeVirtualServiceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DnsResponseType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DnsServiceDiscovery.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\Duration.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\DurationUnit.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\EgressFilter.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\EgressFilterType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\FileAccessLog.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteHostnameMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteHostnameRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteTarget.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GatewayRouteVirtualService.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcGatewayRoute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcGatewayRouteAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcGatewayRouteMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcGatewayRouteMetadata.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcGatewayRouteRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcMetadataMatchMethod.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRetryPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRetryPolicyEvent.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRoute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRouteAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRouteMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRouteMetadata.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcRouteMetadataMatchMethod.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\GrpcTimeout.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HeaderMatchMethod.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HealthCheckPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRoute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRouteAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRouteHeader.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRouteMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRoutePathRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRoutePrefixRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpGatewayRouteRewrite.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpMethod.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpPathMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpQueryParameter.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpRetryPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpRoute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpRouteAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpRouteHeader.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpRouteMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpScheme.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\HttpTimeout.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\IpPreference.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\JsonFormatRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListGatewayRoutesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListGatewayRoutesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListMeshesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListMeshesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListRoutesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListRoutesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListTagsForResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListTagsForResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualGatewaysRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualGatewaysResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualNodesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualNodesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualRoutersRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualRoutersResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualServicesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListVirtualServicesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\Listener.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTimeout.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTls.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsAcmCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsFileCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsSdsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsValidationContext.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ListenerTlsValidationContextTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\Logging.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\LoggingFormat.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MatchRange.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshServiceDiscovery.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\MeshStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\OutlierDetection.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\PortMapping.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\PortProtocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\QueryParameterMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ResourceMetadata.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\RouteData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\RouteRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\RouteSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\RouteStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\RouteStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\ServiceDiscovery.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\SubjectAlternativeNameMatchers.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\SubjectAlternativeNames.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TagRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TcpRetryPolicyEvent.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TcpRoute.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TcpRouteAction.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TcpRouteMatch.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TcpTimeout.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TlsValidationContext.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TlsValidationContextAcmTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TlsValidationContextFileTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TlsValidationContextSdsTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\TlsValidationContextTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UntagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UntagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateGatewayRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateGatewayRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateMeshRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateMeshResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateRouteRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateRouteResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualGatewayRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualGatewayResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualNodeRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualNodeResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualRouterRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualRouterResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualServiceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\UpdateVirtualServiceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayAccessLog.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayBackendDefaults.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayClientPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayClientPolicyTls.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayClientTlsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayFileAccessLog.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayGrpcConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayHealthCheckPolicy.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayHttp2ConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayHttpConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListener.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTls.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsAcmCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsFileCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsMode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsSdsCertificate.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsValidationContext.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayListenerTlsValidationContextTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayLogging.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayPortMapping.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayPortProtocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewaySpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayTlsValidationContext.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayTlsValidationContextAcmTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayTlsValidationContextFileTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayTlsValidationContextSdsTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualGatewayTlsValidationContextTrust.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeGrpcConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeHttp2ConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeHttpConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeServiceProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualNodeTcpConnectionPool.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterListener.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterServiceProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualRouterStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceBackend.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceData.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceRef.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceSpec.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\VirtualServiceStatusCode.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\source\model\WeightedTarget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\ZERO_CHECK.vcxproj">
+      <Project>{2A94530D-08BD-31CA-9990-E40651266C9A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\aws-c-auth.vcxproj">
+      <Project>{22E37EF3-0306-34C0-9A74-37879AC93D7A}</Project>
+      <Name>aws-c-auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\aws-c-cal.vcxproj">
+      <Project>{E94ACAE8-0D7A-3B8D-86D5-0C24776E6AA6}</Project>
+      <Name>aws-c-cal</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\aws-c-common.vcxproj">
+      <Project>{C673EA41-D6DE-3AA9-9244-5857EF31C452}</Project>
+      <Name>aws-c-common</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\aws-c-compression.vcxproj">
+      <Project>{3396112C-221E-3816-8E1A-38CEEC3FC8B2}</Project>
+      <Name>aws-c-compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\aws-c-event-stream.vcxproj">
+      <Project>{3CA794FD-542C-3D93-B7E0-9EDA1E4F7D63}</Project>
+      <Name>aws-c-event-stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\aws-c-http.vcxproj">
+      <Project>{E6CF2DE3-307A-33BC-85F6-6021E50975C8}</Project>
+      <Name>aws-c-http</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\aws-c-io.vcxproj">
+      <Project>{02CCF586-6AE5-33BB-91A0-8F400B19C7D5}</Project>
+      <Name>aws-c-io</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\aws-c-mqtt.vcxproj">
+      <Project>{654762F7-71A7-30C7-B1C3-2FCBE088BDBB}</Project>
+      <Name>aws-c-mqtt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\aws-c-s3.vcxproj">
+      <Project>{3163E11C-01EF-3618-AD0C-D87BD0AFB39E}</Project>
+      <Name>aws-c-s3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\aws-c-sdkutils.vcxproj">
+      <Project>{F1BCFE56-463E-3C7A-9A75-FF364DF5363B}</Project>
+      <Name>aws-c-sdkutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\aws-checksums.vcxproj">
+      <Project>{A851E7AC-24FF-360B-8518-AFD7563F1A2D}</Project>
+      <Name>aws-checksums</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\aws-cpp-sdk-core.vcxproj">
+      <Project>{2ECED905-A43F-3805-96CB-79ACDBEC7BC2}</Project>
+      <Name>aws-cpp-sdk-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\aws-crt-cpp.vcxproj">
+      <Project>{3C638684-5C02-318B-B6E4-436DEE732041}</Project>
+      <Name>aws-crt-cpp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

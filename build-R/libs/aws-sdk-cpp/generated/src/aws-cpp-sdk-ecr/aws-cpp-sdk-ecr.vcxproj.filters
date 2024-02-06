@@ -1,0 +1,975 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\ub_ECR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECRClient.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECREndpointProvider.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECREndpointRules.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECRErrorMarshaller.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECRErrors.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECRRequest.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECRServiceClientModel.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\ECR_EXPORTS.h">
+      <Filter>Header Files\aws\ecr</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Attribute.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\AuthorizationData.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\AwsEcrContainerImageDetails.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchCheckLayerAvailabilityRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchCheckLayerAvailabilityResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchDeleteImageRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchDeleteImageResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchGetImageRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchGetImageResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchGetRepositoryScanningConfigurationRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\BatchGetRepositoryScanningConfigurationResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CompleteLayerUploadRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CompleteLayerUploadResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CreatePullThroughCacheRuleRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CreatePullThroughCacheRuleResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CreateRepositoryRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CreateRepositoryResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CvssScore.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CvssScoreAdjustment.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\CvssScoreDetails.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteLifecyclePolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteLifecyclePolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeletePullThroughCacheRuleRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeletePullThroughCacheRuleResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRegistryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRegistryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRepositoryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRepositoryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRepositoryRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DeleteRepositoryResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImageReplicationStatusRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImageReplicationStatusResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImageScanFindingsRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImageScanFindingsResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImagesFilter.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImagesRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeImagesResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribePullThroughCacheRulesRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribePullThroughCacheRulesResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeRegistryRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeRegistryResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeRepositoriesRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\DescribeRepositoriesResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\EncryptionConfiguration.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\EncryptionType.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\EnhancedImageScanFinding.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\FindingSeverity.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetAuthorizationTokenRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetAuthorizationTokenResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetDownloadUrlForLayerRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetDownloadUrlForLayerResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetLifecyclePolicyPreviewRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetLifecyclePolicyPreviewResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetLifecyclePolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetLifecyclePolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRegistryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRegistryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRegistryScanningConfigurationRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRegistryScanningConfigurationResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRepositoryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\GetRepositoryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Image.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageActionType.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageDetail.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageFailure.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageFailureCode.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageIdentifier.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageReplicationStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageScanFinding.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageScanFindings.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageScanFindingsSummary.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageScanStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageScanningConfiguration.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ImageTagMutability.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\InitiateLayerUploadRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\InitiateLayerUploadResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\InvalidLayerPartException.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\KmsException.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Layer.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LayerAvailability.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LayerFailure.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LayerFailureCode.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LifecyclePolicyPreviewFilter.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LifecyclePolicyPreviewResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LifecyclePolicyPreviewStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LifecyclePolicyPreviewSummary.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\LifecyclePolicyRuleAction.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ListImagesFilter.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ListImagesRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ListImagesResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PackageVulnerabilityDetails.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PullThroughCacheRule.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageScanningConfigurationRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageScanningConfigurationResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageTagMutabilityRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutImageTagMutabilityResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutLifecyclePolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutLifecyclePolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutRegistryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutRegistryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutRegistryScanningConfigurationRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutRegistryScanningConfigurationResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutReplicationConfigurationRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\PutReplicationConfigurationResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Recommendation.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RegistryScanningConfiguration.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RegistryScanningRule.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Remediation.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ReplicationConfiguration.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ReplicationDestination.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ReplicationRule.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ReplicationStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Repository.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RepositoryFilter.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RepositoryFilterType.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RepositoryScanningConfiguration.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\RepositoryScanningConfigurationFailure.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Resource.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ResourceDetails.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanFrequency.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanType.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanningConfigurationFailureCode.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanningRepositoryFilter.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScanningRepositoryFilterType.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ScoreDetails.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\SetRepositoryPolicyRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\SetRepositoryPolicyResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\StartImageScanRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\StartImageScanResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\StartLifecyclePolicyPreviewRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\StartLifecyclePolicyPreviewResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\Tag.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\TagResourceRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\TagResourceResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\TagStatus.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UntagResourceRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UntagResourceResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UpdatePullThroughCacheRuleRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UpdatePullThroughCacheRuleResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UploadLayerPartRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UploadLayerPartResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\UpstreamRegistry.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ValidatePullThroughCacheRuleRequest.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\ValidatePullThroughCacheRuleResult.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\include\aws\ecr\model\VulnerablePackage.h">
+      <Filter>Header Files\aws\ecr\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECRClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECREndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECREndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECRErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECRErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\ECRRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Attribute.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\AuthorizationData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\AwsEcrContainerImageDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchCheckLayerAvailabilityRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchCheckLayerAvailabilityResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchDeleteImageRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchDeleteImageResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchGetImageRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchGetImageResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchGetRepositoryScanningConfigurationRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\BatchGetRepositoryScanningConfigurationResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CompleteLayerUploadRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CompleteLayerUploadResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CreatePullThroughCacheRuleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CreatePullThroughCacheRuleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CreateRepositoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CreateRepositoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CvssScore.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CvssScoreAdjustment.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\CvssScoreDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteLifecyclePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteLifecyclePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeletePullThroughCacheRuleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeletePullThroughCacheRuleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRegistryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRegistryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRepositoryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRepositoryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRepositoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DeleteRepositoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImageReplicationStatusRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImageReplicationStatusResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImageScanFindingsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImageScanFindingsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImagesFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImagesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeImagesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribePullThroughCacheRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribePullThroughCacheRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeRegistryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeRegistryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeRepositoriesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\DescribeRepositoriesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\EncryptionConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\EncryptionType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\EnhancedImageScanFinding.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\FindingSeverity.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetAuthorizationTokenRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetAuthorizationTokenResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetDownloadUrlForLayerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetDownloadUrlForLayerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetLifecyclePolicyPreviewRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetLifecyclePolicyPreviewResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetLifecyclePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetLifecyclePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRegistryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRegistryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRegistryScanningConfigurationRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRegistryScanningConfigurationResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRepositoryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\GetRepositoryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Image.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageActionType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageDetail.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageFailure.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageFailureCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageIdentifier.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageReplicationStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageScanFinding.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageScanFindings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageScanFindingsSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageScanStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageScanningConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ImageTagMutability.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\InitiateLayerUploadRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\InitiateLayerUploadResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\InvalidLayerPartException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\KmsException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Layer.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LayerAvailability.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LayerFailure.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LayerFailureCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LifecyclePolicyPreviewFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LifecyclePolicyPreviewResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LifecyclePolicyPreviewStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LifecyclePolicyPreviewSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\LifecyclePolicyRuleAction.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ListImagesFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ListImagesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ListImagesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PackageVulnerabilityDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PullThroughCacheRule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageScanningConfigurationRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageScanningConfigurationResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageTagMutabilityRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutImageTagMutabilityResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutLifecyclePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutLifecyclePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutRegistryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutRegistryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutRegistryScanningConfigurationRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutRegistryScanningConfigurationResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutReplicationConfigurationRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\PutReplicationConfigurationResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Recommendation.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RegistryScanningConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RegistryScanningRule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Remediation.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ReplicationConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ReplicationDestination.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ReplicationRule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ReplicationStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Repository.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RepositoryFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RepositoryFilterType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RepositoryScanningConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\RepositoryScanningConfigurationFailure.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Resource.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ResourceDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanFrequency.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanningConfigurationFailureCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanningRepositoryFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScanningRepositoryFilterType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ScoreDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\SetRepositoryPolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\SetRepositoryPolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\StartImageScanRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\StartImageScanResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\StartLifecyclePolicyPreviewRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\StartLifecyclePolicyPreviewResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\TagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\TagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\TagStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UntagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UntagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UpdatePullThroughCacheRuleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UpdatePullThroughCacheRuleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UploadLayerPartRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UploadLayerPartResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\UpstreamRegistry.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ValidatePullThroughCacheRuleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\ValidatePullThroughCacheRuleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\source\model\VulnerablePackage.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\ecr">
+      <UniqueIdentifier>{320CD359-E404-393A-B90C-853D1960E99D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\ecr\model">
+      <UniqueIdentifier>{EDD99A43-E917-3FB3-85CC-963CF22C1F83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

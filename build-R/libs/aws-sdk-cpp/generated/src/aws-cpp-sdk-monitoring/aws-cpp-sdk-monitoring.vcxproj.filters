@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\ub_MONITORING.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchClient.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchEndpointProvider.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchEndpointRules.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchErrorMarshaller.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchErrors.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchRequest.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatchServiceClientModel.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\CloudWatch_EXPORTS.h">
+      <Filter>Header Files\aws\monitoring</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ActionsSuppressedBy.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AlarmHistoryItem.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AlarmType.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AnomalyDetector.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AnomalyDetectorConfiguration.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AnomalyDetectorStateValue.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\AnomalyDetectorType.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ComparisonOperator.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\CompositeAlarm.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DashboardEntry.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DashboardInvalidInputError.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DashboardValidationMessage.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Datapoint.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteAlarmsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteAnomalyDetectorRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteAnomalyDetectorResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteDashboardsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteDashboardsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteMetricStreamRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DeleteMetricStreamResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmHistoryRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmHistoryResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmsForMetricRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmsForMetricResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAlarmsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAnomalyDetectorsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeAnomalyDetectorsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DescribeInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Dimension.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DimensionFilter.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DisableAlarmActionsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DisableInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\DisableInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\EnableAlarmActionsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\EnableInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\EnableInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\EvaluationState.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetDashboardRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetDashboardResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetInsightRuleReportRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetInsightRuleReportResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricDataRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricDataResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricStatisticsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricStatisticsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricStreamRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricStreamResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricWidgetImageRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\GetMetricWidgetImageResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\HistoryItemType.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\InsightRule.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\InsightRuleContributor.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\InsightRuleContributorDatapoint.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\InsightRuleMetricDatapoint.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\LabelOptions.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListDashboardsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListDashboardsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListManagedInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListManagedInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListMetricStreamsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListMetricStreamsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListMetricsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListMetricsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ManagedRule.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ManagedRuleDescription.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ManagedRuleState.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MessageData.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Metric.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricAlarm.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricDataQuery.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricDataResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricDatum.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricMathAnomalyDetector.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStat.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStreamEntry.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStreamFilter.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStreamOutputFormat.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStreamStatisticsConfiguration.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\MetricStreamStatisticsMetric.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PartialFailure.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutAnomalyDetectorRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutAnomalyDetectorResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutCompositeAlarmRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutDashboardRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutDashboardResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutInsightRuleRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutInsightRuleResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutManagedInsightRulesRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutManagedInsightRulesResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutMetricAlarmRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutMetricDataRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutMetricStreamRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\PutMetricStreamResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Range.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\RecentlyActive.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ResourceNotFoundException.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ResponseMetadata.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\ScanBy.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\SetAlarmStateRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\SingleMetricAnomalyDetector.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StandardUnit.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StartMetricStreamsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StartMetricStreamsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StateValue.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Statistic.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StatisticSet.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StatusCode.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StopMetricStreamsRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\StopMetricStreamsResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\Tag.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\TagResourceRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\TagResourceResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\UntagResourceRequest.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\include\aws\monitoring\model\UntagResourceResult.h">
+      <Filter>Header Files\aws\monitoring\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchEndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchEndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\CloudWatchRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ActionsSuppressedBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AlarmHistoryItem.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AlarmType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AnomalyDetector.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AnomalyDetectorConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AnomalyDetectorStateValue.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\AnomalyDetectorType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ComparisonOperator.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\CompositeAlarm.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DashboardEntry.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DashboardInvalidInputError.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DashboardValidationMessage.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Datapoint.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteAlarmsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteAnomalyDetectorRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteAnomalyDetectorResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteDashboardsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteDashboardsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteMetricStreamRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DeleteMetricStreamResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmHistoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmHistoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmsForMetricRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmsForMetricResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAlarmsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAnomalyDetectorsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeAnomalyDetectorsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DescribeInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Dimension.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DimensionFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DisableAlarmActionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DisableInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\DisableInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\EnableAlarmActionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\EnableInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\EnableInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\EvaluationState.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetDashboardRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetDashboardResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetInsightRuleReportRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetInsightRuleReportResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricDataRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricDataResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricStatisticsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricStatisticsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricStreamRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricStreamResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricWidgetImageRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\GetMetricWidgetImageResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\HistoryItemType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\InsightRule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\InsightRuleContributor.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\InsightRuleContributorDatapoint.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\InsightRuleMetricDatapoint.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\LabelOptions.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListDashboardsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListDashboardsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListManagedInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListManagedInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListMetricStreamsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListMetricStreamsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListMetricsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListMetricsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ManagedRule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ManagedRuleDescription.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ManagedRuleState.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MessageData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Metric.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricAlarm.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricDataQuery.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricDataResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricDatum.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricMathAnomalyDetector.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStat.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStreamEntry.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStreamFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStreamOutputFormat.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStreamStatisticsConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\MetricStreamStatisticsMetric.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PartialFailure.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutAnomalyDetectorRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutAnomalyDetectorResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutCompositeAlarmRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutDashboardRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutDashboardResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutInsightRuleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutInsightRuleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutManagedInsightRulesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutManagedInsightRulesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutMetricAlarmRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutMetricDataRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutMetricStreamRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\PutMetricStreamResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Range.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\RecentlyActive.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ResourceNotFoundException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ResponseMetadata.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\ScanBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\SetAlarmStateRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\SingleMetricAnomalyDetector.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StandardUnit.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StartMetricStreamsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StartMetricStreamsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StateValue.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Statistic.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StatisticSet.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StatusCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StopMetricStreamsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\StopMetricStreamsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\TagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\TagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\UntagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\source\model\UntagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\monitoring">
+      <UniqueIdentifier>{2462E0B9-3F80-3A68-83A4-FD3BCF318147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\monitoring\model">
+      <UniqueIdentifier>{871EFEE1-D8F4-3490-8474-7D8B92664209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

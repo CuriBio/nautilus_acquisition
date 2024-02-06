@@ -1,0 +1,856 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B22D924C-4D6E-3145-950D-B11B381E9785}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>aws-cpp-sdk-globalaccelerator</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-globalaccelerator.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-cpp-sdk-globalaccelerator</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\bin\DebugOpt\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-globalaccelerator.dir\DebugOpt\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-cpp-sdk-globalaccelerator</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-globalaccelerator.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-cpp-sdk-globalaccelerator</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-globalaccelerator.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-cpp-sdk-globalaccelerator</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-globalaccelerator.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-cpp-sdk-globalaccelerator</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Debug";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Debug\";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Debug/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Debug//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-globalaccelerator.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Debug/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Debug/aws-cpp-sdk-globalaccelerator.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="DebugOpt";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"DebugOpt\";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/DebugOpt/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/DebugOpt//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\DebugOpt\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\DebugOpt\aws-crt-cpp.lib;..\..\..\..\..\lib\DebugOpt\aws-c-mqtt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-event-stream.lib;..\..\..\..\..\lib\DebugOpt\aws-c-s3.lib;..\..\..\..\..\lib\DebugOpt\aws-c-auth.lib;..\..\..\..\..\lib\DebugOpt\aws-c-http.lib;..\..\..\..\..\lib\DebugOpt\aws-c-io.lib;..\..\..\..\..\lib\DebugOpt\aws-c-compression.lib;..\..\..\..\..\lib\DebugOpt\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\DebugOpt\aws-c-sdkutils.lib;..\..\..\..\..\lib\DebugOpt\aws-checksums.lib;..\..\..\..\..\lib\DebugOpt\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/DebugOpt/aws-cpp-sdk-globalaccelerator.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/DebugOpt/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/bin/DebugOpt/aws-cpp-sdk-globalaccelerator.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="Release";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Release\";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Release/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Release//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-globalaccelerator.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/Release/exports.def</ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/Release/aws-cpp-sdk-globalaccelerator.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="RelWithDebInfo";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"RelWithDebInfo\";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/RelWithDebInfo/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/RelWithDebInfo//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-globalaccelerator.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/RelWithDebInfo/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-globalaccelerator.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR="MinSizeRel";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_FMT_EXTERNAL;SPDLOG_COMPILED_LIB;AWS_GLOBALACCELERATOR_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_SDK_VERSION_MAJOR=1;AWS_SDK_VERSION_MINOR=11;AWS_SDK_VERSION_PATCH=258;USE_WINDOWS_DLL_SEMANTICS;USE_IMPORT_EXPORT=1;AWS_CRT_CPP_USE_IMPORT_EXPORT;AWS_HTTP_USE_IMPORT_EXPORT;AWS_IO_USE_IMPORT_EXPORT;AWS_USE_IO_COMPLETION_PORTS;AWS_COMMON_USE_IMPORT_EXPORT;AWS_CAL_USE_IMPORT_EXPORT;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_MQTT_USE_IMPORT_EXPORT;AWS_AUTH_USE_IMPORT_EXPORT;AWS_SDKUTILS_USE_IMPORT_EXPORT;AWS_CHECKSUMS_USE_IMPORT_EXPORT;AWS_EVENT_STREAM_USE_IMPORT_EXPORT;AWS_S3_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"MinSizeRel\";aws_cpp_sdk_globalaccelerator_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\generated\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/MinSizeRel/exports.def D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/MinSizeRel//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Userenv.lib;version.lib;ws2_32.lib;..\..\..\..\..\lib\aws-cpp-sdk-core.lib;..\..\..\..\..\lib\aws-crt-cpp.lib;..\..\..\..\..\lib\aws-c-mqtt.lib;..\..\..\..\..\lib\aws-c-event-stream.lib;..\..\..\..\..\lib\aws-c-s3.lib;..\..\..\..\..\lib\aws-c-auth.lib;..\..\..\..\..\lib\aws-c-http.lib;..\..\..\..\..\lib\aws-c-io.lib;..\..\..\..\..\lib\aws-c-compression.lib;..\..\..\..\..\lib\aws-c-cal.lib;NCrypt.lib;..\..\..\..\..\lib\aws-c-sdkutils.lib;..\..\..\..\..\lib\aws-checksums.lib;..\..\..\..\..\lib\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib;D:/Users/nautilus/.conan/data/spdlog/1.10.0/_/_/package/70a17ef929dad20e1afdd6cf274326a965e13481/lib/$(Configuration);D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib;D:/Users/nautilus/.conan/data/fmt/8.1.1/_/_/package/8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/lib/aws-cpp-sdk-globalaccelerator.lib</ImportLibrary>
+      <ModuleDefinitionFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/aws-cpp-sdk-globalaccelerator.dir/MinSizeRel/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/aws-cpp-sdk-globalaccelerator.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/generated/src/aws-cpp-sdk-globalaccelerator/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\cmakeProjectConfig.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\toolchains\pkg-config.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\ub_GLOBALACCELERATOR.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorClient.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorEndpointProvider.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorEndpointRules.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorErrorMarshaller.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorErrors.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAcceleratorServiceClientModel.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\GlobalAccelerator_EXPORTS.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Accelerator.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AcceleratorAttributes.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AcceleratorEvent.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AcceleratorStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AddCustomRoutingEndpointsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AddCustomRoutingEndpointsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AddEndpointsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AddEndpointsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AdvertiseByoipCidrRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AdvertiseByoipCidrResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\AllowCustomRoutingTrafficRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Attachment.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ByoipCidr.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ByoipCidrEvent.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ByoipCidrState.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CidrAuthorizationContext.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ClientAffinity.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCrossAccountAttachmentRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCrossAccountAttachmentResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingEndpointGroupResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateCustomRoutingListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateEndpointGroupResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CreateListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CrossAccountResource.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingAccelerator.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingAcceleratorAttributes.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingAcceleratorStatus.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingDestinationConfiguration.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingDestinationDescription.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingDestinationTrafficState.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingEndpointConfiguration.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingEndpointDescription.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingEndpointGroup.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingListener.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\CustomRoutingProtocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteCrossAccountAttachmentRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteCustomRoutingAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteCustomRoutingEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteCustomRoutingListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeleteListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DenyCustomRoutingTrafficRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeprovisionByoipCidrRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DeprovisionByoipCidrResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeAcceleratorAttributesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeAcceleratorAttributesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCrossAccountAttachmentRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCrossAccountAttachmentResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingAcceleratorAttributesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingAcceleratorAttributesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingEndpointGroupResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeCustomRoutingListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeEndpointGroupResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DescribeListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\DestinationPortMapping.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\EndpointConfiguration.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\EndpointDescription.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\EndpointGroup.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\EndpointIdentifier.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\HealthCheckProtocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\HealthState.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\IpAddressFamily.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\IpAddressType.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\IpSet.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListAcceleratorsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListAcceleratorsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListByoipCidrsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListByoipCidrsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountAttachmentsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountAttachmentsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountResourceAccountsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountResourceAccountsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountResourcesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCrossAccountResourcesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingAcceleratorsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingAcceleratorsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingEndpointGroupsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingEndpointGroupsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingListenersRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingListenersResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingPortMappingsByDestinationRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingPortMappingsByDestinationResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingPortMappingsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListCustomRoutingPortMappingsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListEndpointGroupsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListEndpointGroupsResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListListenersRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListListenersResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListTagsForResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ListTagsForResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Listener.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\PortMapping.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\PortOverride.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\PortRange.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Protocol.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ProvisionByoipCidrRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\ProvisionByoipCidrResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\RemoveCustomRoutingEndpointsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\RemoveEndpointsRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Resource.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\SocketAddress.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\Tag.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\TagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\TagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UntagResourceRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UntagResourceResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateAcceleratorAttributesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateAcceleratorAttributesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCrossAccountAttachmentRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCrossAccountAttachmentResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingAcceleratorAttributesRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingAcceleratorAttributesResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingAcceleratorRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingAcceleratorResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateCustomRoutingListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateEndpointGroupRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateEndpointGroupResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateListenerRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\UpdateListenerResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\WithdrawByoipCidrRequest.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\include\aws\globalaccelerator\model\WithdrawByoipCidrResult.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorClient.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorEndpointProvider.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorEndpointRules.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorErrorMarshaller.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorErrors.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\GlobalAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Accelerator.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AcceleratorAttributes.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AcceleratorEvent.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AcceleratorStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AddCustomRoutingEndpointsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AddCustomRoutingEndpointsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AddEndpointsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AddEndpointsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AdvertiseByoipCidrRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AdvertiseByoipCidrResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\AllowCustomRoutingTrafficRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Attachment.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ByoipCidr.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ByoipCidrEvent.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ByoipCidrState.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CidrAuthorizationContext.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ClientAffinity.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCrossAccountAttachmentRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCrossAccountAttachmentResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingEndpointGroupResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateCustomRoutingListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateEndpointGroupResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CreateListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CrossAccountResource.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingAccelerator.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingAcceleratorAttributes.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingAcceleratorStatus.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingDestinationConfiguration.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingDestinationDescription.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingDestinationTrafficState.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingEndpointConfiguration.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingEndpointDescription.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingEndpointGroup.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingListener.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\CustomRoutingProtocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteCrossAccountAttachmentRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteCustomRoutingAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteCustomRoutingEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteCustomRoutingListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeleteListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DenyCustomRoutingTrafficRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeprovisionByoipCidrRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DeprovisionByoipCidrResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeAcceleratorAttributesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeAcceleratorAttributesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCrossAccountAttachmentRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCrossAccountAttachmentResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingAcceleratorAttributesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingAcceleratorAttributesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingEndpointGroupResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeCustomRoutingListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeEndpointGroupResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DescribeListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\DestinationPortMapping.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\EndpointConfiguration.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\EndpointDescription.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\EndpointGroup.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\EndpointIdentifier.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\HealthCheckProtocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\HealthState.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\IpAddressFamily.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\IpAddressType.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\IpSet.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListAcceleratorsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListAcceleratorsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListByoipCidrsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListByoipCidrsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountAttachmentsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountAttachmentsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountResourceAccountsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountResourceAccountsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountResourcesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCrossAccountResourcesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingAcceleratorsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingAcceleratorsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingEndpointGroupsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingEndpointGroupsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingListenersRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingListenersResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingPortMappingsByDestinationRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingPortMappingsByDestinationResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingPortMappingsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListCustomRoutingPortMappingsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListEndpointGroupsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListEndpointGroupsResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListListenersRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListListenersResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListTagsForResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ListTagsForResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Listener.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\PortMapping.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\PortOverride.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\PortRange.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Protocol.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ProvisionByoipCidrRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\ProvisionByoipCidrResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\RemoveCustomRoutingEndpointsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\RemoveEndpointsRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Resource.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\SocketAddress.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\Tag.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\TagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\TagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UntagResourceRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UntagResourceResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateAcceleratorAttributesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateAcceleratorAttributesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCrossAccountAttachmentRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCrossAccountAttachmentResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingAcceleratorAttributesRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingAcceleratorAttributesResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingAcceleratorRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingAcceleratorResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateCustomRoutingListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateEndpointGroupRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateEndpointGroupResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateListenerRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\UpdateListenerResult.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\WithdrawByoipCidrRequest.cpp" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\source\model\WithdrawByoipCidrResult.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\ZERO_CHECK.vcxproj">
+      <Project>{2A94530D-08BD-31CA-9990-E40651266C9A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\aws-c-auth.vcxproj">
+      <Project>{22E37EF3-0306-34C0-9A74-37879AC93D7A}</Project>
+      <Name>aws-c-auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\aws-c-cal.vcxproj">
+      <Project>{E94ACAE8-0D7A-3B8D-86D5-0C24776E6AA6}</Project>
+      <Name>aws-c-cal</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\aws-c-common.vcxproj">
+      <Project>{C673EA41-D6DE-3AA9-9244-5857EF31C452}</Project>
+      <Name>aws-c-common</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\aws-c-compression.vcxproj">
+      <Project>{3396112C-221E-3816-8E1A-38CEEC3FC8B2}</Project>
+      <Name>aws-c-compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\aws-c-event-stream.vcxproj">
+      <Project>{3CA794FD-542C-3D93-B7E0-9EDA1E4F7D63}</Project>
+      <Name>aws-c-event-stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\aws-c-http.vcxproj">
+      <Project>{E6CF2DE3-307A-33BC-85F6-6021E50975C8}</Project>
+      <Name>aws-c-http</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\aws-c-io.vcxproj">
+      <Project>{02CCF586-6AE5-33BB-91A0-8F400B19C7D5}</Project>
+      <Name>aws-c-io</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\aws-c-mqtt.vcxproj">
+      <Project>{654762F7-71A7-30C7-B1C3-2FCBE088BDBB}</Project>
+      <Name>aws-c-mqtt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\aws-c-s3.vcxproj">
+      <Project>{3163E11C-01EF-3618-AD0C-D87BD0AFB39E}</Project>
+      <Name>aws-c-s3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\aws-c-sdkutils.vcxproj">
+      <Project>{F1BCFE56-463E-3C7A-9A75-FF364DF5363B}</Project>
+      <Name>aws-c-sdkutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\aws-checksums.vcxproj">
+      <Project>{A851E7AC-24FF-360B-8518-AFD7563F1A2D}</Project>
+      <Name>aws-checksums</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\aws-cpp-sdk-core.vcxproj">
+      <Project>{2ECED905-A43F-3805-96CB-79ACDBEC7BC2}</Project>
+      <Name>aws-cpp-sdk-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\aws-crt-cpp.vcxproj">
+      <Project>{3C638684-5C02-318B-B6E4-436DEE732041}</Project>
+      <Name>aws-crt-cpp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,10 @@
+includedir=include
+libdir=lib
+
+Name: aws-cpp-sdk-queues
+Description: 
+Version: 1.11.258
+Cflags: -I${includedir} 
+Libs: -L${libdir} -laws-cpp-sdk-queues 
+Libs.private: 
+Requires:  aws-cpp-sdk-sqs aws-cpp-sdk-core

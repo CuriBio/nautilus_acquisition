@@ -1,0 +1,843 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\ub_INSPECTOR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorClient.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorEndpointProvider.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorEndpointRules.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorErrorMarshaller.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorErrors.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorRequest.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\InspectorServiceClientModel.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\Inspector_EXPORTS.h">
+      <Filter>Header Files\aws\inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AccessDeniedErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AccessDeniedException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AddAttributesToFindingsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AddAttributesToFindingsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentAlreadyRunningAssessment.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentFilter.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentHealth.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentHealthCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentPreview.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AgentsAlreadyRunningAssessmentException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRun.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunAgent.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunFilter.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunInProgressException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunNotification.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunNotificationSnsStatusCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunState.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentRunStateChange.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentTarget.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentTargetFilter.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentTemplate.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssessmentTemplateFilter.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssetAttributes.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\AssetType.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Attribute.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateAssessmentTargetRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateAssessmentTargetResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateAssessmentTemplateRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateAssessmentTemplateResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateExclusionsPreviewRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateExclusionsPreviewResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateResourceGroupRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\CreateResourceGroupResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DeleteAssessmentRunRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DeleteAssessmentTargetRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DeleteAssessmentTemplateRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentRunsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentRunsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentTargetsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentTargetsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentTemplatesRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeAssessmentTemplatesResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeCrossAccountAccessRoleRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeCrossAccountAccessRoleResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeExclusionsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeExclusionsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeFindingsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeFindingsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeResourceGroupsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeResourceGroupsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeRulesPackagesRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DescribeRulesPackagesResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\DurationRange.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\EventSubscription.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Exclusion.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ExclusionPreview.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\FailedItemDetails.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\FailedItemErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Finding.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\FindingFilter.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetAssessmentReportRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetAssessmentReportResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetExclusionsPreviewRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetExclusionsPreviewResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetTelemetryMetadataRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\GetTelemetryMetadataResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InspectorEvent.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InspectorServiceAttributes.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InternalException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InvalidCrossAccountRoleErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InvalidCrossAccountRoleException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InvalidInputErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\InvalidInputException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\LimitExceededErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\LimitExceededException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentRunAgentsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentRunAgentsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentRunsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentRunsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentTargetsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentTargetsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentTemplatesRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListAssessmentTemplatesResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListEventSubscriptionsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListEventSubscriptionsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListExclusionsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListExclusionsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListFindingsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListFindingsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListRulesPackagesRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListRulesPackagesResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Locale.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\NetworkInterface.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\NoSuchEntityErrorCode.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\NoSuchEntityException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\PreviewAgentsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\PreviewAgentsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\PreviewStatus.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\PrivateIp.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\RegisterCrossAccountAccessRoleRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\RemoveAttributesFromFindingsRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\RemoveAttributesFromFindingsResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ReportFileFormat.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ReportStatus.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ReportType.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ResourceGroup.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ResourceGroupTag.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\RulesPackage.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Scope.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ScopeType.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\SecurityGroup.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\ServiceTemporarilyUnavailableException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\SetTagsForResourceRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Severity.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\StartAssessmentRunRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\StartAssessmentRunResult.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\StopAction.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\StopAssessmentRunRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\SubscribeToEventRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Subscription.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\Tag.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\TelemetryMetadata.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\TimestampRange.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\UnsubscribeFromEventRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\UnsupportedFeatureException.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\include\aws\inspector\model\UpdateAssessmentTargetRequest.h">
+      <Filter>Header Files\aws\inspector\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorEndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorEndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\InspectorRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AccessDeniedErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AccessDeniedException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AddAttributesToFindingsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AddAttributesToFindingsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentAlreadyRunningAssessment.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentHealth.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentHealthCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentPreview.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AgentsAlreadyRunningAssessmentException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRun.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunAgent.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunInProgressException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunNotification.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunNotificationSnsStatusCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunState.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentRunStateChange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentTarget.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentTargetFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentTemplate.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssessmentTemplateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssetAttributes.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\AssetType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Attribute.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateAssessmentTargetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateAssessmentTargetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateAssessmentTemplateRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateAssessmentTemplateResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateExclusionsPreviewRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateExclusionsPreviewResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateResourceGroupRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\CreateResourceGroupResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DeleteAssessmentRunRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DeleteAssessmentTargetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DeleteAssessmentTemplateRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentRunsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentRunsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentTargetsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentTargetsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentTemplatesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeAssessmentTemplatesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeCrossAccountAccessRoleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeCrossAccountAccessRoleResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeExclusionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeExclusionsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeFindingsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeFindingsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeResourceGroupsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeResourceGroupsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeRulesPackagesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DescribeRulesPackagesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\DurationRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\EventSubscription.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Exclusion.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ExclusionPreview.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\FailedItemDetails.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\FailedItemErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Finding.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\FindingFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetAssessmentReportRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetAssessmentReportResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetExclusionsPreviewRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetExclusionsPreviewResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetTelemetryMetadataRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\GetTelemetryMetadataResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InspectorEvent.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InspectorServiceAttributes.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InternalException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InvalidCrossAccountRoleErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InvalidCrossAccountRoleException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InvalidInputErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\InvalidInputException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\LimitExceededErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\LimitExceededException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentRunAgentsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentRunAgentsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentRunsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentRunsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentTargetsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentTargetsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentTemplatesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListAssessmentTemplatesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListEventSubscriptionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListEventSubscriptionsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListExclusionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListExclusionsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListFindingsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListFindingsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListRulesPackagesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListRulesPackagesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Locale.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\NetworkInterface.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\NoSuchEntityErrorCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\NoSuchEntityException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\PreviewAgentsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\PreviewAgentsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\PreviewStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\PrivateIp.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\RegisterCrossAccountAccessRoleRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\RemoveAttributesFromFindingsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\RemoveAttributesFromFindingsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ReportFileFormat.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ReportStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ReportType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ResourceGroup.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ResourceGroupTag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\RulesPackage.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Scope.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ScopeType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\SecurityGroup.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\ServiceTemporarilyUnavailableException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\SetTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Severity.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\StartAssessmentRunRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\StartAssessmentRunResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\StopAction.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\StopAssessmentRunRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\SubscribeToEventRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Subscription.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\TelemetryMetadata.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\TimestampRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\UnsubscribeFromEventRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\UnsupportedFeatureException.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\source\model\UpdateAssessmentTargetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\inspector">
+      <UniqueIdentifier>{1CBC4E9C-90D7-38F3-9F55-3B7B09FA02AD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\inspector\model">
+      <UniqueIdentifier>{997F33D5-A6BD-383C-9B7D-369DA757D58A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

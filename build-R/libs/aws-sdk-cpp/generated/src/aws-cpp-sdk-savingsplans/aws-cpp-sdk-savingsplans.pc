@@ -1,0 +1,10 @@
+includedir=include
+libdir=lib
+
+Name: aws-cpp-sdk-savingsplans
+Description: 
+Version: 1.11.258
+Cflags: -I${includedir} 
+Libs: -L${libdir} -laws-cpp-sdk-savingsplans 
+Libs.private: 
+Requires:  aws-cpp-sdk-core

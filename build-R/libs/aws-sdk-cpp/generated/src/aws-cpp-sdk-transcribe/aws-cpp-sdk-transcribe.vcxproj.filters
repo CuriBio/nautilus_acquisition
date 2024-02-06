@@ -1,0 +1,939 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\ub_TRANSCRIBE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceClient.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceEndpointProvider.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceEndpointRules.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceErrorMarshaller.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceErrors.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceRequest.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeServiceServiceClientModel.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\TranscribeService_EXPORTS.h">
+      <Filter>Header Files\aws\transcribe</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\AbsoluteTimeRange.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\BaseModelName.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CLMLanguageCode.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CallAnalyticsJob.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CallAnalyticsJobSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CallAnalyticsJobStatus.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CallAnalyticsJobSummary.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CategoryProperties.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ChannelDefinition.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ContentRedaction.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateCallAnalyticsCategoryRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateCallAnalyticsCategoryResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateLanguageModelRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateLanguageModelResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateMedicalVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateMedicalVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateVocabularyFilterRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateVocabularyFilterResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\CreateVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteCallAnalyticsCategoryRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteCallAnalyticsCategoryResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteCallAnalyticsJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteCallAnalyticsJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteLanguageModelRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteMedicalScribeJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteMedicalTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteMedicalVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteVocabularyFilterRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DeleteVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DescribeLanguageModelRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\DescribeLanguageModelResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetCallAnalyticsCategoryRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetCallAnalyticsCategoryResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetCallAnalyticsJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetCallAnalyticsJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalScribeJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalScribeJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalTranscriptionJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetMedicalVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetTranscriptionJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetVocabularyFilterRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetVocabularyFilterResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\GetVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\InputDataConfig.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\InputType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\InterruptionFilter.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\JobExecutionSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\LanguageCode.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\LanguageCodeItem.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\LanguageIdSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\LanguageModel.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListCallAnalyticsCategoriesRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListCallAnalyticsCategoriesResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListCallAnalyticsJobsRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListCallAnalyticsJobsResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListLanguageModelsRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListLanguageModelsResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalScribeJobsRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalScribeJobsResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalTranscriptionJobsRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalTranscriptionJobsResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalVocabulariesRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListMedicalVocabulariesResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListTranscriptionJobsRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListTranscriptionJobsResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListVocabulariesRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListVocabulariesResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListVocabularyFiltersRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ListVocabularyFiltersResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Media.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MediaFormat.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalContentIdentificationType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeChannelDefinition.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeJob.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeJobStatus.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeJobSummary.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeLanguageCode.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeOutput.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeParticipantRole.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalScribeSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalTranscript.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalTranscriptionJob.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalTranscriptionJobSummary.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\MedicalTranscriptionSetting.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ModelSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ModelStatus.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\NonTalkTimeFilter.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\OutputLocationType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ParticipantRole.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\PiiEntityType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\RedactionOutput.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\RedactionType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\RelativeTimeRange.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Rule.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\SentimentFilter.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\SentimentValue.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Settings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Specialty.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartCallAnalyticsJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartCallAnalyticsJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartMedicalScribeJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartMedicalScribeJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartMedicalTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartMedicalTranscriptionJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartTranscriptionJobRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\StartTranscriptionJobResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\SubtitleFormat.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Subtitles.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\SubtitlesOutput.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Summarization.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Tag.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TagResourceRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TagResourceResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ToxicityCategory.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\ToxicityDetectionSettings.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Transcript.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TranscriptFilter.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TranscriptFilterType.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TranscriptionJob.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TranscriptionJobStatus.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\TranscriptionJobSummary.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\Type.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UntagResourceRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UntagResourceResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateCallAnalyticsCategoryRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateCallAnalyticsCategoryResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateMedicalVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateMedicalVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateVocabularyFilterRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateVocabularyFilterResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateVocabularyRequest.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\UpdateVocabularyResult.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\VocabularyFilterInfo.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\VocabularyFilterMethod.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\VocabularyInfo.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\include\aws\transcribe\model\VocabularyState.h">
+      <Filter>Header Files\aws\transcribe\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceEndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceEndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\TranscribeServiceRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\AbsoluteTimeRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\BaseModelName.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CLMLanguageCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CallAnalyticsJob.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CallAnalyticsJobSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CallAnalyticsJobStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CallAnalyticsJobSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CategoryProperties.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ChannelDefinition.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ContentRedaction.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateCallAnalyticsCategoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateCallAnalyticsCategoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateLanguageModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateLanguageModelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateMedicalVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateMedicalVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateVocabularyFilterRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateVocabularyFilterResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\CreateVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteCallAnalyticsCategoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteCallAnalyticsCategoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteCallAnalyticsJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteCallAnalyticsJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteLanguageModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteMedicalScribeJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteMedicalTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteMedicalVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteVocabularyFilterRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DeleteVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DescribeLanguageModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\DescribeLanguageModelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetCallAnalyticsCategoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetCallAnalyticsCategoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetCallAnalyticsJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetCallAnalyticsJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalScribeJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalScribeJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalTranscriptionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetMedicalVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetTranscriptionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetVocabularyFilterRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetVocabularyFilterResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\GetVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\InputDataConfig.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\InputType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\InterruptionFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\JobExecutionSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\LanguageCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\LanguageCodeItem.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\LanguageIdSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\LanguageModel.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListCallAnalyticsCategoriesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListCallAnalyticsCategoriesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListCallAnalyticsJobsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListCallAnalyticsJobsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListLanguageModelsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListLanguageModelsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalScribeJobsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalScribeJobsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalTranscriptionJobsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalTranscriptionJobsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalVocabulariesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListMedicalVocabulariesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListTranscriptionJobsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListTranscriptionJobsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListVocabulariesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListVocabulariesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListVocabularyFiltersRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ListVocabularyFiltersResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Media.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MediaFormat.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalContentIdentificationType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeChannelDefinition.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeJob.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeJobStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeJobSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeLanguageCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeOutput.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeParticipantRole.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalScribeSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalTranscript.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalTranscriptionJob.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalTranscriptionJobSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\MedicalTranscriptionSetting.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ModelSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ModelStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\NonTalkTimeFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\OutputLocationType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ParticipantRole.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\PiiEntityType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\RedactionOutput.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\RedactionType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\RelativeTimeRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Rule.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\SentimentFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\SentimentValue.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Settings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Specialty.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartCallAnalyticsJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartCallAnalyticsJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartMedicalScribeJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartMedicalScribeJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartMedicalTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartMedicalTranscriptionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartTranscriptionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\StartTranscriptionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\SubtitleFormat.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Subtitles.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\SubtitlesOutput.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Summarization.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ToxicityCategory.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\ToxicityDetectionSettings.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Transcript.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TranscriptFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TranscriptFilterType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TranscriptionJob.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TranscriptionJobStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\TranscriptionJobSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\Type.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UntagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UntagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateCallAnalyticsCategoryRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateCallAnalyticsCategoryResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateMedicalVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateMedicalVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateVocabularyFilterRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateVocabularyFilterResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateVocabularyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\UpdateVocabularyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\VocabularyFilterInfo.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\VocabularyFilterMethod.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\VocabularyInfo.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\source\model\VocabularyState.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\transcribe">
+      <UniqueIdentifier>{99ED3069-6B6A-3770-87F8-7B953DACDF88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\transcribe\model">
+      <UniqueIdentifier>{915144AD-C212-3E9E-B44A-673695EBA642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

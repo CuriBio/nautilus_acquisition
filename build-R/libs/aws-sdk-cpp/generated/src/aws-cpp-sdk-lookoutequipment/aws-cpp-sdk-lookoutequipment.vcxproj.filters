@@ -1,0 +1,927 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\ub_LOOKOUTEQUIPMENT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentClient.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentEndpointProvider.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentEndpointRules.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentErrorMarshaller.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentErrors.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentRequest.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipmentServiceClientModel.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\LookoutEquipment_EXPORTS.h">
+      <Filter>Header Files\aws\lookoutequipment</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\AutoPromotionResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CategoricalValues.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CountPercent.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateDatasetRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateDatasetResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateInferenceSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateLabelGroupRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateLabelGroupResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateLabelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateLabelResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateModelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateModelResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\CreateRetrainingSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DataIngestionJobSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DataPreProcessingConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DataQualitySummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DataUploadFrequency.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DatasetSchema.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DatasetStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DatasetSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteDatasetRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteLabelGroupRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteLabelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteModelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteResourcePolicyRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DeleteRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeDataIngestionJobRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeDataIngestionJobResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeDatasetRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeDatasetResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeInferenceSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeLabelGroupRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeLabelGroupResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeLabelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeLabelResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeModelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeModelResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeModelVersionRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeModelVersionResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeResourcePolicyRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeResourcePolicyResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DescribeRetrainingSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\DuplicateTimestamps.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ImportDatasetRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ImportDatasetResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ImportModelVersionRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ImportModelVersionResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceDataImportStrategy.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceEventSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceExecutionStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceExecutionSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceInputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceInputNameConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceOutputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceS3InputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceS3OutputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceSchedulerStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InferenceSchedulerSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\IngestedFilesSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\IngestionInputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\IngestionJobStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\IngestionS3InputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InsufficientSensorData.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\InvalidSensorData.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LabelGroupSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LabelRating.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LabelSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LabelsInputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LabelsS3InputConfiguration.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LargeTimestampGaps.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\LatestInferenceResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListDataIngestionJobsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListDataIngestionJobsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListDatasetsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListDatasetsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceEventsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceEventsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceExecutionsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceExecutionsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceSchedulersRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListInferenceSchedulersResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListLabelGroupsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListLabelGroupsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListLabelsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListLabelsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListModelVersionsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListModelVersionsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListModelsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListModelsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListRetrainingSchedulersRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListRetrainingSchedulersResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListSensorStatisticsRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListSensorStatisticsResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\MissingCompleteSensorData.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\MissingSensorData.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelPromoteMode.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelVersionSourceType.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelVersionStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\ModelVersionSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\MonotonicValues.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\Monotonicity.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\MultipleOperatingModes.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\PutResourcePolicyRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\PutResourcePolicyResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\RetrainingSchedulerStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\RetrainingSchedulerSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\S3Object.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\SensorStatisticsSummary.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\SensorsWithShortDateRange.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartDataIngestionJobRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartDataIngestionJobResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartInferenceSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StartRetrainingSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StatisticalIssueStatus.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StopInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StopInferenceSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StopRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\StopRetrainingSchedulerResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\Tag.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\TagResourceRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\TagResourceResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\TargetSamplingRate.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UnsupportedTimestamps.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UntagResourceRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UntagResourceResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateActiveModelVersionRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateActiveModelVersionResult.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateInferenceSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateLabelGroupRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateModelRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\include\aws\lookoutequipment\model\UpdateRetrainingSchedulerRequest.h">
+      <Filter>Header Files\aws\lookoutequipment\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentEndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentEndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\LookoutEquipmentRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\AutoPromotionResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CategoricalValues.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CountPercent.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateDatasetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateDatasetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateInferenceSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateLabelGroupRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateLabelGroupResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateLabelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateLabelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateModelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\CreateRetrainingSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DataIngestionJobSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DataPreProcessingConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DataQualitySummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DataUploadFrequency.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DatasetSchema.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DatasetStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DatasetSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteDatasetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteLabelGroupRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteLabelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DeleteRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeDataIngestionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeDataIngestionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeDatasetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeDatasetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeInferenceSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeLabelGroupRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeLabelGroupResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeLabelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeLabelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeModelResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeModelVersionRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeModelVersionResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeResourcePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DescribeRetrainingSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\DuplicateTimestamps.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ImportDatasetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ImportDatasetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ImportModelVersionRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ImportModelVersionResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceDataImportStrategy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceEventSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceExecutionStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceExecutionSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceInputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceInputNameConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceOutputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceS3InputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceS3OutputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceSchedulerStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InferenceSchedulerSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\IngestedFilesSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\IngestionInputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\IngestionJobStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\IngestionS3InputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InsufficientSensorData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\InvalidSensorData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LabelGroupSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LabelRating.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LabelSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LabelsInputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LabelsS3InputConfiguration.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LargeTimestampGaps.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\LatestInferenceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListDataIngestionJobsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListDataIngestionJobsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListDatasetsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListDatasetsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceEventsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceEventsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceExecutionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceExecutionsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceSchedulersRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListInferenceSchedulersResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListLabelGroupsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListLabelGroupsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListLabelsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListLabelsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListModelVersionsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListModelVersionsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListModelsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListModelsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListRetrainingSchedulersRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListRetrainingSchedulersResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListSensorStatisticsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListSensorStatisticsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\MissingCompleteSensorData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\MissingSensorData.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelPromoteMode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelVersionSourceType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelVersionStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\ModelVersionSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\MonotonicValues.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\Monotonicity.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\MultipleOperatingModes.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\PutResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\PutResourcePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\RetrainingSchedulerStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\RetrainingSchedulerSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\S3Object.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\SensorStatisticsSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\SensorsWithShortDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartDataIngestionJobRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartDataIngestionJobResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartInferenceSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StartRetrainingSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StatisticalIssueStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StopInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StopInferenceSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StopRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\StopRetrainingSchedulerResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\TagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\TagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\TargetSamplingRate.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UnsupportedTimestamps.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UntagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UntagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateActiveModelVersionRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateActiveModelVersionResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateInferenceSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateLabelGroupRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateModelRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\source\model\UpdateRetrainingSchedulerRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\lookoutequipment">
+      <UniqueIdentifier>{E51FA8D2-3216-3EFD-9991-7C7924A3613A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\lookoutequipment\model">
+      <UniqueIdentifier>{B5AC1310-2C82-32D3-AB2B-D3BA90667F95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+includedir=include
+libdir=lib
+
+Name: aws-cpp-sdk-amplifybackend
+Description: 
+Version: 1.11.258
+Cflags: -I${includedir} 
+Libs: -L${libdir} -laws-cpp-sdk-amplifybackend 
+Libs.private: 
+Requires:  aws-cpp-sdk-core

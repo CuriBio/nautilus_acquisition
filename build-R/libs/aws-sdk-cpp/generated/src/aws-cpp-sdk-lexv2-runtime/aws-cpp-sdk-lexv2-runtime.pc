@@ -1,0 +1,10 @@
+includedir=include
+libdir=lib
+
+Name: aws-cpp-sdk-lexv2-runtime
+Description: 
+Version: 1.11.258
+Cflags: -I${includedir} 
+Libs: -L${libdir} -laws-cpp-sdk-lexv2-runtime 
+Libs.private: 
+Requires:  aws-cpp-sdk-core

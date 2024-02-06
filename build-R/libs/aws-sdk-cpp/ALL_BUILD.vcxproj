@@ -1,0 +1,1913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D464EB07-B502-3D91-BB3C-DD2EA6832A95}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\.conan\data\spdlog\1.10.0\_\_\package\70a17ef929dad20e1afdd6cf274326a965e13481\include;D:\Users\nautilus\.conan\data\cxxopts\3.0.0\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include;D:\Users\nautilus\.conan\data\toml11\3.7.1\_\_\package\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9\include\toml11;D:\Users\nautilus\.conan\data\fmt\8.1.1\_\_\package\8c0a53bc9b0a08b9311ca89254091ba7fb4f89b4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCXXSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPythonInterp.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\build_external.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\compiler_settings.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\external_dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\initialize_project_version.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\platform\windows.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\resolve_platform.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdks.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdksCommon.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\setup_cmake_find_module.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\utilities.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCXXSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPythonInterp.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\build_external.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\compiler_settings.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\external_dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\initialize_project_version.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\platform\windows.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\resolve_platform.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdks.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdksCommon.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\setup_cmake_find_module.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\utilities.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCXXSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPythonInterp.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\build_external.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\compiler_settings.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\external_dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\initialize_project_version.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\platform\windows.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\resolve_platform.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdks.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdksCommon.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\setup_cmake_find_module.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\utilities.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCXXSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPythonInterp.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\build_external.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\compiler_settings.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\external_dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\initialize_project_version.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\platform\windows.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\resolve_platform.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdks.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdksCommon.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\setup_cmake_find_module.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\utilities.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition -BD:/Users/nautilus/Desktop/nautilus_acquisition/build-R --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/build-R/libs/aws-sdk-cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCXXSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\FindPythonInterp.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\build_external.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\compiler_settings.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\external_dependencies.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\initialize_project_version.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\platform\windows.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\resolve_platform.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdks.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\sdksCommon.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\setup_cmake_find_module.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\cmake\utilities.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\ZERO_CHECK.vcxproj">
+      <Project>{2A94530D-08BD-31CA-9990-E40651266C9A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-auth\aws-c-auth.vcxproj">
+      <Project>{22E37EF3-0306-34C0-9A74-37879AC93D7A}</Project>
+      <Name>aws-c-auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-cal\aws-c-cal.vcxproj">
+      <Project>{E94ACAE8-0D7A-3B8D-86D5-0C24776E6AA6}</Project>
+      <Name>aws-c-cal</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\aws-c-common.vcxproj">
+      <Project>{C673EA41-D6DE-3AA9-9244-5857EF31C452}</Project>
+      <Name>aws-c-common</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\aws-c-compression.vcxproj">
+      <Project>{3396112C-221E-3816-8E1A-38CEEC3FC8B2}</Project>
+      <Name>aws-c-compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-event-stream\aws-c-event-stream.vcxproj">
+      <Project>{3CA794FD-542C-3D93-B7E0-9EDA1E4F7D63}</Project>
+      <Name>aws-c-event-stream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-http\aws-c-http.vcxproj">
+      <Project>{E6CF2DE3-307A-33BC-85F6-6021E50975C8}</Project>
+      <Name>aws-c-http</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-io\aws-c-io.vcxproj">
+      <Project>{02CCF586-6AE5-33BB-91A0-8F400B19C7D5}</Project>
+      <Name>aws-c-io</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-mqtt\aws-c-mqtt.vcxproj">
+      <Project>{654762F7-71A7-30C7-B1C3-2FCBE088BDBB}</Project>
+      <Name>aws-c-mqtt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-s3\aws-c-s3.vcxproj">
+      <Project>{3163E11C-01EF-3618-AD0C-D87BD0AFB39E}</Project>
+      <Name>aws-c-s3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-sdkutils\aws-c-sdkutils.vcxproj">
+      <Project>{F1BCFE56-463E-3C7A-9A75-FF364DF5363B}</Project>
+      <Name>aws-c-sdkutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-checksums\aws-checksums.vcxproj">
+      <Project>{A851E7AC-24FF-360B-8518-AFD7563F1A2D}</Project>
+      <Name>aws-checksums</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-AWSMigrationHub\aws-cpp-sdk-AWSMigrationHub.vcxproj">
+      <Project>{01BD67DE-EA60-38EB-A79B-B36B352E8152}</Project>
+      <Name>aws-cpp-sdk-AWSMigrationHub</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-access-management\aws-cpp-sdk-access-management.vcxproj">
+      <Project>{7CE4CC70-7F74-327B-A4C1-F1D5FCF6CEEE}</Project>
+      <Name>aws-cpp-sdk-access-management</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-accessanalyzer\aws-cpp-sdk-accessanalyzer.vcxproj">
+      <Project>{15A9441E-331B-3342-9ACF-3A8A10F55FBD}</Project>
+      <Name>aws-cpp-sdk-accessanalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-account\aws-cpp-sdk-account.vcxproj">
+      <Project>{76C798CB-199F-387A-A0D2-26B0AF563CCA}</Project>
+      <Name>aws-cpp-sdk-account</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-acm\aws-cpp-sdk-acm.vcxproj">
+      <Project>{CEEB5AF1-5461-319B-ADB6-7DEC4840FEFA}</Project>
+      <Name>aws-cpp-sdk-acm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-acm-pca\aws-cpp-sdk-acm-pca.vcxproj">
+      <Project>{7FE7CB3A-C7A6-315C-84FA-15414686FF5A}</Project>
+      <Name>aws-cpp-sdk-acm-pca</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-alexaforbusiness\aws-cpp-sdk-alexaforbusiness.vcxproj">
+      <Project>{6EE40625-1896-3759-A1D1-28F05E89B325}</Project>
+      <Name>aws-cpp-sdk-alexaforbusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-amp\aws-cpp-sdk-amp.vcxproj">
+      <Project>{135B5882-AE05-367D-B407-873DFD4FB5AB}</Project>
+      <Name>aws-cpp-sdk-amp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-amplify\aws-cpp-sdk-amplify.vcxproj">
+      <Project>{4C4C8308-5B6B-3EE8-8312-8001997732E0}</Project>
+      <Name>aws-cpp-sdk-amplify</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-amplifybackend\aws-cpp-sdk-amplifybackend.vcxproj">
+      <Project>{2E9D6534-F88C-31F1-9C9E-59124A9F8724}</Project>
+      <Name>aws-cpp-sdk-amplifybackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-amplifyuibuilder\aws-cpp-sdk-amplifyuibuilder.vcxproj">
+      <Project>{763B876F-0398-361D-8FD8-604E9073E84C}</Project>
+      <Name>aws-cpp-sdk-amplifyuibuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-apigateway\aws-cpp-sdk-apigateway.vcxproj">
+      <Project>{069D489E-6FB2-3DD4-BF0E-39F92E9650CE}</Project>
+      <Name>aws-cpp-sdk-apigateway</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-apigatewaymanagementapi\aws-cpp-sdk-apigatewaymanagementapi.vcxproj">
+      <Project>{2F3FB28E-3C99-3619-B5ED-869DBE765AB3}</Project>
+      <Name>aws-cpp-sdk-apigatewaymanagementapi</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-apigatewayv2\aws-cpp-sdk-apigatewayv2.vcxproj">
+      <Project>{3C5EAB3C-C819-39B3-AAF1-8CD84A3582FC}</Project>
+      <Name>aws-cpp-sdk-apigatewayv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appconfig\aws-cpp-sdk-appconfig.vcxproj">
+      <Project>{D166241B-0CE3-35A4-B440-89CB7793039E}</Project>
+      <Name>aws-cpp-sdk-appconfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appconfigdata\aws-cpp-sdk-appconfigdata.vcxproj">
+      <Project>{8E090740-454C-3FBE-8A9F-933E25AAC02B}</Project>
+      <Name>aws-cpp-sdk-appconfigdata</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appfabric\aws-cpp-sdk-appfabric.vcxproj">
+      <Project>{927E8254-55AC-32F8-9279-BC5B4EB9A42B}</Project>
+      <Name>aws-cpp-sdk-appfabric</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appflow\aws-cpp-sdk-appflow.vcxproj">
+      <Project>{29FEF90E-B6C6-3AFA-BD60-0EC378B4AC96}</Project>
+      <Name>aws-cpp-sdk-appflow</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appintegrations\aws-cpp-sdk-appintegrations.vcxproj">
+      <Project>{A3282D3D-C0B2-3EE9-AF09-6FB2FFB5473F}</Project>
+      <Name>aws-cpp-sdk-appintegrations</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-application-autoscaling\aws-cpp-sdk-application-autoscaling.vcxproj">
+      <Project>{70A66C0F-4F10-3F72-BDF7-8C459B3F869A}</Project>
+      <Name>aws-cpp-sdk-application-autoscaling</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-application-insights\aws-cpp-sdk-application-insights.vcxproj">
+      <Project>{F9085744-E1A5-3130-BC0A-427356918378}</Project>
+      <Name>aws-cpp-sdk-application-insights</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-applicationcostprofiler\aws-cpp-sdk-applicationcostprofiler.vcxproj">
+      <Project>{3D84DDF0-5AEB-39B3-9628-544A816DD44D}</Project>
+      <Name>aws-cpp-sdk-applicationcostprofiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appmesh\aws-cpp-sdk-appmesh.vcxproj">
+      <Project>{A388218B-E1E5-3669-A799-03A064777C41}</Project>
+      <Name>aws-cpp-sdk-appmesh</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-apprunner\aws-cpp-sdk-apprunner.vcxproj">
+      <Project>{30BAEBF0-ED31-30D8-A421-CA5EA83448D3}</Project>
+      <Name>aws-cpp-sdk-apprunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appstream\aws-cpp-sdk-appstream.vcxproj">
+      <Project>{B7A5176B-F8E9-32B2-A82B-E9E98E2B5D9A}</Project>
+      <Name>aws-cpp-sdk-appstream</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-appsync\aws-cpp-sdk-appsync.vcxproj">
+      <Project>{AE7AA1A2-A5A7-3BF1-93B5-88CD09AB1DD0}</Project>
+      <Name>aws-cpp-sdk-appsync</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-arc-zonal-shift\aws-cpp-sdk-arc-zonal-shift.vcxproj">
+      <Project>{C31DE63F-321B-3A7E-8352-E947DA68021A}</Project>
+      <Name>aws-cpp-sdk-arc-zonal-shift</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-athena\aws-cpp-sdk-athena.vcxproj">
+      <Project>{2DEA4A2C-3029-35F0-8D2F-9F072D630864}</Project>
+      <Name>aws-cpp-sdk-athena</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-auditmanager\aws-cpp-sdk-auditmanager.vcxproj">
+      <Project>{1C2ABF6A-A61F-313C-AD19-E8181DACE22E}</Project>
+      <Name>aws-cpp-sdk-auditmanager</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-autoscaling\aws-cpp-sdk-autoscaling.vcxproj">
+      <Project>{74FFC8B4-8914-30CF-AF8A-8B7A64931261}</Project>
+      <Name>aws-cpp-sdk-autoscaling</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-autoscaling-plans\aws-cpp-sdk-autoscaling-plans.vcxproj">
+      <Project>{2B9C6C17-546F-3B32-A445-2FADCE5A6A71}</Project>
+      <Name>aws-cpp-sdk-autoscaling-plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-awstransfer\aws-cpp-sdk-awstransfer.vcxproj">
+      <Project>{4134D923-67D1-3B22-BD88-58946FDAA466}</Project>
+      <Name>aws-cpp-sdk-awstransfer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-b2bi\aws-cpp-sdk-b2bi.vcxproj">
+      <Project>{C8A7274D-D346-3928-BBEC-260A2DAA0F8B}</Project>
+      <Name>aws-cpp-sdk-b2bi</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-backup\aws-cpp-sdk-backup.vcxproj">
+      <Project>{1A34542F-9CC3-3C4D-91C2-443B2E5D704E}</Project>
+      <Name>aws-cpp-sdk-backup</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-backup-gateway\aws-cpp-sdk-backup-gateway.vcxproj">
+      <Project>{8D36343C-F829-3AF2-A314-6E998DA5AB88}</Project>
+      <Name>aws-cpp-sdk-backup-gateway</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-backupstorage\aws-cpp-sdk-backupstorage.vcxproj">
+      <Project>{623D2EC7-8FE3-38E4-A3B5-6B47CCC6AD2D}</Project>
+      <Name>aws-cpp-sdk-backupstorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-batch\aws-cpp-sdk-batch.vcxproj">
+      <Project>{DC5EC478-2DDC-3D8F-BC20-262A50991355}</Project>
+      <Name>aws-cpp-sdk-batch</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-bcm-data-exports\aws-cpp-sdk-bcm-data-exports.vcxproj">
+      <Project>{0C90E614-CBA6-3D09-8EFA-FA822135A454}</Project>
+      <Name>aws-cpp-sdk-bcm-data-exports</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-bedrock\aws-cpp-sdk-bedrock.vcxproj">
+      <Project>{0B8F9589-BFD9-3379-92BA-A68AD9C09BFF}</Project>
+      <Name>aws-cpp-sdk-bedrock</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-bedrock-agent\aws-cpp-sdk-bedrock-agent.vcxproj">
+      <Project>{75B366F2-87BD-3145-AE18-8D81002313D1}</Project>
+      <Name>aws-cpp-sdk-bedrock-agent</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-bedrock-agent-runtime\aws-cpp-sdk-bedrock-agent-runtime.vcxproj">
+      <Project>{31198E88-0865-371D-995E-EFD9E1B068EE}</Project>
+      <Name>aws-cpp-sdk-bedrock-agent-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-bedrock-runtime\aws-cpp-sdk-bedrock-runtime.vcxproj">
+      <Project>{EBC683B3-670B-34FF-9C6D-55C8E4C808AC}</Project>
+      <Name>aws-cpp-sdk-bedrock-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-billingconductor\aws-cpp-sdk-billingconductor.vcxproj">
+      <Project>{EDA38C24-630A-32D3-ACBA-916D169F4B2F}</Project>
+      <Name>aws-cpp-sdk-billingconductor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-braket\aws-cpp-sdk-braket.vcxproj">
+      <Project>{AFB073AD-A34D-36EA-8A4E-62477CA328E8}</Project>
+      <Name>aws-cpp-sdk-braket</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-budgets\aws-cpp-sdk-budgets.vcxproj">
+      <Project>{D0877B23-EA25-350A-B33B-56DEEC90879D}</Project>
+      <Name>aws-cpp-sdk-budgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ce\aws-cpp-sdk-ce.vcxproj">
+      <Project>{DDD4EA24-74B1-30D0-ABA7-204797D125CE}</Project>
+      <Name>aws-cpp-sdk-ce</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime\aws-cpp-sdk-chime.vcxproj">
+      <Project>{60187942-40B0-3090-8C7C-1A918A391494}</Project>
+      <Name>aws-cpp-sdk-chime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime-sdk-identity\aws-cpp-sdk-chime-sdk-identity.vcxproj">
+      <Project>{F4CCF332-A6AD-385D-B1C3-308BA822E1C9}</Project>
+      <Name>aws-cpp-sdk-chime-sdk-identity</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime-sdk-media-pipelines\aws-cpp-sdk-chime-sdk-media-pipelines.vcxproj">
+      <Project>{33E24D73-9EAA-300D-A98F-9FB82D0BA5FA}</Project>
+      <Name>aws-cpp-sdk-chime-sdk-media-pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime-sdk-meetings\aws-cpp-sdk-chime-sdk-meetings.vcxproj">
+      <Project>{34FAD8E6-B004-3A57-B6A9-3FC456BE5DA0}</Project>
+      <Name>aws-cpp-sdk-chime-sdk-meetings</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime-sdk-messaging\aws-cpp-sdk-chime-sdk-messaging.vcxproj">
+      <Project>{9995D4B0-0A06-3635-8D4D-6F7F2B0FFBB4}</Project>
+      <Name>aws-cpp-sdk-chime-sdk-messaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-chime-sdk-voice\aws-cpp-sdk-chime-sdk-voice.vcxproj">
+      <Project>{7E29F8F9-9954-310A-95C0-ACA6A47D72C3}</Project>
+      <Name>aws-cpp-sdk-chime-sdk-voice</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cleanrooms\aws-cpp-sdk-cleanrooms.vcxproj">
+      <Project>{0499A50D-6B61-3D87-A973-5E4477C23625}</Project>
+      <Name>aws-cpp-sdk-cleanrooms</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cleanroomsml\aws-cpp-sdk-cleanroomsml.vcxproj">
+      <Project>{421392EA-C46B-3A09-8311-4B92CB580DA4}</Project>
+      <Name>aws-cpp-sdk-cleanroomsml</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloud9\aws-cpp-sdk-cloud9.vcxproj">
+      <Project>{CC9EDC1A-84E8-391C-AD3C-FE513A6E53A2}</Project>
+      <Name>aws-cpp-sdk-cloud9</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudcontrol\aws-cpp-sdk-cloudcontrol.vcxproj">
+      <Project>{3BA93C79-7329-3C80-8FFC-9580BEAD363E}</Project>
+      <Name>aws-cpp-sdk-cloudcontrol</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-clouddirectory\aws-cpp-sdk-clouddirectory.vcxproj">
+      <Project>{B254B434-023B-3644-84E8-03ACCFBAB880}</Project>
+      <Name>aws-cpp-sdk-clouddirectory</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudformation\aws-cpp-sdk-cloudformation.vcxproj">
+      <Project>{3F37F73A-ED84-3A57-8D89-042F0E98F12F}</Project>
+      <Name>aws-cpp-sdk-cloudformation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudfront\aws-cpp-sdk-cloudfront.vcxproj">
+      <Project>{F4EBA70F-0A0E-3DF2-9502-3F1A487DE9A1}</Project>
+      <Name>aws-cpp-sdk-cloudfront</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-cloudfront-integration-tests\aws-cpp-sdk-cloudfront-integration-tests.vcxproj">
+      <Project>{7163AFE4-F414-3B92-B50F-91E9DB2607B4}</Project>
+      <Name>aws-cpp-sdk-cloudfront-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudfront-keyvaluestore\aws-cpp-sdk-cloudfront-keyvaluestore.vcxproj">
+      <Project>{85F65B7C-F8F5-3D2B-A756-23E5463DA200}</Project>
+      <Name>aws-cpp-sdk-cloudfront-keyvaluestore</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudhsm\aws-cpp-sdk-cloudhsm.vcxproj">
+      <Project>{6FAC3EE9-10CC-3FDC-8C22-5854DCAF4E92}</Project>
+      <Name>aws-cpp-sdk-cloudhsm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudhsmv2\aws-cpp-sdk-cloudhsmv2.vcxproj">
+      <Project>{00D8CFD9-98E4-3FB0-A8D4-1582DB1AF20A}</Project>
+      <Name>aws-cpp-sdk-cloudhsmv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudsearch\aws-cpp-sdk-cloudsearch.vcxproj">
+      <Project>{F365186F-4DF9-32FE-ACB0-CE63CD1C991B}</Project>
+      <Name>aws-cpp-sdk-cloudsearch</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudsearchdomain\aws-cpp-sdk-cloudsearchdomain.vcxproj">
+      <Project>{7D90A7CC-6416-3232-AF6B-D0D30DEB50B3}</Project>
+      <Name>aws-cpp-sdk-cloudsearchdomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudtrail\aws-cpp-sdk-cloudtrail.vcxproj">
+      <Project>{0531E818-003E-3803-8E64-A8985440C7BF}</Project>
+      <Name>aws-cpp-sdk-cloudtrail</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cloudtrail-data\aws-cpp-sdk-cloudtrail-data.vcxproj">
+      <Project>{EF0C6B79-2E00-39D0-8BD2-011FC7CCE08E}</Project>
+      <Name>aws-cpp-sdk-cloudtrail-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codeartifact\aws-cpp-sdk-codeartifact.vcxproj">
+      <Project>{DEDDE659-6853-3B38-B0BC-9A85504D9033}</Project>
+      <Name>aws-cpp-sdk-codeartifact</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codebuild\aws-cpp-sdk-codebuild.vcxproj">
+      <Project>{321BF048-7E73-3E6C-881A-DBF9A7A9BBBD}</Project>
+      <Name>aws-cpp-sdk-codebuild</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codecatalyst\aws-cpp-sdk-codecatalyst.vcxproj">
+      <Project>{38CE1D4B-6384-3863-B062-EA3829574DFB}</Project>
+      <Name>aws-cpp-sdk-codecatalyst</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codecommit\aws-cpp-sdk-codecommit.vcxproj">
+      <Project>{72CB0584-B162-3E0B-8BB7-A046A45E03A4}</Project>
+      <Name>aws-cpp-sdk-codecommit</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codedeploy\aws-cpp-sdk-codedeploy.vcxproj">
+      <Project>{B5E2040F-CECC-35B2-B981-C0DEAAFE8D9F}</Project>
+      <Name>aws-cpp-sdk-codedeploy</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codeguru-reviewer\aws-cpp-sdk-codeguru-reviewer.vcxproj">
+      <Project>{B8CA488A-348A-30B9-9F44-7EF05EC9C03B}</Project>
+      <Name>aws-cpp-sdk-codeguru-reviewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codeguru-security\aws-cpp-sdk-codeguru-security.vcxproj">
+      <Project>{0971A628-80E5-35A8-AA8F-BAA177703C3A}</Project>
+      <Name>aws-cpp-sdk-codeguru-security</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codeguruprofiler\aws-cpp-sdk-codeguruprofiler.vcxproj">
+      <Project>{5741A4E8-5AC7-385C-925B-8CCC0490B09D}</Project>
+      <Name>aws-cpp-sdk-codeguruprofiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codepipeline\aws-cpp-sdk-codepipeline.vcxproj">
+      <Project>{18580A2E-FC86-3377-A6E7-2ED02BCC91EE}</Project>
+      <Name>aws-cpp-sdk-codepipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codestar\aws-cpp-sdk-codestar.vcxproj">
+      <Project>{11D5DACE-3554-3D4C-92DF-A2F242681D18}</Project>
+      <Name>aws-cpp-sdk-codestar</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codestar-connections\aws-cpp-sdk-codestar-connections.vcxproj">
+      <Project>{6378252E-3E41-30CB-A92A-CE823B500628}</Project>
+      <Name>aws-cpp-sdk-codestar-connections</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-codestar-notifications\aws-cpp-sdk-codestar-notifications.vcxproj">
+      <Project>{4C670C70-E664-3E6A-AD49-C04231BBB66B}</Project>
+      <Name>aws-cpp-sdk-codestar-notifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cognito-identity\aws-cpp-sdk-cognito-identity.vcxproj">
+      <Project>{23CACBC7-75DA-3E4C-9E73-F8ED75B3C4CA}</Project>
+      <Name>aws-cpp-sdk-cognito-identity</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cognito-idp\aws-cpp-sdk-cognito-idp.vcxproj">
+      <Project>{EC438068-747B-3A4F-96BB-4F4E972FAE62}</Project>
+      <Name>aws-cpp-sdk-cognito-idp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cognito-sync\aws-cpp-sdk-cognito-sync.vcxproj">
+      <Project>{5312A788-E6C7-3DE6-B72E-DE9FF06D147E}</Project>
+      <Name>aws-cpp-sdk-cognito-sync</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-cognitoidentity-integration-tests\aws-cpp-sdk-cognitoidentity-integration-tests.vcxproj">
+      <Project>{14E4D1FD-F003-3702-960E-7D698D363055}</Project>
+      <Name>aws-cpp-sdk-cognitoidentity-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-comprehend\aws-cpp-sdk-comprehend.vcxproj">
+      <Project>{93F54717-9E23-3F3E-8F39-BB0D10658481}</Project>
+      <Name>aws-cpp-sdk-comprehend</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-comprehendmedical\aws-cpp-sdk-comprehendmedical.vcxproj">
+      <Project>{96378B81-FD4C-306B-90AE-8404BF815E27}</Project>
+      <Name>aws-cpp-sdk-comprehendmedical</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-compute-optimizer\aws-cpp-sdk-compute-optimizer.vcxproj">
+      <Project>{D7772531-9FBB-351D-94C5-CB030B1DD353}</Project>
+      <Name>aws-cpp-sdk-compute-optimizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-config\aws-cpp-sdk-config.vcxproj">
+      <Project>{53760027-966E-3B2A-B738-76046F950089}</Project>
+      <Name>aws-cpp-sdk-config</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-connect\aws-cpp-sdk-connect.vcxproj">
+      <Project>{F5B25B67-2DCE-3BC6-880D-FE8346798438}</Project>
+      <Name>aws-cpp-sdk-connect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-connect-contact-lens\aws-cpp-sdk-connect-contact-lens.vcxproj">
+      <Project>{8BECCFE0-4A03-3294-93D9-3A290CFE7B4A}</Project>
+      <Name>aws-cpp-sdk-connect-contact-lens</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-connectcampaigns\aws-cpp-sdk-connectcampaigns.vcxproj">
+      <Project>{A19580C6-FFA2-382D-B279-622AFBDB2247}</Project>
+      <Name>aws-cpp-sdk-connectcampaigns</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-connectcases\aws-cpp-sdk-connectcases.vcxproj">
+      <Project>{213E552B-C284-3FEE-9493-1078D5CC1E5C}</Project>
+      <Name>aws-cpp-sdk-connectcases</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-connectparticipant\aws-cpp-sdk-connectparticipant.vcxproj">
+      <Project>{C4ECE8E0-6B95-348C-814C-6EC9E92864F7}</Project>
+      <Name>aws-cpp-sdk-connectparticipant</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-controltower\aws-cpp-sdk-controltower.vcxproj">
+      <Project>{9FA5B141-C87F-3565-BD06-5CF76C87EA3F}</Project>
+      <Name>aws-cpp-sdk-controltower</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-core\aws-cpp-sdk-core.vcxproj">
+      <Project>{2ECED905-A43F-3805-96CB-79ACDBEC7BC2}</Project>
+      <Name>aws-cpp-sdk-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-core-tests\aws-cpp-sdk-core-tests.vcxproj">
+      <Project>{FFC7E1D3-F633-3A71-B159-2C7A89FC4B11}</Project>
+      <Name>aws-cpp-sdk-core-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cost-optimization-hub\aws-cpp-sdk-cost-optimization-hub.vcxproj">
+      <Project>{AAC03945-ADCF-3572-99CE-4F17D7E8365A}</Project>
+      <Name>aws-cpp-sdk-cost-optimization-hub</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-cur\aws-cpp-sdk-cur.vcxproj">
+      <Project>{8F0D2EBF-7776-36D0-AD27-C5CDCB4A8620}</Project>
+      <Name>aws-cpp-sdk-cur</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-customer-profiles\aws-cpp-sdk-customer-profiles.vcxproj">
+      <Project>{A4B33C3D-9A19-35E8-AE5C-1A26A46B3F34}</Project>
+      <Name>aws-cpp-sdk-customer-profiles</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-databrew\aws-cpp-sdk-databrew.vcxproj">
+      <Project>{EF99BF0E-2AC8-322B-9A6B-79A53CBDD970}</Project>
+      <Name>aws-cpp-sdk-databrew</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dataexchange\aws-cpp-sdk-dataexchange.vcxproj">
+      <Project>{19F93BBB-3C50-353D-B974-CBACF18B5F2B}</Project>
+      <Name>aws-cpp-sdk-dataexchange</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-datapipeline\aws-cpp-sdk-datapipeline.vcxproj">
+      <Project>{789D9FD5-1431-3275-ACCA-9BCF9709B5E8}</Project>
+      <Name>aws-cpp-sdk-datapipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-datasync\aws-cpp-sdk-datasync.vcxproj">
+      <Project>{7D4A618A-AC70-3335-8D63-79F99E7F024E}</Project>
+      <Name>aws-cpp-sdk-datasync</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-datazone\aws-cpp-sdk-datazone.vcxproj">
+      <Project>{15CC6E97-B0A5-3028-BC1F-B8701885125D}</Project>
+      <Name>aws-cpp-sdk-datazone</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dax\aws-cpp-sdk-dax.vcxproj">
+      <Project>{9E10EFAB-F542-34E6-94E6-3B03C077A2F8}</Project>
+      <Name>aws-cpp-sdk-dax</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-detective\aws-cpp-sdk-detective.vcxproj">
+      <Project>{C5E08783-D8B2-3206-AED0-D42CA1A23030}</Project>
+      <Name>aws-cpp-sdk-detective</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-devicefarm\aws-cpp-sdk-devicefarm.vcxproj">
+      <Project>{B43FD44F-F618-3718-B455-B5A49AD43F9C}</Project>
+      <Name>aws-cpp-sdk-devicefarm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-devops-guru\aws-cpp-sdk-devops-guru.vcxproj">
+      <Project>{F1429B33-6D30-3EB9-9176-269B25193D55}</Project>
+      <Name>aws-cpp-sdk-devops-guru</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-directconnect\aws-cpp-sdk-directconnect.vcxproj">
+      <Project>{57FEE584-C651-327A-B5B2-1C2271606E7D}</Project>
+      <Name>aws-cpp-sdk-directconnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-discovery\aws-cpp-sdk-discovery.vcxproj">
+      <Project>{9E69018F-15A3-3C73-827B-E96AD25ECB48}</Project>
+      <Name>aws-cpp-sdk-discovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dlm\aws-cpp-sdk-dlm.vcxproj">
+      <Project>{B5FAE725-2CD5-3614-8DA1-5AAA7A28B318}</Project>
+      <Name>aws-cpp-sdk-dlm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dms\aws-cpp-sdk-dms.vcxproj">
+      <Project>{7EB62BF7-2A46-33D4-A40C-81F04DC0E219}</Project>
+      <Name>aws-cpp-sdk-dms</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-docdb\aws-cpp-sdk-docdb.vcxproj">
+      <Project>{A7353212-42A3-3575-837A-D2C1520EB402}</Project>
+      <Name>aws-cpp-sdk-docdb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-docdb-elastic\aws-cpp-sdk-docdb-elastic.vcxproj">
+      <Project>{0CF3DE61-DED0-3DBC-B2AF-697125B29C15}</Project>
+      <Name>aws-cpp-sdk-docdb-elastic</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-drs\aws-cpp-sdk-drs.vcxproj">
+      <Project>{3F8291E8-00B6-32A1-8245-9561DFCDDF26}</Project>
+      <Name>aws-cpp-sdk-drs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ds\aws-cpp-sdk-ds.vcxproj">
+      <Project>{35654375-4DFC-3154-952A-8BE76AD0B0EE}</Project>
+      <Name>aws-cpp-sdk-ds</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dynamodb\aws-cpp-sdk-dynamodb.vcxproj">
+      <Project>{BD72DC7A-A806-3B8C-B62B-B4629750A8C3}</Project>
+      <Name>aws-cpp-sdk-dynamodb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-dynamodb-integration-tests\aws-cpp-sdk-dynamodb-integration-tests.vcxproj">
+      <Project>{D4907F91-7FF6-31B6-91E5-4B454F7F4CF2}</Project>
+      <Name>aws-cpp-sdk-dynamodb-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-dynamodbstreams\aws-cpp-sdk-dynamodbstreams.vcxproj">
+      <Project>{1398DA1B-D397-33C8-BC03-D1D89B167267}</Project>
+      <Name>aws-cpp-sdk-dynamodbstreams</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ebs\aws-cpp-sdk-ebs.vcxproj">
+      <Project>{EE3A289F-81E3-38C3-AB9B-728E425D1518}</Project>
+      <Name>aws-cpp-sdk-ebs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ec2\aws-cpp-sdk-ec2.vcxproj">
+      <Project>{525517AB-788E-3B00-8310-EED2E17F1EA3}</Project>
+      <Name>aws-cpp-sdk-ec2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ec2-instance-connect\aws-cpp-sdk-ec2-instance-connect.vcxproj">
+      <Project>{270B2E3D-406C-3CE1-B678-FC1C752FA7D1}</Project>
+      <Name>aws-cpp-sdk-ec2-instance-connect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-ec2-integration-tests\aws-cpp-sdk-ec2-integration-tests.vcxproj">
+      <Project>{08865A37-9F7E-3F61-9246-C41529DE7714}</Project>
+      <Name>aws-cpp-sdk-ec2-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr\aws-cpp-sdk-ecr.vcxproj">
+      <Project>{A7257269-5614-3AD3-B925-D450735AC73A}</Project>
+      <Name>aws-cpp-sdk-ecr</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecr-public\aws-cpp-sdk-ecr-public.vcxproj">
+      <Project>{1AB37020-13C6-380C-93F5-B2EBD43C6AA9}</Project>
+      <Name>aws-cpp-sdk-ecr-public</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ecs\aws-cpp-sdk-ecs.vcxproj">
+      <Project>{F4CC54EE-2FAC-3614-ADE8-E4FC93A3DDAD}</Project>
+      <Name>aws-cpp-sdk-ecs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-eks\aws-cpp-sdk-eks.vcxproj">
+      <Project>{ED9E4200-C056-3C6B-BA00-8BCA597DD88C}</Project>
+      <Name>aws-cpp-sdk-eks</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-eks-auth\aws-cpp-sdk-eks-auth.vcxproj">
+      <Project>{36A89DCF-9DE5-35C6-84A6-7BC55D9D551B}</Project>
+      <Name>aws-cpp-sdk-eks-auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elastic-inference\aws-cpp-sdk-elastic-inference.vcxproj">
+      <Project>{1FFDBFC1-56A4-3B04-8121-1431FC0BE4D3}</Project>
+      <Name>aws-cpp-sdk-elastic-inference</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticache\aws-cpp-sdk-elasticache.vcxproj">
+      <Project>{6C4C22CC-AAE3-3E6C-A4A7-328D8F61401E}</Project>
+      <Name>aws-cpp-sdk-elasticache</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticbeanstalk\aws-cpp-sdk-elasticbeanstalk.vcxproj">
+      <Project>{F1B64BD9-2906-30DB-9A9E-0E7F54354285}</Project>
+      <Name>aws-cpp-sdk-elasticbeanstalk</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticfilesystem\aws-cpp-sdk-elasticfilesystem.vcxproj">
+      <Project>{F29F4DA8-F552-323F-AA94-DC37AEC4A3BB}</Project>
+      <Name>aws-cpp-sdk-elasticfilesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-elasticfilesystem-integration-tests\aws-cpp-sdk-elasticfilesystem-integration-tests.vcxproj">
+      <Project>{CAA7EF22-33D1-3854-84CA-4C4A8A6497B6}</Project>
+      <Name>aws-cpp-sdk-elasticfilesystem-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticloadbalancing\aws-cpp-sdk-elasticloadbalancing.vcxproj">
+      <Project>{B4807FE8-0E8A-34A6-8D32-63F2662B416A}</Project>
+      <Name>aws-cpp-sdk-elasticloadbalancing</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticloadbalancingv2\aws-cpp-sdk-elasticloadbalancingv2.vcxproj">
+      <Project>{4A7C5AF2-8816-3900-8DAC-FFB008637529}</Project>
+      <Name>aws-cpp-sdk-elasticloadbalancingv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elasticmapreduce\aws-cpp-sdk-elasticmapreduce.vcxproj">
+      <Project>{C3D2D5F2-8CF1-39CE-8C88-7AACB9A8E158}</Project>
+      <Name>aws-cpp-sdk-elasticmapreduce</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-elastictranscoder\aws-cpp-sdk-elastictranscoder.vcxproj">
+      <Project>{6423413B-6DE4-35C2-825B-AD000E6700AB}</Project>
+      <Name>aws-cpp-sdk-elastictranscoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-email\aws-cpp-sdk-email.vcxproj">
+      <Project>{946570CC-3959-3801-8046-EEB3C0C9D853}</Project>
+      <Name>aws-cpp-sdk-email</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-emr-containers\aws-cpp-sdk-emr-containers.vcxproj">
+      <Project>{0F272B9A-7BF1-3F5C-AA5A-EB37C92E09AE}</Project>
+      <Name>aws-cpp-sdk-emr-containers</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-emr-serverless\aws-cpp-sdk-emr-serverless.vcxproj">
+      <Project>{DF916DFC-7926-305C-AFDA-5A4D82A19D21}</Project>
+      <Name>aws-cpp-sdk-emr-serverless</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-entityresolution\aws-cpp-sdk-entityresolution.vcxproj">
+      <Project>{C20207E1-9BC7-3D79-9239-F7C34C830E44}</Project>
+      <Name>aws-cpp-sdk-entityresolution</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-es\aws-cpp-sdk-es.vcxproj">
+      <Project>{38F3BDA6-9212-34FC-84D5-D2343C55DD18}</Project>
+      <Name>aws-cpp-sdk-es</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-eventbridge\aws-cpp-sdk-eventbridge.vcxproj">
+      <Project>{BD9490AE-27B7-31B1-A284-56984A24072E}</Project>
+      <Name>aws-cpp-sdk-eventbridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-eventbridge-tests\aws-cpp-sdk-eventbridge-tests.vcxproj">
+      <Project>{AA682CF4-80BB-3134-9A82-CE77E9F6A935}</Project>
+      <Name>aws-cpp-sdk-eventbridge-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-events\aws-cpp-sdk-events.vcxproj">
+      <Project>{BC4F7A46-A658-3B6C-9327-E06C3EE194EA}</Project>
+      <Name>aws-cpp-sdk-events</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-evidently\aws-cpp-sdk-evidently.vcxproj">
+      <Project>{729DF9A3-5759-3478-BF3D-50D1E0DA4E84}</Project>
+      <Name>aws-cpp-sdk-evidently</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-finspace\aws-cpp-sdk-finspace.vcxproj">
+      <Project>{E69AB8FE-5144-343E-9512-7270375E0F48}</Project>
+      <Name>aws-cpp-sdk-finspace</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-finspace-data\aws-cpp-sdk-finspace-data.vcxproj">
+      <Project>{CDD02BB2-1286-336D-B870-0DC33B9E98DE}</Project>
+      <Name>aws-cpp-sdk-finspace-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-firehose\aws-cpp-sdk-firehose.vcxproj">
+      <Project>{DAA1B930-214D-350F-8BDE-4263BAB3E6A7}</Project>
+      <Name>aws-cpp-sdk-firehose</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-fis\aws-cpp-sdk-fis.vcxproj">
+      <Project>{E6AD6509-B849-397A-89D5-84CE99A6C160}</Project>
+      <Name>aws-cpp-sdk-fis</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-fms\aws-cpp-sdk-fms.vcxproj">
+      <Project>{3838C945-363F-3DFB-958E-19D5B4BE111E}</Project>
+      <Name>aws-cpp-sdk-fms</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-forecast\aws-cpp-sdk-forecast.vcxproj">
+      <Project>{34500D3E-3FB1-36D8-80F2-6F6035ACB512}</Project>
+      <Name>aws-cpp-sdk-forecast</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-forecastquery\aws-cpp-sdk-forecastquery.vcxproj">
+      <Project>{86C2F756-620E-30EA-BFF8-667755A6061A}</Project>
+      <Name>aws-cpp-sdk-forecastquery</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-frauddetector\aws-cpp-sdk-frauddetector.vcxproj">
+      <Project>{F7CCC2C1-D026-3032-9221-FB9EA4257358}</Project>
+      <Name>aws-cpp-sdk-frauddetector</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-freetier\aws-cpp-sdk-freetier.vcxproj">
+      <Project>{102B65FC-E1FF-3391-A788-F972C74E5816}</Project>
+      <Name>aws-cpp-sdk-freetier</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-fsx\aws-cpp-sdk-fsx.vcxproj">
+      <Project>{1EA14420-8F62-3D64-A8E2-6228864C2F0D}</Project>
+      <Name>aws-cpp-sdk-fsx</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-gamelift\aws-cpp-sdk-gamelift.vcxproj">
+      <Project>{48C115E7-41FB-34C7-8564-A903C3A4EEC3}</Project>
+      <Name>aws-cpp-sdk-gamelift</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-glacier\aws-cpp-sdk-glacier.vcxproj">
+      <Project>{7E87308D-D50C-33D2-8DAE-7BFBCD4983F3}</Project>
+      <Name>aws-cpp-sdk-glacier</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-globalaccelerator\aws-cpp-sdk-globalaccelerator.vcxproj">
+      <Project>{B22D924C-4D6E-3145-950D-B11B381E9785}</Project>
+      <Name>aws-cpp-sdk-globalaccelerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-glue\aws-cpp-sdk-glue.vcxproj">
+      <Project>{3FE96FBC-736E-3EC4-8DE4-EC1559C45E3E}</Project>
+      <Name>aws-cpp-sdk-glue</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-grafana\aws-cpp-sdk-grafana.vcxproj">
+      <Project>{206D3916-00B6-3971-9FE0-9CA5E125CD0C}</Project>
+      <Name>aws-cpp-sdk-grafana</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-greengrass\aws-cpp-sdk-greengrass.vcxproj">
+      <Project>{4AA98968-F890-30CF-9A2B-3F1EF8629BFB}</Project>
+      <Name>aws-cpp-sdk-greengrass</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-greengrassv2\aws-cpp-sdk-greengrassv2.vcxproj">
+      <Project>{EA422178-B419-3E0C-B1B8-491B1DD02C6B}</Project>
+      <Name>aws-cpp-sdk-greengrassv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-groundstation\aws-cpp-sdk-groundstation.vcxproj">
+      <Project>{F2302082-AA5F-3A16-A781-EC2AE20E76A5}</Project>
+      <Name>aws-cpp-sdk-groundstation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-guardduty\aws-cpp-sdk-guardduty.vcxproj">
+      <Project>{FF2F088C-07F9-3162-9AE3-F1F1E04087C2}</Project>
+      <Name>aws-cpp-sdk-guardduty</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-health\aws-cpp-sdk-health.vcxproj">
+      <Project>{63622082-BA4D-3E6F-8F43-6FEF840E1089}</Project>
+      <Name>aws-cpp-sdk-health</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-healthlake\aws-cpp-sdk-healthlake.vcxproj">
+      <Project>{1B7DCBEC-D66A-34C0-8FBE-F0E7EC7D79E1}</Project>
+      <Name>aws-cpp-sdk-healthlake</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-honeycode\aws-cpp-sdk-honeycode.vcxproj">
+      <Project>{6103E71A-BC2F-386F-A6A4-433C4F573DED}</Project>
+      <Name>aws-cpp-sdk-honeycode</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iam\aws-cpp-sdk-iam.vcxproj">
+      <Project>{CDCEEA7E-777B-32BF-A4BA-1256193FA9B0}</Project>
+      <Name>aws-cpp-sdk-iam</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-identity-management\aws-cpp-sdk-identity-management.vcxproj">
+      <Project>{C574F8A4-8741-30F8-BF33-89E7D551096F}</Project>
+      <Name>aws-cpp-sdk-identity-management</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-identity-management-tests\aws-cpp-sdk-identity-management-tests.vcxproj">
+      <Project>{61106494-D140-3927-8C71-B679C7CD0B33}</Project>
+      <Name>aws-cpp-sdk-identity-management-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-identitystore\aws-cpp-sdk-identitystore.vcxproj">
+      <Project>{D5DC4DCE-789E-3A60-BB0D-4FE55C9C6215}</Project>
+      <Name>aws-cpp-sdk-identitystore</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-imagebuilder\aws-cpp-sdk-imagebuilder.vcxproj">
+      <Project>{FD145604-D232-3B1D-814F-AE9B0E663D79}</Project>
+      <Name>aws-cpp-sdk-imagebuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-importexport\aws-cpp-sdk-importexport.vcxproj">
+      <Project>{6CCD0B62-AA31-3A69-B060-75DCEC0AF3AB}</Project>
+      <Name>aws-cpp-sdk-importexport</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector\aws-cpp-sdk-inspector.vcxproj">
+      <Project>{C66ABDED-9376-3456-BD57-841E663B2612}</Project>
+      <Name>aws-cpp-sdk-inspector</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector-scan\aws-cpp-sdk-inspector-scan.vcxproj">
+      <Project>{FA082E7C-7B96-3B49-943D-6CC216B3F8AC}</Project>
+      <Name>aws-cpp-sdk-inspector-scan</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-inspector2\aws-cpp-sdk-inspector2.vcxproj">
+      <Project>{FA0ABE44-19B6-3B22-AB73-9C504A59667F}</Project>
+      <Name>aws-cpp-sdk-inspector2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-internetmonitor\aws-cpp-sdk-internetmonitor.vcxproj">
+      <Project>{13FD9E43-F944-335C-995F-4307485AAF7F}</Project>
+      <Name>aws-cpp-sdk-internetmonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot\aws-cpp-sdk-iot.vcxproj">
+      <Project>{CBF7410A-8901-3CC0-8E1F-5F5E98C0760B}</Project>
+      <Name>aws-cpp-sdk-iot</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot-data\aws-cpp-sdk-iot-data.vcxproj">
+      <Project>{8C041D73-1637-3AD4-8930-86D984F5A677}</Project>
+      <Name>aws-cpp-sdk-iot-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot-jobs-data\aws-cpp-sdk-iot-jobs-data.vcxproj">
+      <Project>{DBCE5D4A-70E4-3AB7-BA77-1E2323AF7F97}</Project>
+      <Name>aws-cpp-sdk-iot-jobs-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot-roborunner\aws-cpp-sdk-iot-roborunner.vcxproj">
+      <Project>{EB4A27D8-4151-3EE9-A36F-DD4FCB41518A}</Project>
+      <Name>aws-cpp-sdk-iot-roborunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot1click-devices\aws-cpp-sdk-iot1click-devices.vcxproj">
+      <Project>{BD0E7BD5-187A-393C-B9F8-9F80C42C7294}</Project>
+      <Name>aws-cpp-sdk-iot1click-devices</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iot1click-projects\aws-cpp-sdk-iot1click-projects.vcxproj">
+      <Project>{F31913C0-5229-3FDB-A058-7C91642347C0}</Project>
+      <Name>aws-cpp-sdk-iot1click-projects</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotanalytics\aws-cpp-sdk-iotanalytics.vcxproj">
+      <Project>{32A55017-F265-3033-868D-754FC3C2AC69}</Project>
+      <Name>aws-cpp-sdk-iotanalytics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotdeviceadvisor\aws-cpp-sdk-iotdeviceadvisor.vcxproj">
+      <Project>{8F4FD699-815D-3B5B-A37B-6BF6820DBAEF}</Project>
+      <Name>aws-cpp-sdk-iotdeviceadvisor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotevents\aws-cpp-sdk-iotevents.vcxproj">
+      <Project>{6693CCC2-90E3-3744-90D8-33018039588C}</Project>
+      <Name>aws-cpp-sdk-iotevents</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotevents-data\aws-cpp-sdk-iotevents-data.vcxproj">
+      <Project>{D86BA36A-404D-3398-A5D8-56A5538CFB35}</Project>
+      <Name>aws-cpp-sdk-iotevents-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleethub\aws-cpp-sdk-iotfleethub.vcxproj">
+      <Project>{370293D8-7795-3D5C-A400-F2EDEA59D101}</Project>
+      <Name>aws-cpp-sdk-iotfleethub</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotfleetwise\aws-cpp-sdk-iotfleetwise.vcxproj">
+      <Project>{2F42DC5B-2ACC-383D-8E90-8686EE3876CB}</Project>
+      <Name>aws-cpp-sdk-iotfleetwise</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotsecuretunneling\aws-cpp-sdk-iotsecuretunneling.vcxproj">
+      <Project>{D930D107-D3C3-3BA1-A8BC-C4ED53D8686A}</Project>
+      <Name>aws-cpp-sdk-iotsecuretunneling</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotsitewise\aws-cpp-sdk-iotsitewise.vcxproj">
+      <Project>{3C5BF7C7-FD04-37BE-86FD-B322C070684E}</Project>
+      <Name>aws-cpp-sdk-iotsitewise</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotthingsgraph\aws-cpp-sdk-iotthingsgraph.vcxproj">
+      <Project>{6E63B34E-62E1-3EBE-9237-BFF4568D4001}</Project>
+      <Name>aws-cpp-sdk-iotthingsgraph</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iottwinmaker\aws-cpp-sdk-iottwinmaker.vcxproj">
+      <Project>{39B3D12E-C257-3368-833B-8A84EAF30430}</Project>
+      <Name>aws-cpp-sdk-iottwinmaker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-iotwireless\aws-cpp-sdk-iotwireless.vcxproj">
+      <Project>{BD2E71BA-EC04-3376-844F-C273C770201E}</Project>
+      <Name>aws-cpp-sdk-iotwireless</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ivs\aws-cpp-sdk-ivs.vcxproj">
+      <Project>{039B94C9-4FFB-3DB8-AE1A-7FE9EAB25B7E}</Project>
+      <Name>aws-cpp-sdk-ivs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ivs-realtime\aws-cpp-sdk-ivs-realtime.vcxproj">
+      <Project>{F99E4DE7-7940-3CC0-9812-5E2AB5D2C0A7}</Project>
+      <Name>aws-cpp-sdk-ivs-realtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ivschat\aws-cpp-sdk-ivschat.vcxproj">
+      <Project>{8504276E-3654-330D-B03A-7A75053FDD37}</Project>
+      <Name>aws-cpp-sdk-ivschat</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kafka\aws-cpp-sdk-kafka.vcxproj">
+      <Project>{60A0CB8B-EDD5-3C91-B612-5F2F47308613}</Project>
+      <Name>aws-cpp-sdk-kafka</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kafkaconnect\aws-cpp-sdk-kafkaconnect.vcxproj">
+      <Project>{90D9C2C7-9698-3FB5-B361-68419D1C4F4F}</Project>
+      <Name>aws-cpp-sdk-kafkaconnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kendra\aws-cpp-sdk-kendra.vcxproj">
+      <Project>{8390EBA4-01BE-365E-9F47-FACE9F2A0251}</Project>
+      <Name>aws-cpp-sdk-kendra</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kendra-ranking\aws-cpp-sdk-kendra-ranking.vcxproj">
+      <Project>{6ED4CA88-A4CF-3079-99DB-3D0A07594DFC}</Project>
+      <Name>aws-cpp-sdk-kendra-ranking</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-keyspaces\aws-cpp-sdk-keyspaces.vcxproj">
+      <Project>{314F6E67-C7BE-3CC2-AB91-8F5BE39A810D}</Project>
+      <Name>aws-cpp-sdk-keyspaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesis\aws-cpp-sdk-kinesis.vcxproj">
+      <Project>{EA1FF73C-F9E5-39B2-9B2E-D4DDB3857ADA}</Project>
+      <Name>aws-cpp-sdk-kinesis</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-kinesis-integration-tests\aws-cpp-sdk-kinesis-integration-tests.vcxproj">
+      <Project>{E666A7A1-08E7-3A6A-95F3-45C6CC111DC9}</Project>
+      <Name>aws-cpp-sdk-kinesis-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesis-video-archived-media\aws-cpp-sdk-kinesis-video-archived-media.vcxproj">
+      <Project>{24094BDF-18B3-3BA2-BAA2-34DBFA40DD97}</Project>
+      <Name>aws-cpp-sdk-kinesis-video-archived-media</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesis-video-media\aws-cpp-sdk-kinesis-video-media.vcxproj">
+      <Project>{2BD22D48-24B3-3EDD-A476-4F6442DA5F94}</Project>
+      <Name>aws-cpp-sdk-kinesis-video-media</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesis-video-signaling\aws-cpp-sdk-kinesis-video-signaling.vcxproj">
+      <Project>{0292A3A8-7E93-37B4-8B13-58AC7C9FA9C0}</Project>
+      <Name>aws-cpp-sdk-kinesis-video-signaling</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesis-video-webrtc-storage\aws-cpp-sdk-kinesis-video-webrtc-storage.vcxproj">
+      <Project>{598E11CD-3070-3E15-8585-B501BD1E5E7A}</Project>
+      <Name>aws-cpp-sdk-kinesis-video-webrtc-storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesisanalytics\aws-cpp-sdk-kinesisanalytics.vcxproj">
+      <Project>{254D8ED6-B54B-31D5-874E-98DF2DAFD87C}</Project>
+      <Name>aws-cpp-sdk-kinesisanalytics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesisanalyticsv2\aws-cpp-sdk-kinesisanalyticsv2.vcxproj">
+      <Project>{9E9D03C2-1F9F-3474-8162-BA59E8C59B49}</Project>
+      <Name>aws-cpp-sdk-kinesisanalyticsv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kinesisvideo\aws-cpp-sdk-kinesisvideo.vcxproj">
+      <Project>{19EEEAAE-261F-3501-91BB-A22118FDC1B3}</Project>
+      <Name>aws-cpp-sdk-kinesisvideo</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-kms\aws-cpp-sdk-kms.vcxproj">
+      <Project>{D265B21D-2B08-3034-BD03-B248449986A6}</Project>
+      <Name>aws-cpp-sdk-kms</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lakeformation\aws-cpp-sdk-lakeformation.vcxproj">
+      <Project>{730DFB27-F614-391E-8AED-DEAE3E9B76EF}</Project>
+      <Name>aws-cpp-sdk-lakeformation</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lambda\aws-cpp-sdk-lambda.vcxproj">
+      <Project>{FA130DD8-4298-3963-AF3D-5D1E539D6B8E}</Project>
+      <Name>aws-cpp-sdk-lambda</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-lambda-integration-tests\aws-cpp-sdk-lambda-integration-tests.vcxproj">
+      <Project>{5D533F77-25D3-35BA-AE79-070360A29851}</Project>
+      <Name>aws-cpp-sdk-lambda-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-launch-wizard\aws-cpp-sdk-launch-wizard.vcxproj">
+      <Project>{DBCDD120-9FB9-3F62-9901-548AC82E1683}</Project>
+      <Name>aws-cpp-sdk-launch-wizard</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lex\aws-cpp-sdk-lex.vcxproj">
+      <Project>{9E245D8E-8C90-3089-A0E0-C753BDC01449}</Project>
+      <Name>aws-cpp-sdk-lex</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lex-models\aws-cpp-sdk-lex-models.vcxproj">
+      <Project>{D882491B-F565-3431-834D-F6C0A9D3987C}</Project>
+      <Name>aws-cpp-sdk-lex-models</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lexv2-models\aws-cpp-sdk-lexv2-models.vcxproj">
+      <Project>{57A1DE46-0C99-3E7D-918B-E7CA62F3B684}</Project>
+      <Name>aws-cpp-sdk-lexv2-models</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lexv2-runtime\aws-cpp-sdk-lexv2-runtime.vcxproj">
+      <Project>{DC126448-FEFE-39FD-A633-A27450CD33EB}</Project>
+      <Name>aws-cpp-sdk-lexv2-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-license-manager\aws-cpp-sdk-license-manager.vcxproj">
+      <Project>{8D14E8D1-BF4F-32AC-805C-4283F3E89A34}</Project>
+      <Name>aws-cpp-sdk-license-manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-license-manager-linux-subscriptions\aws-cpp-sdk-license-manager-linux-subscriptions.vcxproj">
+      <Project>{9A4F472E-E751-3131-9899-BE8A2F40D557}</Project>
+      <Name>aws-cpp-sdk-license-manager-linux-subscriptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-license-manager-user-subscriptions\aws-cpp-sdk-license-manager-user-subscriptions.vcxproj">
+      <Project>{43C8F47E-8DD1-39AA-B467-BB801E9895EF}</Project>
+      <Name>aws-cpp-sdk-license-manager-user-subscriptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lightsail\aws-cpp-sdk-lightsail.vcxproj">
+      <Project>{AA924F1F-BD7F-3DD1-960B-A65DE84B8A2F}</Project>
+      <Name>aws-cpp-sdk-lightsail</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-location\aws-cpp-sdk-location.vcxproj">
+      <Project>{284EAAED-E5F7-3874-8B1E-522FF2AFD70E}</Project>
+      <Name>aws-cpp-sdk-location</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-logs\aws-cpp-sdk-logs.vcxproj">
+      <Project>{8E102AF0-8ECF-3767-86F7-E1475FD2890E}</Project>
+      <Name>aws-cpp-sdk-logs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-logs-integration-tests\aws-cpp-sdk-logs-integration-tests.vcxproj">
+      <Project>{775BA8D3-B1B4-3BF6-A1F2-10CC746A24F1}</Project>
+      <Name>aws-cpp-sdk-logs-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutequipment\aws-cpp-sdk-lookoutequipment.vcxproj">
+      <Project>{0458E277-4A33-3FBC-80BB-C849E2727EBA}</Project>
+      <Name>aws-cpp-sdk-lookoutequipment</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutmetrics\aws-cpp-sdk-lookoutmetrics.vcxproj">
+      <Project>{36933F7D-549B-3006-AF6C-9C8340F8365A}</Project>
+      <Name>aws-cpp-sdk-lookoutmetrics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-lookoutvision\aws-cpp-sdk-lookoutvision.vcxproj">
+      <Project>{ADAFCBCD-55F3-3917-9E43-41714ECDB7E4}</Project>
+      <Name>aws-cpp-sdk-lookoutvision</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-m2\aws-cpp-sdk-m2.vcxproj">
+      <Project>{907EF3F7-28EE-3053-A17D-C88F7189009E}</Project>
+      <Name>aws-cpp-sdk-m2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-machinelearning\aws-cpp-sdk-machinelearning.vcxproj">
+      <Project>{235413FF-5AE5-3D3F-9384-8E7C4CD493D7}</Project>
+      <Name>aws-cpp-sdk-machinelearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-macie2\aws-cpp-sdk-macie2.vcxproj">
+      <Project>{3C14FB75-BD3D-3691-9ECB-C62707E4DBD7}</Project>
+      <Name>aws-cpp-sdk-macie2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-managedblockchain\aws-cpp-sdk-managedblockchain.vcxproj">
+      <Project>{76750F74-662C-3795-8AE7-37DEB628F3A7}</Project>
+      <Name>aws-cpp-sdk-managedblockchain</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-managedblockchain-query\aws-cpp-sdk-managedblockchain-query.vcxproj">
+      <Project>{BBFA57E0-EAE3-3E38-BEC3-53BE305E50BE}</Project>
+      <Name>aws-cpp-sdk-managedblockchain-query</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-agreement\aws-cpp-sdk-marketplace-agreement.vcxproj">
+      <Project>{CCBF2BBC-9C07-3344-9B91-D57EEC02A056}</Project>
+      <Name>aws-cpp-sdk-marketplace-agreement</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\aws-cpp-sdk-marketplace-catalog.vcxproj">
+      <Project>{C864D91C-C1AB-326A-8BC9-F60027B05BAC}</Project>
+      <Name>aws-cpp-sdk-marketplace-catalog</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-deployment\aws-cpp-sdk-marketplace-deployment.vcxproj">
+      <Project>{8CC50DB9-3A52-33C1-A6EF-4B9CC06B76A6}</Project>
+      <Name>aws-cpp-sdk-marketplace-deployment</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-entitlement\aws-cpp-sdk-marketplace-entitlement.vcxproj">
+      <Project>{A26DEF94-BA16-3BCD-B51F-4B22DBC4BC41}</Project>
+      <Name>aws-cpp-sdk-marketplace-entitlement</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplacecommerceanalytics\aws-cpp-sdk-marketplacecommerceanalytics.vcxproj">
+      <Project>{6B806602-DE7F-35E9-84D6-C3919895F789}</Project>
+      <Name>aws-cpp-sdk-marketplacecommerceanalytics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediaconnect\aws-cpp-sdk-mediaconnect.vcxproj">
+      <Project>{057A51C3-A98D-3913-BF38-70E0F7793080}</Project>
+      <Name>aws-cpp-sdk-mediaconnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediaconvert\aws-cpp-sdk-mediaconvert.vcxproj">
+      <Project>{06F2C6FA-A2DB-31DE-BD52-120B2ED31319}</Project>
+      <Name>aws-cpp-sdk-mediaconvert</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-medialive\aws-cpp-sdk-medialive.vcxproj">
+      <Project>{5FD6267C-87CC-30D4-830F-0C284F1A7329}</Project>
+      <Name>aws-cpp-sdk-medialive</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediapackage\aws-cpp-sdk-mediapackage.vcxproj">
+      <Project>{7487770A-FDAD-3475-AB98-82EFC130739E}</Project>
+      <Name>aws-cpp-sdk-mediapackage</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediapackage-vod\aws-cpp-sdk-mediapackage-vod.vcxproj">
+      <Project>{EE3C21F4-63DD-3B88-B1BF-FC65C4C5A0EA}</Project>
+      <Name>aws-cpp-sdk-mediapackage-vod</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediapackagev2\aws-cpp-sdk-mediapackagev2.vcxproj">
+      <Project>{DD10F063-481B-3FC7-B996-C434E31E6B75}</Project>
+      <Name>aws-cpp-sdk-mediapackagev2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediastore\aws-cpp-sdk-mediastore.vcxproj">
+      <Project>{AFB95C88-461C-343E-A9FE-CC26D4C5A45D}</Project>
+      <Name>aws-cpp-sdk-mediastore</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediastore-data\aws-cpp-sdk-mediastore-data.vcxproj">
+      <Project>{7E9D2719-BD67-3286-9B6E-AA82C36F4428}</Project>
+      <Name>aws-cpp-sdk-mediastore-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-mediastore-data-integration-tests\aws-cpp-sdk-mediastore-data-integration-tests.vcxproj">
+      <Project>{339D304F-0162-3720-BCB3-0CF088FE390E}</Project>
+      <Name>aws-cpp-sdk-mediastore-data-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mediatailor\aws-cpp-sdk-mediatailor.vcxproj">
+      <Project>{BD889123-3EB6-3E3D-9F6A-517CF4BA700D}</Project>
+      <Name>aws-cpp-sdk-mediatailor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-medical-imaging\aws-cpp-sdk-medical-imaging.vcxproj">
+      <Project>{DBCC31C5-82E3-302A-9A70-04C665F4108F}</Project>
+      <Name>aws-cpp-sdk-medical-imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-memorydb\aws-cpp-sdk-memorydb.vcxproj">
+      <Project>{92864570-D28D-3D09-AEC4-7B16AE5586AE}</Project>
+      <Name>aws-cpp-sdk-memorydb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-meteringmarketplace\aws-cpp-sdk-meteringmarketplace.vcxproj">
+      <Project>{A6A3510E-87E3-336D-BB25-D012BBA89FC4}</Project>
+      <Name>aws-cpp-sdk-meteringmarketplace</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mgn\aws-cpp-sdk-mgn.vcxproj">
+      <Project>{A24DE4CC-4F83-376F-83E4-00B63D069506}</Project>
+      <Name>aws-cpp-sdk-mgn</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-migration-hub-refactor-spaces\aws-cpp-sdk-migration-hub-refactor-spaces.vcxproj">
+      <Project>{24C4D8E1-F733-3DA2-B817-A2AB04696D19}</Project>
+      <Name>aws-cpp-sdk-migration-hub-refactor-spaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-migrationhub-config\aws-cpp-sdk-migrationhub-config.vcxproj">
+      <Project>{50DE621D-7464-3A9C-8880-1FAE6F30514B}</Project>
+      <Name>aws-cpp-sdk-migrationhub-config</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-migrationhuborchestrator\aws-cpp-sdk-migrationhuborchestrator.vcxproj">
+      <Project>{94DE7939-C558-3569-B13D-ECDC65A51691}</Project>
+      <Name>aws-cpp-sdk-migrationhuborchestrator</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-migrationhubstrategy\aws-cpp-sdk-migrationhubstrategy.vcxproj">
+      <Project>{8BB571A1-613F-3ABC-B6D5-947864E0FA88}</Project>
+      <Name>aws-cpp-sdk-migrationhubstrategy</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mobile\aws-cpp-sdk-mobile.vcxproj">
+      <Project>{676BB1FE-A505-38D3-A047-D50444F0644A}</Project>
+      <Name>aws-cpp-sdk-mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-monitoring\aws-cpp-sdk-monitoring.vcxproj">
+      <Project>{46E1E7B0-2B4F-3A87-8F9D-3D44F6683010}</Project>
+      <Name>aws-cpp-sdk-monitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-monitoring-integration-tests\aws-cpp-sdk-monitoring-integration-tests.vcxproj">
+      <Project>{525B0A58-EFCC-3950-928F-A96D491C6A5D}</Project>
+      <Name>aws-cpp-sdk-monitoring-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mq\aws-cpp-sdk-mq.vcxproj">
+      <Project>{156B2C2E-8A67-3EF2-BDCD-7ECF3F98E557}</Project>
+      <Name>aws-cpp-sdk-mq</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mturk-requester\aws-cpp-sdk-mturk-requester.vcxproj">
+      <Project>{F0CCB534-F7BD-3504-B378-26D9CBE7CDED}</Project>
+      <Name>aws-cpp-sdk-mturk-requester</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-mwaa\aws-cpp-sdk-mwaa.vcxproj">
+      <Project>{068130B0-A26D-3C5B-A869-5D58CDA2FAEA}</Project>
+      <Name>aws-cpp-sdk-mwaa</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-neptune\aws-cpp-sdk-neptune.vcxproj">
+      <Project>{72680755-1D58-3019-AA30-6B5B3DE0DECA}</Project>
+      <Name>aws-cpp-sdk-neptune</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-neptune-graph\aws-cpp-sdk-neptune-graph.vcxproj">
+      <Project>{7A0E5891-ABF0-3716-8D3F-4C58F212EA7C}</Project>
+      <Name>aws-cpp-sdk-neptune-graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-neptunedata\aws-cpp-sdk-neptunedata.vcxproj">
+      <Project>{4FA08453-A3BC-3135-B1F3-A33F011E5AEC}</Project>
+      <Name>aws-cpp-sdk-neptunedata</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-network-firewall\aws-cpp-sdk-network-firewall.vcxproj">
+      <Project>{E2A82A0A-CD15-3BB8-9158-77BE6F697114}</Project>
+      <Name>aws-cpp-sdk-network-firewall</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-networkmanager\aws-cpp-sdk-networkmanager.vcxproj">
+      <Project>{EC3EB421-C74D-3DFF-BB91-9831D0F6B43B}</Project>
+      <Name>aws-cpp-sdk-networkmanager</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-networkmonitor\aws-cpp-sdk-networkmonitor.vcxproj">
+      <Project>{3C89EF92-CB00-38B1-AA78-12CC981C1741}</Project>
+      <Name>aws-cpp-sdk-networkmonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-nimble\aws-cpp-sdk-nimble.vcxproj">
+      <Project>{36A1ED6D-269D-3DFD-BB66-A3D894E61CB2}</Project>
+      <Name>aws-cpp-sdk-nimble</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-oam\aws-cpp-sdk-oam.vcxproj">
+      <Project>{AAE8F126-BA39-35E2-931B-D5339F4862BE}</Project>
+      <Name>aws-cpp-sdk-oam</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-omics\aws-cpp-sdk-omics.vcxproj">
+      <Project>{FB674A84-DBD8-344B-86FB-A2937D3828C9}</Project>
+      <Name>aws-cpp-sdk-omics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-opensearch\aws-cpp-sdk-opensearch.vcxproj">
+      <Project>{ED04CFC2-B45B-326E-ACEC-6B20E6C4F43E}</Project>
+      <Name>aws-cpp-sdk-opensearch</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-opensearchserverless\aws-cpp-sdk-opensearchserverless.vcxproj">
+      <Project>{70B83629-E3E8-34C0-BB1F-368C6556C60E}</Project>
+      <Name>aws-cpp-sdk-opensearchserverless</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-opsworks\aws-cpp-sdk-opsworks.vcxproj">
+      <Project>{30E9695B-BF3F-3EFF-81A1-8B5E5B8F9A4C}</Project>
+      <Name>aws-cpp-sdk-opsworks</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-opsworkscm\aws-cpp-sdk-opsworkscm.vcxproj">
+      <Project>{13EAFA39-B6B9-3E66-ACF4-85D82786DB09}</Project>
+      <Name>aws-cpp-sdk-opsworkscm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-organizations\aws-cpp-sdk-organizations.vcxproj">
+      <Project>{6895C673-A74D-3372-907D-8704D54FEFCA}</Project>
+      <Name>aws-cpp-sdk-organizations</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-osis\aws-cpp-sdk-osis.vcxproj">
+      <Project>{BF78E94D-9697-3350-9A84-C9F69DCC8D35}</Project>
+      <Name>aws-cpp-sdk-osis</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-outposts\aws-cpp-sdk-outposts.vcxproj">
+      <Project>{D3E94C51-4D4A-3402-B7D1-921DA5C87FD0}</Project>
+      <Name>aws-cpp-sdk-outposts</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-panorama\aws-cpp-sdk-panorama.vcxproj">
+      <Project>{071E1013-AB87-36D9-A23D-E5A24609017B}</Project>
+      <Name>aws-cpp-sdk-panorama</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-payment-cryptography\aws-cpp-sdk-payment-cryptography.vcxproj">
+      <Project>{ADDECCAB-15FB-3313-8B9B-82C98D89CBB2}</Project>
+      <Name>aws-cpp-sdk-payment-cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-payment-cryptography-data\aws-cpp-sdk-payment-cryptography-data.vcxproj">
+      <Project>{937F6F0C-B2B9-3436-8057-0DA06B8239C1}</Project>
+      <Name>aws-cpp-sdk-payment-cryptography-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pca-connector-ad\aws-cpp-sdk-pca-connector-ad.vcxproj">
+      <Project>{F6F87F6D-D67F-3A21-B2A5-E241117AA177}</Project>
+      <Name>aws-cpp-sdk-pca-connector-ad</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-personalize\aws-cpp-sdk-personalize.vcxproj">
+      <Project>{C81A1785-BBD4-3BBE-883A-9CE47B6BD7DB}</Project>
+      <Name>aws-cpp-sdk-personalize</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-personalize-events\aws-cpp-sdk-personalize-events.vcxproj">
+      <Project>{00B281ED-1CA9-3F55-939D-AFDB0C215AEA}</Project>
+      <Name>aws-cpp-sdk-personalize-events</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-personalize-runtime\aws-cpp-sdk-personalize-runtime.vcxproj">
+      <Project>{EA9F4830-0FC3-32B0-94D1-B8A0A249C8FF}</Project>
+      <Name>aws-cpp-sdk-personalize-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pi\aws-cpp-sdk-pi.vcxproj">
+      <Project>{4A7161DF-7CEC-36D1-AD9A-2610B27041B1}</Project>
+      <Name>aws-cpp-sdk-pi</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pinpoint\aws-cpp-sdk-pinpoint.vcxproj">
+      <Project>{F182FF57-E001-31C8-8FBE-F767BD3922F6}</Project>
+      <Name>aws-cpp-sdk-pinpoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pinpoint-email\aws-cpp-sdk-pinpoint-email.vcxproj">
+      <Project>{4FEE3A88-F6DF-3DB6-824E-22F5A363128A}</Project>
+      <Name>aws-cpp-sdk-pinpoint-email</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pinpoint-sms-voice-v2\aws-cpp-sdk-pinpoint-sms-voice-v2.vcxproj">
+      <Project>{1B09A8FB-95DD-3729-A03D-52273C611799}</Project>
+      <Name>aws-cpp-sdk-pinpoint-sms-voice-v2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pipes\aws-cpp-sdk-pipes.vcxproj">
+      <Project>{7CE82D83-EF40-3268-905A-EFC165772017}</Project>
+      <Name>aws-cpp-sdk-pipes</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-polly\aws-cpp-sdk-polly.vcxproj">
+      <Project>{784382A2-0FFD-3800-A242-B2B515DBDC07}</Project>
+      <Name>aws-cpp-sdk-polly</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-pricing\aws-cpp-sdk-pricing.vcxproj">
+      <Project>{E2222FFC-5039-3633-9DAD-433F8C15AC4C}</Project>
+      <Name>aws-cpp-sdk-pricing</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-privatenetworks\aws-cpp-sdk-privatenetworks.vcxproj">
+      <Project>{7E987499-9B3A-3DD0-A4CE-47AC4F8BD8EF}</Project>
+      <Name>aws-cpp-sdk-privatenetworks</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-proton\aws-cpp-sdk-proton.vcxproj">
+      <Project>{A2584467-C12F-31D4-BE5B-B5380E171DE5}</Project>
+      <Name>aws-cpp-sdk-proton</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-qbusiness\aws-cpp-sdk-qbusiness.vcxproj">
+      <Project>{C736DD47-9F21-3841-BB74-8AFF0F4138FF}</Project>
+      <Name>aws-cpp-sdk-qbusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-qconnect\aws-cpp-sdk-qconnect.vcxproj">
+      <Project>{19C5FB1D-DC06-3F61-AE52-665521725B42}</Project>
+      <Name>aws-cpp-sdk-qconnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-qldb\aws-cpp-sdk-qldb.vcxproj">
+      <Project>{1D4D31FF-FD52-3EA3-BA0B-4E033458B292}</Project>
+      <Name>aws-cpp-sdk-qldb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-qldb-session\aws-cpp-sdk-qldb-session.vcxproj">
+      <Project>{CDAC41BA-6C2D-3A87-A716-4ED7E39D98CA}</Project>
+      <Name>aws-cpp-sdk-qldb-session</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-queues\aws-cpp-sdk-queues.vcxproj">
+      <Project>{E8C4E6EF-F15D-3310-A0BC-DDF2C4FC9237}</Project>
+      <Name>aws-cpp-sdk-queues</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-quicksight\aws-cpp-sdk-quicksight.vcxproj">
+      <Project>{A8D4BE06-13AF-39BB-97BE-0834EE3D5642}</Project>
+      <Name>aws-cpp-sdk-quicksight</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ram\aws-cpp-sdk-ram.vcxproj">
+      <Project>{2FCA6D1F-C9EE-3906-A07E-33A5225DB70D}</Project>
+      <Name>aws-cpp-sdk-ram</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rbin\aws-cpp-sdk-rbin.vcxproj">
+      <Project>{B0973859-494E-3D07-B128-E6DDBFEC604E}</Project>
+      <Name>aws-cpp-sdk-rbin</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rds\aws-cpp-sdk-rds.vcxproj">
+      <Project>{6E9D55A9-421C-3C5C-BB09-07C5D7D43278}</Project>
+      <Name>aws-cpp-sdk-rds</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rds-data\aws-cpp-sdk-rds-data.vcxproj">
+      <Project>{BE1CABC3-D0B3-3F99-A60B-C0FDE514E47E}</Project>
+      <Name>aws-cpp-sdk-rds-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-rds-integration-tests\aws-cpp-sdk-rds-integration-tests.vcxproj">
+      <Project>{A75E8B87-3354-3B17-8E72-8A7021442599}</Project>
+      <Name>aws-cpp-sdk-rds-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-redshift\aws-cpp-sdk-redshift.vcxproj">
+      <Project>{B3F11294-6D6E-3FDC-96C3-9CEDC52856E5}</Project>
+      <Name>aws-cpp-sdk-redshift</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-redshift-data\aws-cpp-sdk-redshift-data.vcxproj">
+      <Project>{EB7DFAB5-2E97-3E29-81DA-81D6FB848A9E}</Project>
+      <Name>aws-cpp-sdk-redshift-data</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-redshift-integration-tests\aws-cpp-sdk-redshift-integration-tests.vcxproj">
+      <Project>{8257564A-9F47-33C7-99A0-1C5AD7C32B38}</Project>
+      <Name>aws-cpp-sdk-redshift-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-redshift-serverless\aws-cpp-sdk-redshift-serverless.vcxproj">
+      <Project>{BFCA2927-AD16-30B1-8C63-CCAC91917CB4}</Project>
+      <Name>aws-cpp-sdk-redshift-serverless</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rekognition\aws-cpp-sdk-rekognition.vcxproj">
+      <Project>{23162F07-8DD2-304B-9F61-6D2692E2E16D}</Project>
+      <Name>aws-cpp-sdk-rekognition</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-repostspace\aws-cpp-sdk-repostspace.vcxproj">
+      <Project>{3C3E300E-9FBF-3541-B840-CF7B7CB204A2}</Project>
+      <Name>aws-cpp-sdk-repostspace</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-resiliencehub\aws-cpp-sdk-resiliencehub.vcxproj">
+      <Project>{F98954F2-7E32-36BA-BAA0-48B31E03F8FE}</Project>
+      <Name>aws-cpp-sdk-resiliencehub</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-resource-explorer-2\aws-cpp-sdk-resource-explorer-2.vcxproj">
+      <Project>{598CCB59-618D-3AB2-B968-B96D187C4521}</Project>
+      <Name>aws-cpp-sdk-resource-explorer-2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-resource-groups\aws-cpp-sdk-resource-groups.vcxproj">
+      <Project>{5AD08DC1-4920-349B-825D-8B52A21861D3}</Project>
+      <Name>aws-cpp-sdk-resource-groups</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-resourcegroupstaggingapi\aws-cpp-sdk-resourcegroupstaggingapi.vcxproj">
+      <Project>{CDB04E19-D9A0-35BE-910C-F2526BD0AB81}</Project>
+      <Name>aws-cpp-sdk-resourcegroupstaggingapi</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-robomaker\aws-cpp-sdk-robomaker.vcxproj">
+      <Project>{65D2B640-0DCD-3688-8B67-0AA6F783CC0C}</Project>
+      <Name>aws-cpp-sdk-robomaker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rolesanywhere\aws-cpp-sdk-rolesanywhere.vcxproj">
+      <Project>{1ADE7456-52B7-3BA0-8043-D8A419531CC7}</Project>
+      <Name>aws-cpp-sdk-rolesanywhere</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53\aws-cpp-sdk-route53.vcxproj">
+      <Project>{76FA4B1F-C263-3EFF-BFA7-C1AD66B3D915}</Project>
+      <Name>aws-cpp-sdk-route53</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53-recovery-cluster\aws-cpp-sdk-route53-recovery-cluster.vcxproj">
+      <Project>{05DFFD19-1061-3945-B119-BE6B49613C63}</Project>
+      <Name>aws-cpp-sdk-route53-recovery-cluster</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53-recovery-control-config\aws-cpp-sdk-route53-recovery-control-config.vcxproj">
+      <Project>{27BBEB27-1663-375D-AE8A-A4F1185466F6}</Project>
+      <Name>aws-cpp-sdk-route53-recovery-control-config</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53-recovery-readiness\aws-cpp-sdk-route53-recovery-readiness.vcxproj">
+      <Project>{13F3E71A-8970-3F55-8255-6D05155B7036}</Project>
+      <Name>aws-cpp-sdk-route53-recovery-readiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53domains\aws-cpp-sdk-route53domains.vcxproj">
+      <Project>{281F2FE7-9E53-3893-9CEE-348B62F95DE9}</Project>
+      <Name>aws-cpp-sdk-route53domains</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-route53resolver\aws-cpp-sdk-route53resolver.vcxproj">
+      <Project>{7FD53710-9EA3-3188-AF5C-5649B8F87633}</Project>
+      <Name>aws-cpp-sdk-route53resolver</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-rum\aws-cpp-sdk-rum.vcxproj">
+      <Project>{D62B2C0C-4293-3646-B48C-A3B4617376FF}</Project>
+      <Name>aws-cpp-sdk-rum</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-s3\aws-cpp-sdk-s3.vcxproj">
+      <Project>{DE6D790C-2EFF-358E-8523-48A80B46AD23}</Project>
+      <Name>aws-cpp-sdk-s3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-s3-crt\aws-cpp-sdk-s3-crt.vcxproj">
+      <Project>{EA10C3BA-6115-395F-9EBE-867DDA82A4E8}</Project>
+      <Name>aws-cpp-sdk-s3-crt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-s3-crt-integration-tests\aws-cpp-sdk-s3-crt-integration-tests.vcxproj">
+      <Project>{DB53EFFB-7CF5-30C8-9F9B-90EF197B4201}</Project>
+      <Name>aws-cpp-sdk-s3-crt-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-s3-encryption\aws-cpp-sdk-s3-encryption.vcxproj">
+      <Project>{F8868D96-4584-3483-91DE-3C2B58B7EE15}</Project>
+      <Name>aws-cpp-sdk-s3-encryption</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-s3-encryption-integration-tests\aws-cpp-sdk-s3-encryption-integration-tests.vcxproj">
+      <Project>{2170402A-3E1F-3E2C-98E2-322DC2C4ADA0}</Project>
+      <Name>aws-cpp-sdk-s3-encryption-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-s3-encryption-tests\aws-cpp-sdk-s3-encryption-tests.vcxproj">
+      <Project>{527B320C-ECD9-34A4-829B-A52DCEFDF6EC}</Project>
+      <Name>aws-cpp-sdk-s3-encryption-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-s3-integration-tests\aws-cpp-sdk-s3-integration-tests.vcxproj">
+      <Project>{DEEC6EE7-2FAE-35E5-96F6-91A2921326C3}</Project>
+      <Name>aws-cpp-sdk-s3-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-s3control\aws-cpp-sdk-s3control.vcxproj">
+      <Project>{3969D799-9ACA-38F6-B8DD-C655D0A37C2A}</Project>
+      <Name>aws-cpp-sdk-s3control</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-s3control-integration-tests\aws-cpp-sdk-s3control-integration-tests.vcxproj">
+      <Project>{429615D6-A4B7-3ABB-B3DA-49622F77F7D2}</Project>
+      <Name>aws-cpp-sdk-s3control-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-s3outposts\aws-cpp-sdk-s3outposts.vcxproj">
+      <Project>{2ABBC789-A33D-30E1-BA36-032BAB359683}</Project>
+      <Name>aws-cpp-sdk-s3outposts</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker\aws-cpp-sdk-sagemaker.vcxproj">
+      <Project>{EB77FF87-C37B-3B0B-AD39-17C78EF379CF}</Project>
+      <Name>aws-cpp-sdk-sagemaker</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-a2i-runtime\aws-cpp-sdk-sagemaker-a2i-runtime.vcxproj">
+      <Project>{412B4F64-F6A5-3671-895A-8E338D7CB56B}</Project>
+      <Name>aws-cpp-sdk-sagemaker-a2i-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-edge\aws-cpp-sdk-sagemaker-edge.vcxproj">
+      <Project>{955907B6-E556-3D4C-B17A-8CEA56ECE263}</Project>
+      <Name>aws-cpp-sdk-sagemaker-edge</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-featurestore-runtime\aws-cpp-sdk-sagemaker-featurestore-runtime.vcxproj">
+      <Project>{371C9232-2F49-3DE4-B90E-48A6CB44B259}</Project>
+      <Name>aws-cpp-sdk-sagemaker-featurestore-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-geospatial\aws-cpp-sdk-sagemaker-geospatial.vcxproj">
+      <Project>{C313504B-D89A-394B-8FC2-83566386DADB}</Project>
+      <Name>aws-cpp-sdk-sagemaker-geospatial</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-metrics\aws-cpp-sdk-sagemaker-metrics.vcxproj">
+      <Project>{89F235A0-A1C7-38EA-AB02-800349DA8341}</Project>
+      <Name>aws-cpp-sdk-sagemaker-metrics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sagemaker-runtime\aws-cpp-sdk-sagemaker-runtime.vcxproj">
+      <Project>{2EEB50E7-CC7C-3700-A063-ABDBED83187C}</Project>
+      <Name>aws-cpp-sdk-sagemaker-runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-savingsplans\aws-cpp-sdk-savingsplans.vcxproj">
+      <Project>{D6DAF2AE-AC56-3CCA-8F35-A57D29DCC4DA}</Project>
+      <Name>aws-cpp-sdk-savingsplans</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-scheduler\aws-cpp-sdk-scheduler.vcxproj">
+      <Project>{74369042-E0A7-3A6D-ACD1-CA65A0F6083D}</Project>
+      <Name>aws-cpp-sdk-scheduler</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-schemas\aws-cpp-sdk-schemas.vcxproj">
+      <Project>{AB6037CF-25E1-3DFD-B066-CF34AF067F4C}</Project>
+      <Name>aws-cpp-sdk-schemas</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sdb\aws-cpp-sdk-sdb.vcxproj">
+      <Project>{0400B9F7-1DAA-39EB-87D8-76A6A52B55E5}</Project>
+      <Name>aws-cpp-sdk-sdb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-secretsmanager\aws-cpp-sdk-secretsmanager.vcxproj">
+      <Project>{7BA3EDEF-9E85-321F-9F95-A79123D66C79}</Project>
+      <Name>aws-cpp-sdk-secretsmanager</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-securityhub\aws-cpp-sdk-securityhub.vcxproj">
+      <Project>{ABD3B78E-4D9B-3726-A26F-2DFE7B612AD9}</Project>
+      <Name>aws-cpp-sdk-securityhub</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-securitylake\aws-cpp-sdk-securitylake.vcxproj">
+      <Project>{124F0E6D-A965-3F82-8CCD-67E3364A6929}</Project>
+      <Name>aws-cpp-sdk-securitylake</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-serverlessrepo\aws-cpp-sdk-serverlessrepo.vcxproj">
+      <Project>{41D5F926-E7B3-3FA5-9F90-1F9D113F5534}</Project>
+      <Name>aws-cpp-sdk-serverlessrepo</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-service-quotas\aws-cpp-sdk-service-quotas.vcxproj">
+      <Project>{B2698E8C-7D3B-302B-B19C-0850CCCDC519}</Project>
+      <Name>aws-cpp-sdk-service-quotas</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-servicecatalog\aws-cpp-sdk-servicecatalog.vcxproj">
+      <Project>{9580CE6E-8D1B-310E-AEC4-E64E73405C10}</Project>
+      <Name>aws-cpp-sdk-servicecatalog</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-servicecatalog-appregistry\aws-cpp-sdk-servicecatalog-appregistry.vcxproj">
+      <Project>{CE79D2B0-F42E-3FC2-A767-AEC6E14DBF81}</Project>
+      <Name>aws-cpp-sdk-servicecatalog-appregistry</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-servicediscovery\aws-cpp-sdk-servicediscovery.vcxproj">
+      <Project>{247B031F-1A6A-370A-87EC-DB6CE1CF0219}</Project>
+      <Name>aws-cpp-sdk-servicediscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sesv2\aws-cpp-sdk-sesv2.vcxproj">
+      <Project>{90D2A8AB-6B72-3748-B1A4-64058731D0CC}</Project>
+      <Name>aws-cpp-sdk-sesv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-shield\aws-cpp-sdk-shield.vcxproj">
+      <Project>{56771D26-E9BF-3A95-8AB5-EF9842A9A245}</Project>
+      <Name>aws-cpp-sdk-shield</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-signer\aws-cpp-sdk-signer.vcxproj">
+      <Project>{F9058855-3455-3FE1-BE96-68E6DD4B52C2}</Project>
+      <Name>aws-cpp-sdk-signer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-simspaceweaver\aws-cpp-sdk-simspaceweaver.vcxproj">
+      <Project>{F4995871-BE0F-30C5-A84A-AC73EB700270}</Project>
+      <Name>aws-cpp-sdk-simspaceweaver</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sms\aws-cpp-sdk-sms.vcxproj">
+      <Project>{27D5D966-4B65-362B-9776-84E175E59985}</Project>
+      <Name>aws-cpp-sdk-sms</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sms-voice\aws-cpp-sdk-sms-voice.vcxproj">
+      <Project>{A7D984F2-20E9-3940-A274-123E94C64275}</Project>
+      <Name>aws-cpp-sdk-sms-voice</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-snow-device-management\aws-cpp-sdk-snow-device-management.vcxproj">
+      <Project>{28897300-CD43-3E18-85B8-100B0A270DB0}</Project>
+      <Name>aws-cpp-sdk-snow-device-management</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-snowball\aws-cpp-sdk-snowball.vcxproj">
+      <Project>{BF1F20F0-154A-3E6C-9261-28930BBDEF79}</Project>
+      <Name>aws-cpp-sdk-snowball</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sns\aws-cpp-sdk-sns.vcxproj">
+      <Project>{1E64CFB9-26D7-3682-B60C-6F3829D82060}</Project>
+      <Name>aws-cpp-sdk-sns</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sqs\aws-cpp-sdk-sqs.vcxproj">
+      <Project>{07C1490A-D1DA-36C3-A2A2-F8F34D885FE3}</Project>
+      <Name>aws-cpp-sdk-sqs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-sqs-integration-tests\aws-cpp-sdk-sqs-integration-tests.vcxproj">
+      <Project>{DC9DE051-ADF0-36E0-9B0D-3B9893EDB566}</Project>
+      <Name>aws-cpp-sdk-sqs-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ssm\aws-cpp-sdk-ssm.vcxproj">
+      <Project>{B4BFBE30-02B9-343C-B9DE-C5FC2FE0EBCC}</Project>
+      <Name>aws-cpp-sdk-ssm</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ssm-contacts\aws-cpp-sdk-ssm-contacts.vcxproj">
+      <Project>{42CFE0E0-36EF-31EA-8B24-DC3994157E4C}</Project>
+      <Name>aws-cpp-sdk-ssm-contacts</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ssm-incidents\aws-cpp-sdk-ssm-incidents.vcxproj">
+      <Project>{B4FF6642-4909-30E9-98CB-79A869B1A846}</Project>
+      <Name>aws-cpp-sdk-ssm-incidents</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-ssm-sap\aws-cpp-sdk-ssm-sap.vcxproj">
+      <Project>{89C9C9EE-4AD3-3752-8615-7E7F1124A01B}</Project>
+      <Name>aws-cpp-sdk-ssm-sap</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sso\aws-cpp-sdk-sso.vcxproj">
+      <Project>{86773AD4-CB0E-363B-9BA0-A35340D35427}</Project>
+      <Name>aws-cpp-sdk-sso</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sso-admin\aws-cpp-sdk-sso-admin.vcxproj">
+      <Project>{C442CB2B-0F0C-3FCD-9B90-AD1A6A9021C9}</Project>
+      <Name>aws-cpp-sdk-sso-admin</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sso-oidc\aws-cpp-sdk-sso-oidc.vcxproj">
+      <Project>{21C69DC3-1AEC-38CC-81B3-A03F47416263}</Project>
+      <Name>aws-cpp-sdk-sso-oidc</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-states\aws-cpp-sdk-states.vcxproj">
+      <Project>{85234967-5D27-3215-A86A-DD89234E8ACC}</Project>
+      <Name>aws-cpp-sdk-states</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-storagegateway\aws-cpp-sdk-storagegateway.vcxproj">
+      <Project>{73CF4754-7555-3311-8F7D-D3424015A9D2}</Project>
+      <Name>aws-cpp-sdk-storagegateway</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-sts\aws-cpp-sdk-sts.vcxproj">
+      <Project>{3D2F5327-CA38-38A8-9980-483B348FE785}</Project>
+      <Name>aws-cpp-sdk-sts</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-supplychain\aws-cpp-sdk-supplychain.vcxproj">
+      <Project>{9FDAFE7D-1A23-3F09-AC54-44194E9D2BEA}</Project>
+      <Name>aws-cpp-sdk-supplychain</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-support\aws-cpp-sdk-support.vcxproj">
+      <Project>{1762B070-3608-3478-9870-0C6A820472D5}</Project>
+      <Name>aws-cpp-sdk-support</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-support-app\aws-cpp-sdk-support-app.vcxproj">
+      <Project>{364FBA3F-83B9-363F-BE72-6A0DDF79A6FB}</Project>
+      <Name>aws-cpp-sdk-support-app</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-swf\aws-cpp-sdk-swf.vcxproj">
+      <Project>{079809A4-F2AE-300F-A507-C487DEB80118}</Project>
+      <Name>aws-cpp-sdk-swf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-synthetics\aws-cpp-sdk-synthetics.vcxproj">
+      <Project>{04618463-8165-3B50-A602-A7D7FA51CE66}</Project>
+      <Name>aws-cpp-sdk-synthetics</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-text-to-speech\aws-cpp-sdk-text-to-speech.vcxproj">
+      <Project>{699871F1-0422-3C42-8758-01E2605AEFDD}</Project>
+      <Name>aws-cpp-sdk-text-to-speech</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-text-to-speech-tests\aws-cpp-sdk-text-to-speech-tests.vcxproj">
+      <Project>{C190C2F9-2164-36A3-A632-E97AD7E80914}</Project>
+      <Name>aws-cpp-sdk-text-to-speech-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-textract\aws-cpp-sdk-textract.vcxproj">
+      <Project>{34CFBF4E-6F6A-3503-866B-0A1E59B99DBA}</Project>
+      <Name>aws-cpp-sdk-textract</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-timestream-query\aws-cpp-sdk-timestream-query.vcxproj">
+      <Project>{40A5CE86-3A78-3549-A4F7-5B00D5AF3728}</Project>
+      <Name>aws-cpp-sdk-timestream-query</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-timestream-query-integration-tests\aws-cpp-sdk-timestream-query-integration-tests.vcxproj">
+      <Project>{08539864-B524-33B2-81C1-5D8733CE97C1}</Project>
+      <Name>aws-cpp-sdk-timestream-query-integration-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-timestream-write\aws-cpp-sdk-timestream-write.vcxproj">
+      <Project>{A9D8120C-277E-355C-98ED-86EBC8C878F1}</Project>
+      <Name>aws-cpp-sdk-timestream-write</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-tnb\aws-cpp-sdk-tnb.vcxproj">
+      <Project>{A11C92AC-87A4-3A57-A19D-A6D709F23F67}</Project>
+      <Name>aws-cpp-sdk-tnb</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribe\aws-cpp-sdk-transcribe.vcxproj">
+      <Project>{13A3DF4F-254D-3E88-85E1-EC8FE4EE9F0A}</Project>
+      <Name>aws-cpp-sdk-transcribe</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-transcribestreaming\aws-cpp-sdk-transcribestreaming.vcxproj">
+      <Project>{79556143-E0A8-3E23-BE19-75B3C45C74C9}</Project>
+      <Name>aws-cpp-sdk-transcribestreaming</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-transcribestreaming-integ-tests\aws-cpp-sdk-transcribestreaming-integ-tests.vcxproj">
+      <Project>{060BE81D-D781-3AE1-A1C0-F9373C5CBD10}</Project>
+      <Name>aws-cpp-sdk-transcribestreaming-integ-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\src\aws-cpp-sdk-transfer\aws-cpp-sdk-transfer.vcxproj">
+      <Project>{8AEA9961-2D8D-3651-A7CA-D486D00F2615}</Project>
+      <Name>aws-cpp-sdk-transfer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-transfer-tests\aws-cpp-sdk-transfer-tests.vcxproj">
+      <Project>{D82A6B3F-DC8B-31E3-A888-667D7FB7CFEA}</Project>
+      <Name>aws-cpp-sdk-transfer-tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-translate\aws-cpp-sdk-translate.vcxproj">
+      <Project>{7F62949C-D59E-3C91-A228-7745A3D6EC2B}</Project>
+      <Name>aws-cpp-sdk-translate</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-trustedadvisor\aws-cpp-sdk-trustedadvisor.vcxproj">
+      <Project>{3B755C4E-A921-37BE-8353-5C18144BD0E7}</Project>
+      <Name>aws-cpp-sdk-trustedadvisor</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-verifiedpermissions\aws-cpp-sdk-verifiedpermissions.vcxproj">
+      <Project>{738EC1D7-A7FB-3D59-B9F9-180AD749F549}</Project>
+      <Name>aws-cpp-sdk-verifiedpermissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-voice-id\aws-cpp-sdk-voice-id.vcxproj">
+      <Project>{897A8DA2-27A2-3949-8291-94A1377E5437}</Project>
+      <Name>aws-cpp-sdk-voice-id</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-vpc-lattice\aws-cpp-sdk-vpc-lattice.vcxproj">
+      <Project>{054C52B2-A9F2-320E-B089-FAA9166667BA}</Project>
+      <Name>aws-cpp-sdk-vpc-lattice</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-waf\aws-cpp-sdk-waf.vcxproj">
+      <Project>{38860ECF-6314-32FC-8865-D0E0E25C6893}</Project>
+      <Name>aws-cpp-sdk-waf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-waf-regional\aws-cpp-sdk-waf-regional.vcxproj">
+      <Project>{F9A0CE5D-387E-334A-BE24-53641804B11E}</Project>
+      <Name>aws-cpp-sdk-waf-regional</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-wafv2\aws-cpp-sdk-wafv2.vcxproj">
+      <Project>{EE9260B1-6A08-38B6-A219-3BDFE89D6F2E}</Project>
+      <Name>aws-cpp-sdk-wafv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-wellarchitected\aws-cpp-sdk-wellarchitected.vcxproj">
+      <Project>{98BEBD64-AD9E-3789-BE41-E7C3CED541EC}</Project>
+      <Name>aws-cpp-sdk-wellarchitected</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-wisdom\aws-cpp-sdk-wisdom.vcxproj">
+      <Project>{07213066-0585-383A-9361-CA1BD671EDFF}</Project>
+      <Name>aws-cpp-sdk-wisdom</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workdocs\aws-cpp-sdk-workdocs.vcxproj">
+      <Project>{CB9F2570-CB46-35FB-ACE8-B9E7A082BA39}</Project>
+      <Name>aws-cpp-sdk-workdocs</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-worklink\aws-cpp-sdk-worklink.vcxproj">
+      <Project>{5AFF07DE-B167-3209-9F97-3BBA27163DBD}</Project>
+      <Name>aws-cpp-sdk-worklink</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workmail\aws-cpp-sdk-workmail.vcxproj">
+      <Project>{63673AB2-0C2B-355E-85F0-23922E4A90EF}</Project>
+      <Name>aws-cpp-sdk-workmail</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workmailmessageflow\aws-cpp-sdk-workmailmessageflow.vcxproj">
+      <Project>{F50069C2-BC6B-35F0-904B-51047C7D43C0}</Project>
+      <Name>aws-cpp-sdk-workmailmessageflow</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workspaces\aws-cpp-sdk-workspaces.vcxproj">
+      <Project>{6EE2780C-FCDC-39AF-9814-58EF09CDF124}</Project>
+      <Name>aws-cpp-sdk-workspaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workspaces-thin-client\aws-cpp-sdk-workspaces-thin-client.vcxproj">
+      <Project>{4AF79FC3-BFF7-371C-A754-06CC95C61DC0}</Project>
+      <Name>aws-cpp-sdk-workspaces-thin-client</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-workspaces-web\aws-cpp-sdk-workspaces-web.vcxproj">
+      <Project>{A105BC89-2C6E-3C57-849C-AEC4D72AD6E7}</Project>
+      <Name>aws-cpp-sdk-workspaces-web</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-xray\aws-cpp-sdk-xray.vcxproj">
+      <Project>{7B5D035D-FF21-38EE-BA96-B66EF12B7E70}</Project>
+      <Name>aws-cpp-sdk-xray</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\crt\aws-crt-cpp\aws-crt-cpp.vcxproj">
+      <Project>{3C638684-5C02-318B-B6E4-436DEE732041}</Project>
+      <Name>aws-crt-cpp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\aws-cpp-sdk-polly-sample\polly_sample.vcxproj">
+      <Project>{CE9234E3-0F44-3A37-89EA-A94332DF650A}</Project>
+      <Name>polly_sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\tests\testing-resources\testing-resources.vcxproj">
+      <Project>{BDC49442-5680-3769-808C-B292CD392ED9}</Project>
+      <Name>testing-resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

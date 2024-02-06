@@ -12,7 +12,7 @@
 
 set(CPACK_BUILD_SOURCE_DIRS "D:/Users/nautilus/Desktop/nautilus_acquisition;D:/Users/nautilus/Desktop/nautilus_acquisition/build-R")
 set(CPACK_CMAKE_GENERATOR "Visual Studio 17 2022")
-set(CPACK_COMPONENTS_ALL "Unspecified;nautilai")
+set(CPACK_COMPONENTS_ALL "Devel;Development;Runtime;Unspecified;nautilai")
 set(CPACK_COMPONENT_UNSPECIFIED_HIDDEN "TRUE")
 set(CPACK_COMPONENT_UNSPECIFIED_REQUIRED "TRUE")
 set(CPACK_DEFAULT_PACKAGE_DESCRIPTION_FILE "C:/Program Files/CMake/share/cmake-3.25/Templates/CPack.GenericDescription.txt")

@@ -7,4 +7,7 @@ add_subdirectory(tango)
 add_subdirectory(ffmpeg)
 add_subdirectory(zlib)
 add_subdirectory(ordered-map)
-find_package(sdk_build)
+add_subdirectory(aws-sdk-cpp)
+list(APPEND CMAKE_PREFIX_PATH "C:\\Program Files\\aws-cpp-sdk-all\\lib\\cmake")
+find_package(AWSSDK REQUIRED COMPONENTS s3)
+

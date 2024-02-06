@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\build-R\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\ub_MARKETPLACE-CATALOG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogClient.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogEndpointProvider.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogEndpointRules.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogErrorMarshaller.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogErrors.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalogServiceClientModel.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\MarketplaceCatalog_EXPORTS.h">
+      <Filter>Header Files\aws\marketplace-catalog</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductTitleFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductVisibilityFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\AmiProductVisibilityString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\BatchDescribeEntitiesRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\BatchDescribeEntitiesResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\BatchDescribeErrorDetail.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\CancelChangeSetRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\CancelChangeSetResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\Change.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ChangeSetSummaryListItem.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ChangeStatus.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ChangeSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductTitleFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductVisibilityFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ContainerProductVisibilityString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductTitleFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductVisibilityFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DataProductVisibilityString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DeleteResourcePolicyRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DeleteResourcePolicyResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DescribeChangeSetRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DescribeChangeSetResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DescribeEntityRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\DescribeEntityResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\Entity.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\EntityDetail.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\EntityRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\EntitySummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\EntityTypeFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\EntityTypeSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ErrorDetail.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\FailureCode.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\Filter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\GetResourcePolicyRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\GetResourcePolicyResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListChangeSetsRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListChangeSetsResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListEntitiesRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListEntitiesResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListTagsForResourceRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ListTagsForResourceResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferAvailabilityEndDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferAvailabilityEndDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferBuyerAccountsFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferNameFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferProductIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferReleaseDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferReleaseDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferStateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferStateString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferTargetingFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OfferTargetingString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\OwnershipType.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\PutResourcePolicyRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\PutResourcePolicyResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationAvailabilityEndDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationAvailabilityEndDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationCreatedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationCreatedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationManufacturerAccountIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationManufacturerLegalNameFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationNameFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationOfferExtendedStatusFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationProductIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationProductNameFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationResellerAccountIDFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationResellerLegalNameFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationStatusFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationStatusString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\ResaleAuthorizationSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductEntityIdFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductFilters.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductLastModifiedDateFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductLastModifiedDateFilterDateRange.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductSort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductSortBy.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductSummary.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductTitleFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductVisibilityFilter.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SaaSProductVisibilityString.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\Sort.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\SortOrder.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\StartChangeSetRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\StartChangeSetResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\Tag.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\TagResourceRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\TagResourceResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\UntagResourceRequest.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\include\aws\marketplace-catalog\model\UntagResourceResult.h">
+      <Filter>Header Files\aws\marketplace-catalog\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogEndpointProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogEndpointRules.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogErrorMarshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogErrors.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\MarketplaceCatalogRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductTitleFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductVisibilityFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\AmiProductVisibilityString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\BatchDescribeEntitiesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\BatchDescribeEntitiesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\BatchDescribeErrorDetail.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\CancelChangeSetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\CancelChangeSetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\Change.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ChangeSetSummaryListItem.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ChangeStatus.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ChangeSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductTitleFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductVisibilityFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ContainerProductVisibilityString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductTitleFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductVisibilityFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DataProductVisibilityString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DeleteResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DeleteResourcePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DescribeChangeSetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DescribeChangeSetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DescribeEntityRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\DescribeEntityResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\Entity.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\EntityDetail.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\EntityRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\EntitySummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\EntityTypeFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\EntityTypeSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ErrorDetail.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\FailureCode.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\Filter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\GetResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\GetResourcePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListChangeSetsRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListChangeSetsResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListEntitiesRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListEntitiesResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListTagsForResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ListTagsForResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferAvailabilityEndDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferAvailabilityEndDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferBuyerAccountsFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferNameFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferProductIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferReleaseDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferReleaseDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferStateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferStateString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferTargetingFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OfferTargetingString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\OwnershipType.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\PutResourcePolicyRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\PutResourcePolicyResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationAvailabilityEndDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationAvailabilityEndDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationCreatedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationCreatedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationManufacturerAccountIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationManufacturerLegalNameFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationNameFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationOfferExtendedStatusFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationProductIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationProductNameFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationResellerAccountIDFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationResellerLegalNameFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationStatusFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationStatusString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\ResaleAuthorizationSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductEntityIdFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductFilters.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductLastModifiedDateFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductLastModifiedDateFilterDateRange.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductSort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductSortBy.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductSummary.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductTitleFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductVisibilityFilter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SaaSProductVisibilityString.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\Sort.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\SortOrder.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\StartChangeSetRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\StartChangeSetResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\Tag.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\TagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\TagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\UntagResourceRequest.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\source\model\UntagResourceResult.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\generated\src\aws-cpp-sdk-marketplace-catalog\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D6DE49EB-E503-3580-AA78-15BA03105F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws">
+      <UniqueIdentifier>{6A87B99D-146A-3AE3-A64A-732F1BB38C97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\marketplace-catalog">
+      <UniqueIdentifier>{898F0717-50F7-3F17-B9B3-4A3DA48B969B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\aws\marketplace-catalog\model">
+      <UniqueIdentifier>{967334CA-2662-3258-9054-086F8DD7F100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02DF7B89-A031-3795-BFE8-E8C90AAC0233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{1A20957E-3AED-3C2A-BEAD-30B2B2CAEE32}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
