@@ -28,6 +28,7 @@
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
+#define USE_IMPORT_EXPORT
 
 #include <chrono>
 #include <ctime>
@@ -50,6 +51,10 @@
 #include <QProcess>
 #include <QSvgWidget>
 #include <QPushButton>
+#include <aws/core/Aws.h>
+#include <aws/core/auth/AWSCredentialsProvider.h>
+#include <aws/s3/S3Client.h>
+#include <aws/s3/model/GetObjectRequest.h>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -378,6 +383,17 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     emit sig_progress_text("Calibrating stage");
+
+    spdlog::info("Starting download");
+    
+    options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Debug;
+
+
+    const Aws::String bucket_name = "downloads.curibio.com";
+    const Aws::String object_name = "software/nautilai/prod.toml";
+    getS3Object(bucket_name, object_name);
+
+
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
@@ -1380,6 +1396,42 @@ void MainWindow::sendManualTrigger() {
     }
 }
 
+void MainWindow::getS3Object(const Aws::String bucketName, const Aws::String objectName) {
+    Aws::InitAPI(options); 
+    {    
+        Aws::Client::ClientConfiguration clientConfig;
+        // required to set region
+        clientConfig.region = "us-east-1";
+        // still have to set the credentials even though the bucket is public, setting to empty
+        Aws::S3::S3Client client(Aws::Auth::AWSCredentials("", ""), clientConfig, Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never, true);
+
+        Aws::S3::Model::GetObjectRequest request;
+
+        request.SetBucket(bucketName);
+        request.SetKey(objectName);
+
+        Aws::S3::Model::GetObjectOutcome outcome =
+                client.GetObject(request);
+
+        if (!outcome.IsSuccess()) {
+            const Aws::S3::S3Error &err = outcome.GetError();
+            spdlog::error("Error: GetObject: {}", err.GetMessage());
+        } else {
+            try{
+                std::stringstream ss;
+                ss << outcome.GetResult().GetBody().rdbuf();
+                std::cout << ss.str() << std::endl;
+                // toml::value data = toml::parse<toml::preserve_comments, tsl::ordered_map>(ss.str());
+                auto path = toml::find<std::string>(ss.str(), "version");
+                std::cout << path << std::endl;
+            }catch(const std::exception& e) {
+                spdlog::error("Failed to parse file \"{}\"", e.what());
+            }
+        }
+    }
+    Aws::ShutdownAPI(options);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
         event->ignore();
@@ -1398,5 +1450,3 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
     }
 }
-
-

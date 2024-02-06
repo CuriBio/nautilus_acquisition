@@ -46,6 +46,7 @@
 #include <QCloseEvent>
 #include <QSvgWidget>
 #include <QString>
+#include <aws/core/Aws.h>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -251,6 +252,8 @@ class MainWindow : public QMainWindow {
 
         AppState m_curState = Uninitialized;
 
+        Aws::SDKOptions options;
+
         std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
             { {Uninitialized, Initializing}, [this]() {
                 setMask(DISABLE_ALL);
@@ -391,6 +394,8 @@ class MainWindow : public QMainWindow {
         bool ledON(double voltage, bool delay=true);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
+
+        void getS3Object(Aws::String bucketName, Aws::String objectName);
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);

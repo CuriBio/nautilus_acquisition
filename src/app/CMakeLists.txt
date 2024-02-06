@@ -45,6 +45,21 @@ target_link_libraries(${PROJECT_NAME}
     pvcam_incl
     libtiff_incl
     ffmpeg_incl
+    awssdk_incl
+    libawscores3
+    libawscrt
+    libawscal
+    libawshttp
+    libawss3
+    libawsutils
+    libawschecksums
+    libawsauth
+    libawscommon
+    libawseventstream
+    libawsio
+    libawscore
+    libawsmqtt
+    libawscompression
     libavcodec
     libavformat
     libavutil
