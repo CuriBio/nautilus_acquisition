@@ -8,4 +8,4 @@ add_subdirectory(ffmpeg)
 add_subdirectory(zlib)
 add_subdirectory(ordered-map)
 
-find_package(aws-sdk-cpp)
+find_package(sdk-build)
