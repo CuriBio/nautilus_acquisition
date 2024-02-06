@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{23B3DCC6-96C2-3A7F-AE12-B11BBA17DA86}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>aws-c-compression</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-c-compression.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">aws-c-compression</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\bin\DebugOpt\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-c-compression.dir\DebugOpt\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">aws-c-compression</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-c-compression.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">aws-c-compression</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-c-compression.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">aws-c-compression</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-c-compression.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">aws-c-compression</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4204;4221</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;DEBUG_BUILD;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR="Debug";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;DEBUG_BUILD;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Debug\";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\aws-c-common\Debug\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/Debug/aws-c-compression.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/bin/Debug/aws-c-compression.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4204;4221</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR="DebugOpt";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"DebugOpt\";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\aws-c-common\DebugOpt\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/DebugOpt/aws-c-compression.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/bin/DebugOpt/aws-c-compression.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4204;4221</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR="Release";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"Release\";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\aws-c-common\Release\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/Release/aws-c-compression.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/bin/Release/aws-c-compression.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4204;4221</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR="RelWithDebInfo";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"RelWithDebInfo\";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\aws-c-common\RelWithDebInfo\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/RelWithDebInfo/aws-c-compression.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/bin/RelWithDebInfo/aws-c-compression.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /volatile:iso</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4204;4221</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR="MinSizeRel";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;INTEL_NO_ITTNOTIFY_API;AWS_COMPRESSION_USE_IMPORT_EXPORT;AWS_COMPRESSION_EXPORTS;ENFORCE_TLS_V1_2;PLATFORM_WINDOWS;AWS_TEST_REGION=US_EAST_1;ENABLE_BCRYPT_ENCRYPTION;ENABLE_WINDOWS_CLIENT;AWS_COMMON_USE_IMPORT_EXPORT;CMAKE_INTDIR=\"MinSizeRel\";aws_c_compression_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\include;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\generated\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\aws-c-common\MinSizeRel\aws-c-common.lib;BCrypt.lib;Kernel32.lib;Ws2_32.lib;Shlwapi.lib;Psapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/MinSizeRel/aws-c-compression.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/bin/MinSizeRel/aws-c-compression.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/crt/aws-crt-cpp/crt/aws-c-compression/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCFlags.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCheckHeaders.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSanitizers.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSharedLibSetup.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\cmake\aws-c-compression-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-compression\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/crt/aws-crt-cpp/crt/aws-c-compression/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCFlags.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCheckHeaders.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSanitizers.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSharedLibSetup.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\cmake\aws-c-compression-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-compression\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/crt/aws-crt-cpp/crt/aws-c-compression/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCFlags.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCheckHeaders.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSanitizers.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSharedLibSetup.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\cmake\aws-c-compression-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-compression\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/crt/aws-crt-cpp/crt/aws-c-compression/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCFlags.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCheckHeaders.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSanitizers.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSharedLibSetup.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\cmake\aws-c-compression-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-compression\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp/crt/aws-crt-cpp/crt/aws-c-compression/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Users/nautilus/Desktop/nautilus_acquisition/libs/aws-sdk-cpp -BD:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build --check-stamp-file D:/Users/nautilus/Desktop/nautilus_acquisition/libs/sdk_build/crt/aws-crt-cpp/crt/aws-c-compression/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTest.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CTestUseLaunchers.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckCCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.25\Modules\CheckSymbolExists.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCFlags.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsCheckHeaders.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsFindPackage.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSanitizers.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-common\cmake\AwsSharedLibSetup.cmake;D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\cmake\aws-c-compression-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-compression\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include\aws\compression\compression.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include\aws\compression\exports.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include\aws\compression\huffman.h" />
+    <ClInclude Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\include\aws\compression\private\huffman_testing.h" />
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\source\compression.c" />
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\source\huffman.c" />
+    <ClCompile Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\aws-sdk-cpp\crt\aws-crt-cpp\crt\aws-c-compression\source\huffman_testing.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\ZERO_CHECK.vcxproj">
+      <Project>{9CDD380B-563A-3E24-9D91-4CD5AE430734}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Users\nautilus\Desktop\nautilus_acquisition\libs\sdk_build\crt\aws-crt-cpp\crt\aws-c-common\aws-c-common.vcxproj">
+      <Project>{E41D7DE5-E006-30EB-8134-7F708E71DBCA}</Project>
+      <Name>aws-c-common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
