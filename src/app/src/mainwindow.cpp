@@ -50,6 +50,8 @@
 #include <QProcess>
 #include <QSvgWidget>
 #include <QPushButton>
+#include <aws/core/Aws.h>
+#include <aws/s3/S3Client.h>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
@@ -378,6 +380,13 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     emit sig_progress_text("Calibrating stage");
+
+
+    Aws::InitAPI(options);
+    
+    Aws::ShutdownAPI(options);
+
+
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {

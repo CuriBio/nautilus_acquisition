@@ -46,6 +46,7 @@
 #include <QCloseEvent>
 #include <QSvgWidget>
 #include <QString>
+#include <aws/core/Aws.h>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -250,6 +251,8 @@ class MainWindow : public QMainWindow {
         std::mutex m_liveViewLock;
 
         AppState m_curState = Uninitialized;
+
+        Aws::SDKOptions options;
 
         std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
             { {Uninitialized, Initializing}, [this]() {
