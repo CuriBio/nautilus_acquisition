@@ -48,6 +48,7 @@ target_link_libraries(${PROJECT_NAME}
     awssdk_incl
     libawscores3
     libawscrt
+    libawss3
     libawscore
     libavcodec
     libavformat
