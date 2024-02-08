@@ -399,19 +399,19 @@ void MainWindow::Initialize() {
         // Aws::Auth::AWSCredentials credentials;
         Aws::S3::S3Client client(clientConfig);
 
-        Aws::S3::Model::GetObjectRequest request;
-        request.SetBucket(bucket_name);
-        request.SetKey(object_name);
+        // Aws::S3::Model::GetObjectRequest request;
+        // request.SetBucket(bucket_name);
+        // request.SetKey(object_name);
 
-        Aws::S3::Model::GetObjectOutcome get_object_outcome = client.GetObject(request);
+        // Aws::S3::Model::GetObjectOutcome get_object_outcome = client.GetObject(request);
 
-        if (get_object_outcome.IsSuccess()) {
-            spdlog::info("Successful download");
-            // auto& retrieved_file = get_object_outcome.GetResultWithOwnership().GetBody();
-            // int size = get_object_outcome.GetResultWithOwnership().GetContentLength() + 1;
-        } else {
-            spdlog::info("Failed download");
-        }
+        // if (get_object_outcome.IsSuccess()) {
+        //     spdlog::info("Successful download");
+        //     // auto& retrieved_file = get_object_outcome.GetResultWithOwnership().GetBody();
+        //     // int size = get_object_outcome.GetResultWithOwnership().GetContentLength() + 1;
+        // } else {
+        //     spdlog::info("Failed download");
+        // }
     }
     Aws::ShutdownAPI(options);
 
