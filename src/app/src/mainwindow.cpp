@@ -410,11 +410,11 @@ void MainWindow::Initialize() {
         Aws::S3::Model::GetObjectOutcome get_object_outcome = s3_client.GetObject(object_request);
 
         if (get_object_outcome.IsSuccess()) {
-            spdlog::info("Successful download")
+            spdlog::info("Successful download");
             // auto& retrieved_file = get_object_outcome.GetResultWithOwnership().GetBody();
             // int size = get_object_outcome.GetResultWithOwnership().GetContentLength() + 1;
         } else {
-            spdlog::info("Failed download")
+            spdlog::info("Failed download");
         }
     }
     Aws::ShutdownAPI(options);
