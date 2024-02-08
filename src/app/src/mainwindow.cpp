@@ -389,8 +389,8 @@ void MainWindow::Initialize() {
         const Aws::String bucket_name = "downloads.curibio.com";
         const Aws::String object_name = "software/nautilai/prod.toml";
         const Aws::String region = "us-east-2";
-
-        Aws::Client::ClientConfiguration config;
+        
+        Aws::Client::ClientConfiguration clientConfig;
 
         if (!region.empty())
         {
@@ -398,16 +398,13 @@ void MainWindow::Initialize() {
         }
 
         Aws::Auth::AWSCredentials credentials;
-        // credentials.SetAWSAccessKeyId("accesskey");
-        // credentials.SetAWSSecretKey("secretkey");
+        Aws::S3::S3Client client(clientConfig);
 
-        Aws::S3::S3Client client(credentials, config);
+        Aws::S3::Model::GetObjectRequest request;
+        request.SetBucket(fromBucket);
+        request.SetKey(objectKey);
 
-        Aws::S3::Model::GetObjectRequest object_request;
-        object_request.SetBucket(bucket_name);
-        object_request.SetKey(object_name);
-
-        Aws::S3::Model::GetObjectOutcome get_object_outcome = s3_client.GetObject(object_request);
+        Aws::S3::Model::GetObjectOutcome outcome = client.GetObject(request);
 
         if (get_object_outcome.IsSuccess()) {
             spdlog::info("Successful download");
