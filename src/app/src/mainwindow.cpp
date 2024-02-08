@@ -394,7 +394,7 @@ void MainWindow::Initialize() {
         // clientConfig.region = region;
         
 
-        Aws::Auth::AWSCredentials credentials;
+        // Aws::Auth::AWSCredentials credentials;
         Aws::S3::S3Client client(clientConfig);
 
         Aws::S3::Model::GetObjectRequest request;
