@@ -391,7 +391,7 @@ void MainWindow::Initialize() {
         const Aws::String region = "us-east-2";
         
         Aws::Client::ClientConfiguration clientConfig;
-        clientConfig.region = region;
+        // clientConfig.region = region;
         
 
         Aws::Auth::AWSCredentials credentials;
