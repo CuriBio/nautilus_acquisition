@@ -386,7 +386,7 @@ void MainWindow::Initialize() {
 
     emit sig_progress_text("Calibrating stage");
 
-
+    spdlog::info("Starting download");
     Aws::InitAPI(options);
     {
         const Aws::String bucket_name = "downloads.curibio.com";
