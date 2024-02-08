@@ -397,7 +397,7 @@ void MainWindow::Initialize() {
         
 
         // Aws::Auth::AWSCredentials credentials;
-        Aws::S3::S3Client client(clientConfig);
+        Aws::S3::S3Client client = client(clientConfig);
 
         Aws::S3::Model::GetObjectRequest request;
         request.SetBucket(bucket_name);
