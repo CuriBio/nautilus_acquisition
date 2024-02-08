@@ -46,11 +46,11 @@ target_link_libraries(${PROJECT_NAME}
     libtiff_incl
     ffmpeg_incl
     awssdk_incl
-    libawscores3
+    # libawscores3
     libawscrt
     libawscal
     libawshttp
-    # libawss3
+    libawss3
     libawsutils
     libawschecksums
     libawsauth
