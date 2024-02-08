@@ -50,7 +50,7 @@ target_link_libraries(${PROJECT_NAME}
     libawscrt
     libawscal
     libawshttp
-    libawss3
+    # libawss3
     libawsutils
     libawschecksums
     libawsauth
