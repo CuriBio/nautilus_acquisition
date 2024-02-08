@@ -52,6 +52,7 @@
 #include <QPushButton>
 #include <aws/core/Aws.h>
 #include <aws/s3/S3Client.h>
+#include <aws/s3/model/GetObjectRequest.h>
 
 #include "mainwindow.h"
 #include <PostProcess.h>
