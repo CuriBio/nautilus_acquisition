@@ -1,8 +1,8 @@
 # Set the minimum required version of CMake for this project.
 cmake_minimum_required(VERSION 3.13)
 
-# add_library(awssdk_incl INTERFACE)
-# target_include_directories(awssdk_incl INTERFACE include)
+add_library(awssdk_incl INTERFACE)
+target_include_directories(awssdk_incl INTERFACE include)
 
 IF (WIN32)
 message("### ADDING AWS SDK DLLs ###")
