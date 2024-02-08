@@ -47,6 +47,7 @@ target_link_libraries(${PROJECT_NAME}
     ffmpeg_incl
     awssdk_incl
     libawscores3
+    libawscrt
     libawscore
     libavcodec
     libavformat
