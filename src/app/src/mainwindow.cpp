@@ -28,6 +28,7 @@
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
+#define USE_IMPORT_EXPORT
 
 #include <chrono>
 #include <ctime>
