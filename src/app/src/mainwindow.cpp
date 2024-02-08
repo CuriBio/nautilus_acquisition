@@ -196,7 +196,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_acquisitionProgress = new QProgressDialog("", "Cancel", 0, 100, this, Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     m_acquisitionProgress->cancel();
     m_acquisitionProgress->setCancelButton(nullptr);
-    m_acquisitionProgress->setAutoClose(false);
+    m_acquisitionProgress3s->setAutoClose(false);
 
     connect(this, &MainWindow::sig_progress_start, this, [this](std::string msg, int n) {
         m_acquisitionProgress->setCancelButton(nullptr);
@@ -394,25 +394,24 @@ void MainWindow::Initialize() {
         const Aws::String region = "us-east-2";
         
         Aws::Client::ClientConfiguration clientConfig;
-        // clientConfig.region = region;
+        clientConfig.region = region;
         
-
         // Aws::Auth::AWSCredentials credentials;
         Aws::S3::S3Client client(clientConfig);
 
-        // Aws::S3::Model::GetObjectRequest request;
-        // request.SetBucket(bucket_name);
-        // request.SetKey(object_name);
+        Aws::S3::Model::GetObjectRequest request;
+        request.SetBucket(bucket_name);
+        request.SetKey(object_name);
 
-        // Aws::S3::Model::GetObjectOutcome get_object_outcome = client.GetObject(request);
+        Aws::S3::Model::GetObjectOutcome get_object_outcome = client.GetObject(request);
 
-        // if (get_object_outcome.IsSuccess()) {
-        //     spdlog::info("Successful download");
-        //     // auto& retrieved_file = get_object_outcome.GetResultWithOwnership().GetBody();
-        //     // int size = get_object_outcome.GetResultWithOwnership().GetContentLength() + 1;
-        // } else {
-        //     spdlog::info("Failed download");
-        // }
+        if (get_object_outcome.IsSuccess()) {
+            spdlog::info("Successful download");
+            // auto& retrieved_file = get_object_outcome.GetResultWithOwnership().GetBody();
+            // int size = get_object_outcome.GetResultWithOwnership().GetContentLength() + 1;
+        } else {
+            spdlog::info("Failed download");
+        }
     }
     Aws::ShutdownAPI(options);
 
