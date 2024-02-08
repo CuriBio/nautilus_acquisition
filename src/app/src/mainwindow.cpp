@@ -401,10 +401,10 @@ void MainWindow::Initialize() {
         Aws::S3::S3Client client(clientConfig);
 
         Aws::S3::Model::GetObjectRequest request;
-        request.SetBucket(fromBucket);
-        request.SetKey(objectKey);
+        request.SetBucket(bucket_name);
+        request.SetKey(object_name);
 
-        Aws::S3::Model::GetObjectOutcome outcome = client.GetObject(request);
+        Aws::S3::Model::GetObjectOutcome get_object_outcome = client.GetObject(request);
 
         if (get_object_outcome.IsSuccess()) {
             spdlog::info("Successful download");
