@@ -1,5 +1,6 @@
 # Set the minimum required version of CMake for this project.
 cmake_minimum_required(VERSION 3.13)
+set (CMAKE_CXX_STANDARD 11)
 
 add_library(awssdk_incl INTERFACE)
 target_include_directories(awssdk_incl INTERFACE include)
