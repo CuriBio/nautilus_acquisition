@@ -9,6 +9,7 @@ message("### ADDING AWS SDK DLLs ###")
 
 add_library(libawscore SHARED IMPORTED GLOBAL)
 add_library(libawscores3 SHARED IMPORTED GLOBAL)
+add_library(libawscrt SHARED IMPORTED GLOBAL)
 
 set_target_properties(libawscore PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/aws-cpp-sdk-core.dll")
 set_target_properties(libawscore PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/lib/aws-cpp-sdk-core.lib")
@@ -18,6 +19,10 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/bin/aws-cpp-sdk-core.dll DESTINATION $
 set_target_properties(libawscores3 PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/aws-cpp-sdk-s3.dll")
 set_target_properties(libawscores3 PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/lib/aws-cpp-sdk-s3.lib")
 set_target_properties(libawscores3 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/include")
+
+set_target_properties(libawscrt PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/aws-crt-cpp.dll")
+set_target_properties(libawscrt PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/lib/aws-crt-cpp.lib")
+set_target_properties(libawscrt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/include")
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/bin/aws-cpp-sdk-s3.dll DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/bin/aws-c-auth.dll DESTINATION ${CMAKE_INSTALL_BINDIR})
