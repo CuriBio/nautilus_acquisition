@@ -374,7 +374,7 @@ void MainWindow::Initialize() {
     spdlog::info("Initialize camera");
     m_camera = std::make_shared<pmCamera>();
 
-    spdlog::info("Opening camera 0");
+    spdlog::info("Opening camera 0 LUCI");
     if (!m_camera->Open(0)) {
         spdlog::error("Failed to open camera 0");
         emit sig_show_error("Camera could not be found, please plug in camera and restart application");
