@@ -37,7 +37,7 @@ set_target_properties(libawscrt PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAK
 
 set_target_properties(libawss3 PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/aws-c-s3.dll")
 set_target_properties(libawss3 PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/lib/aws-c-s3.lib")
-set_target_properties(libawss3 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/include")
+# set_target_properties(libawss3 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/include")
 
 set_target_properties(libawsauth PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/aws-c-auth.dll")
 set_target_properties(libawsauth PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_LIST_DIR}/lib/aws-c-auth.lib")
