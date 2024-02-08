@@ -48,8 +48,18 @@ target_link_libraries(${PROJECT_NAME}
     awssdk_incl
     libawscores3
     libawscrt
+    libawscal
+    libawshttp
     libawss3
+    libawsutils
+    libawschecksums
+    libawsauth
+    libawscommon
+    libawseventstream
+    libawsio
     libawscore
+    libawsmqtt
+    libawscompression
     libavcodec
     libavformat
     libavutil
