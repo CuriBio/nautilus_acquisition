@@ -391,11 +391,8 @@ void MainWindow::Initialize() {
         const Aws::String region = "us-east-2";
         
         Aws::Client::ClientConfiguration clientConfig;
-
-        if (!region.empty())
-        {
-            config.region = region;
-        }
+        clientConfig.region = region;
+        
 
         Aws::Auth::AWSCredentials credentials;
         Aws::S3::S3Client client(clientConfig);
