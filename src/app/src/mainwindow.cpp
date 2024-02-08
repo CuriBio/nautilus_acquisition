@@ -401,7 +401,7 @@ void MainWindow::Initialize() {
         // credentials.SetAWSAccessKeyId("accesskey");
         // credentials.SetAWSSecretKey("secretkey");
 
-        Aws::S3::S3Client s3_client(credentials, config);
+        Aws::S3::S3Client client(credentials, config);
 
         Aws::S3::Model::GetObjectRequest object_request;
         object_request.SetBucket(bucket_name);
@@ -1440,5 +1440,3 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
     }
 }
-
-
