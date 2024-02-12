@@ -7,6 +7,3 @@ add_subdirectory(tango)
 add_subdirectory(ffmpeg)
 add_subdirectory(zlib)
 add_subdirectory(ordered-map)
-add_subdirectory(aws-sdk)
-
-

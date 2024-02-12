@@ -51,12 +51,9 @@
 #include <QProcess>
 #include <QSvgWidget>
 #include <QPushButton>
-#include <aws/core/Aws.h>
-#include <aws/core/auth/AWSCredentialsProvider.h>
-#include <aws/s3/S3Client.h>
-#include <aws/s3/model/GetObjectRequest.h>
 
 #include "mainwindow.h"
+
 #include <PostProcess.h>
 #include <VideoEncoder.h>
 #include <RawFile.h>
@@ -338,6 +335,15 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     );
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
+    //initial autoupdate class
+    m_autoUpdate = std::make_unique<AutoUpdate>(
+        m_config,
+        //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
+        "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
+        "prod",
+        this
+    );
+
 
     //live view timer signals
     m_liveViewTimer = new QTimer(this);
@@ -384,15 +390,10 @@ void MainWindow::Initialize() {
 
     emit sig_progress_text("Calibrating stage");
 
-    spdlog::info("Starting download");
-    
-    options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Debug;
-
-
-    const Aws::String bucket_name = "downloads.curibio.com";
-    const Aws::String object_name = "software/nautilai/prod.toml";
-    getS3Object(bucket_name, object_name);
-
+    //check for update
+    m_autoUpdate->hasUpdate();
+    spdlog::info("Update available {}", m_config->updateAvailable);
+    //m_autoUpdate->applyUpdate();
 
     //Async calibrate stage
     if (m_config->asyncInit) {
@@ -460,6 +461,11 @@ void MainWindow::Initialize() {
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
+
+    if (m_config->updateAvailable) {
+        emit m_autoUpdate->sig_notify_update();
+        //m_autoUpdate->show();
+    }
 }
 
 void MainWindow::updateState(AppState state) {
@@ -705,7 +711,6 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
     ui.liveScanBtn->setText("Live Scan");
     m_liveViewTimer->stop();
     m_liveView->update();
-    //m_acquisition->StopLiveView();
 
     return true;
 
@@ -1396,42 +1401,6 @@ void MainWindow::sendManualTrigger() {
     }
 }
 
-void MainWindow::getS3Object(const Aws::String bucketName, const Aws::String objectName) {
-    Aws::InitAPI(options); 
-    {    
-        Aws::Client::ClientConfiguration clientConfig;
-        // required to set region
-        clientConfig.region = "us-east-1";
-        // still have to set the credentials even though the bucket is public, setting to empty
-        Aws::S3::S3Client client(Aws::Auth::AWSCredentials("", ""), clientConfig, Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never, true);
-
-        Aws::S3::Model::GetObjectRequest request;
-
-        request.SetBucket(bucketName);
-        request.SetKey(objectName);
-
-        Aws::S3::Model::GetObjectOutcome outcome =
-                client.GetObject(request);
-
-        if (!outcome.IsSuccess()) {
-            const Aws::S3::S3Error &err = outcome.GetError();
-            spdlog::error("Error: GetObject: {}", err.GetMessage());
-        } else {
-            try{
-                std::stringstream ss;
-                ss << outcome.GetResult().GetBody().rdbuf();
-                std::cout << ss.str() << std::endl;
-                // toml::value data = toml::parse<toml::preserve_comments, tsl::ordered_map>(ss.str());
-                auto path = toml::find<std::string>(ss.str(), "version");
-                std::cout << path << std::endl;
-            }catch(const std::exception& e) {
-                spdlog::error("Failed to parse file \"{}\"", e.what());
-            }
-        }
-    }
-    Aws::ShutdownAPI(options);
-}
-
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
         event->ignore();
@@ -1447,6 +1416,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         if (m_curState == LiveViewAcquisitionRunning) {
             stopAcquisition_LiveViewRunning();
             stopLiveView();
+        }
+
+        if (m_config->updateAvailable) {
+            spdlog::info("Applying update");
+            emit sig_progress_start("Applying update", 0);
+            m_autoUpdate->applyUpdate();
+
+            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.toml").string();
+            m_stageControl->saveList(configFile, true);
+            emit sig_progress_done();
         }
     }
 }

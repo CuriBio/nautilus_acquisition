@@ -86,6 +86,7 @@ class StageControl : public QDialog {
 
         const std::vector<StagePosition*>& GetPositions() const;
 
+        void saveList(std::string fileName, bool fileExists);
         void loadList(std::string fileName);
 
     signals:
@@ -122,7 +123,6 @@ class StageControl : public QDialog {
 
 
     private:
-        void saveList(std::string fileName, bool fileExists);
         void disableAll();
         void enableAll();
 };
