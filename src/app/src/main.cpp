@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
     }
 
     spdlog::info("Loading config {}", configFile.string());
-    std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userargs);
+    std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs);
     config->version = version;
     config->configFile = configFile.string();
     if (config->configError.empty()) {

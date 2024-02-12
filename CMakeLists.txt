@@ -69,6 +69,9 @@ set(PROJECT_BUILD ${CMAKE_CURRENT_BINARY_DIR})
 #Install license.txt
 install(FILES LICENSE.txt DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+#Install NSIS template
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/NSIS.template.in DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 #Install config file
 install(FILES ${CMAKE_SOURCE_DIR}/resources/nautilai.toml DESTINATION ${CMAKE_INSTALL_BINDIR})
 

@@ -46,7 +46,6 @@
 #include <QCloseEvent>
 #include <QSvgWidget>
 #include <QString>
-#include <aws/core/Aws.h>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -71,6 +70,7 @@
 #include "stagecontrol.h"
 #include "advancedsetupdialog.h"
 #include "liveview.h"
+#include "autoupdate.h"
 
 #define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
@@ -250,9 +250,9 @@ class MainWindow : public QMainWindow {
         std::mutex m_lock;
         std::mutex m_liveViewLock;
 
-        AppState m_curState = Uninitialized;
+        std::unique_ptr<AutoUpdate> m_autoUpdate;
 
-        Aws::SDKOptions options;
+        AppState m_curState = Uninitialized;
 
         std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
             { {Uninitialized, Initializing}, [this]() {
@@ -395,7 +395,7 @@ class MainWindow : public QMainWindow {
         bool ledOFF();
         bool ledSetVoltage(double voltage);
 
-        void getS3Object(Aws::String bucketName, Aws::String objectName);
+        //void getS3Object(Aws::String bucketName, Aws::String objectName);
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);

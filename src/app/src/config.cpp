@@ -6,8 +6,12 @@
 #include "config.h"
 #include <pm/Camera.h>
 
-Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
+Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs) {
     toml::value config;
+
+    //save user profile path
+    userProfile = profile;
+
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
         configFile = cfg.string();
@@ -229,6 +233,9 @@ Config::Config(std::filesystem::path cfg, cxxopts::ParseResult userargs) {
        // exception occurs if machine or nautilai.toml files are missing
        spdlog::error("Unable to parse config variables due to missing toml file(s)");
     }
+
+    //updates default to false, will get set when manifest is downloaded
+    updateAvailable = false;
 
     //debug
     testImgPath = "";
