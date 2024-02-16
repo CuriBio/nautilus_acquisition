@@ -47,7 +47,8 @@ AutoUpdate::AutoUpdate(std::shared_ptr<Config> config, std::string origin, std::
 }
 
 void AutoUpdate::show() {
-    spdlog::info("Ignore update? {}", QDialog::show());
+    int code = QDialog::exec();
+    spdlog::info("Ignore update? {}", code);
 }
 
 bool AutoUpdate::hasUpdate() {
