@@ -50,7 +50,7 @@ bool AutoUpdate::hasUpdate() {
     spdlog::info("Checking for update");
     //QDialog::show();
     m_config->updateAvailable = downloadManifest();
-    return m_config-->updateAvailable;
+    return m_config->updateAvailable;
 }
 
 void AutoUpdate::applyUpdate() {
