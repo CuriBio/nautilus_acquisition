@@ -49,7 +49,8 @@ AutoUpdate::AutoUpdate(std::shared_ptr<Config> config, std::string origin, std::
 bool AutoUpdate::hasUpdate() {
     spdlog::info("Checking for update");
     //QDialog::show();
-    return downloadManifest();
+    m_config->updateAvailable = downloadManifest();
+    return m_config-->updateAvailable;
 }
 
 void AutoUpdate::applyUpdate() {

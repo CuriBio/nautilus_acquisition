@@ -390,7 +390,7 @@ void MainWindow::Initialize() {
     emit sig_progress_text("Calibrating stage");
 
     //check for update
-    m_config->updateAvailable = m_autoUpdate->hasUpdate();
+    m_autoUpdate->hasUpdate();
     spdlog::info("Update available {}", m_config->updateAvailable);
     //m_autoUpdate->applyUpdate();
 
