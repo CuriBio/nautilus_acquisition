@@ -63,7 +63,7 @@ class AutoUpdate : public QDialog {
 
         bool hasUpdate();
         void applyUpdate();
-        void show() { QDialog::show(); }
+        void show();
 
     private:
         bool downloadManifest();
