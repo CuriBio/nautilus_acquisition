@@ -5,6 +5,7 @@ Changelog for Nautilai
 -------------------
 Added:
 ^^^^^^
+- Show warning when frate rate is <= 1 Hz
 - updated nautilai.toml file
 
 Changed:
