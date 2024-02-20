@@ -809,14 +809,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        if (value <= 1.0) {
-            spdlog::error("Frame rate is set to <= 1Hz");
-            ui.frameRateEdit->setStyleSheet("background-color: red");
-            ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
-        } else {
-            ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
-            ui.frameRateEdit->setToolTip("");
-        }
+        checkFrameRate(value);
 
         ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
 
@@ -875,6 +868,8 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
         ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
+
+        checkFrameRate(m_config->fps);
     }
 
     m_config->duration = value;
@@ -958,6 +953,18 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
     spdlog::info("enable live view during acquisition updated: {}", enable);
 
     m_config->enableLiveViewDuringAcquisition = enable;
+}
+
+
+void MainWindow::checkFrameRate(double value) {
+    if (value <= 1.0) {
+        spdlog::error("Frame rate is set to <= 1Hz");
+        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
+    } else {
+        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.frameRateEdit->setToolTip("");
+    }
 }
 
 
