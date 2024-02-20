@@ -71,5 +71,17 @@ class AutoUpdate : public QDialog {
     signals:
         void sig_notify_update();
         void sig_start_update();
+
+    private slots:
+        void on_ignoreUpdate_clicked() {
+            if (m_config && m_config->updateAvailable) {
+                //TODO delete update files
+                m_config->updateAvailable = false;
+            }
+            QDialog::close();
+        }
+        void on_acceptUpdate_clicked() {
+            QDialog::close();
+        }
 };
 #endif //AUTOUPDATE_H
