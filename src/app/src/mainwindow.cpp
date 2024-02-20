@@ -1416,5 +1416,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             stopAcquisition_LiveViewRunning();
             stopLiveView();
         }
+
+        if (m_config->updateAvailable) {
+            spdlog::info("Applying update");
+            emit sig_progress_start("Applying update", 0);
+            m_autoUpdate->applyUpdate();
+            emit sig_progress_done();
+        }
     }
 }

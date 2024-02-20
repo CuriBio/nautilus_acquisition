@@ -5,6 +5,7 @@
 
 #ifdef _WIN64
 #include <shellapi.h>
+#include <synchapi.h>
 #endif
 
 #include "autoupdate.h"
@@ -63,7 +64,8 @@ void AutoUpdate::applyUpdate() {
     std::string installer_path = (m_updatePath / m_file).string();
     std::string dest_path = (m_config->userProfile / "AppData" / "Local").string();
     spdlog::info("installer command {}", installer_path);
-    ShellExecuteA(NULL, NULL, installer_path.c_str(), NULL, NULL, 1);
+    HINSTANCE handle = ShellExecuteA(NULL, NULL, installer_path.c_str(), NULL, NULL, 1);
+    WaitForSingleObject(handle, 0);
 #endif
 }
 
