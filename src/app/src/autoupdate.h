@@ -76,6 +76,9 @@ class AutoUpdate : public QDialog {
         void on_ignoreUpdate_clicked() {
             if (m_config && m_config->updateAvailable) {
                 //TODO delete update files
+                spdlog::info("Remove old updates");
+                std::filesystem::remove_all(m_updatePath);
+
                 m_config->updateAvailable = false;
             }
             QDialog::close();

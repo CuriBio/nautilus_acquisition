@@ -59,11 +59,10 @@ bool AutoUpdate::hasUpdate() {
 
 void AutoUpdate::applyUpdate() {
     spdlog::info("Applying update");
-    //emit sig_start_update();
+
 #ifdef _WIN64
     std::string installer_path = (m_updatePath / m_file).string();
     std::string dest_path = (m_config->userProfile / "AppData" / "Local").string();
-    //std::string installer_cmd = std::format("{} /D={}", installer_path, dest_path);
     spdlog::info("installer command {}", installer_path);
     ShellExecuteA(NULL, NULL, installer_path.c_str(), NULL, NULL, 1);
 #endif
