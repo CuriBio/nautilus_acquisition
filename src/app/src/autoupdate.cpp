@@ -1,7 +1,6 @@
 
 #include <toml.hpp>
 #include <cpr/cpr.h>
-#include <spdlog/spdlog.h>
 #include <QString>
 
 #ifdef _WIN64

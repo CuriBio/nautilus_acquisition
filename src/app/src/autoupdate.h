@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <filesystem>
 
+#include <spdlog/spdlog.h>
 #include <QDialog>
 #include <QProcess>
 #include <QWidget>
@@ -76,7 +77,7 @@ class AutoUpdate : public QDialog {
         void on_ignoreUpdate_clicked() {
             if (m_config && m_config->updateAvailable) {
                 //TODO delete update files
-                spdlog::info("Remove old updates");
+                spdlog::info("Update ignored, removing installer");
                 std::filesystem::remove_all(m_updatePath);
 
                 m_config->updateAvailable = false;
