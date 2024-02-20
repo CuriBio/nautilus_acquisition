@@ -71,29 +71,34 @@ bool AutoUpdate::downloadManifest() {
     cpr::Response r = cpr::Get(cpr::Url{m_url.c_str()});
 
     if (r.status_code == 200) {
-        spdlog::info("manifest: {}", r.text);
         std::istringstream ts(r.text);
 
         const auto data = toml::parse(ts, std::format("{}.toml", m_channel));
-        spdlog::info("version: {}", toml::find<std::string>(data, "version"));
-        m_file = toml::find<std::string>(data, "path");
-        spdlog::info("path: {}", m_file);
+        std::string version = toml::find<std::string>(data, "version");
+        spdlog::info("version: {}", version);
 
-        auto url = std::format("{}/{}", m_origin, m_file);
-        spdlog::info("downloading update {}", url);
+        if (m_config && m_config->version != version) {
+            m_file = toml::find<std::string>(data, "path");
+            spdlog::info("path: {}", m_file);
 
-        std::filesystem::create_directory(m_updatePath);
-        std::filesystem::path dl = m_updatePath / m_file;
+            auto url = std::format("{}/{}", m_origin, m_file);
+            spdlog::info("downloading update {}", url);
 
-        std::ofstream of(dl, std::ios::binary);
-        cpr::Response dlr = cpr::Download(of, cpr::Url{url});
+            std::filesystem::create_directory(m_updatePath);
+            std::filesystem::path dl = m_updatePath / m_file;
 
-        if (dlr.status_code != 200) {
-            spdlog::info("download failed: {}, {}", dlr.status_code, dlr.error.message);
-            return false;
+            std::ofstream of(dl, std::ios::binary);
+            cpr::Response dlr = cpr::Download(of, cpr::Url{url});
+
+            if (dlr.status_code != 200) {
+                spdlog::info("download failed: {}, {}", dlr.status_code, dlr.error.message);
+                return false;
+            }
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     spdlog::info("Downloading manifest {} failed {}, {}", m_url, r.status_code, r.error.message);

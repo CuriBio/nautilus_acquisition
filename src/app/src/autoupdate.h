@@ -85,6 +85,7 @@ class AutoUpdate : public QDialog {
             QDialog::close();
         }
         void on_acceptUpdate_clicked() {
+            spdlog::info("Update accepted");
             QDialog::close();
         }
 };
