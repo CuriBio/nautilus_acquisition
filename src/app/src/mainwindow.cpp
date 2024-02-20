@@ -809,7 +809,15 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.durationEdit->setStyleSheet("background-color: red");
     } else {
-        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+        if (value <= 1.0) {
+            spdlog::error("Frame rate is set to <= 1Hz");
+            ui.frameRateEdit->setStyleSheet("background-color: red");
+            ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
+        } else {
+            ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+            ui.frameRateEdit->setToolTip("");
+        }
+
         ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
 
         m_config->fps = value;
