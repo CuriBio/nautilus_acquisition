@@ -35,6 +35,8 @@ def main():
     parser.add_argument("--duration", type=float, default=None, help="Duration of recording, in seconds")
     parser.add_argument("--fps", type=float, default=None, help="number of frames per second")
 
+    # TODO add cmd line arg and/or toml config value to point to location of background data
+
     cmd_line_args = parser.parse_args()
 
     with open(cmd_line_args.toml_config_path) as toml_file:
