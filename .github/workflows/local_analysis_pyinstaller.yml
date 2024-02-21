@@ -1,0 +1,28 @@
+name: Multiwell Tool Build
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        #os: ['windows-latest', 'ubuntu-latest, 'macos-latest']
+        os: ['windows-latest']
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v3
+    - name: setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9.13
+
+    - run: pip install -r src/requirements.txt pyinstaller==5.5
+    - run: pyinstaller -i app/icon/logo.ico -F --windowed src/well_data.py
+    - name: upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: multiwell_tools
+        path: dist/*
