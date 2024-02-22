@@ -83,7 +83,7 @@ def process(setup_config: dict[str, Any]) -> None:
 
     _scale_inputs(setup_config)
 
-    raw_data_reader = _load_raw_data(setup_config)
+    raw_data_reader = _create_raw_data_reader(setup_config)
 
     rois = _create_rois(setup_config)
     _create_roi_annotated_image(raw_data_reader, setup_config, rois)
@@ -130,9 +130,7 @@ def _scale_inputs(setup_config: dict[str, Any]) -> None:
     }
 
 
-def _load_raw_data(setup_config: dict[str, Any]) -> np.ndarray:
-    logger.info("Loading raw data")
-
+def _create_raw_data_reader(setup_config: dict[str, Any]) -> np.ndarray:
     match setup_config["bit_depth"]:
         case 8:
             dtype = np.dtype(np.uint8)
@@ -176,14 +174,14 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
                     well_x_center = (
                         scaled_width / 2
                         - ((num_wells_h - 1) / 2 - well_h_idx) * (well_spacing / scaled_px_size)
-                        + setup_config["scaled"]["h_offset"]
                         + tile_h_idx * (scaled_width)
+                        + setup_config["scaled"]["h_offset"]
                     )
                     well_y_center = (
                         scaled_height / 2
                         - ((num_wells_v - 1) / 2 - well_v_idx) * (well_spacing / scaled_px_size)
-                        + setup_config["scaled"]["v_offset"]
                         + tile_v_idx * (scaled_height)
+                        + setup_config["scaled"]["v_offset"]
                     )
 
                     well_name = ALL_WELL_ROWS[well_v_idx + plate_well_row_offset] + str(
@@ -238,10 +236,8 @@ def _create_roi_annotated_image(
     except OSError:
         font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size_px)
 
-    text_offset_px = 3
     for well_name, roi in rois.items():
-        position = (roi.p_ul.x + text_offset_px, roi.p_br.y - (font_size_px + text_offset_px))
-        draw.text(position, well_name, fill="rgb(0, 255, 0)", font=font)
+        draw.text((roi.p_ul.x, roi.p_br.y), well_name, fill="rgb(0, 255, 0)", font=font)
 
     roi_output_path = os.path.join(
         setup_config["output_dir_path"], f"{setup_config['recording_name']}_roi_locations.png"
