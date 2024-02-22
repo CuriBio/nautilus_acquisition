@@ -1,20 +1,21 @@
 """Processing for Nautilai Local Analysis."""
 
+import dataclasses
+from dataclasses import dataclass
 import json
+import logging
 import os
 from typing import Any
-import logging
+
 import cv2 as cv
+from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 import polars as pl
 import pyarrow.parquet as pq
 
-import numpy as np
-from PIL import Image, ImageDraw, ImageFont
-
 logger = logging.getLogger(__name__)
-
-import dataclasses
-from dataclasses import dataclass
 
 
 def _get_well_row_name(row: int):
@@ -95,7 +96,7 @@ def process(setup_config: dict[str, Any]) -> None:
 
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
-    _create_time_series_plot_image()
+    _create_time_series_plot_image(time_series_df, setup_config)
 
 
 def _scale_inputs(setup_config: dict[str, Any]) -> None:
@@ -324,5 +325,32 @@ def _write_time_series_csv(time_series_df: pl.DataFrame, setup_config: dict[str,
     time_series_df.write_csv(time_series_csv_output_path)
 
 
-def _create_time_series_plot_image():
-    pass
+def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: dict[str, Any]):
+    logger.info("Writing plot pdf")
+
+    time_series_plot_image_output_path = os.path.join(
+        setup_config["output_dir_path"], f"{setup_config['recording_name']}_roi_signals_plots.pdf"
+    )
+
+    plate_rows = ALL_WELL_ROWS[: setup_config["rows"] * setup_config["stage"]["num_wells_v"]]
+    plate_cols = list(range(1, setup_config["cols"] * setup_config["stage"]["num_wells_h"] + 1))
+
+    with PdfPages(time_series_plot_image_output_path) as pdf_file:
+        fig, axs = plt.subplots(len(plate_rows), len(plate_cols), figsize=(3000, 3000))
+
+        fig.suptitle(
+            f"Nautilai Experiment data - {setup_config['recording_date']} - {setup_config['recording_name']}",
+            fontsize=50,
+        )
+        fig.set_size_inches(len(plate_cols) * 8, len(plate_rows) * 5)
+        fig.tight_layout(pad=5)
+
+        for row_idx, row in enumerate(plate_rows):
+            for col_idx, col in enumerate(plate_cols):
+                well_name = f"{row}{col}"
+                ax = axs[row_idx, col_idx]
+                ax.plot(time_series_df["time"], time_series_df[well_name])
+                ax.set_title(well_name, fontsize=30)
+                ax.tick_params(labelsize=20)
+
+        pdf_file.savefig()
