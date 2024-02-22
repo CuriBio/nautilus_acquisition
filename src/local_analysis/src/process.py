@@ -160,17 +160,17 @@ def _create_roi_annotated_image(raw_data: np.ndarray, setup_config: dict[str, An
         )
 
     first_frame_image = Image.fromarray(first_frame_copy)
-
     draw = ImageDraw.Draw(first_frame_image)
-    try:
-        font = ImageFont.truetype("arial.ttf", 15)
-    except OSError:
-        font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", 15)
 
-    print(setup_config["stage"]["roi_size_y"])
-    roi_size_y = setup_config["stage"]["roi_size_y"]
+    font_size_px = 15
+    try:
+        font = ImageFont.truetype("arial.ttf", font_size_px)
+    except OSError:
+        font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size_px)
+
+    text_offset_px = 3
     for well_name, roi in rois.items():
-        position = (roi.p_ul.x + roi_size_y * 0.1, roi.p_br.y - roi_size_y * 0.4)
+        position = (roi.p_ul.x + text_offset_px, roi.p_br.y - (font_size_px + text_offset_px))
         draw.text(position, well_name, fill="rgb(0, 255, 0)", font=font)
 
     roi_output_path = os.path.join(setup_config["output_dir_path"], "roi_locations.png")
