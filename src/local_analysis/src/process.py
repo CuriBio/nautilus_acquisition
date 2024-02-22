@@ -1,10 +1,12 @@
 """Processing for Nautilai Local Analysis."""
 
+import json
 import os
 from typing import Any
 import logging
 import cv2 as cv
 import polars as pl
+import pyarrow.parquet as pq
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -39,7 +41,9 @@ class RoiCoords:
 
 
 class RawDataReader:
-    def __init__(self, file_path: str, num_frames: int, frame_shape: tuple[int, int], dtype: np.dtype):
+    def __init__(
+        self, file_path: str, num_frames: int, frame_shape: tuple[int, int], dtype: np.dtype
+    ) -> None:
         self._file_path: str = file_path
         self._num_frames: int = num_frames
         self._frame_shape: tuple[int, int] = frame_shape
@@ -60,11 +64,11 @@ class RawDataReader:
             offset=self._frame_size_bytes * idx,
         ).reshape(self._frame_shape)
 
-    def __iter__(self):
+    def __iter__(self) -> "RawDataReader":
         self._iter = 0
         return self
 
-    def __next__(self):
+    def __next__(self) -> np.ndarray:
         if self._iter >= self._num_frames:
             raise StopIteration
 
@@ -73,7 +77,7 @@ class RawDataReader:
         return frame
 
 
-def process(setup_config: dict[str, Any]):
+def process(setup_config: dict[str, Any]) -> None:
     setup_config["recording_name"] = os.path.splitext(os.path.basename(setup_config["input_path"]))[0]
 
     _scale_inputs(setup_config)
@@ -90,29 +94,39 @@ def process(setup_config: dict[str, Any]):
     #     _subtract_background()
 
     _write_time_series_parquet(time_series_df, setup_config)
-
-    # _create_time_series_plot_image()
-
-    # TODO
+    _write_time_series_csv(time_series_df, setup_config)
+    _create_time_series_plot_image()
 
 
-def _scale_inputs(setup_config: dict[str, Any]):
+def _scale_inputs(setup_config: dict[str, Any]) -> None:
     if "additional_bin_factor" not in setup_config:
         setup_config["additional_bin_factor"] = 1
 
-    setup_config["xy_pixel_size"] *= setup_config["additional_bin_factor"] * setup_config["scale_factor"]
-
-    setup_config["height"] //= setup_config["additional_bin_factor"]
-    setup_config["width"] //= setup_config["additional_bin_factor"]
-    setup_config["num_horizontal_pixels"] //= setup_config["additional_bin_factor"]
-    setup_config["num_vertical_pixels"] //= setup_config["additional_bin_factor"]
-    setup_config["stage"]["roi_size_x"] //= setup_config["additional_bin_factor"]
-    setup_config["stage"]["roi_size_y"] //= setup_config["additional_bin_factor"]
-
-    setup_config["stage"]["roi_size_x"] //= setup_config["scale_factor"]
-    setup_config["stage"]["roi_size_y"] //= setup_config["scale_factor"]
-    setup_config["stage"]["h_offset"] //= setup_config["scale_factor"]
-    setup_config["stage"]["v_offset"] //= setup_config["scale_factor"]
+    setup_config["scaled"] = {
+        "xy_pixel_size": (
+            setup_config["xy_pixel_size"]
+            * setup_config["additional_bin_factor"]
+            * setup_config["scale_factor"]
+        ),
+        "height": setup_config["height"] // setup_config["additional_bin_factor"],
+        "width": setup_config["width"] // setup_config["additional_bin_factor"],
+        "num_horizontal_pixels": (
+            setup_config["num_horizontal_pixels"] // setup_config["additional_bin_factor"]
+        ),
+        "num_vertical_pixels": setup_config["num_vertical_pixels"] // setup_config["additional_bin_factor"],
+        "roi_size_x": (
+            setup_config["stage"]["roi_size_x"]
+            // setup_config["additional_bin_factor"]
+            // setup_config["scale_factor"]
+        ),
+        "roi_size_y": (
+            setup_config["stage"]["roi_size_y"]
+            // setup_config["additional_bin_factor"]
+            // setup_config["scale_factor"]
+        ),
+        "h_offset": setup_config["stage"]["h_offset"] // setup_config["scale_factor"],
+        "v_offset": setup_config["stage"]["v_offset"] // setup_config["scale_factor"],
+    }
 
 
 def _load_raw_data(setup_config: dict[str, Any]) -> np.ndarray:
@@ -129,7 +143,7 @@ def _load_raw_data(setup_config: dict[str, Any]) -> np.ndarray:
     raw_data_reader = RawDataReader(
         setup_config["input_path"],
         setup_config["num_frames"],
-        (setup_config["num_vertical_pixels"], setup_config["num_horizontal_pixels"]),
+        (setup_config["scaled"]["num_vertical_pixels"], setup_config["scaled"]["num_horizontal_pixels"]),
         dtype,
     )
 
@@ -139,12 +153,15 @@ def _load_raw_data(setup_config: dict[str, Any]) -> np.ndarray:
 def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
     logger.info("Creating ROIs")
 
-    pixel_size = setup_config["xy_pixel_size"]
-    roi_size_x = setup_config["stage"]["roi_size_x"]
-    roi_size_y = setup_config["stage"]["roi_size_y"]
+    well_spacing = setup_config["stage"]["well_spacing"]
     num_wells_h = setup_config["stage"]["num_wells_h"]
     num_wells_v = setup_config["stage"]["num_wells_v"]
-    well_spacing = setup_config["stage"]["well_spacing"]
+
+    scaled_px_size = setup_config["scaled"]["xy_pixel_size"]
+    scaled_roi_size_x = setup_config["scaled"]["roi_size_x"]
+    scaled_roi_size_y = setup_config["scaled"]["roi_size_y"]
+    scaled_height = setup_config["scaled"]["height"]
+    scaled_width = setup_config["scaled"]["width"]
 
     rois = {}
 
@@ -156,16 +173,16 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
             for well_v_idx in range(num_wells_v):
                 for well_h_idx in range(num_wells_h):
                     well_x_center = (
-                        setup_config["width"] / 2
-                        - ((num_wells_h - 1) / 2 - well_h_idx) * (well_spacing / pixel_size)
-                        + setup_config["stage"]["h_offset"]
-                        + tile_h_idx * (setup_config["width"])
+                        scaled_width / 2
+                        - ((num_wells_h - 1) / 2 - well_h_idx) * (well_spacing / scaled_px_size)
+                        + setup_config["scaled"]["h_offset"]
+                        + tile_h_idx * (scaled_width)
                     )
                     well_y_center = (
-                        setup_config["height"] / 2
-                        - ((num_wells_v - 1) / 2 - well_v_idx) * (well_spacing / pixel_size)
-                        + setup_config["stage"]["v_offset"]
-                        + tile_v_idx * (setup_config["height"])
+                        scaled_height / 2
+                        - ((num_wells_v - 1) / 2 - well_v_idx) * (well_spacing / scaled_px_size)
+                        + setup_config["scaled"]["v_offset"]
+                        + tile_v_idx * (scaled_height)
                     )
 
                     well_name = ALL_WELL_ROWS[well_v_idx + plate_well_row_offset] + str(
@@ -173,8 +190,14 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
                     )
 
                     rois[well_name] = RoiCoords(
-                        Point(int(well_x_center - roi_size_x / 2), int(well_y_center - roi_size_y / 2)),
-                        Point(int(well_x_center + roi_size_x / 2), int(well_y_center + roi_size_y / 2)),
+                        Point(
+                            int(well_x_center - scaled_roi_size_x / 2),
+                            int(well_y_center - scaled_roi_size_y / 2),
+                        ),
+                        Point(
+                            int(well_x_center + scaled_roi_size_x / 2),
+                            int(well_y_center + scaled_roi_size_y / 2),
+                        ),
                     )
 
     return rois
@@ -182,10 +205,10 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
 
 def _create_roi_annotated_image(
     raw_data_reader: RawDataReader, setup_config: dict[str, Any], rois: dict[str, RoiCoords]
-):
+) -> None:
     logger.info("Creating ROI sanity check image")
 
-    # second frame is used for this
+    # second frame is used for the roi annotation
     first_frame = raw_data_reader.frame(1)
 
     # scale values down to uint8 so PIL can process them
@@ -238,8 +261,7 @@ def _calculate_fluorescence_time_series(
             roi_arr = frame[well_roi.p_ul.y : well_roi.p_br.y, well_roi.p_ul.x : well_roi.p_br.x]
             well_arr[frame_idx] = np.mean(roi_arr)
 
-    sample_period = 1 / setup_config["fps"]
-    timepoints = np.arange(0, setup_config["num_frames"]) * sample_period
+    timepoints = np.arange(setup_config["num_frames"]) / setup_config["fps"]
 
     return pl.DataFrame({"time": timepoints} | well_arrs)
 
@@ -252,13 +274,54 @@ def _subtract_background():
     pass
 
 
-def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]):
-    # TODO add metadata to the table
+def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
+    logger.info("Writing parquet output file")
 
-    time_series_output_path = os.path.join(
+    metadata = {
+        "utc_beginning_recording": setup_config["recording_date"],
+        "file_format_version": "0.1.0",
+        "instrument_type": "nautilai",
+        "instrument_serial_number": "N/A",
+        "software_release_version": setup_config["software_version"],
+        "plate_barcode": "SAMPLE ID",  # TODO this should be the sample ID once that gets set
+        "total_well_count": setup_config["stage"]["num_wells"],
+        "stage_config": setup_config["stage"],
+        "tissue_sampling_period": 1 / setup_config["fps"],
+        "image_dimensions": (setup_config["num_horizontal_pixels"], setup_config["num_vertical_pixels"]),
+    } | {
+        key: setup_config[key]
+        for key in (
+            "data_type",
+            "auto_contrast_brightness",
+            "led_intensity",
+            "bit_depth",
+            "xy_pixel_size",
+            "scale_factor",
+            "additional_bin_factor",
+            "vflip",
+            "hflip",
+            "auto_tile",
+        )
+    }
+
+    # have to convert to pyarrow table to update metadata before writing parquet file
+    time_series_table = time_series_df.to_arrow()
+    time_series_table = time_series_table.replace_schema_metadata({"metadata": json.dumps(metadata)})
+
+    time_series_pq_output_path = os.path.join(
         setup_config["output_dir_path"], f"{setup_config['recording_name']}.parquet"
     )
-    time_series_df.write_parquet(time_series_output_path)
+    pq.write_table(time_series_table, time_series_pq_output_path)
+
+
+def _write_time_series_csv(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
+    logger.info("Writing csv output file")
+
+    time_series_csv_output_path = os.path.join(
+        setup_config["output_dir_path"], f"{setup_config['recording_name']}.csv"
+    )
+
+    time_series_df.write_csv(time_series_csv_output_path)
 
 
 def _create_time_series_plot_image():
