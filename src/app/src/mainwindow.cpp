@@ -1423,7 +1423,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             m_autoUpdate->applyUpdate();
 
             std::string configFile = (m_config->userProfile / "AppData" / "Local" / "nautilai.toml").string();
-            m_stageControl->saveList(configFile.string(), true);
+            m_stageControl->saveList(configFile, true);
             emit sig_progress_done();
         }
     }
