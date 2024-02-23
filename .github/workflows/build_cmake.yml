@@ -47,7 +47,24 @@ jobs:
               environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
             }
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.3
+
+      - name: Compile Local Analysis Executable
+        shell: bash
+        run: |
+          cd src/local_analysis
+          python -m venv la-venv
+          ./la-venv/Scripts/Activate
+          pip install -r src/requirements-dev.txt
+          pip install -r src/requirements.txt
+          pyinstaller -i app/icon/logo.ico -F --windowed src/local_analysis.py
+          mv ./dist/local_analysis.exe ../../resources
 
       - name: Install on Mac/Linux/Windows
         shell: bash

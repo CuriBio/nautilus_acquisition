@@ -23,7 +23,7 @@ jobs:
         cd src/local_analysis
         pip install -r src/requirements-dev.txt
         pip install -r src/requirements.txt
-        pyinstaller -i app/icon/logo.ico -F --windowed src/main.py
+        pyinstaller -i app/icon/logo.ico -F --windowed src/local_analysis.py
   
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3

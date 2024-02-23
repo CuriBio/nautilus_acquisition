@@ -109,8 +109,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/resources/logo.png DESTINATION ${CMAKE_INSTALL
 #loading gif
 install(FILES ${CMAKE_SOURCE_DIR}/resources/loading.gif DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
-#install well_data.exe
-install(FILES ${CMAKE_SOURCE_DIR}/resources/well_data.exe DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
+#install local_analysis.exe
+install(FILES ${CMAKE_SOURCE_DIR}/resources/local_analysis.exe DESTINATION ${CMAKE_INSTALL_BINDIR}/resources/)
 
 #install plate formats folder
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources/plate_formats DESTINATION ${CMAKE_INSTALL_BINDIR}/)

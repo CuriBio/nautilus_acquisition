@@ -3,6 +3,7 @@ Changelog for Nautilai
 
 0.1.41 (unreleased)
 -------------------
+
 Added:
 ^^^^^^
 - Show warning when frate rate is <= 1 Hz
@@ -12,6 +13,7 @@ Changed:
 ^^^^^^
 - Nautilai rename
 - Removal of default config values
+- Local Analysis now outputs time series data as parquet
 
 Fixed:
 ^^^^^^
