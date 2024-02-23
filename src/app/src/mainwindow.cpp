@@ -1421,6 +1421,9 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             spdlog::info("Applying update");
             emit sig_progress_start("Applying update", 0);
             m_autoUpdate->applyUpdate();
+
+            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "nautilai.toml").string();
+            m_stageControl->saveList(configFile.to_string(), true);
             emit sig_progress_done();
         }
     }
