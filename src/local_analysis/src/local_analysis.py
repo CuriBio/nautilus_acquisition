@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 logging.basicConfig(
-    format="[%(asctime)s.%(msecs)03d] [well_data] [%(levelname)s] %(message)s",
+    format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
     level=logging.INFO,
     datefmt="%Y-%m-%d %H:%M:%S",
 )

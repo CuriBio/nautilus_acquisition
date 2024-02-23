@@ -3,7 +3,7 @@
 prefix = 'default_'
 auto_contrast_brightness = true
 outdir = 'E:\'
-ext_analysis = './resources/well_data.exe'
+ext_analysis = './resources/local_analysis.exe'
 ffmpeg_dir = 'C:\Program Files\ffmpeg\ffmpeg.exe'
 machine_vars_file_path = 'C:\AppData\Local\Nautilai\machine.toml'
 
@@ -39,7 +39,7 @@ step_large = 5000
 rows = 2
 fps = 250.0
 duration = 30.0
-tile_map = [0,1,2,3,4,5]
+tile_map = [0, 1, 2, 3, 4, 5]
 led_intensity = 10.0
 encode_video = true
 storage_type = 2
@@ -55,7 +55,6 @@ p2 = 2111
 
 [acquisition.live_view]
 enable_live_view_during_acquisition = true
-
 
 
 [stage]
