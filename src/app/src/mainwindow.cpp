@@ -1422,7 +1422,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             emit sig_progress_start("Applying update", 0);
             m_autoUpdate->applyUpdate();
 
-            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "nautilai.toml").string();
+            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.toml").string();
             m_stageControl->saveList(configFile, true);
             emit sig_progress_done();
         }
