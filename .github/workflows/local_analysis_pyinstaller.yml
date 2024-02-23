@@ -1,4 +1,4 @@
-name: Multiwell Tool Build
+name: Build Local Analysis Executable
 
 on: [workflow_dispatch]
 
@@ -8,7 +8,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: ['windows-latest', 'ubuntu-latest, 'macos-latest']
         os: ['windows-latest']
 
     steps:
@@ -17,12 +16,17 @@ jobs:
     - name: setup python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.9.13
+        python-version: 3.11.3
 
-    - run: pip install -r src/requirements.txt pyinstaller==5.5
-    - run: pyinstaller -i app/icon/logo.ico -F --windowed src/well_data.py
+    - name: Compile Executable
+      run: |
+        cd src/local_analysis
+        pip install -r src/requirements-dev.txt
+        pip install -r src/requirements.txt
+        pyinstaller -i app/icon/logo.ico -F --windowed src/main.py
+  
     - name: upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: multiwell_tools
+        name: local_analysis
         path: dist/*
