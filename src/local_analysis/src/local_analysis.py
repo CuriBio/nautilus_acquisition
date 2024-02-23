@@ -357,7 +357,7 @@ def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: d
     plate_cols = list(range(1, setup_config["cols"] * setup_config["stage"]["num_wells_h"] + 1))
 
     with PdfPages(time_series_plot_image_output_path) as pdf_file:
-        fig, axs = plt.subplots(len(plate_rows), len(plate_cols), figsize=(3000, 3000))
+        fig, axs = plt.subplots(len(plate_rows), len(plate_cols))
 
         fig.suptitle(
             f"Nautilai Experiment data - {setup_config['recording_date']} - {setup_config['recording_name']}",
