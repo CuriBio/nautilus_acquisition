@@ -8,6 +8,9 @@ Added:
 ^^^^^^
 - Show warning when frate rate is <= 1 Hz
 - updated nautilai.toml file
+- autoupdate functionality
+- switched installer to per-user location
+- removed machine_vars_path from nautilai.toml and hard-coded to C:\ProgramData\Curi Bio\Nautilai\machine.toml
 
 Changed:
 ^^^^^^

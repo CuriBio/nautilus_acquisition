@@ -28,6 +28,7 @@
  * @brief Implementation of the mainwindow widget.
  *********************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
+#define USE_IMPORT_EXPORT
 
 #include <chrono>
 #include <ctime>
@@ -52,6 +53,7 @@
 #include <QPushButton>
 
 #include "mainwindow.h"
+
 #include <PostProcess.h>
 #include <VideoEncoder.h>
 #include <RawFile.h>
@@ -333,6 +335,15 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     );
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
+    //initial autoupdate class
+    m_autoUpdate = std::make_unique<AutoUpdate>(
+        m_config,
+        //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
+        "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
+        "prod",
+        this
+    );
+
 
     //live view timer signals
     m_liveViewTimer = new QTimer(this);
@@ -378,6 +389,12 @@ void MainWindow::Initialize() {
     m_camera->SetupExp(m_expSettings);
 
     emit sig_progress_text("Calibrating stage");
+
+    //check for update
+    m_autoUpdate->hasUpdate();
+    spdlog::info("Update available {}", m_config->updateAvailable);
+    //m_autoUpdate->applyUpdate();
+
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
@@ -444,6 +461,11 @@ void MainWindow::Initialize() {
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
+
+    if (m_config->updateAvailable) {
+        emit m_autoUpdate->sig_notify_update();
+        //m_autoUpdate->show();
+    }
 }
 
 void MainWindow::updateState(AppState state) {
@@ -689,7 +711,6 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
     ui.liveScanBtn->setText("Live Scan");
     m_liveViewTimer->stop();
     m_liveView->update();
-    //m_acquisition->StopLiveView();
 
     return true;
 
@@ -1411,7 +1432,15 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             stopAcquisition_LiveViewRunning();
             stopLiveView();
         }
+
+        if (m_config->updateAvailable) {
+            spdlog::info("Applying update");
+            emit sig_progress_start("Applying update", 0);
+            m_autoUpdate->applyUpdate();
+
+            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.toml").string();
+            m_stageControl->saveList(configFile, true);
+            emit sig_progress_done();
+        }
     }
 }
-
-

@@ -70,6 +70,7 @@
 #include "stagecontrol.h"
 #include "advancedsetupdialog.h"
 #include "liveview.h"
+#include "autoupdate.h"
 
 #define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
@@ -249,6 +250,8 @@ class MainWindow : public QMainWindow {
         std::mutex m_lock;
         std::mutex m_liveViewLock;
 
+        std::unique_ptr<AutoUpdate> m_autoUpdate;
+
         AppState m_curState = Uninitialized;
 
         std::map<std::tuple<AppState, AppState>, std::function<void()>> m_appTransitions = {
@@ -391,6 +394,8 @@ class MainWindow : public QMainWindow {
         bool ledON(double voltage, bool delay=true);
         bool ledOFF();
         bool ledSetVoltage(double voltage);
+
+        //void getS3Object(Aws::String bucketName, Aws::String objectName);
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);

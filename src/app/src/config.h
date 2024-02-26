@@ -15,6 +15,7 @@ class Config {
         //nautilai options
         std::string prefix;
         bool noAutoConBright;
+        std::filesystem::path userProfile;
         std::filesystem::path path;
         std::filesystem::path plateFormat;
         std::filesystem::path extAnalysis;
@@ -84,8 +85,11 @@ class Config {
         std::string configError;
         std::stringstream s;
 
+        //updates
+        bool updateAvailable;
+
     public:
-        Config(std::filesystem::path cfg, cxxopts::ParseResult userargs);
+        Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs);
         ~Config() { };
         void Dump();
 };

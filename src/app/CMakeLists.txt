@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/stagecontrol.cpp
     ./src/advancedsetupdialog.cpp
     ./src/config.cpp
+    ./src/autoupdate.cpp
     )
 
 target_include_directories(${PROJECT_NAME}
@@ -24,11 +25,19 @@ find_package(spdlog)
 find_package(cxxopts)
 find_package(toml11)
 
+include(FetchContent)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
+                         GIT_TAG 3b15fa82ea74739b574d705fea44959b58142eb8)
+FetchContent_MakeAvailable(cpr)
+
+
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets SvgWidgets)
 qt_standard_project_setup()
 
 # linking against the desired targets
 IF (WIN32)
+target_compile_options(${PROJECT_NAME} PRIVATE "/wd4996;") # disable "unknown pragma 'mark'" warnings
+
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     project_options
@@ -42,6 +51,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     spdlog::spdlog
     toml11::toml11
+    cpr::cpr
     pvcam_incl
     libtiff_incl
     ffmpeg_incl
@@ -104,6 +114,8 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
 message("###### CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
+    #set(CPACK_NSIS_INSTALL_ROOT "${LocalAppData}\AppData\Local")
+    set(CPACK_PACKAGE_VENDOR "CuriBio")
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nautilai")
     set(CPACK_NSIS_DISPLAY_NAME ${CMAKE_PACKAGE_NAME})
     set(CPACK_NSIS_COMPRESSOR lzma)

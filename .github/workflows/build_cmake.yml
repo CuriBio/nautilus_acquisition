@@ -177,6 +177,7 @@ jobs:
             COMMAND cmake
               -S .
               -B build
+              -D CURL_ZLIB=OFF
               -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
               -G Ninja
               -D CMAKE_MAKE_PROGRAM=ninja
@@ -340,10 +341,26 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "Nautilai Latest MSVC", artifact: "Nautilai.zip", os: ubuntu-latest }
-          - { name: "Windows Latest MinGW", artifact: "Windows-MinGW.7z", os: ubuntu-latest }
-          - { name: "Ubuntu Latest GCC", artifact: "Linux.7z", os: ubuntu-latest }
-          - { name: "macOS Latest Clang", artifact: "macOS.7z", os: ubuntu-latest }
+          - {
+              name: "Nautilai Latest MSVC",
+              artifact: "Nautilai.zip",
+              os: ubuntu-latest,
+            }
+          - {
+              name: "Windows Latest MinGW",
+              artifact: "Windows-MinGW.7z",
+              os: ubuntu-latest,
+            }
+          - {
+              name: "Ubuntu Latest GCC",
+              artifact: "Linux.7z",
+              os: ubuntu-latest,
+            }
+          - {
+              name: "macOS Latest Clang",
+              artifact: "macOS.7z",
+              os: ubuntu-latest,
+            }
     needs: release
 
     steps:
