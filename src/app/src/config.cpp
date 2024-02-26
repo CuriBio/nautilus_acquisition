@@ -21,7 +21,7 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     }
 
     try {
-        machineVarsFilePath = userProfile / "AppData" / "Local" / "Nautilai" / machine.toml";
+        machineVarsFilePath = userProfile / "AppData" / "Local" / "Nautilai" / machine.toml;
         //machineVarsFilePath = toml::find<std::string>(config, "nautilai", "machine_vars_file_path");
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
     } catch(const std::exception& e) {
