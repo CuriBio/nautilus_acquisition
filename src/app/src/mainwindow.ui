@@ -258,7 +258,7 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="disableBackgroundRecording">
              <property name="geometry">
               <rect>
                <x>30</x>
@@ -281,7 +281,7 @@
               </rect>
              </property>
             </widget>
-            <widget class="QComboBox" name="plateFormatDropDown_2">
+            <widget class="QComboBox" name="dataTypeList">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -291,7 +291,7 @@
               </rect>
              </property>
             </widget>
-            <widget class="QDoubleSpinBox" name="ledIntensityEdit_2">
+            <widget class="QDoubleSpinBox" name="plateId">
              <property name="geometry">
               <rect>
                <x>10</x>
