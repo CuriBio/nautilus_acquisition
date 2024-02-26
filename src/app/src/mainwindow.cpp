@@ -338,6 +338,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //initial autoupdate class
     m_autoUpdate = std::make_unique<AutoUpdate>(
         m_config,
+        //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
         "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
         "prod",
         this
