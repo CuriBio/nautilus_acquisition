@@ -338,7 +338,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //initial autoupdate class
     m_autoUpdate = std::make_unique<AutoUpdate>(
         m_config,
-        "https://downloads.curibio.com/software/nautilai",
+        "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
         "prod",
         this
     );
