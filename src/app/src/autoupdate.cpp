@@ -64,7 +64,7 @@ void AutoUpdate::applyUpdate() {
     std::string installer_path = (m_updatePath / m_file).string();
     std::string dest_path = (m_config->userProfile / "AppData" / "Local").string();
     spdlog::info("installer command {}", installer_path);
-    HINSTANCE handle = ShellExecuteA(NULL, NULL, installer_path.c_str(), NULL, NULL, 1);
+    HINSTANCE handle = ShellExecuteA(NULL, NULL, installer_path.c_str(), "/S", NULL, 1);
     WaitForSingleObject(handle, 0);
 #endif
 }
