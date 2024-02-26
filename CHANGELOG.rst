@@ -14,6 +14,7 @@ Changed:
 - Nautilai rename
 - Removal of default config values
 - Local Analysis now outputs time series data as parquet
+- UI layout
 
 Fixed:
 ^^^^^^
