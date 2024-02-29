@@ -510,7 +510,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -669,9 +669,19 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>plateFormatDropDown</tabstop>
+  <tabstop>dataTypeList</tabstop>
+  <tabstop>plateIdEdit</tabstop>
+  <tabstop>disableBackgroundRecording</tabstop>
+  <tabstop>liveScanBtn</tabstop>
   <tabstop>ledIntensityEdit</tabstop>
   <tabstop>frameRateEdit</tabstop>
   <tabstop>durationEdit</tabstop>
+  <tabstop>stageNavigationBtn</tabstop>
+  <tabstop>settingsBtn</tabstop>
+  <tabstop>advancedSetupBtn</tabstop>
+  <tabstop>startAcquisitionBtn</tabstop>
+  <tabstop>plateMapEditorBtn</tabstop>
   <tabstop>levelsSlider</tabstop>
  </tabstops>
  <resources/>
