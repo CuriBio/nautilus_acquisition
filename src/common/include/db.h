@@ -84,11 +84,11 @@ class Database {
         initDB() {
             spdlog::info("Initializing DB");
             std::string query = "CREATE TABLE IF NOT EXISTS background_recordings(",
-                "plate_id TEXT PRIMARY KEY "
+                "plate_id TEXT PRIMARY KEY, "
                 "file_path TEXT NOT NULL, "
                 "created_at TEXT NOT NULL, "
                 "updated_at TEXT NOT NULL, "
-                "plate_format: TEXT NOT NULL); ";
+                "plate_format TEXT NOT NULL); ";
             
             exec(query, std::vector<std::string> {});
         }
