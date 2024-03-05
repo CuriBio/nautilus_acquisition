@@ -46,7 +46,7 @@ class Database {
         Database() {
             std::string dbFilePath = "TODO";
             spdlog::info("Opening DB connection");
-            rc = sqlite3_open(dbFilePath, &db);
+            int rc = sqlite3_open(dbFilePath, &db);
             if (rc) {
                 spdlog::error("Failed to open DB connection");
             }
@@ -55,7 +55,10 @@ class Database {
 
         ~Database() {
             spdlog::info("Closing DB connection");
-            sqlite3_close(db);
+            int rc = sqlite3_close(db);
+            if (rc) {
+                spdlog::error("Failed to close DB connection");
+            }
         }
 
         std::vector<dbRow> getPlateIDs() {
