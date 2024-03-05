@@ -41,10 +41,10 @@ typedef tsl::ordered_map<std::string, std::string> dbRow;
 class Database {
     private:
         sqlite3 *db;
-        
+
     public:
-        Database() {
-            std::string dbFilePath = "TODO";
+        Database(std::filesystem::path userProfile) {
+            std::string dbFilePath = (userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.db").string();
             spdlog::info("Opening DB connection");
             int rc = sqlite3_open(dbFilePath, &db);
             if (rc) {
