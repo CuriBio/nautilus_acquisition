@@ -32,9 +32,9 @@
 
 
 #include <stdlib.h>
-#include <sqlite3.h>
 #include <spdlog/spdlog.h>
 #include <tsl/ordered_map.h>
+#include <sqlite3/sqlite3.h>
 
 #define DB_TIMESTAMP_STR "yyyy-mm-dd hh:mm:ss"
 
