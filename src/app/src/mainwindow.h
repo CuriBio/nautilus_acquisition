@@ -58,6 +58,7 @@
 #include <pm/ColorConfig.h>
 #include <pvcam/pvcam_helper_color.h>
 
+#include <Database.h>
 #include <ParTask.h>
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
@@ -182,6 +183,8 @@ class MainWindow : public QMainWindow {
         AdvancedSetupDialog* m_advancedSetupDialog{nullptr};
         StageControl* m_stageControl{nullptr};
         LiveView* m_liveView{nullptr};
+
+        Database* m_db {nullptr}
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};

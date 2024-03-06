@@ -51,12 +51,14 @@
 #include <QProcess>
 #include <QSvgWidget>
 #include <QPushButton>
+#include <QCompleter>
 
 #include "mainwindow.h"
 
 #include <PostProcess.h>
 #include <VideoEncoder.h>
 #include <RawFile.h>
+#include <Database.h>
 
 #define DATA_DIR "data"
 
@@ -140,6 +142,15 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(this, &MainWindow::sig_set_platemap, this, [this](size_t n) {
         m_platemap->load(m_plateFormatImgs[n]);
     });
+
+    // plate ID
+    m_db = new DataBase(m_config->userProfile);
+    QStringList wordList;
+    // TODO use the values pulled from the DB instead of these
+    plateIdList << "alpha" << "omega" << "omicron" << "zeta";
+
+    QCompleter *plateIdCompleter = new QCompleter(plateIdList, this);
+    ui.plateIdEdit->setCompleter(plateIdCompleter);
 
 
     //settings dialog
