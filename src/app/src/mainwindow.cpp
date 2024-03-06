@@ -144,8 +144,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     // plate ID
-    m_db = new DataBase(m_config->userProfile);
-    QStringList wordList;
+    m_db = new Database(m_config->userProfile);
+    QStringList plateIdList;
     // TODO use the values pulled from the DB instead of these
     plateIdList << "alpha" << "omega" << "omicron" << "zeta";
 

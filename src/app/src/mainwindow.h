@@ -184,7 +184,7 @@ class MainWindow : public QMainWindow {
         StageControl* m_stageControl{nullptr};
         LiveView* m_liveView{nullptr};
 
-        Database* m_db {nullptr}
+        Database* m_db {nullptr};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};

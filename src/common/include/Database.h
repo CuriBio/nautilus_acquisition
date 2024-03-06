@@ -23,7 +23,7 @@
  */
 
 /*********************************************************************
- * @file  db.h
+ * @file  database.h
  *
  * @brief Defines class for performing sqlite3 DB operations
  *********************************************************************/
@@ -154,5 +154,5 @@ class Database {
 
             return timeString;
         }
-}
+};
 #endif // DATABASE_H
