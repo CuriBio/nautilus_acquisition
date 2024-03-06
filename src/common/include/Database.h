@@ -36,6 +36,8 @@
 #include <spdlog/spdlog.h>
 #include <tsl/ordered_map.h>
 
+#define DB_TIMESTAMP_STR "yyyy-mm-dd hh:mm:ss"
+
 typedef tsl::ordered_map<std::string, std::string> dbRow;
 
 class Database {
@@ -46,7 +48,7 @@ class Database {
         Database(std::filesystem::path userProfile) {
             std::string dbFilePath = (userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.db").string();
             spdlog::info("Opening DB connection");
-            int rc = sqlite3_open(dbFilePath, &db);
+            int rc = sqlite3_open(dbFilePath.c_str(), &db);
             if (rc) {
                 spdlog::error("Failed to open DB connection");
             }
@@ -86,7 +88,7 @@ class Database {
     private:
         void initDB() {
             spdlog::info("Initializing DB");
-            std::string query = "CREATE TABLE IF NOT EXISTS background_recordings(",
+            std::string query = "CREATE TABLE IF NOT EXISTS background_recordings("
                 "plate_id TEXT PRIMARY KEY, "
                 "file_path TEXT NOT NULL, "
                 "created_at TEXT NOT NULL, "
@@ -98,7 +100,7 @@ class Database {
 
         std::vector<dbRow> exec(std::string query, std::vector<std::string> params) {
             sqlite3_stmt *pStmt;
-            char *pzTail;
+            const char *pzTail;
             int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &pStmt, &pzTail);
             if (rc != SQLITE_OK) {
                 spdlog::error("SQL prepare failed for query: {}", query);
@@ -122,10 +124,11 @@ class Database {
                 int numCols = sqlite3_column_count(pStmt);
                 for (int colIdx = 0; colIdx < numCols; colIdx++) {
                     std::string colName = sqlite3_column_name(pStmt, colIdx);
-                    std::string colVal = sqlite3_column_text(pStmt, colIdx);
+                    // Tanner (3/6/24): this probably won't work with unicode, need to figure out how to handle that or prevent it from being entered
+                    std::string colVal = reinterpret_cast<const char*>(sqlite3_column_text(pStmt, colIdx));
                     row[colName] = colVal;
                 }
-                results.push(row);
+                results.push_back(row);
 
                 rc = sqlite3_step(pStmt);
             }
@@ -142,13 +145,12 @@ class Database {
         }
 
         std::string now_timestamp() {
-            std::string fmt = "yyyy-mm-dd hh:mm:ss";
-            char timeString[std::size(fmt)];
+            char timeString[std::size(DB_TIMESTAMP_STR) + 4] = {};
 
             auto now = std::chrono::system_clock::now();
             auto timestamp = std::chrono::system_clock::to_time_t(now);
             std::tm *tm = std::localtime(&timestamp);
-            std::strftime(std::data(timeString), std::size(timeString), fmt, tm);
+            std::strftime(std::data(timeString), std::size(timeString), DB_TIMESTAMP_STR, tm);
 
             return timeString;
         }
