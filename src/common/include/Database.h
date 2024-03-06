@@ -69,7 +69,7 @@ class Database {
         void addPlateID(
             std::string plateId,
             std::string filePath,
-            std::string plateFormat,
+            std::string plateFormat
         ) {
             spdlog::info("Adding plate ID {} with format {}", plateId, plateFormat);
             std::string query = "INSERT INTO background_recordings VALUES (?, ?, ?, ?, ?);";
@@ -84,7 +84,7 @@ class Database {
         }
     
     private:
-        initDB() {
+        void initDB() {
             spdlog::info("Initializing DB");
             std::string query = "CREATE TABLE IF NOT EXISTS background_recordings(",
                 "plate_id TEXT PRIMARY KEY, "
