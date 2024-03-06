@@ -20,4 +20,7 @@ target_link_libraries(Common
     project_warnings
     spdlog::spdlog
     libtiff_incl
-    libtiff)
+    libtiff
+    sqlite3_incl
+    sqlite3
+    )
