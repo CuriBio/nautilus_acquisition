@@ -163,6 +163,7 @@ class MainWindow : public QMainWindow {
         void on_frameRateEdit_valueChanged(double value);
         void on_plateFormatDropDown_activated(int index);
         void on_durationEdit_valueChanged(double value);
+        void MainWindow::on_disableBackgroundRecording_stateChanged(int state);
 
         void on_stageNavigationBtn_clicked() {
             m_stageControl->show();
@@ -185,6 +186,7 @@ class MainWindow : public QMainWindow {
         LiveView* m_liveView{nullptr};
 
         Database* m_db {nullptr};
+        QStringList m_plateIdList;
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};

@@ -145,13 +145,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     // plate ID
     m_db = new Database(m_config->userProfile);
-    QStringList plateIdList;
     // TODO use the values pulled from the DB instead of these
-    plateIdList << "alpha" << "omega" << "omicron" << "zeta";
+    m_plateIdList << m_db->getPlateIds();
 
-    QCompleter *plateIdCompleter = new QCompleter(plateIdList, this);
+    QCompleter *plateIdCompleter = new QCompleter(m_plateIdList, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
-
 
     //settings dialog
     m_settings = new Settings(this, m_config);
@@ -911,6 +909,23 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
 
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+}
+
+void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
+    // TODO this code is just for testing the plate ID widget at the moment. This should be replaced with the actual background recording behavior when necessary
+    if (m_config->plateFormat != "") {
+        // TODO make this all a method
+        auto plateId = ui.plateIdEdit->text().toStdString();
+        if (m_plateIdList.contains(plateId)) {
+            m_db->overwritePlateId(plateId, m_config->plateFormat);
+        } else {
+            std::string filePath = "some/path"; // TODO set real path
+            m_db->addPlateId(plateId, m_config->plateFormat, filePath);
+        }
+        // update list after updating DB
+        m_plateIdList.removeAll();
+        m_plateIdList << m_db->getPlateIds();
+    }
 }
 
 

@@ -198,6 +198,7 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
     m_keepOriginalRaw = state;
 }
 
+
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
     if (!m_userConfirmed) {
         setDefaultValues();

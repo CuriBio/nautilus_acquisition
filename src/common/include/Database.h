@@ -63,22 +63,25 @@ class Database {
             }
         }
 
-        std::vector<dbRow> getPlateIDs() {
+        std::vector<std::string> getPlateIds() {
             std::string query = "SELECT plate_id FROM background_recordings ORDER BY updated_at DESC;";
-            return exec(query, std::vector<std::string> {});
+            auto res = exec(query, std::vector<std::string> {});
+
+            std::vector<std::string> plateIds {};
+            for (const auto& row : res) {
+                plateIds.push_back(row["plate_id"])
+            }
+
+            return plateIds
         }
 
-        void addPlateID(
-            std::string plateId,
-            std::string filePath,
-            std::string plateFormat
-        ) {
+        void addPlateId(std::string plateId, std::string plateFormat, std::string filePath) {
             spdlog::info("Adding plate ID {} with format {}", plateId, plateFormat);
             std::string query = "INSERT INTO background_recordings VALUES (?, ?, ?, ?, ?);";
             exec(query, std::vector<std::string> {plateId, filePath, now_timestamp(), now_timestamp(), plateFormat});
         }
 
-        void overwritePlateID(std::string plateId, std::string plateFormat) {
+        void overwritePlateId(std::string plateId, std::string plateFormat) {
             // TODO does this need to update the file path?
             spdlog::info("Overwriting plate ID {} to format {}", plateId, plateFormat);
             std::string query = "UPDATE background_recordings SET plate_format=?, updated_at=? WHERE plate_id=?;";
@@ -107,7 +110,7 @@ class Database {
             }
 
             int paramIdx = 1;
-            for (const auto& s: params) {
+            for (const auto& s : params) {
                 rc = sqlite3_bind_text(pStmt, paramIdx, s.c_str(), -1, SQLITE_STATIC);
                 if (rc != SQLITE_OK) {
                     spdlog::error("SQL bind text failed for param {} ({}) of query: {}", s, paramIdx, query);
