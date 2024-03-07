@@ -63,7 +63,9 @@ target_link_libraries(${PROJECT_NAME}
     tango
     Common
     PvCam
-    NIDAQmx_wrapper)
+    NIDAQmx_wrapper
+    sqlite3_incl
+    sqlite3)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
