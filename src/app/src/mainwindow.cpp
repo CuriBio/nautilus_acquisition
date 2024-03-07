@@ -52,6 +52,8 @@
 #include <QSvgWidget>
 #include <QPushButton>
 #include <QCompleter>
+#include <QString>
+#include <QStringListModel>
 
 #include "mainwindow.h"
 
@@ -143,13 +145,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_platemap->load(m_plateFormatImgs[n]);
     });
 
-    // plate ID
+    // plate ID widget
     m_db = new Database(m_config->userProfile);
-    // TODO use the values pulled from the DB instead of these
-    m_plateIdList << m_db->getPlateIds();
-
-    QCompleter *plateIdCompleter = new QCompleter(m_plateIdList, this);
+    QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
+    updatePlateIdList();
 
     //settings dialog
     m_settings = new Settings(this, m_config);
@@ -913,19 +913,30 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     // TODO this code is just for testing the plate ID widget at the moment. This should be replaced with the actual background recording behavior when necessary
-    if (m_config->plateFormat != "") {
+    std::string plateFormat = ui.plateFormatDropDown->currentText().toStdString();
+    if (plateFormat != "") {
         // TODO make this all a method
         auto plateId = ui.plateIdEdit->text().toStdString();
-        if (m_plateIdList.contains(plateId)) {
-            m_db->overwritePlateId(plateId, m_config->plateFormat);
+        QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
+        if (model->stringList().contains(QString::fromStdString(plateId))) {
+            m_db->overwritePlateId(plateId, plateFormat);
         } else {
             std::string filePath = "some/path"; // TODO set real path
-            m_db->addPlateId(plateId, m_config->plateFormat, filePath);
+            m_db->addPlateId(plateId, plateFormat, filePath);
         }
         // update list after updating DB
-        m_plateIdList.removeAll();
-        m_plateIdList << m_db->getPlateIds();
+        updatePlateIdList();
     }
+}
+
+void MainWindow::updatePlateIdList() {
+    auto plateIds = m_db->getPlateIds();
+    QStringList newList;
+    for (auto pid : plateIds) {
+        newList << QString::fromStdString(pid);
+    }
+    QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
+    model->setStringList(newList);
 }
 
 

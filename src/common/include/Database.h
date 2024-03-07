@@ -68,22 +68,22 @@ class Database {
             auto res = exec(query, std::vector<std::string> {});
 
             std::vector<std::string> plateIds {};
-            for (const auto& row : res) {
-                plateIds.push_back(row["plate_id"])
+            for (auto& row : res) {
+                plateIds.push_back(row["plate_id"]);
             }
 
-            return plateIds
+            return plateIds;
         }
 
         void addPlateId(std::string plateId, std::string plateFormat, std::string filePath) {
-            spdlog::info("Adding plate ID {} with format {}", plateId, plateFormat);
+            spdlog::info("Adding plate ID '{}' with format '{}'", plateId, plateFormat);
             std::string query = "INSERT INTO background_recordings VALUES (?, ?, ?, ?, ?);";
             exec(query, std::vector<std::string> {plateId, filePath, now_timestamp(), now_timestamp(), plateFormat});
         }
 
         void overwritePlateId(std::string plateId, std::string plateFormat) {
             // TODO does this need to update the file path?
-            spdlog::info("Overwriting plate ID {} to format {}", plateId, plateFormat);
+            spdlog::info("Overwriting plate ID '{}' to format '{}'", plateId, plateFormat);
             std::string query = "UPDATE background_recordings SET plate_format=?, updated_at=? WHERE plate_id=?;";
             exec(query, std::vector<std::string> {plateFormat, now_timestamp(), plateId});
         }
