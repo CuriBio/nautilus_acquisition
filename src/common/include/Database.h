@@ -36,7 +36,7 @@
 #include <tsl/ordered_map.h>
 #include <sqlite3.h>
 
-#define DB_TIMESTAMP_STR "yyyy-mm-dd hh:mm:ss"
+#define DB_TIMESTAMP_STR "%Y-%m-%d %H:%M:%S"
 
 typedef tsl::ordered_map<std::string, std::string> dbRow;
 
