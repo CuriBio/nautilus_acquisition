@@ -1459,6 +1459,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     } else {
         m_userCanceled = true;
 
+        delete m_db;
+
         if (m_curState == LiveViewRunning) {
             stopLiveView();
         }
