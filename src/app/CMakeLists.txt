@@ -91,7 +91,9 @@ target_link_libraries(${PROJECT_NAME}
     tango
     Common
     PvCamD
-    NIDAQmx_wrapper)
+    NIDAQmx_wrapper
+    sqlite3_incl
+    sqlite3)
 ENDIF() #WIN32
 
 message(CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR})
