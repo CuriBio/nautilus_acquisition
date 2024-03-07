@@ -24,6 +24,7 @@ target_include_directories(${PROJECT_NAME}
 find_package(spdlog)
 find_package(cxxopts)
 find_package(toml11)
+find_package(sqlite3)
 
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
@@ -64,8 +65,7 @@ target_link_libraries(${PROJECT_NAME}
     Common
     PvCam
     NIDAQmx_wrapper
-    sqlite3_incl
-    sqlite3)
+    SQLite::SQLite3)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
@@ -91,9 +91,7 @@ target_link_libraries(${PROJECT_NAME}
     tango
     Common
     PvCamD
-    NIDAQmx_wrapper
-    sqlite3_incl
-    sqlite3)
+    NIDAQmx_wrapper)
 ENDIF() #WIN32
 
 message(CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR})
