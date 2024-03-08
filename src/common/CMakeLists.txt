@@ -1,5 +1,6 @@
 #find logging library
 find_package(spdlog)
+find_package(sqlite3)
 
 add_library(Common STATIC
 ./src/Bitmap.cpp
@@ -20,4 +21,6 @@ target_link_libraries(Common
     project_warnings
     spdlog::spdlog
     libtiff_incl
-    libtiff)
+    libtiff
+    SQLite::SQLite3
+    )

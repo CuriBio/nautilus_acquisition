@@ -51,12 +51,16 @@
 #include <QProcess>
 #include <QSvgWidget>
 #include <QPushButton>
+#include <QCompleter>
+#include <QString>
+#include <QStringListModel>
 
 #include "mainwindow.h"
 
 #include <PostProcess.h>
 #include <VideoEncoder.h>
 #include <RawFile.h>
+#include <Database.h>
 
 #define DATA_DIR "data"
 
@@ -141,6 +145,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_platemap->load(m_plateFormatImgs[n]);
     });
 
+    // plate ID widget
+    m_db = new Database(m_config->userProfile);
+    QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
+    ui.plateIdEdit->setCompleter(plateIdCompleter);
+    updatePlateIdList();
 
     //settings dialog
     m_settings = new Settings(this, m_config);
@@ -457,6 +466,7 @@ void MainWindow::Initialize() {
     // Add data type options
     ui.dataTypeList->addItem(QString("Calcium Imaging"));
     ui.dataTypeList->addItem(QString("Voltage Imaging"));
+    ui.dataTypeList->addItem(QString("Background Recording"));
     ui.dataTypeList->setCurrentIndex(0);
 
     emit sig_progress_done();
@@ -851,6 +861,15 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
 }
 
 
+void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
+    if (text.toStdString() == "Background Recording") {
+        ui.disableBackgroundRecording->setEnabled(false);
+        ui.disableBackgroundRecording->setChecked(false);
+    } else {
+        ui.disableBackgroundRecording->setEnabled(true);
+    }
+}
+
 void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_config->plateFormat = m_plateFormats[index];
     m_plateFormatCurrentIndex = index;
@@ -900,6 +919,36 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
 
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+}
+
+void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
+    // TODO implement this
+}
+
+void MainWindow::updatePlateIdList() {
+    auto plateIds = m_db->getPlateIds();
+    QStringList newList;
+    for (auto pid : plateIds) {
+        newList << QString::fromStdString(pid);
+    }
+    QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
+    model->setStringList(newList);
+}
+
+void MainWindow::saveBackgroundRecordingMetadata() {
+    std::string plateFormat = ui.plateFormatDropDown->currentText().toStdString();
+    if (plateFormat != "") {
+        auto plateId = ui.plateIdEdit->text().toStdString();
+        QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
+        if (model->stringList().contains(QString::fromStdString(plateId))) {
+            m_db->overwritePlateId(plateId, plateFormat);
+        } else {
+            std::string filePath = (m_config->backgroundRecordingDir / plateId).string();
+            m_db->addPlateId(plateId, plateFormat, filePath);
+        }
+        // update list after updating DB
+        updatePlateIdList();
+    }
 }
 
 
@@ -1421,6 +1470,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         event->ignore();
     } else {
         m_userCanceled = true;
+
+        delete m_db;
 
         if (m_curState == LiveViewRunning) {
             stopLiveView();

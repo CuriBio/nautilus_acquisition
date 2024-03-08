@@ -17,6 +17,7 @@ class Config {
         bool noAutoConBright;
         std::filesystem::path userProfile;
         std::filesystem::path path;
+        std::filesystem::path backgroundRecordingDir;
         std::filesystem::path plateFormat;
         std::filesystem::path extAnalysis;
         std::filesystem::path ffmpegDir;

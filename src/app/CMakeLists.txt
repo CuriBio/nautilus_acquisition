@@ -24,6 +24,7 @@ target_include_directories(${PROJECT_NAME}
 find_package(spdlog)
 find_package(cxxopts)
 find_package(toml11)
+find_package(sqlite3)
 
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
@@ -63,7 +64,8 @@ target_link_libraries(${PROJECT_NAME}
     tango
     Common
     PvCam
-    NIDAQmx_wrapper)
+    NIDAQmx_wrapper
+    SQLite::SQLite3)
 ELSE()
 target_link_libraries(${PROJECT_NAME}
     PRIVATE

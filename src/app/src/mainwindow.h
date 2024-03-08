@@ -58,6 +58,7 @@
 #include <pm/ColorConfig.h>
 #include <pvcam/pvcam_helper_color.h>
 
+#include <Database.h>
 #include <ParTask.h>
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
@@ -159,9 +160,11 @@ class MainWindow : public QMainWindow {
         void on_settingsBtn_clicked() { emit sig_update_state(SettingsBtnPress); }
         void on_levelsSlider_valueChanged(int value);
 
+        void on_dataTypeList_currentTextChanged(const QString &text);
         void on_frameRateEdit_valueChanged(double value);
         void on_plateFormatDropDown_activated(int index);
         void on_durationEdit_valueChanged(double value);
+        void on_disableBackgroundRecording_stateChanged(int state);
 
         void on_stageNavigationBtn_clicked() {
             m_stageControl->show();
@@ -182,6 +185,8 @@ class MainWindow : public QMainWindow {
         AdvancedSetupDialog* m_advancedSetupDialog{nullptr};
         StageControl* m_stageControl{nullptr};
         LiveView* m_liveView{nullptr};
+
+        Database* m_db {nullptr};
 
         std::shared_ptr<pmCamera> m_camera;
         std::unique_ptr<pmAcquisition> m_acquisition{nullptr};
@@ -396,6 +401,9 @@ class MainWindow : public QMainWindow {
         bool ledSetVoltage(double voltage);
 
         //void getS3Object(Aws::String bucketName, Aws::String objectName);
+
+        void updatePlateIdList();
+        void saveBackgroundRecordingMetadata();
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);

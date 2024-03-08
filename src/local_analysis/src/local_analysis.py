@@ -305,7 +305,7 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
         "instrument_type": "nautilai",
         "instrument_serial_number": "N/A",
         "software_release_version": setup_config["software_version"],
-        "plate_barcode": "SAMPLE ID",  # TODO this should be the sample ID once that gets set
+        "plate_barcode": "PLATE ID",  # TODO this should be the plate ID once that gets set
         "total_well_count": setup_config["stage"]["num_wells"],
         "stage_config": setup_config["stage"],
         "tissue_sampling_period": 1 / setup_config["fps"],
@@ -381,5 +381,5 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        logger.exception(f"Error in Local Analysis")
+        logger.exception("Error in Local Analysis")
         sys.exit(1)
