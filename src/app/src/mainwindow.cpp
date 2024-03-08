@@ -861,6 +861,21 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
 }
 
 
+void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
+    if (text.toStdString() == "Background Recording") {
+        ui.dirChoice->setEnabled(false);
+        ui.dirChoice->setPlainText(QString((m_config->userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings").string()));
+        ui.dirChoiceBtn->setEnabled(false);
+        ui.disableBackgroundRecording->setEnabled(false);
+        ui.disableBackgroundRecording->setCheckedState(false);
+    } else {
+        ui.dirChoice->setEnabled(true);
+        ui.dirChoice->setPlainText(QString(m_config->path.string()));
+        ui.dirChoiceBtn->setEnabled(true);
+        ui.disableBackgroundRecording->setEnabled(true);
+    }
+}
+
 void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_config->plateFormat = m_plateFormats[index];
     m_plateFormatCurrentIndex = index;
@@ -922,6 +937,7 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
         if (model->stringList().contains(QString::fromStdString(plateId))) {
             m_db->overwritePlateId(plateId, plateFormat);
         } else {
+            // TODO should store this somewhere, maybe in m_config
             std::string filePath = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings" / plateId).string();
             m_db->addPlateId(plateId, plateFormat, filePath);
         }

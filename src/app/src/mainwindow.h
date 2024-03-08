@@ -160,6 +160,7 @@ class MainWindow : public QMainWindow {
         void on_settingsBtn_clicked() { emit sig_update_state(SettingsBtnPress); }
         void on_levelsSlider_valueChanged(int value);
 
+        void on_dataTypeList_currentTextChanged(const QString &text);
         void on_frameRateEdit_valueChanged(double value);
         void on_plateFormatDropDown_activated(int index);
         void on_durationEdit_valueChanged(double value);
