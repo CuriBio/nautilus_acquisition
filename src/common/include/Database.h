@@ -82,7 +82,6 @@ class Database {
         }
 
         void overwritePlateId(std::string plateId, std::string plateFormat) {
-            // TODO does this need to update the file path?
             spdlog::info("Overwriting plate ID '{}' to format '{}'", plateId, plateFormat);
             std::string query = "UPDATE background_recordings SET plate_format=?, updated_at=? WHERE plate_id=?;";
             exec(query, std::vector<std::string> {plateFormat, now_timestamp(), plateId});

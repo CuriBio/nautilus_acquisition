@@ -466,6 +466,7 @@ void MainWindow::Initialize() {
     // Add data type options
     ui.dataTypeList->addItem(QString("Calcium Imaging"));
     ui.dataTypeList->addItem(QString("Voltage Imaging"));
+    ui.dataTypeList->addItem(QString("Background Recording"));
     ui.dataTypeList->setCurrentIndex(0);
 
     emit sig_progress_done();
@@ -921,7 +922,7 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
         if (model->stringList().contains(QString::fromStdString(plateId))) {
             m_db->overwritePlateId(plateId, plateFormat);
         } else {
-            std::string filePath = "some/path"; // TODO set real path
+            std::string filePath = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings" / plateId).string();
             m_db->addPlateId(plateId, plateFormat, filePath);
         }
         // update list after updating DB
