@@ -922,22 +922,7 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
-    // TODO this code is just for testing the plate ID widget at the moment. This should be replaced with the actual background recording behavior when necessary
-    std::string plateFormat = ui.plateFormatDropDown->currentText().toStdString();
-    if (plateFormat != "") {
-        // TODO make this all a method
-        auto plateId = ui.plateIdEdit->text().toStdString();
-        QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
-        if (model->stringList().contains(QString::fromStdString(plateId))) {
-            m_db->overwritePlateId(plateId, plateFormat);
-        } else {
-            // TODO should store this somewhere, maybe in m_config
-            std::string filePath = (m_config->backgroundRecordingDir / plateId).string();
-            m_db->addPlateId(plateId, plateFormat, filePath);
-        }
-        // update list after updating DB
-        updatePlateIdList();
-    }
+    // TODO implement this
 }
 
 void MainWindow::updatePlateIdList() {
@@ -948,6 +933,22 @@ void MainWindow::updatePlateIdList() {
     }
     QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
     model->setStringList(newList);
+}
+
+void MainWindow::saveBackgroundRecordingMetadata() {
+    std::string plateFormat = ui.plateFormatDropDown->currentText().toStdString();
+    if (plateFormat != "") {
+        auto plateId = ui.plateIdEdit->text().toStdString();
+        QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
+        if (model->stringList().contains(QString::fromStdString(plateId))) {
+            m_db->overwritePlateId(plateId, plateFormat);
+        } else {
+            std::string filePath = (m_config->backgroundRecordingDir / plateId).string();
+            m_db->addPlateId(plateId, plateFormat, filePath);
+        }
+        // update list after updating DB
+        updatePlateIdList();
+    }
 }
 
 

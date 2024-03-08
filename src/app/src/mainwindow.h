@@ -403,6 +403,7 @@ class MainWindow : public QMainWindow {
         //void getS3Object(Aws::String bucketName, Aws::String objectName);
 
         void updatePlateIdList();
+        void saveBackgroundRecordingMetadata();
 
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);
