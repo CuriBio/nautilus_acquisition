@@ -864,7 +864,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
 void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
     if (text.toStdString() == "Background Recording") {
         ui.disableBackgroundRecording->setEnabled(false);
-        ui.disableBackgroundRecording->setCheckedState(false);
+        ui.disableBackgroundRecording->setChecked(false);
     } else {
         ui.disableBackgroundRecording->setEnabled(true);
     }
@@ -932,7 +932,7 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
             m_db->overwritePlateId(plateId, plateFormat);
         } else {
             // TODO should store this somewhere, maybe in m_config
-            std::string filePath = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings" / plateId).string();
+            std::string filePath = (m_config->backgroundRecordingDir / plateId).string();
             m_db->addPlateId(plateId, plateFormat, filePath);
         }
         // update list after updating DB
