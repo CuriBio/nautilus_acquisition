@@ -1,7 +1,7 @@
 Changelog for Nautilai
 ======================
 
-0.1.41 (unreleased)
+0.1.41
 -------------------
 
 Added:
