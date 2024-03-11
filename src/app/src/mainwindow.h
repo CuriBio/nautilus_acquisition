@@ -168,6 +168,7 @@ class MainWindow : public QMainWindow {
 
         void on_stageNavigationBtn_clicked() {
             m_stageControl->show();
+            m_stageControl->setFixedSize(m_stageControl->size());
             ui.stageNavigationBtn->setEnabled(false);
         }
 
