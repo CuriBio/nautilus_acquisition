@@ -71,7 +71,7 @@
       <x>0</x>
       <y>0</y>
       <width>321</width>
-      <height>50</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -100,9 +100,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>50</y>
+      <y>30</y>
       <width>321</width>
-      <height>50</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -114,7 +114,7 @@
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>50</height>
+      <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
@@ -131,9 +131,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>100</y>
+      <y>240</y>
       <width>321</width>
-      <height>50</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -145,7 +145,7 @@
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>50</height>
+      <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
@@ -155,16 +155,16 @@
      </size>
     </property>
     <property name="text">
-     <string>Goto Position</string>
+     <string>Go to Selected Position</string>
     </property>
    </widget>
    <widget class="QPushButton" name="saveListBtn">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>150</y>
+      <y>140</y>
       <width>321</width>
-      <height>50</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -176,7 +176,7 @@
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>50</height>
+      <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
@@ -193,9 +193,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>200</y>
+      <y>170</y>
       <width>321</width>
-      <height>50</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -207,7 +207,7 @@
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>41</height>
+      <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
@@ -734,6 +734,68 @@
     </property>
     <property name="flat">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="updateBtn">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>60</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Update Position</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="toggleActivationBtn">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>100</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Toggle Activation of Position</string>
     </property>
    </widget>
   </widget>
