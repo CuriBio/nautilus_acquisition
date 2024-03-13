@@ -85,7 +85,6 @@ class StageControl : public QDialog {
 
         const std::vector<StagePosition*>& GetPositions() const;
 
-        void saveList(std::string fileName, bool fileExists);
         void loadList(std::string fileName);
 
     signals:

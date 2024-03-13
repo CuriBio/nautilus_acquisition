@@ -21,17 +21,9 @@ StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, 
     m_config = config;
 
     m_tango = new TangoStage(m_comPort);
-
-    int i = 0;
-    for (auto [x, y] : config->stageLocations) {
-        StagePosition* item = new StagePosition(++i, x, y);
-        m_positions.push_back(item);
-        ui->stageLocations->addItem(item);
-    }
 }
 
 StageControl::~StageControl() {
-    saveList(m_config->configFile, true);
     delete m_tango;
     delete ui;
 }
@@ -105,36 +97,6 @@ void StageControl::on_skipBtn_clicked() {
         i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos_, i->x, i->y).c_str());
         i->skipped = true;
     }
-}
-
-
-void StageControl::saveList(std::string fileName, bool fileExists) {
-    spdlog::info("Saving stage positions to file: {}", std::filesystem::path(fileName).string());
-    toml::value file;
-    if (fileExists) {
-        file = toml::parse<toml::preserve_comments, tsl::ordered_map>(fileName);
-    } else {
-        file = toml::value {};
-    }
-
-    toml::array vs{};
-    for (auto& v : m_positions) {
-        vs.push_back(toml::value{ {"x", v->x}, {"y", v->y} });
-    }
-    file["stage"] = toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"location", vs}};
-
-    std::ofstream outf(fileName);
-
-    if (file.contains("debug")) {
-        outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"debug", file["debug"].as_table()}};
-    }
-
-    outf << std::setw(200) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"nautilai", file["nautilai"].as_table()}};
-    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"device", file["device"].as_table()}};
-    outf << std::setw(40) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"acquisition", file["acquisition"].as_table()}};
-    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"stage", file["stage"].as_table()}};
-
-    outf.close();
 }
 
 
