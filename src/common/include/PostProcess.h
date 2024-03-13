@@ -130,6 +130,7 @@ namespace PostProcess {
         uint32_t rows,
         uint32_t cols,
         std::vector<uint8_t>& tileMap,
+        std::vector<bool>& tileEnabled,
         uint32_t width,
         uint32_t height,
         bool vflip,
@@ -158,19 +159,24 @@ namespace PostProcess {
             //read each image, 1-based index for file names
             for(uint32_t row = 0; row < rows; row++) {
                 for(uint32_t col = 0; col < cols; col++) {
+                    auto curr = col+row*cols;
+                    if (!tileEnabled[curr]) {
+                        continue;
+                    }
 
-                    size_t idx = blockStart(cols, row, col, width, height);
+                    auto tileIdx = tileMap[curr];
+                    size_t blockStartIdx = blockStart(cols, row, col, width, height);
                     switch (storageType) {
                         case StorageType::Tiff:
                             {
-                                std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileMap[col+row*cols]+1, fr);
-                                p.AddTask(CopyTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
+                                std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileIdx+1, fr);
+                                p.AddTask(CopyTask, (indir / f).string(), frameData+blockStartIdx, width, height, cols, vflip, hflip);
                             }
                             break;
                         case StorageType::Raw:
                             {
-                                std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileMap[col+row*cols]+1, fr);
-                                p.AddTask(CopyRawTask, (indir / f).string(), frameData+idx, width, height, cols, vflip, hflip);
+                                std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileIdx+1, fr);
+                                p.AddTask(CopyRawTask, (indir / f).string(), frameData+blockStartIdx, width, height, cols, vflip, hflip);
                             }
                             break;
                     };

@@ -1236,8 +1236,10 @@ void MainWindow::postProcess() {
         std::ofstream outfile(settingsPath.string()); // create output file stream
 
         std::vector<toml::value> stagePos;
+        std::vector<bool> tileEnabled;
         for (auto& loc : m_stageControl->GetPositions()) {
             stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
+            tileEnabled.push_back(!loc->skipped);
         }
 
         //need this here even if auto tile is disabled
@@ -1327,6 +1329,7 @@ void MainWindow::postProcess() {
                 m_config->rows,
                 m_config->cols,
                 m_config->tileMap,
+                tileEnabled,
                 m_width,
                 m_height,
                 m_config->vflip,
