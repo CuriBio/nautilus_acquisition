@@ -89,8 +89,8 @@ void StageControl::on_unskipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
     if (0 <= row && row < m_positions.size()) {
-        spdlog::info("Unskipping stage position {}", row);
         auto i = m_positions[row];
+        spdlog::info("Unskipping stage pos_{}", i->pos_);
         i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos_, i->x, i->y).c_str());
         i->skipped = false;
     }
@@ -100,8 +100,8 @@ void StageControl::on_skipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
     if (0 <= row && row < m_positions.size()) {
-        spdlog::info("Skipping stage position {}", row);
         auto i = m_positions[row];
+        spdlog::info("Skipping stage pos_{}", i->pos_);
         i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos_, i->x, i->y).c_str());
         i->skipped = true;
     }

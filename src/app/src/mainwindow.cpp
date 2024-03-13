@@ -1388,9 +1388,19 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
     cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
 
-    emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
+    int numActiveFovs = 0;
+    for (auto& loc : cls->m_stageControl->GetPositions()) {
+        if (!loc->skipped) {
+            numActiveFovs++;
+        }
+    }
+    emit cls->sig_progress_start("Acquiring images", numActiveFovs * cls->m_expSettings.frameCount);
 
     for (auto& loc : cls->m_stageControl->GetPositions()) {
+        if (loc->skipped) {
+            pos++;
+            continue;
+        }
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(pos);
 
