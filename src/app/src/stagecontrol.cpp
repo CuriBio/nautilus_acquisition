@@ -88,7 +88,7 @@ const std::vector<StagePosition*>& StageControl::GetPositions() const {
 void StageControl::on_unskipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
-    if (row >= 0) {
+    if (0 <= row && row < m_positions.size()) {
         spdlog::info("Unskipping stage position {}", row);
         auto i = m_positions[row];
         i->skipped = false;
@@ -99,11 +99,11 @@ void StageControl::on_unskipBtn_clicked() {
 void StageControl::on_skipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
-    if (row >= 0) {
+    if (0 <= row && row < m_positions.size()) {
         spdlog::info("Skipping stage position {}", row);
         auto i = m_positions[row];
         i->skipped = true;
-        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos, i->x, i->y).c_str());
+        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", 1, i->x, i->y).c_str());
     }
 }
 
