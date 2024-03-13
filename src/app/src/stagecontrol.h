@@ -34,14 +34,15 @@ class StageControl;
 
 class StagePosition : public QListWidgetItem  {
     public:
-        int pos;
+        // suffixing with underscore since "pos" seems to have issues, possibly a member of the parent class
+        int pos_;
         double x;
         double y;
         bool skipped;
 
     public:
         StagePosition(int pos, double xPos, double yPos) : QListWidgetItem(fmt::format("pos_{} - x: {}, y: {}", pos, xPos, yPos).c_str()) {
-            pos = pos;
+            pos_ = pos;
             x = xPos;
             y = yPos;
             skipped = false;
