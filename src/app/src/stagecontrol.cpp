@@ -36,7 +36,7 @@ StageControl::~StageControl() {
     delete ui;
 }
 
-bool StageControl:: Connected() const {
+bool StageControl::Connected() const {
     return m_tango->Connected();
 }
 
@@ -100,37 +100,44 @@ const std::vector<StagePosition*>& StageControl::GetPositions() const {
 }
 
 //slots
-void StageControl::on_deleteBtn_clicked() {
+void StageControl::on_unskipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
     if (row >= 0) {
-        spdlog::info("Deleting item {}", row);
+        spdlog::info("Unskipping stage position {}", row);
 
-        m_positions.erase(m_positions.begin()+row);
-        auto i = ui->stageLocations->takeItem(row);
-        delete i;
+        // TODO set some bool true to mark it skipped
+        auto i = m_positions[row];
 
-        size_t n = 1;
-        for (auto& i : m_positions) {
-            i->pos = n++;
-            i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
-        }
+        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos, i->x, i->y).c_str());
 
-        emit this->sig_stagelist_updated(m_positions.size());
+        // m_positions.erase(m_positions.begin()+row);
+        // delete i;
+
+        // size_t n = 1;
+        // for (auto& i : m_positions) {
+        //     i->pos = n++;
+        //     i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
+        // }
+
+        // emit this->sig_stagelist_updated(m_positions.size());
     }
 }
 
-void StageControl::on_addBtn_clicked() {
-    AddCurrentPosition();
-}
+void StageControl::on_skipBtn_clicked() {
+    int row = ui->stageLocations->currentRow();
 
-void StageControl::on_saveListBtn_clicked() {
-    auto file = QFileDialog::getSaveFileName(this, "Save location file", "C:\\", "Text files (*.toml)");
+    if (row >= 0) {
+        spdlog::info("Skipping stage position {}", row);
 
-    if (!file.isEmpty()) {
-        saveList(file.toStdString(), false);
+        auto i = m_positions[row];
+
+        // TODO set some bool true to mark it not skipped
+
+        m_positions[row]->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
     }
 }
+
 
 void StageControl::saveList(std::string fileName, bool fileExists) {
     spdlog::info("Saving stage positions to file: {}", std::filesystem::path(fileName).string());
@@ -159,14 +166,6 @@ void StageControl::saveList(std::string fileName, bool fileExists) {
     outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"stage", file["stage"].as_table()}};
 
     outf.close();
-}
-
-void StageControl::on_loadListBtn_clicked() {
-    auto file = QFileDialog::getOpenFileName(this, "Select location file", "C:\\", "Text files (*.toml)");
-
-    if (!file.isEmpty()) {
-        loadList(file.toStdString());
-    }
 }
 
 
@@ -217,10 +216,8 @@ void StageControl::on_gotoPosBtn_clicked() {
 }
 
 void StageControl::disableAll() {
-    ui->addBtn->setEnabled(false);
-    ui->deleteBtn->setEnabled(false);
-    ui->saveListBtn->setEnabled(false);
-    ui->loadListBtn->setEnabled(false);
+    ui->skipBtn->setEnabled(false);
+    ui->unskipBtn->setEnabled(false);
     ui->gotoPosBtn->setEnabled(false);
 
     ui->stageRightBtn1->setEnabled(false);
@@ -241,10 +238,8 @@ void StageControl::disableAll() {
 }
 
 void StageControl::enableAll() {
-    ui->addBtn->setEnabled(true);
-    ui->deleteBtn->setEnabled(true);
-    ui->saveListBtn->setEnabled(true);
-    ui->loadListBtn->setEnabled(true);
+    ui->skipBtn->setEnabled(true);
+    ui->unskipBtn->setEnabled(true);
     ui->gotoPosBtn->setEnabled(true);
 
     ui->stageRightBtn1->setEnabled(true);

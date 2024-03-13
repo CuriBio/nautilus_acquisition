@@ -69,8 +69,6 @@ class StageControl : public QDialog {
         explicit StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
 
-        std::future<bool> Initialize();
-
         bool Connected() const;
         bool Calibrate();
         void SetRelativePosition(double x, double y);
@@ -97,11 +95,8 @@ class StageControl : public QDialog {
         void sig_end_move();
 
     private slots:
-        void on_addBtn_clicked();
-        void on_deleteBtn_clicked();
-
-        void on_saveListBtn_clicked();
-        void on_loadListBtn_clicked();
+        void on_skipBtn_clicked();
+        void on_unskipBtn_clicked();
 
         void on_gotoPosBtn_clicked();
 

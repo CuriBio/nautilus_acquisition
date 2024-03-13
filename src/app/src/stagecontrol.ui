@@ -65,13 +65,13 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="addBtn">
+   <widget class="QPushButton" name="skipBtn">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>321</width>
-      <height>31</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -93,16 +93,16 @@
      </size>
     </property>
     <property name="text">
-     <string>Add Position</string>
+     <string>Skip Position</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="deleteBtn">
+   <widget class="QPushButton" name="unskipBtn">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>30</y>
+      <y>50</y>
       <width>321</width>
-      <height>31</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -124,16 +124,16 @@
      </size>
     </property>
     <property name="text">
-     <string>Delete Position</string>
+     <string>Unskip Position</string>
     </property>
    </widget>
    <widget class="QPushButton" name="gotoPosBtn">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>240</y>
+      <y>220</y>
       <width>321</width>
-      <height>31</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -156,68 +156,6 @@
     </property>
     <property name="text">
      <string>Go to Selected Position</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="saveListBtn">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>140</y>
-      <width>321</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>50</height>
-     </size>
-    </property>
-    <property name="text">
-     <string>Save Position List</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="loadListBtn">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>170</y>
-      <width>321</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>50</height>
-     </size>
-    </property>
-    <property name="text">
-     <string>Load Position List</string>
     </property>
    </widget>
    <widget class="QPushButton" name="stageUpBtn1">
@@ -734,68 +672,6 @@
     </property>
     <property name="flat">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="updateBtn">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>60</y>
-      <width>321</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>50</height>
-     </size>
-    </property>
-    <property name="text">
-     <string>Update Position</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="toggleActivationBtn">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>100</y>
-      <width>321</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>50</height>
-     </size>
-    </property>
-    <property name="text">
-     <string>Toggle Activation of Position</string>
     </property>
    </widget>
   </widget>

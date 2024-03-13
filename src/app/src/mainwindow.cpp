@@ -1365,6 +1365,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Starting acquisitions");
     int pos = 1;
 
+    // TODO is this needed anymore?
     if (cls->m_stageControl->GetPositions().empty()) {
         spdlog::info("No stage positions set, adding current position");
         cls->m_stageControl->AddCurrentPosition();
