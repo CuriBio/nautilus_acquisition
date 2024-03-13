@@ -1365,12 +1365,6 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Starting acquisitions");
     int pos = 1;
 
-    // TODO is this needed anymore?
-    if (cls->m_stageControl->GetPositions().empty()) {
-        spdlog::info("No stage positions set, adding current position");
-        cls->m_stageControl->AddCurrentPosition();
-    }
-
     // get local timestamp to add to subdir name
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::system_clock::to_time_t(now);

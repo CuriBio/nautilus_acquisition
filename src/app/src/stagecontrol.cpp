@@ -79,21 +79,6 @@ void StageControl::SetAbsoluteY(double y) {
     m_tango->GetCurrentPos(m_curX, m_curY);
 }
 
-void StageControl::AddCurrentPosition() {
-    int row = m_positions.size() + 1;
-    double x, y;
-    m_tango->GetCurrentPos(x, y);
-
-    spdlog::info("Add current position x: {}, y: {}", x, y);
-    m_curX = x;
-    m_curY = y;
-
-    StagePosition* item = new StagePosition(row, m_curX, m_curY);
-    m_positions.push_back(item);
-    ui->stageLocations->addItem(item);
-
-    emit this->sig_stagelist_updated(m_positions.size());
-}
 
 const std::vector<StagePosition*>& StageControl::GetPositions() const {
     return m_positions;
@@ -105,22 +90,9 @@ void StageControl::on_unskipBtn_clicked() {
 
     if (row >= 0) {
         spdlog::info("Unskipping stage position {}", row);
-
-        // TODO set some bool true to mark it skipped
         auto i = m_positions[row];
-
-        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos, i->x, i->y).c_str());
-
-        // m_positions.erase(m_positions.begin()+row);
-        // delete i;
-
-        // size_t n = 1;
-        // for (auto& i : m_positions) {
-        //     i->pos = n++;
-        //     i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
-        // }
-
-        // emit this->sig_stagelist_updated(m_positions.size());
+        i->skipped = false;
+        i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
     }
 }
 
@@ -129,12 +101,9 @@ void StageControl::on_skipBtn_clicked() {
 
     if (row >= 0) {
         spdlog::info("Skipping stage position {}", row);
-
         auto i = m_positions[row];
-
-        // TODO set some bool true to mark it not skipped
-
-        m_positions[row]->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
+        i->skipped = true;
+        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos, i->x, i->y).c_str());
     }
 }
 

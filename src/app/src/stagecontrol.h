@@ -37,12 +37,14 @@ class StagePosition : public QListWidgetItem  {
         int pos;
         double x;
         double y;
+        bool skipped;
 
     public:
         StagePosition(int pos, double xPos, double yPos) : QListWidgetItem(fmt::format("pos_{} - x: {}, y: {}", pos, xPos, yPos).c_str()) {
             pos = pos;
             x = xPos;
             y = yPos;
+            skipped = false;
         }
 
         ~StagePosition() {}
@@ -79,8 +81,6 @@ class StageControl : public QDialog {
 
         void SetRelativeY(double y);
         void SetAbsoluteY(double y);
-
-        void AddCurrentPosition();
 
         const std::vector<StagePosition*>& GetPositions() const;
 
