@@ -21,22 +21,14 @@ StageControl::StageControl(std::string comPort, std::shared_ptr<Config> config, 
     m_config = config;
 
     m_tango = new TangoStage(m_comPort);
-
-    int i = 0;
-    for (auto [x, y] : config->stageLocations) {
-        StagePosition* item = new StagePosition(++i, x, y);
-        m_positions.push_back(item);
-        ui->stageLocations->addItem(item);
-    }
 }
 
 StageControl::~StageControl() {
-    saveList(m_config->configFile, true);
     delete m_tango;
     delete ui;
 }
 
-bool StageControl:: Connected() const {
+bool StageControl::Connected() const {
     return m_tango->Connected();
 }
 
@@ -79,93 +71,31 @@ void StageControl::SetAbsoluteY(double y) {
     m_tango->GetCurrentPos(m_curX, m_curY);
 }
 
-void StageControl::AddCurrentPosition() {
-    int row = m_positions.size() + 1;
-    double x, y;
-    m_tango->GetCurrentPos(x, y);
-
-    spdlog::info("Add current position x: {}, y: {}", x, y);
-    m_curX = x;
-    m_curY = y;
-
-    StagePosition* item = new StagePosition(row, m_curX, m_curY);
-    m_positions.push_back(item);
-    ui->stageLocations->addItem(item);
-
-    emit this->sig_stagelist_updated(m_positions.size());
-}
 
 const std::vector<StagePosition*>& StageControl::GetPositions() const {
     return m_positions;
 }
 
 //slots
-void StageControl::on_deleteBtn_clicked() {
+void StageControl::on_unskipBtn_clicked() {
     int row = ui->stageLocations->currentRow();
 
-    if (row >= 0) {
-        spdlog::info("Deleting item {}", row);
-
-        m_positions.erase(m_positions.begin()+row);
-        auto i = ui->stageLocations->takeItem(row);
-        delete i;
-
-        size_t n = 1;
-        for (auto& i : m_positions) {
-            i->pos = n++;
-            i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos, i->x, i->y).c_str());
-        }
-
-        emit this->sig_stagelist_updated(m_positions.size());
+    if (0 <= row && row < m_positions.size()) {
+        auto i = m_positions[row];
+        spdlog::info("Unskipping stage pos_{}", i->pos_);
+        i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos_, i->x, i->y).c_str());
+        i->skipped = false;
     }
 }
 
-void StageControl::on_addBtn_clicked() {
-    AddCurrentPosition();
-}
+void StageControl::on_skipBtn_clicked() {
+    int row = ui->stageLocations->currentRow();
 
-void StageControl::on_saveListBtn_clicked() {
-    auto file = QFileDialog::getSaveFileName(this, "Save location file", "C:\\", "Text files (*.toml)");
-
-    if (!file.isEmpty()) {
-        saveList(file.toStdString(), false);
-    }
-}
-
-void StageControl::saveList(std::string fileName, bool fileExists) {
-    spdlog::info("Saving stage positions to file: {}", std::filesystem::path(fileName).string());
-    toml::value file;
-    if (fileExists) {
-        file = toml::parse<toml::preserve_comments, tsl::ordered_map>(fileName);
-    } else {
-        file = toml::value {};
-    }
-
-    toml::array vs{};
-    for (auto& v : m_positions) {
-        vs.push_back(toml::value{ {"x", v->x}, {"y", v->y} });
-    }
-    file["stage"] = toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"location", vs}};
-
-    std::ofstream outf(fileName);
-
-    if (file.contains("debug")) {
-        outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"debug", file["debug"].as_table()}};
-    }
-
-    outf << std::setw(200) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"nautilai", file["nautilai"].as_table()}};
-    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"device", file["device"].as_table()}};
-    outf << std::setw(40) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"acquisition", file["acquisition"].as_table()}};
-    outf << std::setw(20) << toml::basic_value<toml::preserve_comments, tsl::ordered_map>{{"stage", file["stage"].as_table()}};
-
-    outf.close();
-}
-
-void StageControl::on_loadListBtn_clicked() {
-    auto file = QFileDialog::getOpenFileName(this, "Select location file", "C:\\", "Text files (*.toml)");
-
-    if (!file.isEmpty()) {
-        loadList(file.toStdString());
+    if (0 <= row && row < m_positions.size()) {
+        auto i = m_positions[row];
+        spdlog::info("Skipping stage pos_{}", i->pos_);
+        i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos_, i->x, i->y).c_str());
+        i->skipped = true;
     }
 }
 
@@ -217,10 +147,8 @@ void StageControl::on_gotoPosBtn_clicked() {
 }
 
 void StageControl::disableAll() {
-    ui->addBtn->setEnabled(false);
-    ui->deleteBtn->setEnabled(false);
-    ui->saveListBtn->setEnabled(false);
-    ui->loadListBtn->setEnabled(false);
+    ui->skipBtn->setEnabled(false);
+    ui->unskipBtn->setEnabled(false);
     ui->gotoPosBtn->setEnabled(false);
 
     ui->stageRightBtn1->setEnabled(false);
@@ -241,10 +169,8 @@ void StageControl::disableAll() {
 }
 
 void StageControl::enableAll() {
-    ui->addBtn->setEnabled(true);
-    ui->deleteBtn->setEnabled(true);
-    ui->saveListBtn->setEnabled(true);
-    ui->loadListBtn->setEnabled(true);
+    ui->skipBtn->setEnabled(true);
+    ui->unskipBtn->setEnabled(true);
     ui->gotoPosBtn->setEnabled(true);
 
     ui->stageRightBtn1->setEnabled(true);

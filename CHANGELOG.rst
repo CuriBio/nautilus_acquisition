@@ -1,7 +1,19 @@
 Changelog for Nautilai
 ======================
 
-0.1.41
+0.1.42 (unreleased)
+-------------------
+
+Changed:
+^^^^^^^^
+- Stage Navigation menu:
+
+  - Removed add, remove, save, and load buttons
+  - Added skip and unskip buttons which allow for skipping a stage position during acquisition
+  - Cleaned up styling
+
+
+0.1.41 (2024-03-11)
 -------------------
 
 Added:

@@ -1236,8 +1236,10 @@ void MainWindow::postProcess() {
         std::ofstream outfile(settingsPath.string()); // create output file stream
 
         std::vector<toml::value> stagePos;
+        std::vector<bool> tileEnabled;
         for (auto& loc : m_stageControl->GetPositions()) {
             stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
+            tileEnabled.push_back(!loc->skipped);
         }
 
         //need this here even if auto tile is disabled
@@ -1327,6 +1329,7 @@ void MainWindow::postProcess() {
                 m_config->rows,
                 m_config->cols,
                 m_config->tileMap,
+                tileEnabled,
                 m_width,
                 m_height,
                 m_config->vflip,
@@ -1365,11 +1368,6 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Starting acquisitions");
     int pos = 1;
 
-    if (cls->m_stageControl->GetPositions().empty()) {
-        spdlog::info("No stage positions set, adding current position");
-        cls->m_stageControl->AddCurrentPosition();
-    }
-
     // get local timestamp to add to subdir name
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::system_clock::to_time_t(now);
@@ -1390,9 +1388,19 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
     cls->m_expSettings.frameCount = cls->m_config->duration * cls->m_config->fps;
 
-    emit cls->sig_progress_start("Acquiring images", cls->m_stageControl->GetPositions().size() * cls->m_expSettings.frameCount);
+    int numActiveFovs = 0;
+    for (auto& loc : cls->m_stageControl->GetPositions()) {
+        if (!loc->skipped) {
+            numActiveFovs++;
+        }
+    }
+    emit cls->sig_progress_start("Acquiring images", numActiveFovs * cls->m_expSettings.frameCount);
 
     for (auto& loc : cls->m_stageControl->GetPositions()) {
+        if (loc->skipped) {
+            pos++;
+            continue;
+        }
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(pos);
 
@@ -1489,8 +1497,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             emit sig_progress_start("Applying update", 0);
             m_autoUpdate->applyUpdate();
 
-            std::string configFile = (m_config->userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.toml").string();
-            m_stageControl->saveList(configFile, true);
             emit sig_progress_done();
         }
     }

@@ -34,15 +34,18 @@ class StageControl;
 
 class StagePosition : public QListWidgetItem  {
     public:
-        int pos;
+        // suffixing with underscore since "pos" seems to have issues, possibly a member of the parent class
+        int pos_;
         double x;
         double y;
+        bool skipped;
 
     public:
         StagePosition(int pos, double xPos, double yPos) : QListWidgetItem(fmt::format("pos_{} - x: {}, y: {}", pos, xPos, yPos).c_str()) {
-            pos = pos;
+            pos_ = pos;
             x = xPos;
             y = yPos;
+            skipped = false;
         }
 
         ~StagePosition() {}
@@ -69,8 +72,6 @@ class StageControl : public QDialog {
         explicit StageControl(std::string comPort, std::shared_ptr<Config> config, std::vector<int> stepSizes, QWidget *parent = nullptr);
         ~StageControl();
 
-        std::future<bool> Initialize();
-
         bool Connected() const;
         bool Calibrate();
         void SetRelativePosition(double x, double y);
@@ -82,11 +83,8 @@ class StageControl : public QDialog {
         void SetRelativeY(double y);
         void SetAbsoluteY(double y);
 
-        void AddCurrentPosition();
-
         const std::vector<StagePosition*>& GetPositions() const;
 
-        void saveList(std::string fileName, bool fileExists);
         void loadList(std::string fileName);
 
     signals:
@@ -97,11 +95,8 @@ class StageControl : public QDialog {
         void sig_end_move();
 
     private slots:
-        void on_addBtn_clicked();
-        void on_deleteBtn_clicked();
-
-        void on_saveListBtn_clicked();
-        void on_loadListBtn_clicked();
+        void on_skipBtn_clicked();
+        void on_unskipBtn_clicked();
 
         void on_gotoPosBtn_clicked();
 
