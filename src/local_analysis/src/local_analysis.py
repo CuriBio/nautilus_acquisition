@@ -395,7 +395,7 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
                     well_name,
                     setup_config["recording_date"],
                     setup_config.get("barcode", "N/A"),
-                    setup_config["fps"],
+                    str(setup_config["fps"]),
                     "y",  # do twitches point up? (y/n)
                     "NAUTILAI",  # instrument serial number
                     None,  # resample period
@@ -406,8 +406,8 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
 
         output_path = os.path.join(output_dir, f"{well_name}.xlsx")
         with Workbook(output_path) as wb:
-            well_data.write_excel(wb, position="A2", has_header=False)
-            metadata.write_excel(wb, position="E2", has_header=False)
+            well_data.write_excel(wb, "sheet", position="A2", has_header=False)
+            metadata.write_excel(wb, "sheet", position="E2", has_header=False)
 
     with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "xlsx-results.zip"), "w") as zf:
         for dir_name, _, file_names in os.walk(output_dir):
