@@ -4,6 +4,10 @@ Changelog for Nautilai
 0.1.42 (unreleased)
 -------------------
 
+Added:
+^^^^^^
+- Local Analysis outputs xlsx format again
+
 Changed:
 ^^^^^^^^
 - Stage Navigation menu:
