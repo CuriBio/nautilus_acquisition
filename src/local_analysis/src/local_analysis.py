@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 from typing import Any
+from xlsxwriter import Workbook
 
 import cv2 as cv
 from matplotlib.backends.backend_pdf import PdfPages
@@ -122,6 +123,7 @@ def main():
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
+    _write_time_series_legacy_xlsx(time_series_df, setup_config)
 
 
 def _scale_inputs(setup_config: dict[str, Any]) -> None:
@@ -375,6 +377,34 @@ def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: d
                 ax.tick_params(labelsize=20)
 
         pdf_file.savefig()
+
+
+def _write_time_series_legacy_xlsx(time_series_df: pl.DataFrame, setup_config: dict):
+    wells = [c for c in time_series_df.columns if c != "time"]
+
+    output_dir = setup_config["xlsx_output_dir_path"]
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for well_name in wells:
+        well_data = time_series_df.select("time", well_name).with_columns(
+            spacer_1=pl.lit(None),
+            spacer_2=pl.lit(None),
+            metadata=[
+                well_name,
+                setup_config["recording_date"],
+                setup_config.get("barcode", "N/A"),
+                setup_config["fps"],
+                "y",  # do twitches point up? (y/n)
+                "NAUTILAI",  # instrument serial number
+                None,  # resample period
+                setup_config["data_type"],
+            ],
+        )
+
+        output_path = os.path.join(output_dir, f"{well_name}.xlsx")
+        with Workbook(output_path) as wb:
+            well_data.write_excel(wb, position="A2", has_header=False)
 
 
 if __name__ == "__main__":
