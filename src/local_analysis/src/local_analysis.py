@@ -8,6 +8,8 @@ import logging
 import os
 import sys
 from typing import Any
+import zipfile
+from xlsxwriter import Workbook
 
 import cv2 as cv
 from matplotlib.backends.backend_pdf import PdfPages
@@ -122,6 +124,7 @@ def main():
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
+    _write_time_series_legacy_xlsx_zip(time_series_df, setup_config)
 
 
 def _scale_inputs(setup_config: dict[str, Any]) -> None:
@@ -375,6 +378,42 @@ def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: d
                 ax.tick_params(labelsize=20)
 
         pdf_file.savefig()
+
+
+def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_config: dict):
+    wells = [c for c in time_series_df.columns if c != "time"]
+
+    output_dir = os.path.join(setup_config["output_dir_path"], "xlsx")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for well_name in wells:
+        well_data = time_series_df.select("time", well_name)
+        metadata = pl.DataFrame(
+            {
+                "metadata": [
+                    well_name,
+                    setup_config["recording_date"],
+                    setup_config.get("barcode", "N/A"),
+                    str(setup_config["fps"]),
+                    "y",  # do twitches point up? (y/n)
+                    "NAUTILAI",  # instrument serial number
+                    None,  # resample period
+                    setup_config["data_type"],
+                ]
+            }
+        )
+
+        output_path = os.path.join(output_dir, f"{well_name}.xlsx")
+        with Workbook(output_path) as wb:
+            well_data.write_excel(wb, "sheet", position="A2", has_header=False)
+            metadata.write_excel(wb, "sheet", position="E2", has_header=False)
+
+    with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "xlsx-results.zip"), "w") as zf:
+        for dir_name, _, file_names in os.walk(output_dir):
+            for file_name in file_names:
+                file_path = os.path.join(dir_name, file_name)
+                zf.write(file_path, os.path.basename(file_path))
 
 
 if __name__ == "__main__":
