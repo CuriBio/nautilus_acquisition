@@ -388,24 +388,26 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
         os.makedirs(output_dir)
 
     for well_name in wells:
-        well_data = time_series_df.select("time", well_name).with_columns(
-            spacer_1=pl.lit(None),
-            spacer_2=pl.lit(None),
-            metadata=[
-                well_name,
-                setup_config["recording_date"],
-                setup_config.get("barcode", "N/A"),
-                setup_config["fps"],
-                "y",  # do twitches point up? (y/n)
-                "NAUTILAI",  # instrument serial number
-                None,  # resample period
-                setup_config["data_type"],
-            ],
+        well_data = time_series_df.select("time", well_name)
+        metadata = pl.DataFrame(
+            {
+                "metadata": [
+                    well_name,
+                    setup_config["recording_date"],
+                    setup_config.get("barcode", "N/A"),
+                    setup_config["fps"],
+                    "y",  # do twitches point up? (y/n)
+                    "NAUTILAI",  # instrument serial number
+                    None,  # resample period
+                    setup_config["data_type"],
+                ]
+            }
         )
 
         output_path = os.path.join(output_dir, f"{well_name}.xlsx")
         with Workbook(output_path) as wb:
             well_data.write_excel(wb, position="A2", has_header=False)
+            metadata.write_excel(wb, position="E2", has_header=False)
 
     with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "xlsx-results.zip"), "w") as zf:
         for dir_name, _, file_names in os.walk(output_dir):
