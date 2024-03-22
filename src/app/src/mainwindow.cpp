@@ -240,9 +240,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -q:v {} -s:v {}:{} -i {} {}",
                         m_config->ffmpegDir.string(),
                         std::to_string(m_config->fps),
+                        std::to_string(m_config->videoQualityOptions[m_config->selectedVideoQualityOption]),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
                         fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),

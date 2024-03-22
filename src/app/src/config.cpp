@@ -117,6 +117,14 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         vflip = toml::find<bool>(machineVars, "acquisition", "live_view", "vflip");
         hflip = toml::find<bool>(machineVars, "acquisition", "live_view", "hflip");
 
+        //postprocess.video
+        videoQualityOptions = {
+            { "low", toml::find<uint16_t>(config, "postprocess", "video", "low") },
+            { "medium", toml::find<uint16_t>(config, "postprocess", "video", "medium") },
+            { "high", toml::find<uint16_t>(config, "postprocess", "video", "high") },
+        };
+        selectedVideoQualityOption = "medium";
+
         //device.photometrics options
         triggerMode = toml::find<int16_t>(config, "device", "photometrics", "trigger_mode");
 
