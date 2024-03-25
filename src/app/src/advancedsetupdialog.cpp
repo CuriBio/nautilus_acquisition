@@ -39,6 +39,13 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         for (int i=0; i<devicelist.size(); i++) {
             ui->ledDeviceList->addItem(QString::fromStdString(devicelist[i]));
             ui->triggerDeviceList->addItem(QString::fromStdString(devicelist[i]));
+            // ensure index is set to device name in config file for both led and trigger devices
+            if (devicelist[i] == m_config->niDev) {
+                ui->ledDeviceList->setCurrentIndex(i);
+            }
+            if (devicelist[i] == m_config->trigDev) {
+                ui->triggerDeviceList->setCurrentIndex(i);
+            }
         }
     }
 
