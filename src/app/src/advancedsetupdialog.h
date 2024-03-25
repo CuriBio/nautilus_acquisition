@@ -57,6 +57,5 @@ class AdvancedSetupDialog : public QDialog{
         bool m_enableDownsampleRawFiles;
         bool m_keepOriginalRaw;
         uint8_t m_binFactor;
-        bool m_userConfirmed{false};
 };
 #endif // ADVANCEDSETUPDIALOG_H

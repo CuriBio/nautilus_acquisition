@@ -45,23 +45,11 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         for (int i=0; i<devicelist.size(); i++) {
             ui->ledDeviceList->addItem(QString::fromStdString(devicelist[i]));
             ui->triggerDeviceList->addItem(QString::fromStdString(devicelist[i]));
-            // ensure index is set to device name in config file for both led and trigger devices
-            if (devicelist[i] == m_config->niDev) {
-                ui->ledDeviceList->setCurrentIndex(i);
-            }
-            if (devicelist[i] == m_config->trigDev) {
-                ui->triggerDeviceList->setCurrentIndex(i);
-            }
         }
     }
 
-    int i = 0;
     for(const auto& key_value : m_config->videoQualityOptions) {
         ui->videoQualityList->addItem(QString::fromStdString(key_value.first));
-        if (key_value.first == m_config->selectedVideoQualityOption) {
-            ui->videoQualityList->setCurrentIndex(i);
-        }
-        i++;
     }
 }
 
@@ -119,7 +107,6 @@ void AdvancedSetupDialog::setDefaultValues() {
 */
 void AdvancedSetupDialog::updateAdvancedSetup(){
     spdlog::info("User confirmed advanced settings");
-    m_userConfirmed = true;
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
@@ -233,11 +220,5 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
 
 
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
-    if (!m_userConfirmed) {
-        setDefaultValues();
-    } else {
-        m_userConfirmed = false;
-    }
-
     emit this->sig_close_adv_settings();
 }
