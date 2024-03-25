@@ -42,8 +42,13 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         }
     }
 
+    int i = 0;
     for(const auto& key_value : m_config->videoQualityOptions) {
         ui->videoQualityList->addItem(QString::fromStdString(key_value.first));
+        if (key_value.first == m_config->selectedVideoQualityOption) {
+            ui->videoQualityList->setCurrentIndex(i);
+        }
+        i++;
     }
 }
 
