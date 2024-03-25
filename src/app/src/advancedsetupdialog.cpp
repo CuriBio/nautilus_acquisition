@@ -128,7 +128,7 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
         emit this->sig_ni_dev_change(m_niDev, m_trigDev);
     }
 
-    m_config->selectedVideoQualityOption = ui->videoQualityList.currentText();
+    m_config->selectedVideoQualityOption = ui->videoQualityList->currentText();
 
     this->close();
 }
