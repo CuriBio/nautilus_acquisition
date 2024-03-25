@@ -156,7 +156,10 @@ class MainWindow : public QMainWindow {
 
         void on_liveScanBtn_clicked() { emit sig_update_state(LiveViewBtnPress); }
         void on_startAcquisitionBtn_clicked() { emit sig_update_state(AcquisitionBtnPress); }
-        void on_advancedSetupBtn_clicked() { emit sig_update_state(AdvSetupBtnPress); }
+        void on_advancedSetupBtn_clicked() {
+            emit sig_update_state(AdvSetupBtnPress);
+            m_advancedSetupDialog->setFixedSize(m_advancedSetupDialog->size());
+        }
         void on_settingsBtn_clicked() { emit sig_update_state(SettingsBtnPress); }
         void on_levelsSlider_valueChanged(int value);
 
@@ -215,7 +218,7 @@ class MainWindow : public QMainWindow {
         double m_extRetryBackoffms{250};
 
         std::vector<std::filesystem::path> m_plateFormats;
-        int m_plateFormatCurrentIndex{-1}; 
+        int m_plateFormatCurrentIndex{-1};
         QString m_plateFormatImgs[PLATEMAP_COUNT];
         QSvgWidget* m_platemap;
 
@@ -242,7 +245,7 @@ class MainWindow : public QMainWindow {
         ParTask m_parTask{TASKS};
         std::shared_ptr<TaskFrameStats> m_taskFrameStats;
         std::string m_testImgPath;
-            
+
         char m_startAcquisitionTS[std::size(TIMESTAMP_STR)+4] = {};
         char m_recordingDateFmt[std::size(RECORDING_DATE_FMT)+4] = {};
 
@@ -265,7 +268,7 @@ class MainWindow : public QMainWindow {
                 setMask(DISABLE_ALL);
                 m_curState = Initializing;
             }},
-            { {Initializing, Idle}, [this]() { 
+            { {Initializing, Idle}, [this]() {
                 setMask(ENABLE_ALL);
                 m_curState = Idle;
             }},
@@ -338,10 +341,10 @@ class MainWindow : public QMainWindow {
             }},
             //advanced setup
             { {Idle, AdvSetupBtnPress}, [this]() {
-                m_curState = (advSetupOpen()) ? AdvSetupOpen : Error; 
+                m_curState = (advSetupOpen()) ? AdvSetupOpen : Error;
             }},
             { {AdvSetupOpen, AdvSetupClosed}, [this]() {
-                m_curState = (advSetupClosed()) ? Idle : Error;  
+                m_curState = (advSetupClosed()) ? Idle : Error;
             }},
             //settings dialog
             { {Idle, SettingsBtnPress}, [this]() {
@@ -351,7 +354,7 @@ class MainWindow : public QMainWindow {
                 m_curState = (settingsClosed()) ? Idle : Error;
             }},
         };
-        
+
     private:
         void closeEvent(QCloseEvent *event);
         void sendManualTrigger();
@@ -418,7 +421,7 @@ class MainWindow : public QMainWindow {
 
         void updateLiveView() noexcept;
 
-        void acquisitionDone(bool runPostProcess); 
+        void acquisitionDone(bool runPostProcess);
         static void acquisitionThread(MainWindow* cls);
         void postAcquisition();
         void postProcess();
