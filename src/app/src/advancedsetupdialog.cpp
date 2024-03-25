@@ -59,18 +59,18 @@ void AdvancedSetupDialog::setDefaultValues() {
     ui->triggerModeList->addItem(QString("Start acquisition immediately"));
 
 
-    for (int i=0; i<ui->ledDeviceList.count(); i++) {
-        if (ui->ledDeviceList.itemText(i) == m_config->niDev) {
+    for (int i=0; i<ui->ledDeviceList->count(); i++) {
+        if (ui->ledDeviceList->itemText(i) == m_config->niDev) {
             ui->ledDeviceList->setCurrentIndex(i);
         }
     }
-    for (int i=0; i<ui->triggerDeviceList.count(); i++) {
-        if (ui->triggerDeviceList.itemText(i) == m_config->trigDev) {
+    for (int i=0; i<ui->triggerDeviceList->count(); i++) {
+        if (ui->triggerDeviceList->itemText(i) == m_config->trigDev) {
             ui->triggerDeviceList->setCurrentIndex(i);
         }
     }
-    for (int i=0; i<ui->videoQualityList.count(); i++) {
-        if (ui->videoQualityList.itemText(i) == m_config->selectedVideoQualityOption) {
+    for (int i=0; i<ui->videoQualityList->count(); i++) {
+        if (ui->videoQualityList->itemText(i) == m_config->selectedVideoQualityOption) {
             ui->videoQualityList->setCurrentIndex(i);
         }
     }
