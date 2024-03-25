@@ -7,6 +7,7 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - Local Analysis outputs xlsx format again
+- Option to specify AVI video quality in advanced setup
 
 Changed:
 ^^^^^^^^
@@ -247,7 +248,7 @@ Added:
 Fixed:
 ^^^^^^
 - hflip chunk offset index
-- Liveview 16bit half view with 
+- Liveview 16bit half view with
 - Prefix change crash
 
 
