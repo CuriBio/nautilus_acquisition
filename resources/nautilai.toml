@@ -45,6 +45,7 @@ storage_type = 2
 auto_tile = true
 cols = 3
 
+
 [acquisition.region]
 s1 = 1088
 p1 = 1088
@@ -54,6 +55,13 @@ p2 = 2111
 
 [acquisition.live_view]
 enable_live_view_during_acquisition = true
+
+[postprocess]
+
+[postprocess.video]
+low = 24
+medium = 12
+high = 2
 
 
 [stage]

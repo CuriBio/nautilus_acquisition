@@ -25,6 +25,12 @@ AdvancedSetupDialog::~AdvancedSetupDialog() {
 }
 
 
+void AdvancedSetupDialog::show() {
+    setDefaultValues();
+    QDialog::show();
+}
+
+
 /*
 * Populate dropdowns.
 *
@@ -39,15 +45,11 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
         for (int i=0; i<devicelist.size(); i++) {
             ui->ledDeviceList->addItem(QString::fromStdString(devicelist[i]));
             ui->triggerDeviceList->addItem(QString::fromStdString(devicelist[i]));
-            
-            // ensure index is set to device name in config file for both led and trigger devices
-            if (devicelist[i] == m_config->niDev) {
-                ui->ledDeviceList->setCurrentIndex(i);
-            }
-            if (devicelist[i] == m_config->trigDev) {
-                ui->triggerDeviceList->setCurrentIndex(i);
-            }
         }
+    }
+
+    for(const auto& key_value : m_config->videoQualityOptions) {
+        ui->videoQualityList->addItem(QString::fromStdString(key_value.first));
     }
 }
 
@@ -62,6 +64,23 @@ void AdvancedSetupDialog::setDefaultValues() {
     ui->triggerModeList->addItem(QString("Wait for trigger"));
     ui->triggerModeList->addItem(QString("Start acquisition immediately"));
 
+
+    for (int i=0; i<ui->ledDeviceList->count(); i++) {
+        if (ui->ledDeviceList->itemText(i).toStdString() == m_config->niDev) {
+            ui->ledDeviceList->setCurrentIndex(i);
+        }
+    }
+    for (int i=0; i<ui->triggerDeviceList->count(); i++) {
+        if (ui->triggerDeviceList->itemText(i).toStdString() == m_config->trigDev) {
+            ui->triggerDeviceList->setCurrentIndex(i);
+        }
+    }
+    for (int i=0; i<ui->videoQualityList->count(); i++) {
+        if (ui->videoQualityList->itemText(i).toStdString() == m_config->selectedVideoQualityOption) {
+            ui->videoQualityList->setCurrentIndex(i);
+        }
+    }
+
     int currentTrigModeIndex = -1;
     switch (m_triggerMode) {
         case EXT_TRIG_TRIG_FIRST:
@@ -71,14 +90,14 @@ void AdvancedSetupDialog::setDefaultValues() {
     }
     // update to most recent user-confirmed state
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
-    
+
     ui->checkEnableLiveViewDuringAcq->setChecked(m_enableLiveViewDuringAcquisition);
-    
+
     ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
     ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
-    
+
     ui->checkDownsampleRawFiles->setChecked(m_enableDownsampleRawFiles);
-    
+
     ui->checkKeepOriginalRaw->setChecked(m_keepOriginalRaw);
     ui->checkKeepOriginalRaw->setEnabled(m_enableDownsampleRawFiles);
 }
@@ -88,7 +107,6 @@ void AdvancedSetupDialog::setDefaultValues() {
 */
 void AdvancedSetupDialog::updateAdvancedSetup(){
     spdlog::info("User confirmed advanced settings");
-    m_userConfirmed = true;
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
@@ -96,7 +114,7 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
     m_config->keepOriginalRaw = m_keepOriginalRaw;
-    
+
     if (m_enableDownsampleRawFiles) {
         spdlog::info("User enabled additional binning settings to a factor of {} and keep original to {}", m_binFactor, m_keepOriginalRaw);
     }
@@ -111,9 +129,11 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
         std::ofstream outf(m_config->configFile);
         outf << std::setw(0) << file << std::endl;
         outf.close();
-        
+
         emit this->sig_ni_dev_change(m_niDev, m_trigDev);
     }
+
+    m_config->selectedVideoQualityOption = ui->videoQualityList->currentText().toStdString();
 
     this->close();
 }
@@ -200,11 +220,5 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
 
 
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
-    if (!m_userConfirmed) {
-        setDefaultValues();
-    } else {
-        m_userConfirmed = false;
-    }
-
     emit this->sig_close_adv_settings();
 }

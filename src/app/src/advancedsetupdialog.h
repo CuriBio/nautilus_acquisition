@@ -26,6 +26,7 @@ class AdvancedSetupDialog : public QDialog{
         explicit AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget* parent = 0);
         ~AdvancedSetupDialog();
         void Initialize(std::vector<std::string>);
+        void show();
 
     signals:
         void sig_ni_dev_change(std::string m_niDev, std::string m_trigDev);
@@ -56,6 +57,5 @@ class AdvancedSetupDialog : public QDialog{
         bool m_enableDownsampleRawFiles;
         bool m_keepOriginalRaw;
         uint8_t m_binFactor;
-        bool m_userConfirmed{false};
 };
 #endif // ADVANCEDSETUPDIALOG_H

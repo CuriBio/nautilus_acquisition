@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <tsl/ordered_map.h>
 
 #include <toml.hpp>
 #include <cxxopts.hpp>
@@ -50,6 +51,10 @@ class Config {
         bool enableLiveViewDuringAcquisition;
         bool vflip;
         bool hflip;
+
+        //postprocess.video options
+        tsl::ordered_map<std::string, uint16_t> videoQualityOptions;
+        std::string selectedVideoQualityOption;
 
         //device.photometrics options
         int16_t triggerMode;

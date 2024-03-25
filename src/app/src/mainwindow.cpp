@@ -240,12 +240,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -q:v {} {}",
                         m_config->ffmpegDir.string(),
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
                         fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),
+                        std::to_string(m_config->videoQualityOptions[m_config->selectedVideoQualityOption]),
                         fmt::format("\"{}_stack_{}.avi\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
                       );
 
@@ -357,7 +358,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //live view timer signals
     m_liveViewTimer = new QTimer(this);
     connect(m_liveViewTimer, &QTimer::timeout, this, &MainWindow::updateLiveView);
-   
+
     //initialize histogram buffer
     m_hist = new uint32_t[(1<<16) - 1];
     memset((void*)m_hist, 0, sizeof(uint32_t)*((1<<16)-1));
@@ -642,7 +643,7 @@ bool MainWindow::startAcquisition() {
     spdlog::info("Starting acquisition");
 
     m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
-    
+
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
         &QThread::quit;
         delete m_acquisitionThread;
@@ -782,7 +783,7 @@ bool MainWindow::startPostProcessing() {
             }
 
             emit sig_update_state(PostProcessingDone);
-        } 
+        }
     });
 
     postProcessThread.detach();
@@ -793,7 +794,7 @@ bool MainWindow::startPostProcessing_LiveViewRunning() {
     spdlog::info("Stopping Live View to Start Post Processing");
     stopLiveView();
     startPostProcessing();
-    
+
     return true;
 }
 
@@ -995,8 +996,8 @@ void MainWindow::setupNIDevices(std::string niDev, std::string trigDev) {
     m_DAQmx.ClearTask(m_trigTaskDO);
 
     m_DAQmx.CreateTask(m_ledTaskAO);
-    m_DAQmx.CreateTask(m_ledTaskDO); 
-    m_DAQmx.CreateTask(m_trigTaskDO); 
+    m_DAQmx.CreateTask(m_ledTaskDO);
+    m_DAQmx.CreateTask(m_trigTaskDO);
 
     m_DAQmx.CreateAnalogOutpuVoltageChan(m_ledTaskAO, m_ledDevAO.c_str(), -10.0, 10.0, DAQmx_Val_Volts);
     m_DAQmx.CreateDigitalOutputChan(m_ledTaskDO, m_ledDevDO.c_str(), DAQmx_Val_ChanForAllLines);
@@ -1072,7 +1073,7 @@ bool MainWindow::ledON(double voltage, bool delay) {
             spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
             std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
         }
-        
+
         m_led = true;
     }
     return rtnval;
@@ -1245,7 +1246,7 @@ void MainWindow::postProcess() {
         //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
         std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
-        
+
 
         //output capture settings
         const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
@@ -1313,13 +1314,13 @@ void MainWindow::postProcess() {
             //std::shared_ptr<VideoEncoder> venc = nullptr;
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
-            
+
             std::shared_ptr<RawFile<6>> rawDownsampled = nullptr;
             if (m_config->enableDownsampleRawFiles) {
                 rawDownsampled = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
             }
-            
+
             emit sig_progress_start("Tiling images", m_expSettings.frameCount);
 
             PostProcess::AutoTile(
