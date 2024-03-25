@@ -25,6 +25,12 @@ AdvancedSetupDialog::~AdvancedSetupDialog() {
 }
 
 
+void AdvancedSetupDialog::show() {
+    setDefaultValues();
+    QDialog::show();
+}
+
+
 /*
 * Populate dropdowns.
 *
