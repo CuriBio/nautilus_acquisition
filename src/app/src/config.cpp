@@ -1,3 +1,4 @@
+#include <cmath>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <toml.hpp>
@@ -227,12 +228,50 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
             toml::find<int>(config, "device", "tango", "step_large")
         };
 
+        // TODO is this needed here anymore?
+
         //stage.locations
+        auto x0_ref = toml::find<double>(config, "stage", "x0_ref");
+        auto y0_ref = toml::find<double>(config, "stage", "y0_ref");
+        auto numWells = toml::find<int>(config, "stage", "num_wells");
+        auto wellSpacing = toml::find<int>(config, "stage", "well_spacing");
+
+        auto dxCal = toml::find<double>(machineVars, "stage", "dx_cal");
+        auto dyCal = toml::find<double>(machineVars, "stage", "dy_cal");
+        auto theta = toml::find<double>(machineVars, "stage", "theta");
+        auto scalingFactor = toml::find<double>(machineVars, "stage", "s");
+
+        int wellsPerFovGridSide;
+        switch (numWells) {
+            case 24:
+                wellsPerFovGridSide = 2;
+                break;
+            case 96:
+                wellsPerFovGridSide = 4;
+                break;
+            case 384:
+                wellsPerFovGridSide = 8;
+                break;
+            case 1536:
+                wellsPerFovGridSide = 16;
+                break;
+            default:
+                spdlog::error("Invalid num_wells: {}", numWells);
+                wellsPerFovGridSide = 2;
+        }
+
         stageLocations = {};
-        for (auto& v : toml::find<std::vector<toml::table>>(config, "stage", "location")) {
-            auto x = static_cast<double>(v.at("x").as_floating());
-            auto y = static_cast<double>(v.at("y").as_floating());
-            stageLocations.push_back(std::pair(x,y));
+        for (auto rFov = 1; rFov >= -1; rFov -= 2) {
+            auto dyRoi = wellSpacing * (wellsPerFovGridSide / 2) * rFov;
+            for (auto cFov = 1; cFov >= -1; cFov--) {
+
+                auto dxRoi = wellSpacing * wellsPerFovGridSide * cFov;
+
+                auto x = x0_ref + dxCal + xAdj + scalingFactor * (dxRoi * std::cos(theta) + dyRoi * std::sin(theta));
+                auto y = y0_ref + dyCal + yAdj + scalingFactor * (dyRoi * std::cos(theta) - dxRoi * std::sin(theta));
+
+                stageLocations.push_back(std::pair(x,y));
+            }
         }
 
     } catch(const std::out_of_range& e) {
@@ -253,7 +292,7 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
 
     asyncInit = toml::find_or<bool>(config, "debug", "async_init", true);
-    
+
 }
 
 void Config::Dump() {
@@ -300,10 +339,10 @@ void Config::Dump() {
     spdlog::info("device.photometrics.speed_table_index: {}", spdtable);
 
     //device.kinetix.line_read_times
-    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]); 
-    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]); 
+    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]);
+    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]);
     spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]);
-    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]); 
+    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]);
 
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
