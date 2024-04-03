@@ -1,4 +1,3 @@
-#include <cmath>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <toml.hpp>
