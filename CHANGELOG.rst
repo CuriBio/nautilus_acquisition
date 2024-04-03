@@ -17,6 +17,8 @@ Changed:
   - Added skip and unskip buttons which allow for skipping a stage position during acquisition
   - Cleaned up styling
 
+- Plate format definitions
+
 
 0.1.41 (2024-03-11)
 -------------------
