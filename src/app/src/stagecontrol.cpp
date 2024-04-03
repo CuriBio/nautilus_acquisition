@@ -108,19 +108,50 @@ void StageControl::loadList(std::string fileName) {
     m_positions.clear();
     ui->stageLocations->clear();
 
+    auto file = toml::parse(fileName);
+
+    auto x0_ref = toml::find<double>(file, "stage", "x0_ref");
+    auto y0_ref = toml::find<double>(file, "stage", "y0_ref");
+    auto numWells = toml::find<int>(file, "stage", "num_wells");
+    auto wellSpacing = toml::find<int>(file, "stage", "well_spacing");
+
+    int wellsPerFovGridSide;
+    switch (numWells) {
+        case 24:
+            wellsPerFovGridSide = 2;
+            break;
+        case 96:
+            wellsPerFovGridSide = 4;
+            break;
+        case 384:
+            wellsPerFovGridSide = 8;
+            break;
+        case 1536:
+            wellsPerFovGridSide = 16;
+            break;
+        default:
+            spdlog::error("Invalid num_wells: {}", numWells);
+            wellsPerFovGridSide = 2;
+    }
+
     size_t n = 1;
 
-    auto file = toml::parse(fileName);
-    for (auto& v : toml::find_or<std::vector<toml::table>>(file, "stage", "location", std::vector<toml::table>{})) {
-        int pos = n++;
-        auto x = static_cast<double>(v.at("x").as_floating());
-        auto y = static_cast<double>(v.at("y").as_floating());
+    for (auto rFov = 1; rFov >= -1; rFov -= 2) {
+        auto dyRoi = wellSpacing * (wellsPerFovGridSide / 2) * rFov;
+        for (auto cFov = 1; cFov >= -1; cFov--) {
+            int pos = n++;
 
-        spdlog::info("Loading stage position: ({}, {})", x, y);
+            auto dxRoi = wellSpacing * wellsPerFovGridSide * cFov;
 
-        StagePosition* item = new StagePosition(pos, x, y);
-        m_positions.push_back(item);
-        ui->stageLocations->addItem(item);
+            auto x = x0_ref + m_config->dxCal + xAdj + m_config->scalingFactor * (dxRoi * std::cos(m_config->theta) + dyRoi * std::sin(m_config->theta));
+            auto y = y0_ref + m_config->dyCal + yAdj + m_config->scalingFactor * (dyRoi * std::cos(m_config->theta) - dxRoi * std::sin(m_config->theta));
+
+            spdlog::info("Loading stage position: ({}, {})", x, y);
+
+            StagePosition* item = new StagePosition(pos, x, y);
+            m_positions.push_back(item);
+            ui->stageLocations->addItem(item);
+        }
     }
 
     emit this->sig_stagelist_updated(m_positions.size());
@@ -140,7 +171,7 @@ void StageControl::on_gotoPosBtn_clicked() {
         } else {
             spdlog::info("Invalid selection");
         }
-        
+
         emit sig_end_move();
     });
     t.detach();

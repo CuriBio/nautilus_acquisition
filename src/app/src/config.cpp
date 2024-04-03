@@ -228,51 +228,11 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
             toml::find<int>(config, "device", "tango", "step_large")
         };
 
-        // TODO is this needed here anymore?
-
-        //stage.locations
-        auto x0_ref = toml::find<double>(config, "stage", "x0_ref");
-        auto y0_ref = toml::find<double>(config, "stage", "y0_ref");
-        auto numWells = toml::find<int>(config, "stage", "num_wells");
-        auto wellSpacing = toml::find<int>(config, "stage", "well_spacing");
-
-        auto dxCal = toml::find<double>(machineVars, "stage", "dx_cal");
-        auto dyCal = toml::find<double>(machineVars, "stage", "dy_cal");
-        auto theta = toml::find<double>(machineVars, "stage", "theta");
-        auto scalingFactor = toml::find<double>(machineVars, "stage", "s");
-
-        int wellsPerFovGridSide;
-        switch (numWells) {
-            case 24:
-                wellsPerFovGridSide = 2;
-                break;
-            case 96:
-                wellsPerFovGridSide = 4;
-                break;
-            case 384:
-                wellsPerFovGridSide = 8;
-                break;
-            case 1536:
-                wellsPerFovGridSide = 16;
-                break;
-            default:
-                spdlog::error("Invalid num_wells: {}", numWells);
-                wellsPerFovGridSide = 2;
-        }
-
-        stageLocations = {};
-        for (auto rFov = 1; rFov >= -1; rFov -= 2) {
-            auto dyRoi = wellSpacing * (wellsPerFovGridSide / 2) * rFov;
-            for (auto cFov = 1; cFov >= -1; cFov--) {
-
-                auto dxRoi = wellSpacing * wellsPerFovGridSide * cFov;
-
-                auto x = x0_ref + dxCal + xAdj + scalingFactor * (dxRoi * std::cos(theta) + dyRoi * std::sin(theta));
-                auto y = y0_ref + dyCal + yAdj + scalingFactor * (dyRoi * std::cos(theta) - dxRoi * std::sin(theta));
-
-                stageLocations.push_back(std::pair(x,y));
-            }
-        }
+        //stage
+        dxCal = toml::find<double>(machineVars, "stage", "dx_cal");
+        dyCal = toml::find<double>(machineVars, "stage", "dy_cal");
+        theta = toml::find<double>(machineVars, "stage", "theta");
+        scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
     } catch(const std::out_of_range& e) {
         s << "Missing required config values " << e.what();
@@ -355,9 +315,6 @@ void Config::Dump() {
     spdlog::info("device.tango.step_small: {}", stageStepSizes[0]);
     spdlog::info("device.tango.step_medium: {}", stageStepSizes[1]);
     spdlog::info("device.tango.step_large: {}", stageStepSizes[2]);
-
-    //stage.locations
-    spdlog::info("stage.locations length: {}", stageLocations.size());
 
     //debug
     spdlog::info("debug.ignore_errors: {}", ignoreErrors);
