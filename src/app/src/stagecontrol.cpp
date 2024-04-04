@@ -143,8 +143,12 @@ void StageControl::loadList(std::string fileName) {
 
             auto dxRoi = wellSpacing * wellsPerFovGridSide * cFov;
 
-            auto x = x0_ref + m_config->dxCal + m_config->scalingFactor * (dxRoi * std::cos(m_config->theta) + dyRoi * std::sin(m_config->theta));
-            auto y = y0_ref + m_config->dyCal + m_config->scalingFactor * (dyRoi * std::cos(m_config->theta) - dxRoi * std::sin(m_config->theta));
+            double x = x0_ref + m_config->dxCal + m_config->scalingFactor * (dxRoi * std::cos(m_config->theta) + dyRoi * std::sin(m_config->theta));
+            double y = y0_ref + m_config->dyCal + m_config->scalingFactor * (dyRoi * std::cos(m_config->theta) - dxRoi * std::sin(m_config->theta));
+
+            // round to 2 decimal places
+            x = std::round(x * 100) / 100;
+            y = std::round(y * 100) / 100;
 
             spdlog::info("Loading stage position: ({}, {})", x, y);
 
