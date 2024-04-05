@@ -877,6 +877,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_stageControl->loadList(m_config->plateFormat.string());
 
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
+    // TODO instead of checking the path to the plate format, should just check the num wells in the plate
     if (m_plateFormats[index].string() == "./plate_formats\\CuriBio 24 Well Plate.toml") {
         m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {

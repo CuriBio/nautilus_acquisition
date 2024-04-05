@@ -227,13 +227,11 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
             toml::find<int>(config, "device", "tango", "step_large")
         };
 
-        //stage.locations
-        stageLocations = {};
-        for (auto& v : toml::find<std::vector<toml::table>>(config, "stage", "location")) {
-            auto x = static_cast<double>(v.at("x").as_floating());
-            auto y = static_cast<double>(v.at("y").as_floating());
-            stageLocations.push_back(std::pair(x,y));
-        }
+        //stage
+        dxCal = toml::find<double>(machineVars, "stage", "dx_cal");
+        dyCal = toml::find<double>(machineVars, "stage", "dy_cal");
+        theta = toml::find<double>(machineVars, "stage", "theta");
+        scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
     } catch(const std::out_of_range& e) {
         s << "Missing required config values " << e.what();
@@ -253,7 +251,7 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     ignoreErrors = toml::find_or<bool>(config, "debug", "ignore_errors", false);
 
     asyncInit = toml::find_or<bool>(config, "debug", "async_init", true);
-    
+
 }
 
 void Config::Dump() {
@@ -300,10 +298,10 @@ void Config::Dump() {
     spdlog::info("device.photometrics.speed_table_index: {}", spdtable);
 
     //device.kinetix.line_read_times
-    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]); 
-    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]); 
+    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]);
+    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]);
     spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]);
-    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]); 
+    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]);
 
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);
@@ -316,9 +314,6 @@ void Config::Dump() {
     spdlog::info("device.tango.step_small: {}", stageStepSizes[0]);
     spdlog::info("device.tango.step_medium: {}", stageStepSizes[1]);
     spdlog::info("device.tango.step_large: {}", stageStepSizes[2]);
-
-    //stage.locations
-    spdlog::info("stage.locations length: {}", stageLocations.size());
 
     //debug
     spdlog::info("debug.ignore_errors: {}", ignoreErrors);

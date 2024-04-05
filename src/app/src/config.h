@@ -77,13 +77,16 @@ class Config {
         std::string stageComPort;
         std::vector<int> stageStepSizes;
 
+        //stage
+        double dxCal;
+        double dyCal;
+        double theta;
+        double scalingFactor;
+
         //debug
         std::string testImgPath;
         bool ignoreErrors;
         bool asyncInit;
-
-        //stage
-        std::vector<std::pair<double, double>> stageLocations;
 
         //other
         std::string version;
