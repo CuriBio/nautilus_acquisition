@@ -104,6 +104,7 @@ namespace pm {
                 std::string m_testImgPath{};
 
                 std::vector<uint16_t*> m_rois;
+                uint16_t m_avgs[256];
 
                 std::function<void(size_t n)> m_progress;
 

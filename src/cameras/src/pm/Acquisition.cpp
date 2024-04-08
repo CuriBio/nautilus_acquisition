@@ -439,7 +439,7 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
             m_rois.push_back(x + y*512)
 	    }
     }
-
+    memset(m_avgs, 0, 256*2);
 
     return;
 }
