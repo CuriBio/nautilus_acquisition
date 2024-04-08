@@ -144,7 +144,7 @@ void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
             sumpxs = _mm256_add_epi16(sumpxs, d[2]);
             sumpxs = _mm256_add_epi16(sumpxs, d[3]);
         }
-        uint16_t* avgvs = (uint16_t*)sumpxs;
+        uint16_t* avgvs = (uint16_t*)&sumpxs;
         for (size_t i = 0; i < 16; i++) {
             m_avgs[idx] += avgvs[i];
         }
