@@ -134,12 +134,12 @@ template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
     for (auto const& [idx, r] : m_rois | std::views::enumerate) {
         uint16_t *d16 = (uint16_t*)frame->GetData();
-        __m256i *d = (__m256i*)d16[r];
+        __m256i *d = (__m256i*)&d16[r];
         m_avgs[idx] = 0;
 
         __m256i sumpxs = _mm256_setzero_si256();
         for (size_t i = 0; i < 64; i++) {
-            __m256i *d = (__m256i*)d16[r+i*512];
+            __m256i *d = (__m256i*)&d16[r+i*512];
             sumpxs = _mm256_add_ep16(d[0], d[1]);
             sumpxs = _mm256_add_ep16(sumpxs, d[2]);
             sumpxs = _mm256_add_ep16(sumpxs, d[3]);
