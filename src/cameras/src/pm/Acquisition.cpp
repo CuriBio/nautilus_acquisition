@@ -436,7 +436,7 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
         int32_t y = top_y + r*well_width_px - 64/2;
 	    for (size_t c = 0; c < 4; c++) {
 	        int32_t x = top_x + c*well_width_px - 64/2;
-            m_rois.push_back(x + y*512)
+            m_rois.push_back(x + y*512);
 	    }
     }
     memset(m_avgs, 0, 256*2);
