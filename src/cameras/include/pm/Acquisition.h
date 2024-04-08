@@ -103,7 +103,7 @@ namespace pm {
                 uint16_t* m_fakeData{nullptr};
                 std::string m_testImgPath{};
 
-                std::vector<uint16_t*> m_rois;
+                std::vector<uint64_t> m_rois;
                 uint16_t m_avgs[256];
 
                 std::function<void(size_t n)> m_progress;
