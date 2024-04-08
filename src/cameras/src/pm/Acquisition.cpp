@@ -429,12 +429,12 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
 
     //TODO move this out of acquistion, used by liveview as well for ROI calculations
     int32_t well_width_px = (4500 / 80);
-    int32_t top_x = 512 / 2 - 0.5*(cols - 1) * well_width_px;
-    int32_t top_y = 512 / 2 - 0.5*(rows - 1) * well_width_px;
+    int32_t top_x = 512 / 2 - 0.5*(4 - 1) * well_width_px;
+    int32_t top_y = 512 / 2 - 0.5*(4 - 1) * well_width_px;
 
-    for (size_t r = 0; r < rows; r++) {
+    for (size_t r = 0; r < 4; r++) {
         int32_t y = top_y + r*well_width_px - 64/2;
-	    for (size_t c = 0; c < cols; c++) {
+	    for (size_t c = 0; c < 4; c++) {
 	        int32_t x = top_x + c*well_width_px - 64/2;
             m_rois.push_back(x + y*512)
 	    }
