@@ -36,6 +36,8 @@
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
+#include <immintrin.h>
+
 #include <interfaces/FrameInterface.h>
 #include <interfaces/ColorConfigInterface.h>
 
@@ -126,6 +128,29 @@ void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame,
         // }
     }
     lastFrame = frameN;
+}
+
+template<FrameConcept F, ColorConfigConcept C>
+void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
+    for (auto const& [idx, r] : m_rois | std::views::enumerate) {
+        uint16_t *d16 = (uint16_t*)frame->GetData();
+        __m256i *d = (__m256i*)d16[r];
+        m_avgs[idx] = 0;
+
+        __m256i sumpxs = _mm256_setzero_si256();
+        for (size_t i = 0; i < 64; i++) {
+            __m256i *d = (__m256i*)d16[r+i*512];
+            sumpxs = _mm256_add_ep16(d[0], d[1]);
+            sumpxs = _mm256_add_ep16(sumpxs, d[2]);
+            sumpxs = _mm256_add_ep16(sumpxs, d[3]);
+        }
+        uint16_t* avgvs = (uint16_t*)sumpxs;
+        for (size_t i = 0; i < 16; i++) {
+            m_avgs[idx] += avgvs[i];
+        }
+        spdlog::info("idx: {} - avg: {}", idx, m_avgs[idx]/4096);
+    }
+
 }
 
 template<FrameConcept F, ColorConfigConcept C>
@@ -288,6 +313,8 @@ void pm::Acquisition<F, C>::frameWriterThread() noexcept {
                     m_hasNotified = true;
                 } else if (m_frameIndex < m_camera->ctx->curExp->frameCount) {
                     writeFrame(frame);
+                    processFrame(frame);
+
                     ++m_frameIndex;
                     if (m_progress) { m_progress(1); }
                     captured = true;
@@ -399,6 +426,20 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
             spdlog::error("StartExp failed");
         }
     }
+
+    //TODO move this out of acquistion, used by liveview as well for ROI calculations
+    int32_t well_width_px = (4500 / 80);
+    int32_t top_x = 512 / 2 - 0.5*(cols - 1) * well_width_px;
+    int32_t top_y = 512 / 2 - 0.5*(rows - 1) * well_width_px;
+
+    for (size_t r = 0; r < rows; r++) {
+        int32_t y = top_y + r*well_width_px - 64/2;
+	    for (size_t c = 0; c < cols; c++) {
+	        int32_t x = top_x + c*well_width_px - 64/2;
+            m_rois.push_back(x + y*512)
+	    }
+    }
+
 
     return;
 }

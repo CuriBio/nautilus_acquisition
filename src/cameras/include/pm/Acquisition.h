@@ -103,6 +103,8 @@ namespace pm {
                 uint16_t* m_fakeData{nullptr};
                 std::string m_testImgPath{};
 
+                std::vector<uint16_t*> m_rois;
+
                 std::function<void(size_t n)> m_progress;
 
             public:
@@ -232,6 +234,11 @@ namespace pm {
                  * @brief Write frame
                 */
                 void writeFrame(F* frame) noexcept;
+
+                /*
+                 * @brief Process Frame
+                */
+                void processFrame(F* frame) noexcept;
 
                 /*
                  * @brief Checks for lost frames.
