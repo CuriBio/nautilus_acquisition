@@ -140,9 +140,9 @@ void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
         __m256i sumpxs = _mm256_setzero_si256();
         for (size_t i = 0; i < 64; i++) {
             __m256i *d = (__m256i*)&d16[r+i*512];
-            sumpxs = _mm256_add_ep16(d[0], d[1]);
-            sumpxs = _mm256_add_ep16(sumpxs, d[2]);
-            sumpxs = _mm256_add_ep16(sumpxs, d[3]);
+            sumpxs = _mm256_add_epi16(d[0], d[1]);
+            sumpxs = _mm256_add_epi16(sumpxs, d[2]);
+            sumpxs = _mm256_add_epi16(sumpxs, d[3]);
         }
         uint16_t* avgvs = (uint16_t*)sumpxs;
         for (size_t i = 0; i < 16; i++) {
