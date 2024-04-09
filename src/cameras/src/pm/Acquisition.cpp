@@ -428,6 +428,7 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
     }
 
     //TODO move this out of acquistion, used by liveview as well for ROI calculations
+    m_rois.clear();
     int32_t well_width_px = (4500 / 80);
     int32_t top_x = 512 / 2 - 0.5*(4 - 1) * well_width_px;
     int32_t top_y = 512 / 2 - 0.5*(4 - 1) * well_width_px;
