@@ -130,6 +130,48 @@ void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame,
     lastFrame = frameN;
 }
 
+inline static double roiAverage(uint16_t* data, size_t row_width) {
+    uint32_t total = 0;
+
+    __m256i vecSum = _mm256_setzero_si256();
+
+    for (size_t n = 0; n < 64; n+=4) {
+        for (size_t i = 0; i < 4; i++) {
+            size_t offset = (n+i)*row_width;
+            __m256i vec0 = _mm256_load_si256((const __m256i*)(data+offset); 
+            vecSum = _mm256_add_epi16(vecSum, vec0);
+
+            __m256i vec1 = _mm256_load_si256((const __m256i*)(data+offset+16);
+            vecSum = _mm256_add_epi16(vecSum, vec1);
+
+            __m256i vec2 = _mm256_load_si256((const __m256i*)(data+offset+32);
+            vecSum = _mm256_add_epi16(vecSum, vec2);
+
+            __m256i vec3 = _mm256_load_si256((const __m256i*)(data+offset+48);
+            vecSum = _mm256_add_epi16(vecSum, vec3);
+        }
+
+        __m128i hi128 = _mm256_extracti128_si256(vecSum, 1);
+        __m128i lo128 = _mm256_castsi256_si128(vecSum);
+
+        __m256i hi32_256 = _mm256_cvtepi16_epi32(hi128);
+        __m256i lo32_256 = _mm256_cvtepi16_epi32(lo128);
+        __m256i sum256 = _mm256_add_epi32(lo32_256, hi32_256);
+
+        __m128i sum128 = _mm_add_epi32(
+            _mm256_castsi256_si128(sum256),
+            _mm256_extracti128_si256(sum256, 1));
+
+        __m128i hi64 = _mm_unpackhi_epi64(sum128, sum128);
+        __m128i sum64 = _mm_add_epi32(hi64, sum128);
+        __m128i hi32 = _mm_shuffle_epi32(sum64, _MM_SHUFFLE(2, 3, 0, 1));
+        __m128i sum32 = _mm_add_epi32(sum64, hi32);
+
+        total += _mm_cvtsi128_si32(sum32);
+    }
+    return total / 4096.0;
+} 
+
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
     for (auto const& [idx, r] : m_rois | std::views::enumerate) {
