@@ -546,7 +546,7 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
     }
 
     if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
-        spdlog::error("Failed to register EOF callback");
+        spdlog::error("Failed to register EOF callback, {}", GetError());
         return false;
     }
 
