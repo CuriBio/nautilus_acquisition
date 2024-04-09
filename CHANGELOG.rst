@@ -19,6 +19,10 @@ Changed:
 
 - Plate format definitions
 
+Fixed:
+^^^^^^
+- frameCount narrowed to uint16_t in AutoTile call, overflows when number of frames above 65536, changed to uint32_t
+
 
 0.1.41 (2024-03-11)
 -------------------
