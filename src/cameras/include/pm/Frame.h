@@ -54,7 +54,7 @@ namespace pm {
             void* m_dataSrc{nullptr};
 
             //TODO parameterize allocator alignment
-            Allocator<32> m_allocator{};
+            Allocator<1> m_allocator{};
 
             size_t m_frameBytes{0};
             bool m_deepCopy{false};
