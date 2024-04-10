@@ -46,6 +46,9 @@
 #include <QCloseEvent>
 #include <QSvgWidget>
 #include <QString>
+#include <QChart>
+#include <QSplineSeries>
+#include <QChartView>
 
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
@@ -221,6 +224,9 @@ class MainWindow : public QMainWindow {
         int m_plateFormatCurrentIndex{-1};
         QString m_plateFormatImgs[PLATEMAP_COUNT];
         QSvgWidget* m_platemap;
+
+        QChart* m_chart;
+        QChartView* m_chartView;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_ledTaskAO, m_ledDevAO;
