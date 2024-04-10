@@ -110,18 +110,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
-    m_series.append(0.0, 0.0);
-    m_series.append(10.0, 10.0);
-    m_series.append(20.0, 20.0);
-    m_series.append(30.0, 30.0);
-    m_series.append(40.0, 40.0);
-    m_series.append(50.0, 50.0);
-    m_series.append(60.0, 60.0);
-    m_series.append(70.0, 70.0);
-    m_series.append(80.0, 80.0);
-    m_series.append(90.0, 90.0);
-    m_series.append(100.0, 100.0);
-    m_series.append(110.0, 110.0);
+    m_series->append(0.0, 0.0);
+    m_series->append(10.0, 10.0);
+    m_series->append(20.0, 20.0);
+    m_series->append(30.0, 30.0);
+    m_series->append(40.0, 40.0);
+    m_series->append(50.0, 50.0);
+    m_series->append(60.0, 60.0);
+    m_series->append(70.0, 70.0);
+    m_series->append(80.0, 80.0);
+    m_series->append(90.0, 90.0);
+    m_series->append(100.0, 100.0);
+    m_series->append(110.0, 110.0);
 
     QValueAxis* axisX = new QValueAxis();
     QValueAxis* axisY = new QValueAxis();
