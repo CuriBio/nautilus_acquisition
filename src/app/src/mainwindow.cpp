@@ -1452,6 +1452,8 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             pos++;
             continue;
         }
+
+        frameCount = 0.0;
         cls->m_series->clear();
         QList l = cls->m_series->attachedAxes();
         ((QValueAxis*)l[0])->setRange(0, 500.0);
