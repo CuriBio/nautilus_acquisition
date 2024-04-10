@@ -132,7 +132,7 @@ namespace pm {
         bool imaging{false};
 
         // is EOF callback registered
-        bool eofCallBackRegistered{false};
+        bool eofCallbackRegistered{false};
 
         //current capture settings
         std::unique_ptr<ExpSettings> curExp{nullptr};
