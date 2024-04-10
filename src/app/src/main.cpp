@@ -73,12 +73,9 @@ int main(int argc, char* argv[]) {
         userProfile = std::string(up);
     }
 
-    //create AppData directory for log files/config
-    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
-    std::filesystem::path configFile = (configPath / "nautilai.toml");
-
+    std::filesystem::path logPath = (userProfile / "Documents" / "Nautilai" / "Logs");
     std::time_t ts = std::time(nullptr);
-    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", configPath.string(), fmt::localtime(ts));
+    std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", logPath.string(), fmt::localtime(ts));
 
     auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
@@ -87,6 +84,10 @@ int main(int argc, char* argv[]) {
     auto logger = std::make_shared<spdlog::logger>("nautilai", std::begin(sinks), std::end(sinks));
     spdlog::flush_every(std::chrono::seconds(10));
     spdlog::set_default_logger(logger);
+
+    //create AppData directory for config file
+    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
+    std::filesystem::path configFile = (configPath / "nautilai.toml");
 
     spdlog::info("Nautilai Version: {}", version);
 
@@ -124,7 +125,7 @@ int main(int argc, char* argv[]) {
       ("version", "Nautilai version")
       ("h,help", "Usage")
     ;
-      
+
     auto userargs = options.parse(argc, argv);
 
     //Return version only, this needs to happen before anything
@@ -217,4 +218,3 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int n
     return main(__argc, __argv);
 }
 #endif
-
