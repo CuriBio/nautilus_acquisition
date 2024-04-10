@@ -1406,7 +1406,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         //cls->m_chartView->update();
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
-        QvalueAxix *ax = (QValueAxis*)l[0];
+        QvalueAxis *ax = (QValueAxis*)l[0];
 
         if (ax->max() == frameCount) {
             l[0]->setRange(frameCount-50.0, frameCount + 50.0);
