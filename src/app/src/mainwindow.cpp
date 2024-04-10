@@ -893,7 +893,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
             m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
         }
     } else {
-        spdlog::info(fmt::format("No platemap svg for {} well plate", numWells));
+        spdlog::error(fmt::format("No platemap svg for {} well plate", numWells));
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
             m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
         }
