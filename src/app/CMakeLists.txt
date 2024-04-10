@@ -32,7 +32,7 @@ FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
 FetchContent_MakeAvailable(cpr)
 
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets SvgWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui OpenGLWidgets SvgWidgets Charts)
 qt_standard_project_setup()
 
 # linking against the desired targets
