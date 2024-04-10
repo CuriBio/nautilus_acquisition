@@ -107,6 +107,7 @@ namespace pm {
                 uint16_t m_avgs[256];
 
                 std::function<void(size_t n)> m_progress;
+                std::function<void(double n)> m_graphCB;
 
             public:
 
@@ -134,7 +135,12 @@ namespace pm {
                  *
                  * @return true if successful, false otherwise.
                  */
-                void StartAcquisition(std::function<void(size_t)> progressCB, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+                void StartAcquisition(
+                    std::function<void(size_t)> progressCB,
+                    std::function<void(double)> graphCB,
+                    double tiffFillValue = 0.0,
+                    const C* tiffColorCtx = nullptr
+                );
 
                 /*
                  * @brief Starts live view.

@@ -439,11 +439,13 @@ pm::Acquisition<F, C>::~Acquisition() {
 
 
 template<FrameConcept F, ColorConfigConcept C>
-void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progressCB, double tiffFillValue, const C* tiffColorCtx) {
+void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progressCB, std::function<void(double)> graphCB, double tiffFillValue, const C* tiffColorCtx) {
     //TODO implement colorCtx support
     std::unique_lock<std::mutex> lock(m_lock);
 
     m_progress = progressCB;
+    m_graphCB = graphCB;
+
     m_hasNotified = false;
     m_frameIndex = 0;
     m_capturedFrames = 0;

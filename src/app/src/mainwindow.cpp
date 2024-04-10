@@ -109,8 +109,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
-    m_series->append(0, 6);
-    m_series->append(2, 4);
 
     m_chart = new QChart();
     m_chart->legend()->hide();
@@ -1375,6 +1373,8 @@ void MainWindow::postProcess() {
 // handle acquisition done signal from thread finished slot
 void MainWindow::acquisitionThread(MainWindow* cls) {
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
+    double frameCount = 0.0;
+    auto graphViewCB = [&](double value) { m_series->append(frameCount, value); frameCount += 1.0; };
 
     double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
     cls->ledON(voltage);
@@ -1438,7 +1438,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         cls->m_camera->UpdateExp(cls->m_expSettings);
 
         emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
-        cls->m_acquisition->StartAcquisition(progressCB);
+        cls->m_acquisition->StartAcquisition(progressCB, graphViewCB);
 
         if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
             cls->m_acquisition->StartLiveView();
