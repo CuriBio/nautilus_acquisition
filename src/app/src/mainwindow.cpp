@@ -1409,7 +1409,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         QValueAxis *ax = (QValueAxis*)l[0];
 
         if (ax->max() == frameCount) {
-            l[0]->setRange(ax->max() - 490.0, ax->max() + 500.0 - 490.0);
+            l[0]->setRange(ax->max() - 499.0, ax->max() + 500.0 - 499.0);
             //frameCount = 0.0;
             //l[0]->setRange(0, 500.0);
             //cls->m_series->clear();
