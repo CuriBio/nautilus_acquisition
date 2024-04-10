@@ -109,6 +109,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
+    m_series->append(0.0, 5.0);
+    m_series->append(1.0, 3.0);
+    m_series->append(2.0, 7.0);
 
     m_chart = new QChart();
     m_chart->legend()->hide();
@@ -119,9 +122,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chartView->setRenderHint(QPainter::Antialiasing);
     ui.graphViewLayout->addWidget(m_chartView);
 
-    m_series->append(0.0, 5.0);
-    m_series->append(1.0, 3.0);
-    m_series->append(2.0, 7.0);
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
 
