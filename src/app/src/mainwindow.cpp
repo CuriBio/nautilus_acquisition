@@ -1406,7 +1406,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
         if (((QValueAxis*)l[0])->max() > frameCount - 50.0) {
-            l[0]->setRange(frameCount - 50.0, frameCount + 50.0);
+            l[0]->setRange(frameCount - 450.0, frameCount + 50.0);
         }
     };
 
