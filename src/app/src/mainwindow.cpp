@@ -130,7 +130,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->legend()->hide();
     m_chart->addSeries(m_series);
 
-    axisX->setRange(0.0, 2000.0);
+    axisX->setRange(0.0, 500.0);
     axisY->setRange(0.0, 1000.0);
 
     m_chart->addAxis(axisX, Qt::AlignBottom);
@@ -1406,7 +1406,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
         if (((QValueAxis*)l[0])->max() > frameCount - 250.0) {
-            l[0]->setRange(0, frameCount + 500.0);
+            l[0]->setRange(frameCount - 250.0, frameCount + 250.0);
         }
     };
 
