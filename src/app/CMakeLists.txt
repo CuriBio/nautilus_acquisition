@@ -48,6 +48,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Gui
     Qt6::OpenGLWidgets
     Qt6::SvgWidgets
+    Qt6::Charts
     ordered_map
     PUBLIC
     spdlog::spdlog
@@ -76,6 +77,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Gui
     Qt6::OpenGLWidgets
     Qt6::SvgWidgets
+    Qt6::Charts
     ordered_map
     PUBLIC
     spdlog::spdlog

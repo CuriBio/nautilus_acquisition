@@ -54,6 +54,8 @@
 #include <QCompleter>
 #include <QString>
 #include <QStringListModel>
+#include <QChart>
+#include <QSplineSeries>
 
 #include "mainwindow.h"
 
