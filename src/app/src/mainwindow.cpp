@@ -1407,6 +1407,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         QList l = cls->m_series->attachedAxes();
         if (((QValueAxis*)l[0])->max() > frameCount - 50.0) {
             l[0]->setRange(frameCount - 450.0, frameCount + 50.0);
+            cls->m_series->removePoints(0, 450);
         }
     };
 
@@ -1451,6 +1452,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             pos++;
             continue;
         }
+        cls->m_series->clear();
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(pos);
 
