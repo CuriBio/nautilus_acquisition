@@ -8,6 +8,7 @@ Changelog for Nautilai
 Changed:
 ^^^^^^^^
 - Log files are now located in C:\Users\<user>\Documents\Nautilai\Logs
+- Platemap preview supports all 24 and 96 well plates
 
 
 0.1.42 (2024-04-10)

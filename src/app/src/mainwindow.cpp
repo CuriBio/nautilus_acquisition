@@ -877,18 +877,21 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     m_stageControl->loadList(m_config->plateFormat.string());
 
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
-    // TODO instead of checking the path to the plate format, should just check the num wells in the plate
-    if (m_plateFormats[index].string() == "./plate_formats\\CuriBio 24 Well Plate.toml") {
+
+    auto file = toml::parse(fileName);
+    auto numWells = toml::find<int>(file, "stage", "num_wells");
+    if (numWells == 24) {
         m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
             m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i));
         }
-    } else if (m_plateFormats[index].string() == "./plate_formats\\Costar 96 Well Plate.toml") {
+    } else if (numWells == 96) {
         m_plateFormatImgs[0] = QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
             m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
         }
     } else {
+        spdlog::info(fmt::format("No platemap svg for {} well plate", numWells));
         for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
             m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
         }
