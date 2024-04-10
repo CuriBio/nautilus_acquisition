@@ -109,7 +109,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
-    m_series = new QSplineSeries();
+    m_series = new QLineSeries();
     //m_series->append(0.0, 0.0);
     // m_series->append(10.0, 10.0);
     // m_series->append(20.0, 20.0);
@@ -1409,7 +1409,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         QValueAxis *ax = (QValueAxis*)l[0];
 
         if (ax->max() == frameCount) {
-            l[0]->setRange(ax->max() - 50.0, ax->max() + 50.0);
+            //l[0]->setRange(ax->max() - 50.0, ax->max() + 50.0);
+            frameCount = 0.0;
+            l[0]->setRange(0, 500.0);
             cls->m_series->clear();
             //cls->m_series->removePoints(0, ax->max() - ax->min() - 50 - 1);
         }
