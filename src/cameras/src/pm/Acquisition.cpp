@@ -197,9 +197,9 @@ void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
         // for (size_t i = 0; i < 16; i++) {
         //     m_avgs[idx] += avgvs[i];
         // }
-        spdlog::info("idx: {} - avg: {}", idx, sum/4096.0);
+        //spdlog::info("idx: {} - avg: {}", idx, sum/4096.0);
         if (idx == 0) {
-            m_graphCB(sum/409600.0);
+            m_graphCB(sum/4096.0);
         }
     }
 

@@ -130,7 +130,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->legend()->hide();
     m_chart->addSeries(m_series);
     axisX->setRange(0.0, 2000.0);
-    axisY->setRange(0.0, 10.0);
+    axisY->setRange(0.0, 4096.0);
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
     m_chart->addAxis(axisY, Qt::AlignLeft);
@@ -1397,9 +1397,8 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
     double frameCount = 0.0;
     auto graphViewCB = [&](double value) {
-        spdlog::info("######## x: {}, y: {}", frameCount, value);
         cls->m_series->append(frameCount, value);
-        cls->m_chartView->update();
+        //cls->m_chartView->update();
         frameCount += 1.0;
     };
 
