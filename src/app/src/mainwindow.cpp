@@ -56,6 +56,7 @@
 #include <QStringListModel>
 #include <QChart>
 #include <QSplineSeries>
+#include <QChartView>
 
 #include "mainwindow.h"
 
@@ -110,6 +111,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
+    m_chart = new QChart();
+    m_chart->legend()->hide();
+    m_chart->createDefaultAxes();
+
+    m_chartView = new QChartView(m_chart);
+    m_chartView->setRenderHint(QPainter::Antialiasing);
+    ui.graphViewLayout->addWidget(m_chartView);
+
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
 
     //show error popup
@@ -132,9 +141,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     m_platemap = new QSvgWidget();
     ui.platemapLayout->addWidget(m_platemap, 1);
+
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
         m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
     }
+
     m_platemap->load(m_plateFormatImgs[0]);
 
 
@@ -405,7 +416,6 @@ void MainWindow::Initialize() {
     //check for update
     m_autoUpdate->hasUpdate();
     spdlog::info("Update available {}", m_config->updateAvailable);
-    //m_autoUpdate->applyUpdate();
 
     //Async calibrate stage
     if (m_config->asyncInit) {
