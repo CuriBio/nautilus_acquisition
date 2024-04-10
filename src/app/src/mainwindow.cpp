@@ -881,7 +881,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
 
     auto plateFormatFile = toml::parse(plateFormatFileName);
-    auto numWells = toml::find<int>(file, "stage", "num_wells");
+    auto numWells = toml::find<int>(plateFormatFile, "stage", "num_wells");
     if (numWells == 24) {
         m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
         for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
