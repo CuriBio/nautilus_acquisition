@@ -279,8 +279,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             t.detach();
         } else {
             spdlog::error("External video encoding failed: {}", err);
-            emit sig_progress_done();
-            emit sig_update_state(PostProcessingDone);
+            emit sig_start_analysis();
         }
     });
 
@@ -304,13 +303,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-            spdlog::error("External analysis error: {}", err);
-            ui.startAcquisitionBtn->setText("Start Acquisition");
+        spdlog::error("External analysis error: {}", err);
+        ui.startAcquisitionBtn->setText("Start Acquisition");
 
-            //need to check if there is enough space for another acquisition
-            availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
-            emit sig_progress_done();
-            emit sig_update_state(PostProcessingDone);
+        //need to check if there is enough space for another acquisition
+        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        emit sig_progress_done();
+        emit sig_update_state(PostProcessingDone);
     });
 
     connect(this, &MainWindow::sig_start_analysis, this, [&] {
