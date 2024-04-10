@@ -111,15 +111,15 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     m_series = new QSplineSeries();
 
-    // QValueAxis* axisX = new QValueAxis();
-    // QValueAxis* axisY = new QValueAxis();
-    // axisX->setRange(0.0, 500.0);
-    // axisY->setRange(0.0, 10.0);
+    QValueAxis* axisX = new QValueAxis();
+    QValueAxis* axisY = new QValueAxis();
+    axisX->setRange(0.0, 500.0);
+    axisY->setRange(0.0, 10.0);
 
     m_chart = new QChart();
     //m_chart->legend()->hide();
-    // m_chart->addAxis(axisX, Qt::AlignLeft || Qt::AlignBottom);
-    // m_chart->addAxis(axisY, Qt::AlignBottom || Qt::AlignBottom);
+    m_chart->addAxis(axisX, Qt::AlignLeft);
+    m_chart->addAxis(axisY, Qt::AlignBottom);
     m_chart->addSeries(m_series);
     m_chart->createDefaultAxes();
 
