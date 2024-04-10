@@ -1412,7 +1412,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             l[0]->setRange(frameCount-50.0, frameCount + 50.0);
             //frameCount = 0.0;
             //cls->m_series->clear();
-            cls->m_series->removePoints(ax->min(), ax->max() - ax->min() - 50);
+            cls->m_series->removePoints(0, ax->max() - ax->min() - 50 - 1);
         }
     };
 
