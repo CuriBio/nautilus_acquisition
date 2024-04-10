@@ -545,16 +545,11 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
         return false;
     }
 
-    //try to deregister callback
-    if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_EOF)) {
-        spdlog::warn("Deregister EOF callback failed");
-    }
-
     size_t retries = 4;
     while (retries > 0) {
         if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
             spdlog::error("Failed to register EOF callback, retrying: {}", GetError());
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             retries--;
             continue;
         }
