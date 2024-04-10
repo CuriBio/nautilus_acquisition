@@ -54,6 +54,7 @@
 #include <QCompleter>
 #include <QString>
 #include <QStringListModel>
+#include <QValueAxis>
 
 #include "mainwindow.h"
 
@@ -109,13 +110,17 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
-    m_series->append(0.0, 5.0);
-    m_series->append(1.0, 3.0);
-    m_series->append(2.0, 7.0);
+    m_series->append(0.0, 0.0);
+
+    QValueAxis* axisX = new QValueAxis();
+    QValueAxis* axisY = new QValueAxis();
+    axisX->setRange(0.0, 500.0);
+    axisY->setRange(0.0, 10.0);
 
     m_chart = new QChart();
     m_chart->legend()->hide();
-    m_chart->createDefaultAxes();
+    m_chart->addAxis(axisX, Qt::AlignLeft);
+    m_chart->addAxis(axisY, Qt::AlignBottom);
     m_chart->addSeries(m_series);
 
     m_chartView = new QChartView(m_chart);
