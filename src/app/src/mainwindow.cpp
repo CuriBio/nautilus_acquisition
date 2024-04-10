@@ -114,6 +114,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->legend()->hide();
     m_chart->createDefaultAxes();
     m_chart->addSeries(m_series);
+    m_series->append(0.0, 5.0);
+    m_series->append(1.0, 3.0);
+    m_series->append(2.0, 7.0);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
