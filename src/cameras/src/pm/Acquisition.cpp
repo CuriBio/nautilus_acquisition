@@ -199,7 +199,7 @@ void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
         // }
         spdlog::info("idx: {} - avg: {}", idx, sum/4096.0);
         if (idx == 0) {
-            graphCB(sum/4096.0);
+            m_graphCB(sum/4096.0);
         }
     }
 
