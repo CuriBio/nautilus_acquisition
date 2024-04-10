@@ -110,7 +110,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
-    m_series->append(0.0, 0.0);
 
     // QValueAxis* axisX = new QValueAxis();
     // QValueAxis* axisY = new QValueAxis();
@@ -121,8 +120,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     //m_chart->legend()->hide();
     // m_chart->addAxis(axisX, Qt::AlignLeft || Qt::AlignBottom);
     // m_chart->addAxis(axisY, Qt::AlignBottom || Qt::AlignBottom);
-    m_chart->createDefaultAxes();
     m_chart->addSeries(m_series);
+    m_chart->createDefaultAxes();
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
@@ -1387,6 +1386,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     auto graphViewCB = [&](double value) {
         spdlog::info("######## x: {}, y: {}", frameCount, value);
         cls->m_series->append(frameCount, value);
+        cls->m_chartView->update();
         frameCount += 1.0;
     };
 
