@@ -122,8 +122,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     // m_chart->addAxis(axisX, Qt::AlignLeft || Qt::AlignBottom);
     // m_chart->addAxis(axisY, Qt::AlignBottom || Qt::AlignBottom);
     m_chart->createDefaultAxes();
-    m_chart->axisX()->setRange(0.0, 500.0);
-    m_chart->axisY()->setRange(0.0, 10.0);
     m_chart->addSeries(m_series);
 
     m_chartView = new QChartView(m_chart);
