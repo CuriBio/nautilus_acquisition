@@ -131,6 +131,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->addSeries(m_series);
 
     axisX->setRange(0.0, 500.0);
+    axisX->setLabelsVisible(false);
     axisY->setRange(0.0, 1000.0);
 
     m_chart->addAxis(axisX, Qt::AlignBottom);
