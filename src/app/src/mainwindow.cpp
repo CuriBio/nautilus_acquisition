@@ -1405,8 +1405,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         //cls->m_chartView->update();
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
-        if (((QValueAxis*)l[0])->max() > frameCount - 50.0) {
-            l[0]->setRange(frameCount - 450.0, frameCount + 50.0);
+        if (((QValueAxis*)l[0])->max() == frameCount) {
+            l[0]->setRange(frameCount, frameCount + 500.0);
+            cls->m_series->clear();
             //cls->m_series->removePoints(0, 450);
         }
     };
