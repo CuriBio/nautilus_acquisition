@@ -132,7 +132,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     axisX->setRange(0.0, 500.0);
     axisX->setLabelsVisible(false);
-    axisY->setRange(518.0, 522.0);
+    axisY->setRange(519.0, 521.0);
 
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
@@ -1406,11 +1406,13 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         //cls->m_chartView->update();
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
-        if (((QValueAxis*)l[0])->max() == frameCount) {
-            //l[0]->setRange(frameCount, frameCount + 500.0);
-            frameCount = 0.0;
-            cls->m_series->clear();
-            //cls->m_series->removePoints(0, 450);
+        QvalueAxix *ax = (QValueAxis*)l[0];
+
+        if (ax->max() == frameCount) {
+            l[0]->setRange(frameCount-50.0, frameCount + 50.0);
+            //frameCount = 0.0;
+            //cls->m_series->clear();
+            cls->m_series->removePoints(ax->min(), ax->max() - ax->min() - 50);
         }
     };
 
