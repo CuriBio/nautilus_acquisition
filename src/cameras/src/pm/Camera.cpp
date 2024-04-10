@@ -370,6 +370,8 @@ bool pm::Camera<F>::StopExp() {
         // Do not deregister callbacks before pl_exp_abort, abort could freeze then
         if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_EOF)) {
             spdlog::error("Failed to deregister EOF callback, error ignored ({})", GetError());
+        } else {
+            ctx->eofCallbackRegistered = false;
         }
 
         ctx->imaging = false;
@@ -546,17 +548,17 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
     }
 
     size_t retries = 4;
-    while (retries > 0) {
+    while (!ctx->eofCallbackRegistered && retries > 0) {
         if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
             spdlog::error("Failed to register EOF callback, retrying: {}", GetError());
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             retries--;
-            continue;
+        } else {
+            ctx->eofCallbackRegistered = true;
         }
-        break;
     }
 
-    if (retries == 0) {
+    if (!ctx->eofCallbackRegistered) {
         spdlog::error("Failed to register EOF callback {}", GetError());
         return false;
     }
