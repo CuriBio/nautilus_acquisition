@@ -129,10 +129,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart = new QChart();
     m_chart->legend()->hide();
     m_chart->addSeries(m_series);
-    m_chart->addAxis(axisX, Qt::AlignBottom);
-    m_chart->addAxis(axisY, Qt::AlignLeft);
     axisX->setRange(0.0, 2000.0);
     axisY->setRange(0.0, 10.0);
+    m_chart->addAxis(axisX, Qt::AlignBottom);
+    m_series->attachAxis(axisX);
+    m_chart->addAxis(axisY, Qt::AlignLeft);
+    m_series->attachAxis(axisY);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
