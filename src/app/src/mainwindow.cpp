@@ -110,7 +110,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QSplineSeries();
-    m_series->append(0.0, 0.0);
+    //m_series->append(0.0, 0.0);
     // m_series->append(10.0, 10.0);
     // m_series->append(20.0, 20.0);
     // m_series->append(30.0, 30.0);
@@ -125,14 +125,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     QValueAxis* axisX = new QValueAxis();
     QValueAxis* axisY = new QValueAxis();
-    axisX->setRange(0.0, 2000.0);
-    axisY->setRange(0.0, 10.0);
 
     m_chart = new QChart();
-    //m_chart->legend()->hide();
+    m_chart->legend()->hide();
     m_chart->addSeries(m_series);
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_chart->addAxis(axisY, Qt::AlignLeft);
+    axisX->setRange(0.0, 2000.0);
+    axisY->setRange(0.0, 10.0);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
