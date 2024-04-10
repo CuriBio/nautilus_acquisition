@@ -1410,7 +1410,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
         if (ax->max() == frameCount) {
             l[0]->setRange(ax->max() - 50.0, ax->max() + 50.0);
-            //frameCount = 0.0;
+            frameCount = 0.0;
             //cls->m_series->clear();
             cls->m_series->removePoints(0, ax->max() - ax->min() - 50 - 1);
         }
