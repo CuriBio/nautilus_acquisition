@@ -205,7 +205,7 @@ int main(int argc, char* argv[]) {
         camera->SetupExp(m_expSettings);
 
         std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera);
-        acquisition->StartAcquisition({}, 0.0, nullptr);
+        acquisition->StartAcquisition({}, {}, 0.0, nullptr);
         acquisition->WaitForStop();
     }
 
