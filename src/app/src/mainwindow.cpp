@@ -1405,7 +1405,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         //cls->m_chartView->update();
         frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
-        if (l[0]->max() > frameCount - 250.0) {
+        if (l[0]->max > frameCount - 250.0) {
             l[0]->setRange(0, frameCount + 500.0);
         }
     };
