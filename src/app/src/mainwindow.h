@@ -227,6 +227,7 @@ class MainWindow : public QMainWindow {
 
         QChart* m_chart;
         QChartView* m_chartView;
+        QSplineSeries* m_series;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_ledTaskAO, m_ledDevAO;

@@ -108,9 +108,14 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
+    m_series = new QSplineSeries();
+    m_series->append(0, 6);
+    m_series->append(2, 4);
+
     m_chart = new QChart();
     m_chart->legend()->hide();
     m_chart->createDefaultAxes();
+    m_chart->addSeries(m_series);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
