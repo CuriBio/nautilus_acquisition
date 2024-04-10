@@ -132,7 +132,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     axisX->setRange(0.0, 500.0);
     axisX->setLabelsVisible(false);
-    axisY->setRange(500.0, 550.0);
+    axisY->setRange(515.0, 525.0);
 
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
