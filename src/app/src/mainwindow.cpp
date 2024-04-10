@@ -131,7 +131,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->addSeries(m_series);
 
     axisX->setRange(0.0, 2000.0);
-    axisY->setRange(0.0, 4096.0);
+    axisY->setRange(0.0, 1000.0);
 
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
@@ -141,7 +141,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
-    m_chartView->setFixedHeight(100);
+    m_chartView->setFixedHeight(300);
     ui.graphViewLayout->addWidget(m_chartView);
 
 
@@ -1404,6 +1404,10 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         cls->m_series->append(frameCount, value);
         //cls->m_chartView->update();
         frameCount += 1.0;
+        QList l = cls->m_series->attachAxis();
+        if (l[0]->max() > frameCount - 250.0) {
+            l[0]->setRange(0, frameCount + 500.0);
+        }
     };
 
     double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
