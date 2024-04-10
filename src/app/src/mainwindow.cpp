@@ -113,13 +113,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     QValueAxis* axisX = new QValueAxis();
     QValueAxis* axisY = new QValueAxis();
-    axisX->setRange(0.0, 500.0);
-    axisY->setRange(0.0, 10.0);
+    axisX->setRange(0.0, 5000.0);
+    axisY->setRange(0.0, 5000.0);
 
     m_chart = new QChart();
     //m_chart->legend()->hide();
-    m_chart->addAxis(axisY, Qt::AlignBottom);
-    m_chart->addAxis(axisX, Qt::AlignLeft);
+    m_chart->addAxis(axisX, Qt::AlignBottom);
+    m_chart->addAxis(axisY, Qt::AlignLeft);
     m_chart->addSeries(m_series);
 
     m_chartView = new QChartView(m_chart);
