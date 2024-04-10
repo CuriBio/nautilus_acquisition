@@ -1374,7 +1374,11 @@ void MainWindow::postProcess() {
 void MainWindow::acquisitionThread(MainWindow* cls) {
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
     double frameCount = 0.0;
-    auto graphViewCB = [&](double value) { cls->m_series->append(frameCount, value); frameCount += 1.0; };
+    auto graphViewCB = [&](double value) {
+        spdlog::info("######## x: {}, y: {}", frameCount, value);
+        cls->m_series->append(frameCount, value);
+        frameCount += 1.0;
+    };
 
     double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
     cls->ledON(voltage);
