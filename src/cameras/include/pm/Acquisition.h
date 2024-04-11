@@ -138,7 +138,7 @@ namespace pm {
                  */
                 void StartAcquisition(
                     std::function<void(size_t)> progressCB,
-                    std::function<void(double)> graphCB,
+                    std::function<void(double, double)> graphCB,
                     double tiffFillValue = 0.0,
                     const C* tiffColorCtx = nullptr
                 );
