@@ -1404,7 +1404,6 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     auto graphViewCB = [&](double value) {
         cls->m_series->append(frameCount, value);
         //cls->m_chartView->update();
-        frameCount += 1.0;
         QList l = cls->m_series->attachedAxes();
         QValueAxis *ax = (QValueAxis*)l[0];
 
@@ -1416,6 +1415,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             //cls->m_series->clear();
             //cls->m_series->removePoints(0, ax->max() - ax->min() - 50 - 1);
         }
+        frameCount += 1.0;
     };
 
     double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
