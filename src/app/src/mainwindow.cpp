@@ -115,6 +115,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     QValueAxis* axisX = new QValueAxis();
     QValueAxis* axisY = new QValueAxis();
 
+    QValueAxis* axisX2 = new QValueAxis();
+    QValueAxis* axisY2 = new QValueAxis();
+
     m_chart = new QChart();
     m_chart->legend()->hide();
     m_chart->addSeries(m_series);
@@ -127,17 +130,21 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     axisX->setLabelsVisible(false);
     axisY->setRange(519.5, 520.5);
 
+    axisX2->setRange(0.0, 500.0);
+    axisX2->setLabelsVisible(false);
+    axisY2->setRange(519.5, 520.5);
+
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
 
     m_chart2->addAxis(axisX, Qt::AlignBottom);
-    m_series2->attachAxis(axisX);
+    m_series2->attachAxis(axisX2);
 
     m_chart->addAxis(axisY, Qt::AlignLeft);
     m_series->attachAxis(axisY);
 
     m_chart2->addAxis(axisY, Qt::AlignLeft);
-    m_series2->attachAxis(axisY);
+    m_series2->attachAxis(axisY2);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
