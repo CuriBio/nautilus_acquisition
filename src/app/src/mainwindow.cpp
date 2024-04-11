@@ -110,18 +110,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     m_series = new QLineSeries();
-    //m_series->append(0.0, 0.0);
-    // m_series->append(10.0, 10.0);
-    // m_series->append(20.0, 20.0);
-    // m_series->append(30.0, 30.0);
-    // m_series->append(40.0, 40.0);
-    // m_series->append(50.0, 50.0);
-    // m_series->append(60.0, 60.0);
-    // m_series->append(70.0, 70.0);
-    // m_series->append(80.0, 80.0);
-    // m_series->append(90.0, 90.0);
-    // m_series->append(100.0, 100.0);
-    // m_series->append(110.0, 110.0);
+    m_series2 = new QLineSeries();
 
     QValueAxis* axisX = new QValueAxis();
     QValueAxis* axisY = new QValueAxis();
@@ -130,6 +119,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->legend()->hide();
     m_chart->addSeries(m_series);
 
+    m_chart2 = new QChart();
+    m_chart2->legend()->hide();
+    m_chart2->addSeries(m_series2);
+
     axisX->setRange(0.0, 500.0);
     axisX->setLabelsVisible(false);
     axisY->setRange(519.5, 520.5);
@@ -137,13 +130,25 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
 
+    m_chart2->addAxis(axisX, Qt::AlignBottom);
+    m_series2->attachAxis(axisX);
+
     m_chart->addAxis(axisY, Qt::AlignLeft);
     m_series->attachAxis(axisY);
+
+    m_chart2->addAxis(axisY, Qt::AlignLeft);
+    m_series2->attachAxis(axisY);
 
     m_chartView = new QChartView(m_chart);
     m_chartView->setRenderHint(QPainter::Antialiasing);
     m_chartView->setFixedHeight(300);
+
+    m_chartView2 = new QChartView(m_chart2);
+    m_chartView2->setRenderHint(QPainter::Antialiasing);
+    m_chartView2->setFixedHeight(300);
+
     ui.graphViewLayout->addWidget(m_chartView);
+    ui.graphViewLayout->addWidget(m_chartView2);
 
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
