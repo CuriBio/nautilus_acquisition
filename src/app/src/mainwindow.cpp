@@ -137,13 +137,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_chart->addAxis(axisX, Qt::AlignBottom);
     m_series->attachAxis(axisX);
 
-    m_chart2->addAxis(axisX, Qt::AlignBottom);
+    m_chart2->addAxis(axisX2, Qt::AlignBottom);
     m_series2->attachAxis(axisX2);
 
     m_chart->addAxis(axisY, Qt::AlignLeft);
     m_series->attachAxis(axisY);
 
-    m_chart2->addAxis(axisY, Qt::AlignLeft);
+    m_chart2->addAxis(axisY2, Qt::AlignLeft);
     m_series2->attachAxis(axisY2);
 
     m_chartView = new QChartView(m_chart);
