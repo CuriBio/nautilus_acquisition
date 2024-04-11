@@ -1479,8 +1479,13 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
         frameCount = 0.0;
         cls->m_series->clear();
+        cls->m_series2->clear();
+
         QList l = cls->m_series->attachedAxes();
         ((QValueAxis*)l[0])->setRange(0, 500.0);
+
+        QList l2 = cls->m_series2->attachedAxes();
+        ((QValueAxis*)l2[0])->setRange(0, 500.0);
 
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(pos);
