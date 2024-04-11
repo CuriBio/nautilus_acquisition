@@ -108,7 +108,7 @@ namespace pm {
                 uint32_t* m_roiSum{nullptr};
 
                 std::function<void(size_t n)> m_progress;
-                std::function<void(double n)> m_graphCB;
+                std::function<void(double n, double n2)> m_graphCB;
 
             public:
 

@@ -59,7 +59,7 @@ enum AcquisitionState {
 * @tparam Cfg Color config type.
 */
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
-concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB, std::function<void(double)> graphCB) {
+concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB, std::function<void(double, double)> graphCB) {
     { c.StartAcquisition(progressCB, graphCB, double(), cctx) } -> std::same_as<void>;
     { c.StartLiveView() } -> std::same_as<void>;
     { c.StopAll() } -> std::same_as<void>;
