@@ -499,6 +499,7 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
         delete m_roiSum;
     }
     m_roiSum = new uint32_t[m_rois.size()];
+    memset(m_roiSum, 0, sizeof(uint32_t)*m_rois.size());
 
     return;
 }
