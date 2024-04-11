@@ -125,7 +125,7 @@ namespace PostProcess {
     void AutoTile(
         std::filesystem::path indir,
         std::string prefix,
-        uint16_t frames,
+        uint32_t frames,
         uint32_t rows,
         uint32_t cols,
         std::vector<uint8_t>& tileMap,

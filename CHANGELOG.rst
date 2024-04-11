@@ -1,7 +1,18 @@
 Changelog for Nautilai
 ======================
 
-0.1.42 (unreleased)
+
+0.1.43 (unreleased)
+-------------------
+
+Changed:
+^^^^^^^^
+- Log files are now located in C:\Users\<user>\Documents\Nautilai\Logs
+- Platemap preview now supports all 24 and 96 well plates
+- Local Analysis now runs after video encoding failure
+
+
+0.1.42 (2024-04-10)
 -------------------
 
 Added:
@@ -18,6 +29,10 @@ Changed:
   - Cleaned up styling
 
 - Plate format definitions
+
+Fixed:
+^^^^^^
+- frameCount narrowed to uint16_t in AutoTile call, overflows when number of frames above 65536, changed to uint32_t
 
 
 0.1.41 (2024-03-11)
