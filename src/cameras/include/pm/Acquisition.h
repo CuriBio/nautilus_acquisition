@@ -105,6 +105,7 @@ namespace pm {
 
                 std::vector<uint64_t> m_rois;
                 uint16_t m_avgs[256];
+                uint32_t* m_roiSum{nullptr};
 
                 std::function<void(size_t n)> m_progress;
                 std::function<void(double n)> m_graphCB;

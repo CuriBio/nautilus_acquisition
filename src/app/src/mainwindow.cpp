@@ -1413,14 +1413,19 @@ void MainWindow::postProcess() {
 void MainWindow::acquisitionThread(MainWindow* cls) {
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
     double frameCount = 0.0;
-    auto graphViewCB = [&](double value) {
-        cls->m_series->append(frameCount, value);
+    auto graphViewCB = [&](double v1, double v2) {
+        cls->m_series->append(frameCount, v1);
+        cls->m_series2->append(frameCount, v2);
         //cls->m_chartView->update();
-        QList l = cls->m_series->attachedAxes();
-        QValueAxis *ax = (QValueAxis*)l[0];
+        QList l1 = cls->m_series->attachedAxes();
+        QValueAxis *ax1 = (QValueAxis*)l1[0];
+
+        QList l2 = cls->m_series2->attachedAxes();
+        QValueAxis *ax2 = (QValueAxis*)l2[0];
 
         if (ax->max() == frameCount) {
-            l[0]->setRange(ax->min() + 5, ax->max() + 5);
+            l1[0]->setRange(ax->min() + 5, ax->max() + 5);
+            l2[0]->setRange(ax->min() + 5, ax->max() + 5);
             //l[0]->setRange(ax->max() - 490.0, ax->max() + 500.0 - 490.0);
             //frameCount = 0.0;
             //l[0]->setRange(0, 500.0);

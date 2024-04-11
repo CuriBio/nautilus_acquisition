@@ -176,11 +176,10 @@ template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
     for (auto const& [idx, r] : m_rois | std::views::enumerate) {
         uint16_t *d16 = (uint16_t*)frame->GetData();
-        uint64_t sum = 0;
 
         for (size_t j = 0; j < 64; j++) {
             for (size_t i = 0; i < 64; i++) {
-                sum += d16[r + i + j*512];
+                m_roiSum[idx] += d16[r + i + j*512];
             }
         }
         // __m256i *d = (__m256i*)&d16[r];
@@ -198,8 +197,8 @@ void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
         //     m_avgs[idx] += avgvs[i];
         // }
         //spdlog::info("idx: {} - avg: {}", idx, sum/4096.0);
-        if (idx == 0) {
-            m_graphCB(sum/4096.0);
+        if (idx == 0 || idx == 1) {
+            m_graphCB(m_roiSum[0]/4096.0, m_roiSum[1]/4096.0);
         }
     }
 
@@ -495,6 +494,11 @@ void pm::Acquisition<F, C>::StartAcquisition(std::function<void(size_t)> progres
 	    }
     }
     memset(m_avgs, 0, 256*2);
+
+    if (m_roiSum) {
+        delete m_roiSum;
+    }
+    m_roiSum = new uint32_t[m_rois.size()];
 
     return;
 }
