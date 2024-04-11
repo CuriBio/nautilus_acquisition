@@ -174,6 +174,8 @@ void pm::Acquisition<F, C>::checkLostFrame(uint32_t frameN, uint32_t &lastFrame,
 
 template<FrameConcept F, ColorConfigConcept C>
 void pm::Acquisition<F, C>::processFrame(F* frame) noexcept {
+    memset(m_roiSum, 0, sizeof(uint32_t)*m_rois.size());
+
     for (auto const& [idx, r] : m_rois | std::views::enumerate) {
         uint16_t *d16 = (uint16_t*)frame->GetData();
 
