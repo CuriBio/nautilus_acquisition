@@ -169,7 +169,7 @@ void LiveView::drawROI(int32_t x, int32_t y, uint16_t size, uint8_t border) {
                 memset(m_roisTex+from_xy(x, i - y), 0xFF, border);
                 memset(m_roisTex+from_xy(x + size - border, i - y), 0xFF, border);
             }
-	    }
+        }
     }
 }
 
