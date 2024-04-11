@@ -1415,13 +1415,13 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     double frameCount = 0.0;
     auto graphViewCB = [&](double v1, double v2) {
         cls->m_series->append(frameCount, v1);
-        cls->m_series2->append(frameCount, v2);
+        //cls->m_series2->append(frameCount, v2);
         //cls->m_chartView->update();
         QList l1 = cls->m_series->attachedAxes();
         QValueAxis *ax1 = (QValueAxis*)l1[0];
 
-        QList l2 = cls->m_series2->attachedAxes();
-        QValueAxis *ax2 = (QValueAxis*)l2[0];
+        // QList l2 = cls->m_series2->attachedAxes();
+        // QValueAxis *ax2 = (QValueAxis*)l2[0];
 
         if (ax1->max() == frameCount) {
             l1[0]->setRange(ax1->min() + 5, ax1->max() + 5);
