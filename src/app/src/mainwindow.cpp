@@ -1423,9 +1423,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         QList l2 = cls->m_series2->attachedAxes();
         QValueAxis *ax2 = (QValueAxis*)l2[0];
 
-        if (ax->max() == frameCount) {
-            l1[0]->setRange(ax->min() + 5, ax->max() + 5);
-            l2[0]->setRange(ax->min() + 5, ax->max() + 5);
+        if (ax1->max() == frameCount) {
+            l1[0]->setRange(ax1->min() + 5, ax1->max() + 5);
+            l2[0]->setRange(ax1->min() + 5, ax1->max() + 5);
             //l[0]->setRange(ax->max() - 490.0, ax->max() + 500.0 - 490.0);
             //frameCount = 0.0;
             //l[0]->setRange(0, 500.0);
