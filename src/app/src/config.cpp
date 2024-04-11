@@ -234,12 +234,11 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
     } catch(const std::out_of_range& e) {
-        s << "Missing required config values " << e.what();
-        spdlog::error(s.str());
-        configError = s.str();
+        configError = std::format("Missing required config values {}", e.what());
+        spdlog::error("Missing required config values {}", configError);
     } catch(const std::exception& e2) {
        // exception occurs if machine or nautilai.toml files are missing
-       spdlog::error("Unable to parse config variables due to missing toml file(s)");
+       spdlog::error("Unable to parse config variables due to missing toml file(s), {}", e2.what());
     }
 
     //updates default to false, will get set when manifest is downloaded

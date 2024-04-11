@@ -134,7 +134,7 @@ void StageControl::loadList(std::string fileName) {
             wellsPerFovGridSide = 2;
     }
 
-    size_t n = 1;
+    int n = 1;
 
     for (auto rFov = 1; rFov >= -1; rFov -= 2) {
         auto dyRoi = wellSpacing * (wellsPerFovGridSide / 2) * rFov;

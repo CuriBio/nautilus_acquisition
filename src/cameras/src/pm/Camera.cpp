@@ -323,6 +323,9 @@ bool pm::Camera<F>::Close() {
     //lock mutex
     std::lock_guard<std::mutex> lock(ctx->lock);
 
+    //make sure acquistion is stoped before shutting down
+    StopExp();
+
     if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_CAM_REMOVED)) {
         spdlog::error("Failed to unregister camera removal callback for camera {}", ctx->info.name);
     }
@@ -360,16 +363,7 @@ bool pm::Camera<F>::StopExp() {
 
     if(ctx->imaging) {
         if (PV_OK != pl_exp_abort(ctx->hcam, CCS_HALT)) {
-            spdlog::error("Failed to abort acquisition, error ignored ({})", GetError());
-        }
-
-        if (PV_OK != pl_exp_finish_seq(ctx->hcam, ctx->buffer.get(), 0)) {
-            spdlog::error("Failed to finish sequence, error ignored ({})", GetError());
-        }
-
-        // Do not deregister callbacks before pl_exp_abort, abort could freeze then
-        if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_EOF)) {
-            spdlog::error("Failed to deregister EOF callback, error ignored ({})", GetError());
+            spdlog::error("Failed to stop acquisition, error ignored ({})", GetError());
         }
 
         ctx->imaging = false;
@@ -545,8 +539,19 @@ bool pm::Camera<F>::StartExp(void* eofCallback, void* callbackCtx) {
         return false;
     }
 
-    if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
-        spdlog::error("Failed to register EOF callback");
+    size_t retries = 4;
+    while (!ctx->eofCallbackRegistered && retries > 0) {
+        if (PV_OK != pl_cam_register_callback_ex3(ctx->hcam, PL_CALLBACK_EOF, (void*)eofCallback, callbackCtx)) {
+            spdlog::error("Failed to register EOF callback, retrying: {}", GetError());
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            retries--;
+        } else {
+            ctx->eofCallbackRegistered = true;
+        }
+    }
+
+    if (!ctx->eofCallbackRegistered) {
+        spdlog::error("Failed to register EOF callback {}", GetError());
         return false;
     }
 

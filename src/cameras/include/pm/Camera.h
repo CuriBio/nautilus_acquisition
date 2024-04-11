@@ -124,10 +124,16 @@ namespace pm {
     struct CameraCtx {
         //Camera details
         CameraInfo info{};
+
         // Camera handle
         int16_t hcam{-1};
+
         // is camera imaging
         bool imaging{false};
+
+        // is EOF callback registered
+        bool eofCallbackRegistered{false};
+
         //current capture settings
         std::unique_ptr<ExpSettings> curExp{nullptr};
 
