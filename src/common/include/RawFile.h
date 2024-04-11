@@ -28,11 +28,10 @@ class RawFile {
         OVERLAPPED m_ovs[PWRITES];
 #endif
         std::filesystem::path m_file;
-        uint64_t m_width;
-        uint64_t m_height;
+        uint16_t m_width;
+        uint16_t m_height;
         uint16_t m_count;
         uint8_t m_bitDepth;
-        uint64_t m_fileSize;
         uint16_t* m_buf;
 
     public:

@@ -9,7 +9,6 @@
 #endif
 
 #include "autoupdate.h"
-#include "ui_autoupdate.h"
 
 AutoUpdate::AutoUpdate(std::shared_ptr<Config> config, std::string origin, std::string channel, QWidget *parent) : QDialog(parent), ui(new Ui::AutoUpdate) {
     m_config = config;
