@@ -124,7 +124,9 @@ class TaskFrameStats {
             const size_t rowOffset = taskNum * rows;
             const size_t offset = rowOffset * m_width;
 
-            const uint16_t* start = m_data+offset;
+            //DEBUG SKIP first 8 bytes that is used for debug info
+            //remove once out-of-order frame issue is fixed
+            const uint16_t* start = (idx == 0) ? m_data+offset+sizeof(size_t) : m_data+offset;
             const uint16_t* end = m_data+offset+(rows*m_width)+rem;
 
             for (; start < end; start++) {
