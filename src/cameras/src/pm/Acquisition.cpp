@@ -168,7 +168,7 @@ void pm::Acquisition<F, C>::writeFrame(F* frame) noexcept {
 
             //DEBUG store m_frameIndex at start of image buffer for debugging out-of-order image issue
             //remove once the issue is fixed
-            std::memcpy((void*)frame->GetData(), (void*)&m_frameIndex, sizeof(m_frameIndex));
+            std::memcpy((void*)frame->GetData(), (void*)&m_frameIndex, sizeof(size_t));
 
             raw.Write(frame->GetData(), 0);
             m_unusedFramePool->Release(frame);
