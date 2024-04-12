@@ -163,9 +163,12 @@ void pm::Acquisition<F, C>::writeFrame(F* frame) noexcept {
                 rawpath,
                 16, //bitdepth
                 width,
-                height,
-                m_camera->ctx->curExp->frameCount
+                height
             );
+
+            //DEBUG store m_frameIndex at start of image buffer for debugging out-of-order image issue
+            //remove once the issue is fixed
+            std::memcpy(frame->GetData(), &m_frameIndex, sizeof(m_frameIndex));
 
             raw.Write(frame->GetData(), 0);
             m_unusedFramePool->Release(frame);
@@ -300,23 +303,26 @@ void pm::Acquisition<F, C>::frameWriterThread() noexcept {
     spdlog::info("Acquisition finished. flag: {}, frameIndex: {}, frameCount: {}", m_diskThreadAbortFlag, m_frameIndex, m_camera->ctx->curExp->frameCount);
     m_camera->StopExp();
 
-    while (!m_frameWriterQueue.empty() && captured) {
+    while (!m_frameWriterQueue.empty()) {
         {
             std::unique_lock<std::mutex> lock(m_frameQueueLock);
             frame = m_frameWriterQueue.front();
             m_frameWriterQueue.pop();
         }
 
-        //copy frame
-        if (!frame->CopyData()) {
-            spdlog::info("Failed to copy frame data");
-            return;
+        if (captured) {
+            //copy frame
+            if (!frame->CopyData()) {
+                spdlog::info("Failed to copy frame data");
+                return;
+            }
+
+            if (m_frameIndex < m_camera->ctx->curExp->frameCount) {
+                writeFrame(frame);
+                ++m_frameIndex;
+            }
         }
 
-        if (m_frameIndex < m_camera->ctx->curExp->frameCount) {
-            writeFrame(frame);
-            ++m_frameIndex;
-        }
         m_unusedFramePool->Release(frame);
     }
 

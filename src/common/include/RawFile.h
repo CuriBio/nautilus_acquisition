@@ -30,16 +30,14 @@ class RawFile {
         std::filesystem::path m_file;
         uint16_t m_width;
         uint16_t m_height;
-        uint16_t m_count;
         uint8_t m_bitDepth;
         uint16_t* m_buf;
 
     public:
-        RawFile(std::filesystem::path file, uint8_t bitDepth, uint16_t width, uint16_t height, uint32_t count) {
+        RawFile(std::filesystem::path file, uint8_t bitDepth, uint16_t width, uint16_t height) {
             m_width = width;
             m_height = height;
             m_bitDepth = bitDepth;
-            m_count = count;
             m_file = file;
 
 #ifndef _WIN32
