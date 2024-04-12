@@ -217,7 +217,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->setCancelButton((msg.contains("Acquiring images") && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
     });
 
-    connect(this, &MainWindow::sig_progress_update, this, [this](uint16_t n) {
+    connect(this, &MainWindow::sig_progress_update, this, [this](int n) {
         if (m_acquisitionProgress->value() + n < m_acquisitionProgress->maximum()) {
             m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
         } else {

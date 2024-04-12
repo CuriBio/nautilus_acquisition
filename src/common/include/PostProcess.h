@@ -151,7 +151,7 @@ namespace PostProcess {
 
         uint16_t *frameData = new uint16_t[rows * cols * width * height];
 
-        for (auto fr = 0; fr < frames; fr++) {
+        for (uint32_t fr = 0; fr < frames; fr++) {
             //reset each frame
             memset((void*)frameData, 0, sizeof(uint16_t) * rows * cols * width * height);
 
