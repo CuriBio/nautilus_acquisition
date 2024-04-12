@@ -10,6 +10,8 @@ Changed:
 - Log files are now located in C:\Users\<user>\Documents\Nautilai\Logs
 - Platemap preview now supports all 24 and 96 well plates
 - Local Analysis now runs after video encoding failure
+- Cleanup compiler warning
+- Enable avx2 compile option
 
 
 0.1.42 (2024-04-10)

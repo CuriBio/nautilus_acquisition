@@ -37,7 +37,7 @@ qt_standard_project_setup()
 
 # linking against the desired targets
 IF (WIN32)
-target_compile_options(${PROJECT_NAME} PRIVATE "/wd4996;") # disable "unknown pragma 'mark'" warnings
+    target_compile_options(${PROJECT_NAME} PRIVATE "/wd4996;") # disable "unknown pragma 'mark'" warnings
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE

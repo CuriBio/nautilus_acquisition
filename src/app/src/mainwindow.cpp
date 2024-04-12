@@ -58,7 +58,6 @@
 #include "mainwindow.h"
 
 #include <PostProcess.h>
-#include <VideoEncoder.h>
 #include <RawFile.h>
 #include <Database.h>
 
@@ -130,9 +129,11 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_plateFormats = getFileNamesFromDirectory("./plate_formats");
     m_platemap = new QSvgWidget();
     ui.platemapLayout->addWidget(m_platemap, 1);
+
     for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
         m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
     }
+
     m_platemap->load(m_plateFormatImgs[0]);
 
 
@@ -216,7 +217,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_acquisitionProgress->setCancelButton((msg.contains("Acquiring images") && m_config->triggerMode == EXT_TRIG_TRIG_FIRST) ? new QPushButton("&Trigger", this) : nullptr);
     });
 
-    connect(this, &MainWindow::sig_progress_update, this, [this](size_t n) {
+    connect(this, &MainWindow::sig_progress_update, this, [this](int n) {
         if (m_acquisitionProgress->value() + n < m_acquisitionProgress->maximum()) {
             m_acquisitionProgress->setValue(m_acquisitionProgress->value() + n);
         } else {
@@ -402,7 +403,6 @@ void MainWindow::Initialize() {
     //check for update
     m_autoUpdate->hasUpdate();
     spdlog::info("Update available {}", m_config->updateAvailable);
-    //m_autoUpdate->applyUpdate();
 
     //Async calibrate stage
     if (m_config->asyncInit) {

@@ -39,6 +39,7 @@
 #include <QWidget>
 
 #include "config.h"
+#include "ui_autoupdate.h"
 
 namespace Ui {
     class AutoUpdate;

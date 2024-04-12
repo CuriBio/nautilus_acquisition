@@ -10,7 +10,6 @@
 #include <TiffFile.h>
 #include <ThreadPool.h>
 #include <RawFile.h>
-#include <VideoEncoder.h>
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
@@ -92,29 +91,29 @@ namespace PostProcess {
         uint32_t height,
         uint8_t binFactor)
     {   
-        uint32_t binnedWidth = width / binFactor;
-        uint32_t binnedHeight = height / binFactor;
+        size_t binnedWidth = width / binFactor;
+        size_t binnedHeight = height / binFactor;
         uint16_t *binnedFrameData = new uint16_t[binnedWidth * binnedHeight];
 
-        for (uint32_t i = 0; i < binnedHeight; i++) {
-            for (uint32_t j = 0; j < binnedWidth; j++) {
+        for (size_t i = 0; i < binnedHeight; i++) {
+            for (size_t j = 0; j < binnedWidth; j++) {
 
-                int currentRow = i * binFactor * width;
-                int firstIdx = currentRow + j * binFactor;
+                size_t currentRow = i * binFactor * width;
+                size_t firstIdx = currentRow + j * binFactor;
 
                 std::vector<uint16_t> pixelsToAvg;
 
                 for (uint8_t k = 0; k < binFactor; k++) {
 
-                    uint32_t start = firstIdx + (width * k);
-                    uint32_t end = start + binFactor;
+                    size_t start = firstIdx + (width * k);
+                    size_t end = start + binFactor;
                     
-                    for (uint32_t l = start; l < end; l++) {
+                    for (size_t l = start; l < end; l++) {
                         pixelsToAvg.push_back(frameData[l]);
                     }
                 }
 
-                uint16_t average = std::reduce(pixelsToAvg.begin(), pixelsToAvg.end()) / pixelsToAvg.size();
+                uint16_t average = std::reduce(pixelsToAvg.begin(), pixelsToAvg.end()) / static_cast<uint16_t>(pixelsToAvg.size());
                 binnedFrameData[(i*binnedWidth) + j] = average;
             }
         }
@@ -152,7 +151,7 @@ namespace PostProcess {
 
         uint16_t *frameData = new uint16_t[rows * cols * width * height];
 
-        for (auto fr = 0; fr < frames; fr++) {
+        for (uint32_t fr = 0; fr < frames; fr++) {
             //reset each frame
             memset((void*)frameData, 0, sizeof(uint16_t) * rows * cols * width * height);
 
