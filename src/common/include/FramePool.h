@@ -53,7 +53,6 @@ class FramePool {
         std::shared_ptr<ParTask> m_pTask;
         size_t m_frameBytes;
         bool m_deepCopy;
-        size_t m_size;
 
         size_t total_objs{0};
 

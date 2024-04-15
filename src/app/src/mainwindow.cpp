@@ -1316,14 +1316,22 @@ void MainWindow::postProcess() {
         } else if (m_config->autoTile) {
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
-            //std::shared_ptr<VideoEncoder> venc = nullptr;
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
-                    (m_expSettings.acquisitionDir / rawFile), 16, m_config->cols * m_width, m_config->rows * m_height, m_expSettings.frameCount);
+                    (m_expSettings.acquisitionDir / rawFile),
+                    16,
+                    m_config->cols * m_width,
+                    m_config->rows * m_height
+                );
 
             std::shared_ptr<RawFile<6>> rawDownsampled = nullptr;
+
             if (m_config->enableDownsampleRawFiles) {
                 rawDownsampled = std::make_shared<RawFile<6>>(
-                    (m_expSettings.acquisitionDir / rawFileDownsampled), 16, m_config->cols * (m_width / m_config->binFactor), m_config->rows * (m_height / m_config->binFactor), m_expSettings.frameCount);
+                    (m_expSettings.acquisitionDir / rawFileDownsampled),
+                    16,
+                    m_config->cols * (m_width / m_config->binFactor),
+                    m_config->rows * (m_height / m_config->binFactor)
+                );
             }
 
             emit sig_progress_start("Tiling images", m_expSettings.frameCount);
@@ -1346,7 +1354,6 @@ void MainWindow::postProcess() {
                 rawDownsampled,
                 m_expSettings.storageType,
                 m_config->binFactor
-                //venc
             );
 
             raw->Close();

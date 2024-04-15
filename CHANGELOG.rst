@@ -12,6 +12,7 @@ Changed:
 - Local Analysis now runs after video encoding failure
 - Cleanup compiler warning
 - Enable avx2 compile option
+- Clear frame queue when stopping acquisition no images are captured
 
 
 0.1.42 (2024-04-10)
