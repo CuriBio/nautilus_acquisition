@@ -2,8 +2,12 @@ Changelog for Nautilai
 ======================
 
 
-0.1.43 (unreleased)
+0.1.43 (2024-05-17)
 -------------------
+
+Added:
+^^^^^^
+- Added background recordings
 
 Changed:
 ^^^^^^^^
