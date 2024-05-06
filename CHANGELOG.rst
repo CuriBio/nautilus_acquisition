@@ -15,6 +15,11 @@ Changed:
 - Clear frame queue when stopping acquisition no images are captured
 
 
+Fixed:
+^^^^^^
+- Advanced Settings now shows the correct values after changes are made
+
+
 0.1.42 (2024-04-10)
 -------------------
 
