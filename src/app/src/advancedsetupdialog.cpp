@@ -51,6 +51,10 @@ void AdvancedSetupDialog::Initialize(std::vector<std::string> devicelist){
     for(const auto& key_value : m_config->videoQualityOptions) {
         ui->videoQualityList->addItem(QString::fromStdString(key_value.first));
     }
+
+    ui->triggerModeList->clear();
+    ui->triggerModeList->addItem(QString("Wait for trigger"));
+    ui->triggerModeList->addItem(QString("Start acquisition immediately"));
 }
 
 void AdvancedSetupDialog::setDefaultValues() {
@@ -59,11 +63,6 @@ void AdvancedSetupDialog::setDefaultValues() {
     m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
     m_keepOriginalRaw = m_config->keepOriginalRaw;
     m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
-
-    ui->triggerModeList->clear();
-    ui->triggerModeList->addItem(QString("Wait for trigger"));
-    ui->triggerModeList->addItem(QString("Start acquisition immediately"));
-
 
     for (int i=0; i<ui->ledDeviceList->count(); i++) {
         if (ui->ledDeviceList->itemText(i).toStdString() == m_config->niDev) {
@@ -85,8 +84,10 @@ void AdvancedSetupDialog::setDefaultValues() {
     switch (m_triggerMode) {
         case EXT_TRIG_TRIG_FIRST:
             currentTrigModeIndex = 0;
+            break;
         case EXT_TRIG_INTERNAL:
             currentTrigModeIndex = 1;
+            break;
     }
     // update to most recent user-confirmed state
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
