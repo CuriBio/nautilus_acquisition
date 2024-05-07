@@ -102,8 +102,6 @@ def main():
         "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
     )
 
-    # TODO add cmd line args and/or toml config values for the background data inputs
-
     cmd_line_args = parser.parse_args()
 
     with open(cmd_line_args.toml_config_path) as toml_file:
@@ -300,7 +298,7 @@ def _load_background(plate_id: str) -> pl.DataFrame:
     user_profile = os.getenv("USERPROFILE", r"C:\Users")
     bg_recording_dir = os.path.join(user_profile, "AppData", "Local", "Nautilai", "BackgroundRecordings")
     if not os.path.exists(bg_recording_dir):
-        raise Exception("Background Recording dir does not exist")
+        raise Exception("Background recording dir does not exist")
 
     bg_recording_file_path = None
     for file_name in os.listdir(bg_recording_dir):
@@ -369,7 +367,7 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
         "instrument_type": "nautilai",
         "instrument_serial_number": "N/A",
         "software_release_version": setup_config["software_version"],
-        "plate_barcode": "PLATE ID",  # TODO this should be the plate ID once that gets set
+        "plate_barcode": setup_config["plate_id"],
         "total_well_count": setup_config["stage"]["num_wells"],
         "stage_config": setup_config["stage"],
         "tissue_sampling_period": 1 / setup_config["fps"],
