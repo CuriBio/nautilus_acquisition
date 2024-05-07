@@ -331,37 +331,30 @@ def _subtract_background(
     for intensity_ratio in LED_INTENSITIES:
         if recording_led_intensity == bg_recording_led_intensity * intensity_ratio:
             intensity_col_name = LED_INTENSITY_COL.format(int(intensity_ratio * 100))
-            bg_fluorescence = bg_recording.select("Well", intensity_col_name).rename(
-                {intensity_col_name: "bg"}
-            )
+            breakpoint()
+            bg_fluorescence = bg_recording.select("Well", intensity_col_name).transpose(column_names="Well")
     if bg_fluorescence is None:
         bg_data = (
-            bg_recording.transpose(include_header=True, header_name="intensity", column_names="Well")
+            bg_recording.rename({LED_INTENSITY_COL.format(int(i * 100)): str(i) for i in LED_INTENSITIES})
+            .transpose(include_header=True, header_name="intensity", column_names="Well")
+            .cast({"intensity": float})
             .sort("intensity")
-            .with_columns(intensity=pl.Series(LED_INTENSITIES))
         )
 
         bg_fluorescence = pl.DataFrame()
-
         intensities = bg_data["intensity"]
+        intensity_ratio = recording_led_intensity / bg_recording_led_intensity
         for well in bg_data.drop("intensity").columns:
             linregress_info = linregress(intensities, bg_data[well])
-            bg_f_well = recording_led_intensity * linregress_info.slope + linregress_info.intercept
-            bg_fluorescence.with_columns(**{well: [bg_f_well]})
-
-        bg_fluorescence = bg_fluorescence.transpose(
-            include_header=True, header_name="Well", column_names=["bg"]
-        )
+            bg_f_well = intensity_ratio * linregress_info.slope + linregress_info.intercept
+            bg_fluorescence = bg_fluorescence.with_columns(**{well: pl.Series([bg_f_well])})
 
     # scale to frame rate
-    bg_fluorescence.with_columns(
-        bg=bg_fluorescence["bg"] * recording_exposure_dur / bg_recording_exposure_dur
-    )
+    bg_fluorescence *= recording_exposure_dur / bg_recording_exposure_dur
 
     # subtract background fluorescence from each well
-    bg_fluorescence = bg_fluorescence.transpose(column_names="Well")
     time_series_df = time_series_df.with_columns(
-        [pl.col(c) - bg_fluorescence[c] for c in time_series_df.columns]
+        [pl.col(c) - bg_fluorescence[c] for c in time_series_df.columns if c != "time"]
     )
 
     return time_series_df
