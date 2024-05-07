@@ -18,6 +18,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import polars as pl
 import pyarrow.parquet as pq
+from scipy.stats import linregress
 import toml
 
 logger = logging.getLogger(__name__)
@@ -42,6 +43,10 @@ MAX_ROWS = 32
 ALL_WELL_ROWS = tuple([_get_well_row_name(row) for row in range(MAX_ROWS)])
 
 
+LED_INTENSITY_COL = "Background Fluorescence, {}% LED Intensity (AU)"
+LED_INTENSITIES = (0.1, 0.25, 1)
+
+
 @dataclass
 class Point:
     x: int
@@ -52,6 +57,12 @@ class Point:
 class RoiCoords:
     p_ul: Point  # upper left
     p_br: Point  # bottom right
+
+
+@dataclass
+class BackgroundRecordingInfo:
+    data: pl.DataFrame
+    metadata: dict[str, Any]
 
 
 class RawDataReader:
@@ -117,9 +128,10 @@ def main():
 
     time_series_df = _calculate_fluorescence_time_series(raw_data_reader, rois, setup_config)
 
-    # if background_data_path := setup_config["background_data_path"]:
-    #     _load_background(background_data_path)
-    #     _subtract_background()
+    if background_data_path := setup_config["background_data_path"]:
+        # TODO confirm that the plate formats match
+        background_recording_info = _load_background(background_data_path)
+        time_series_df = _subtract_background(time_series_df, setup_config, background_recording_info)
 
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
@@ -291,12 +303,62 @@ def _calculate_fluorescence_time_series(
     return pl.DataFrame({"time": timepoints} | well_arrs)
 
 
-def _load_background():
-    pass
+def _load_background(TODO) -> BackgroundRecordingInfo:
+    pass  # TODO
 
 
-def _subtract_background():
-    pass
+def _subtract_background(
+    time_series_df: pl.DataFrame,
+    setup_config: dict[str, Any],
+    background_recording_info: BackgroundRecordingInfo,
+):
+    recording_led_intensity = setup_config["led_intensity"]
+    bg_recording_led_intensity = background_recording_info.metadata["led_intensity"]
+
+    recording_exposure_dur = 1 / setup_config["fps"]
+    bg_recording_exposure_dur = 1 / background_recording_info.metadata["fps"]
+
+    # scale to LED intensity
+    bg_fluorescence = None
+    for intensity_ratio in LED_INTENSITIES:
+        if recording_led_intensity == bg_recording_led_intensity * intensity_ratio:
+            intensity_col_name = LED_INTENSITY_COL.format(int(intensity_ratio * 100))
+            bg_fluorescence = background_recording_info.data.select("Well", intensity_col_name).rename(
+                {intensity_col_name: "bg"}
+            )
+    if bg_fluorescence is None:
+        bg_data = (
+            background_recording_info.data.transpose(
+                include_header=True, header_name="intensity", column_names="Well"
+            )
+            .sort("intensity")
+            .with_columns(intensity=pl.Series(LED_INTENSITIES))
+        )
+
+        bg_fluorescence = pl.DataFrame()
+
+        intensities = bg_data["intensity"]
+        for well in bg_data.drop("intensity").columns:
+            linregress_info = linregress(intensities, bg_data[well])
+            bg_f_well = recording_led_intensity * linregress_info.slope + linregress_info.intercept
+            bg_fluorescence.with_columns(**{well: [bg_f_well]})
+
+        bg_fluorescence = bg_fluorescence.transpose(
+            include_header=True, header_name="Well", column_names=["bg"]
+        )
+
+    # scale to frame rate
+    bg_fluorescence.with_columns(
+        bg=bg_fluorescence["bg"] * recording_exposure_dur / bg_recording_exposure_dur
+    )
+
+    # subtract background fluorescence from each well
+    bg_fluorescence = bg_fluorescence.transpose(column_names="Well")
+    time_series_df = time_series_df.with_columns(
+        [pl.col(c) - bg_fluorescence[c] for c in time_series_df.columns]
+    )
+
+    return time_series_df
 
 
 def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
