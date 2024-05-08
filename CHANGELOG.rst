@@ -13,6 +13,7 @@ Changed:
 - Cleanup compiler warning
 - Enable avx2 compile option
 - Clear frame queue when stopping acquisition no images are captured
+- Update platemaps
 
 
 0.1.42 (2024-04-10)
