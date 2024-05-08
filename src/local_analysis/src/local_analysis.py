@@ -342,7 +342,6 @@ def _subtract_background(
     for intensity_ratio in LED_INTENSITIES:
         if recording_led_intensity == bg_recording_led_intensity * intensity_ratio:
             intensity_col_name = LED_INTENSITY_COL.format(int(intensity_ratio * 100))
-            breakpoint()
             bg_fluorescence = bg_recording.select("Well", intensity_col_name).transpose(column_names="Well")
     if bg_fluorescence is None:
         bg_data = (
@@ -374,13 +373,17 @@ def _subtract_background(
 def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
     logger.info("Writing parquet output file")
 
+    barcode_field = setup_config.get("plate_id")
+    if not barcode_field:
+        barcode_field = "N/A"
+
     metadata = {
         "utc_beginning_recording": setup_config["recording_date"],
         "file_format_version": "0.1.0",
         "instrument_type": "nautilai",
         "instrument_serial_number": "N/A",
         "software_release_version": setup_config["software_version"],
-        "plate_barcode": setup_config["plate_id"],
+        "plate_barcode": barcode_field,
         "total_well_count": setup_config["stage"]["num_wells"],
         "stage_config": setup_config["stage"],
         "tissue_sampling_period": 1 / setup_config["fps"],

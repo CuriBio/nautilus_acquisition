@@ -8,6 +8,7 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - Background subtraction to Local Analysis
+- Plate Barcode field in metadata of Local Analysis output will now be set to the plate ID if background subtraction is performed
 
 Changed:
 ^^^^^^^^
