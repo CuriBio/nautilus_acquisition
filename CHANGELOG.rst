@@ -5,6 +5,10 @@ Changelog for Nautilai
 0.1.43 (unreleased)
 -------------------
 
+Added:
+^^^^^^
+- Background subtraction to Local Analysis
+
 Changed:
 ^^^^^^^^
 - Log files are now located in C:\Users\<user>\Documents\Nautilai\Logs
