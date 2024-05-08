@@ -59,6 +59,12 @@ class RoiCoords:
     p_br: Point  # bottom right
 
 
+@dataclass
+class BackgroundRecordingInfo:
+    data: pl.Dataframe
+    metadata: dict[str, Any]
+
+
 class RawDataReader:
     def __init__(
         self, file_path: str, num_frames: int, frame_shape: tuple[int, int], dtype: np.dtype
@@ -294,35 +300,42 @@ def _calculate_fluorescence_time_series(
     return pl.DataFrame({"time": timepoints} | well_arrs)
 
 
-def _load_background(plate_id: str) -> pl.DataFrame:
+def _load_background(plate_id: str) -> BackgroundRecordingInfo:
     user_profile = os.getenv("USERPROFILE", r"C:\Users")
     bg_recording_dir = os.path.join(user_profile, "AppData", "Local", "Nautilai", "BackgroundRecordings")
     if not os.path.exists(bg_recording_dir):
         raise Exception("Background recording dir does not exist")
 
-    bg_recording_file_path = None
-    for file_name in os.listdir(bg_recording_dir):
-        if "_".join(file_name.split("_")[:-1]) == plate_id:
-            bg_recording_file_path = os.path.join(bg_recording_dir, file_name)
-    if bg_recording_file_path is None:
-        raise Exception("Background recording file not found")
+    plate_id_dir_path = None
+    for dir_name in os.listdir(bg_recording_dir):
+        if "_".join(dir_name.split("_")[:-1]) == plate_id:
+            plate_id_dir_path = os.path.join(bg_recording_dir, dir_name)
+    if plate_id_dir_path is None:
+        raise Exception("Background recording dir for plate ID not found")
 
-    bg_recording = pl.read_csv(bg_recording_file_path, has_header=True, separator="\t")
+    bg_rec_data_path = os.path.join(plate_id_dir_path, f"{plate_id}.tsv")
+    bg_rec_data = pl.read_csv(bg_rec_data_path, has_header=True, separator="\t")
 
-    return bg_recording
+    bg_rec_metadata_path = os.path.join(plate_id_dir_path, "settings.toml")
+    with open(bg_rec_metadata_path) as toml_file:
+        bg_rec_metadata = toml.load(toml_file)
+
+    return BackgroundRecordingInfo(data=bg_rec_data, metadata=bg_rec_metadata)
 
 
 def _subtract_background(
-    time_series_df: pl.DataFrame, setup_config: dict[str, Any], bg_recording: pl.DataFrame
+    time_series_df: pl.DataFrame, setup_config: dict[str, Any], bg_recording_info: BackgroundRecordingInfo
 ):
+    bg_recording = bg_recording_info.data
+
     if set(time_series_df.drop("time").columns) != set(bg_recording["Well"]):
         raise Exception("Plate format of bg recording does not match")
 
     recording_led_intensity = setup_config["led_intensity"]
-    bg_recording_led_intensity = setup_config["bg_led_intensity"]
+    bg_recording_led_intensity = bg_recording_info.metadata["led_intensity"]
 
     recording_exposure_dur = 1 / setup_config["fps"]
-    bg_recording_exposure_dur = 1 / setup_config["bg_fps"]
+    bg_recording_exposure_dur = 1 / bg_recording_info.metadata["fps"]
 
     # scale to LED intensity
     bg_fluorescence = None
