@@ -28,7 +28,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QPushButton>
-#include <cstring>
+#include <regex>
 
 #include "settings.h"
 
@@ -90,7 +90,9 @@ void Settings::on_dirChoiceBtn_clicked() {
 
 void Settings::on_filePrefix_textChanged() {
     auto filePrefixStd = ui.filePrefix->text().toStdString();
-    bool isPrefixValid = filePrefixStd.length() <= 230 && !isspace(static_cast<unsigned char>(filePrefixStd[0]));
+    std::regex forbiddenCharRegex("[<>:\"/\\|?*]");
+    std::smatch m;
+    bool isPrefixValid = filePrefixStd.length() <= 230 && !isspace(static_cast<unsigned char>(filePrefixStd[0])) && !std::regex_match(filePrefixStd, m, forbiddenCharRegex);
     QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
     ui.filePrefix->setStyleSheet(newStyle);
 
