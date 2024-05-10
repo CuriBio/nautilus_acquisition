@@ -90,7 +90,7 @@ void Settings::on_dirChoiceBtn_clicked() {
 
 void Settings::on_filePrefix_textChanged() {
     auto filePrefixStd = ui.filePrefix->text().toStdString();
-    bool isPrefixValid = filePrefixStd.length() < 230 && !isspace(filePrefixStd[0]) && !isspace(filePrefixStd[filePrefixStd.length - 1]);
+    bool isPrefixValid = filePrefixStd.length() <= 230 && !isspace(static_cast<unsigned char>(filePrefixStd[0]));
     QString newStyle = isPrefixValid ? "" : "border: 1px solid red";
     ui.filePrefix->setStyleSheet(newStyle);
 
