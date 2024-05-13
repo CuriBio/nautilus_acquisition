@@ -323,8 +323,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
 
-    m_expSettings.workingDir = m_config->path;
-    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.workingDir = "\\\\?\\" + m_config->path.string();
+    m_expSettings.acquisitionDir = "\\\\?\\" + m_config->path.string();
     m_expSettings.filePrefix = m_config->prefix;
     m_expSettings.spdTableIdx = m_config->spdtable;
     m_expSettings.expTimeMS = m_config->expTimeMs,
@@ -969,8 +969,8 @@ void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix)
     m_config->path = path;
     m_config->prefix = prefix;
 
-    m_expSettings.workingDir = m_config->path;
-    m_expSettings.acquisitionDir = m_config->path;
+    m_expSettings.workingDir = "\\\\?\\" + m_config->path.string();
+    m_expSettings.acquisitionDir = "\\\\?\\" + m_config->path.string();
     m_expSettings.filePrefix = m_config->prefix;
     m_camera->UpdateExp(m_expSettings);
 }
