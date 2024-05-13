@@ -56,7 +56,7 @@ add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_23)
 if (WIN32)
     add_compile_options(
-        # /O2
+        /O2
         /Oi
         /arch:AVX2
     )
