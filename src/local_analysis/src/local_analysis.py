@@ -44,7 +44,7 @@ ALL_WELL_ROWS = tuple([_get_well_row_name(row) for row in range(MAX_ROWS)])
 
 
 LED_INTENSITY_COL = "Background Fluorescence, {}% LED Intensity (AU)"
-LED_INTENSITIES = (0.1, 0.25, 1)
+LED_INTENSITIES = (0.25, 0.5, 1)
 
 
 @dataclass
