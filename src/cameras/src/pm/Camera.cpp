@@ -320,11 +320,11 @@ bool pm::Camera<F>::Close() {
         return false;
     }
 
-    //lock mutex
-    std::lock_guard<std::mutex> lock(ctx->lock);
-
     //make sure acquistion is stoped before shutting down
     StopExp();
+
+    //lock mutex
+    std::lock_guard<std::mutex> lock(ctx->lock);
 
     if (PV_OK != pl_cam_deregister_callback(ctx->hcam, PL_CALLBACK_CAM_REMOVED)) {
         spdlog::error("Failed to unregister camera removal callback for camera {}", ctx->info.name);
@@ -854,9 +854,6 @@ bool pm::Camera<F>::getLatestFrameIndex(size_t& index) {
         .timestampBOF = (uint64_t)ctx->curFrameInfo->TimeStampBOF,
         .timestampEOF = (uint64_t)ctx->curFrameInfo->TimeStamp,
         .expTime = GetFrameExpTime((uint32_t)ctx->curFrameInfo->FrameNr),
-        .colorWbScaleRed = ctx->curExp->colorWbScaleRed,
-        .colorWbScaleGreen = ctx->curExp->colorWbScaleGreen,
-        .colorWbScaleBlue = ctx->curExp->colorWbScaleBlue
     };
     ctx->frames[index]->SetInfo(fi);
     updateFrameIndexMap(oldFrameNr, index);

@@ -4,6 +4,10 @@ QWidget {
   font-size: 16px;
 }
 
+QWidget[error=true] {
+    background-color: red;
+}
+
 QDoubleSpinBox {
   background-color: #2F2F2F;
   border: none;
@@ -23,6 +27,7 @@ QPushButton:hover {
   color: #FFFFFF;
 }
 
+QDoubleSpinBox:disabled,
 QToolButton:disabled,
 QPushButton:disabled {
   background-color: #4C4C4C;

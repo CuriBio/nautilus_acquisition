@@ -187,8 +187,8 @@ int main(int argc, char* argv[]) {
 
         ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
-            .workingDir = config->path,
-            .acquisitionDir = config->path,
+            .workingDir = "\\\\?\\" + config->path.string(),
+            .acquisitionDir = "\\\\?\\" + config->path.string(),
             .filePrefix = config->prefix,
             .region = {
                 .s1 = uns16(config->rgn.s1), .s2 = uns16(config->rgn.s2), .sbin = config->rgn.sbin,
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
         camera->SetupExp(m_expSettings);
 
         std::shared_ptr<pmAcquisition> acquisition = std::make_shared<pmAcquisition>(camera);
-        acquisition->StartAcquisition({}, 0.0, nullptr);
+        acquisition->StartAcquisition(nullptr, nullptr);
         acquisition->WaitForStop();
     }
 

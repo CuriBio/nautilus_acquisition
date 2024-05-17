@@ -2,8 +2,12 @@ Changelog for Nautilai
 ======================
 
 
-0.1.43 (unreleased)
+0.1.43 (2024-05-17)
 -------------------
+
+Added:
+^^^^^^
+- Added background recordings
 
 Changed:
 ^^^^^^^^
@@ -14,6 +18,11 @@ Changed:
 - Enable avx2 compile option
 - Clear frame queue when stopping acquisition no images are captured
 - Update platemaps
+- Max length for file prefix is now 200 chars
+
+Fixed:
+^^^^^^
+- Invalid chars are no longer allowed in file prefix
 
 
 0.1.42 (2024-04-10)

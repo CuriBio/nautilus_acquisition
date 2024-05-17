@@ -1,7 +1,8 @@
+
 /*
  * MIT License
  *
- * Copyright (c) 2022 Curi Bio
+ * Copyright (c) 2024 Curi Bio
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -9,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,44 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#ifndef SETTINGS_H
-#define SETTINGS_H
-#include <filesystem>
-#include <string>
 
-#include <QDialog>
-#include <QWidget>
+/*********************************************************************
+ * @file  WriteRawFrame.h
+ *********************************************************************/
+#ifndef BACKGROUND_PROCESSING_H
+#define BACKGROUND_PROCESSING_H
 
-#include "config.h"
-#include "ui_settings.h"
+#include <pm/Camera.h>
+#include <interfaces/FrameInterface.h>
+#include <Rois.h>
 
+namespace processing {
+    template<size_t XW, size_t YW>
+    void roiAvg(RoiCfg* roi, uint16_t* data, size_t width, uint32_t* out) noexcept {
+        *out = 0;
 
-/*
- * Settings dialog class.
- */
-class Settings : public QDialog {
-    Q_OBJECT
+        for (size_t j = 0; j < XW; j++) {
+            for (size_t i = 0; i < YW; i++) {
+                *out += data[i + j * width];
+            }
+        }
+        *out = *out / (XW * YW);
+    }
 
-    public:
-        explicit Settings(QWidget* parent, std::shared_ptr<const Config> config);
-        virtual ~Settings();
+    void roiAvgGeneric(RoiCfg* roi, uint16_t* data, size_t width, uint32_t* out) noexcept {
+        *out = 0;
 
-        void show();
+        for (size_t j = 0; j < roi->height; j++) {
+            for (size_t i = 0; i < roi->width; i++) {
+                *out += data[i + j * width];
+            }
+        }
+        *out = *out / (roi->width * roi->height);
+    }
+}
 
-    private:
-        void setupOptions();
-
-        std::shared_ptr<const Config> m_config;
-        Ui::Settings ui;
-
-    signals:
-        void sig_settings_changed(std::string dir, std::string prefix);
-
-    private slots:
-        void on_dirChoiceBtn_clicked();
-        void on_filePrefix_textChanged();
-        void on_modalChoice_accepted();
-        void on_modalChoice_rejected();
-};
-
-#endif //SETTINGS_H
+#endif //BACKGROUND_PROCESSING_H

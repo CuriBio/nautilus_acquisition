@@ -73,14 +73,14 @@ namespace pm {
                 bool m_acquireThreadAbortFlag{ false };
                 AcquisitionState m_state { AcquisitionState::AcqStopped };
 
-                std::mutex m_frameQueueLock;
-                std::mutex m_frameWriterLock;
-                std::condition_variable m_frameWriterCond;
-                std::queue<F*> m_frameWriterQueue;
+                std::mutex m_frameProcessingQueueLock;
+                std::mutex m_frameProcessingLock;
+                std::condition_variable m_frameProcessingCond;
+                std::queue<F*> m_frameProcessingQueue;
 
-                std::mutex m_frameWriterReadyLock;
-                std::condition_variable m_frameWriterReadyCond;
-                std::thread* m_frameWriterThread{ nullptr };
+                std::mutex m_frameProcessingReadyLock;
+                std::condition_variable m_frameProcessingReadyCond;
+                std::thread* m_frameProcessingThread{ nullptr };
 
                 std::mutex m_acquisitionFinishedLock;
                 std::condition_variable m_acquisitionFinishedCond;
@@ -104,6 +104,7 @@ namespace pm {
                 std::string m_testImgPath{};
 
                 std::function<void(size_t n)> m_progress;
+                std::function<void(FrameCtx* ctx, F* frame)> m_processFn;
 
             public:
 
@@ -131,7 +132,7 @@ namespace pm {
                  *
                  * @return true if successful, false otherwise.
                  */
-                void StartAcquisition(std::function<void(size_t)> progressCB, double tiffFillValue = 0.0, const C* tiffColorCtx = nullptr);
+                void StartAcquisition(std::function<void(size_t)> progressCB, std::function<void(FrameCtx*, F*)> process);
 
                 /*
                  * @brief Starts live view.
@@ -226,7 +227,12 @@ namespace pm {
                 /*
                  * @brief Thread for processing incoming frames.
                  */
-                void frameWriterThread() noexcept;
+                void frameProcessingThread() noexcept;
+
+                /*
+                 * @brief Start processing thread
+                 */
+                void startProcessingThread() noexcept;
 
                 /*
                  * @brief Write frame
