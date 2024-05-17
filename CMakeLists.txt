@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILAI_VERSION 0.1.43)
+set(NAUTILAI_VERSION 0.1.42)
 
 project(nautilai LANGUAGES CXX C VERSION ${NAUTILAI_VERSION})
 set(PROJECT_BRIEF "Nautilai Acquisition")
-
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib/")
@@ -54,7 +53,7 @@ add_library(project_warnings INTERFACE)
 add_library(project_options INTERFACE)
 
 target_compile_features(project_options INTERFACE cxx_std_23)
-if (WIN32)
+if (WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_options(
         /O2
         /Oi

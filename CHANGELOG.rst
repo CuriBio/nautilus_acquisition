@@ -2,13 +2,14 @@ Changelog for Nautilai
 ======================
 
 
-0.1.43 (unreleased)
+0.1.43 (2024-05-17)
 -------------------
 
 Added:
 ^^^^^^
 - Background subtraction to Local Analysis
 - Plate Barcode field in metadata of Local Analysis output will now be set to the plate ID if background subtraction is performed
+- Added background recordings
 
 Changed:
 ^^^^^^^^
@@ -18,6 +19,12 @@ Changed:
 - Cleanup compiler warning
 - Enable avx2 compile option
 - Clear frame queue when stopping acquisition no images are captured
+- Update platemaps
+- Max length for file prefix is now 200 chars
+
+Fixed:
+^^^^^^
+- Invalid chars are no longer allowed in file prefix
 
 
 Fixed:

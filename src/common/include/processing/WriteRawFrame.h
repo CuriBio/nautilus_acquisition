@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Curi Bio
+ * Copyright (c) 2024 Curi Bio
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,44 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#ifndef SETTINGS_H
-#define SETTINGS_H
-#include <filesystem>
-#include <string>
 
-#include <QDialog>
-#include <QWidget>
+/*********************************************************************
+ * @file  WriteRawFrame.h
+ *********************************************************************/
+#ifndef WRITE_RAW_FRAME_H
+#define WRITE_RAW_FRAME_H
 
-#include "config.h"
-#include "ui_settings.h"
+#include <pm/Camera.h>
+#include <interfaces/FrameInterface.h>
 
+namespace processing {
+    template<FrameConcept F>
+    void writeRawFrame(FrameCtx* ctx, F* frame) noexcept {
+        RawFile<4> raw(ctx->path, ctx->bitDepth, ctx->width, ctx->height);
+        raw.Write(frame->GetData(), 0);
+        raw.Close();
+    }
+}
 
-/*
- * Settings dialog class.
- */
-class Settings : public QDialog {
-    Q_OBJECT
-
-    public:
-        explicit Settings(QWidget* parent, std::shared_ptr<const Config> config);
-        virtual ~Settings();
-
-        void show();
-
-    private:
-        void setupOptions();
-
-        std::shared_ptr<const Config> m_config;
-        Ui::Settings ui;
-
-    signals:
-        void sig_settings_changed(std::string dir, std::string prefix);
-
-    private slots:
-        void on_dirChoiceBtn_clicked();
-        void on_filePrefix_textChanged();
-        void on_modalChoice_accepted();
-        void on_modalChoice_rejected();
-};
-
-#endif //SETTINGS_H
+#endif //WRITE_RAW_FRAME_H
