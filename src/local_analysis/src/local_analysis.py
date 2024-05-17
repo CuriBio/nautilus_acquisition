@@ -18,6 +18,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import polars as pl
 import pyarrow.parquet as pq
+from scipy.stats import linregress
 import toml
 
 logger = logging.getLogger(__name__)
@@ -42,6 +43,10 @@ MAX_ROWS = 32
 ALL_WELL_ROWS = tuple([_get_well_row_name(row) for row in range(MAX_ROWS)])
 
 
+LED_INTENSITY_COL = "Background Fluorescence, {}% LED Intensity (AU)"
+LED_INTENSITIES = (0.25, 0.5, 1)
+
+
 @dataclass
 class Point:
     x: int
@@ -52,6 +57,12 @@ class Point:
 class RoiCoords:
     p_ul: Point  # upper left
     p_br: Point  # bottom right
+
+
+@dataclass
+class BackgroundRecordingInfo:
+    data: pl.Dataframe
+    metadata: dict[str, Any]
 
 
 class RawDataReader:
@@ -97,8 +108,6 @@ def main():
         "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
     )
 
-    # TODO add cmd line args and/or toml config values for the background data inputs
-
     cmd_line_args = parser.parse_args()
 
     with open(cmd_line_args.toml_config_path) as toml_file:
@@ -117,9 +126,9 @@ def main():
 
     time_series_df = _calculate_fluorescence_time_series(raw_data_reader, rois, setup_config)
 
-    # if background_data_path := setup_config["background_data_path"]:
-    #     _load_background(background_data_path)
-    #     _subtract_background()
+    if plate_id := setup_config["plate_id"]:
+        background_recording_info = _load_background(plate_id)
+        time_series_df = _subtract_background(time_series_df, setup_config, background_recording_info)
 
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
@@ -291,16 +300,82 @@ def _calculate_fluorescence_time_series(
     return pl.DataFrame({"time": timepoints} | well_arrs)
 
 
-def _load_background():
-    pass
+def _load_background(plate_id: str) -> BackgroundRecordingInfo:
+    user_profile = os.getenv("USERPROFILE", r"C:\Users")
+    bg_recording_dir = os.path.join(user_profile, "AppData", "Local", "Nautilai", "BackgroundRecordings")
+    if not os.path.exists(bg_recording_dir):
+        raise Exception("Background recording dir does not exist")
+
+    plate_id_dir_path = None
+    for dir_name in os.listdir(bg_recording_dir):
+        if "_".join(dir_name.split("_")[:-1]) == plate_id:
+            plate_id_dir_path = os.path.join(bg_recording_dir, dir_name)
+    if plate_id_dir_path is None:
+        raise Exception("Background recording dir for plate ID not found")
+
+    bg_rec_data_path = os.path.join(plate_id_dir_path, f"{plate_id}.tsv")
+    bg_rec_data = pl.read_csv(bg_rec_data_path, has_header=True, separator="\t")
+
+    bg_rec_metadata_path = os.path.join(plate_id_dir_path, "settings.toml")
+    with open(bg_rec_metadata_path) as toml_file:
+        bg_rec_metadata = toml.load(toml_file)
+
+    return BackgroundRecordingInfo(data=bg_rec_data, metadata=bg_rec_metadata)
 
 
-def _subtract_background():
-    pass
+def _subtract_background(
+    time_series_df: pl.DataFrame, setup_config: dict[str, Any], bg_recording_info: BackgroundRecordingInfo
+):
+    bg_recording = bg_recording_info.data
+
+    if set(time_series_df.drop("time").columns) != set(bg_recording["Well"]):
+        raise Exception("Plate format of bg recording does not match")
+
+    recording_led_intensity = setup_config["led_intensity"]
+    bg_recording_led_intensity = bg_recording_info.metadata["led_intensity"]
+
+    recording_exposure_dur = 1 / setup_config["fps"]
+    bg_recording_exposure_dur = 1 / bg_recording_info.metadata["fps"]
+
+    # scale to LED intensity
+    bg_fluorescence = None
+    for intensity_ratio in LED_INTENSITIES:
+        if recording_led_intensity == bg_recording_led_intensity * intensity_ratio:
+            intensity_col_name = LED_INTENSITY_COL.format(int(intensity_ratio * 100))
+            bg_fluorescence = bg_recording.select("Well", intensity_col_name).transpose(column_names="Well")
+    if bg_fluorescence is None:
+        bg_data = (
+            bg_recording.rename({LED_INTENSITY_COL.format(int(i * 100)): str(i) for i in LED_INTENSITIES})
+            .transpose(include_header=True, header_name="intensity", column_names="Well")
+            .cast({"intensity": float})
+            .sort("intensity")
+        )
+
+        bg_fluorescence = pl.DataFrame()
+        intensities = bg_data["intensity"]
+        intensity_ratio = recording_led_intensity / bg_recording_led_intensity
+        for well in bg_data.drop("intensity").columns:
+            linregress_info = linregress(intensities, bg_data[well])
+            bg_f_well = intensity_ratio * linregress_info.slope + linregress_info.intercept
+            bg_fluorescence = bg_fluorescence.with_columns(**{well: pl.Series([bg_f_well])})
+
+    # scale to frame rate
+    bg_fluorescence *= recording_exposure_dur / bg_recording_exposure_dur
+
+    # subtract background fluorescence from each well
+    time_series_df = time_series_df.with_columns(
+        [pl.col(c) - bg_fluorescence[c] for c in time_series_df.columns if c != "time"]
+    )
+
+    return time_series_df
 
 
 def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
     logger.info("Writing parquet output file")
+
+    barcode_field = setup_config.get("plate_id")
+    if not barcode_field:
+        barcode_field = "N/A"
 
     metadata = {
         "utc_beginning_recording": setup_config["recording_date"],
@@ -308,7 +383,7 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
         "instrument_type": "nautilai",
         "instrument_serial_number": "N/A",
         "software_release_version": setup_config["software_version"],
-        "plate_barcode": "PLATE ID",  # TODO this should be the plate ID once that gets set
+        "plate_barcode": barcode_field,
         "total_well_count": setup_config["stage"]["num_wells"],
         "stage_config": setup_config["stage"],
         "tissue_sampling_period": 1 / setup_config["fps"],

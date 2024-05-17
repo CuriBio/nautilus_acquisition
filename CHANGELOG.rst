@@ -7,6 +7,8 @@ Changelog for Nautilai
 
 Added:
 ^^^^^^
+- Background subtraction to Local Analysis
+- Plate Barcode field in metadata of Local Analysis output will now be set to the plate ID if background subtraction is performed
 - Added background recordings
 
 Changed:
@@ -23,6 +25,11 @@ Changed:
 Fixed:
 ^^^^^^
 - Invalid chars are no longer allowed in file prefix
+
+
+Fixed:
+^^^^^^
+- Advanced Settings now shows the correct values after changes are made
 
 
 0.1.42 (2024-04-10)
