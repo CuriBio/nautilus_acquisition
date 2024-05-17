@@ -1549,12 +1549,17 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     //otherwise use the specialized version
     auto roiFn = processing::roiAvgGeneric;
     if (roiCfg.width / roiCfg.scale == 16 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<16, 16>; }
+    else if (roiCfg.width / roiCfg.scale == 20 && roiCfg.height / roiCfg.scale == 20) { roiFn = processing::roiAvg<20, 20>; }
     else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<32, 32>; }
+    else if (roiCfg.width / roiCfg.scale == 40 && roiCfg.height / roiCfg.scale == 40) { roiFn = processing::roiAvg<40, 40>; }
     else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<64, 64>; }
+    else if (roiCfg.width / roiCfg.scale == 80 && roiCfg.height / roiCfg.scale == 80) { roiFn = processing::roiAvg<80, 80>; }
     else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<32, 16>; }
     else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<64, 32>; }
     else if (roiCfg.width / roiCfg.scale == 128 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<128, 64>; }
+    else if (roiCfg.width / roiCfg.scale == 128 && roiCfg.height / roiCfg.scale == 128) { roiFn = processing::roiAvg<128, 128>; }
     else if (roiCfg.width / roiCfg.scale == 256 && roiCfg.height / roiCfg.scale == 128) { roiFn = processing::roiAvg<256, 128>; }
+    else if (roiCfg.width / roiCfg.scale == 256 && roiCfg.height / roiCfg.scale == 256) { roiFn = processing::roiAvg<256, 256>; }
 
     //process frame callback
     auto processFrame = [&](size_t intensityIdx, size_t fovIdx) {
