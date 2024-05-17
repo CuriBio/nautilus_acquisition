@@ -17,8 +17,8 @@ Changed:
 - Cleanup compiler warning
 - Enable avx2 compile option
 - Clear frame queue when stopping acquisition no images are captured
+- Update platemaps
 - Max length for file prefix is now 200 chars
-
 
 Fixed:
 ^^^^^^
