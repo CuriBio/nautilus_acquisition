@@ -49,7 +49,7 @@ class Database {
             std::string dbFilePath = (userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.db").string();
             spdlog::info("Opening DB connection");
             int rc = sqlite3_open(dbFilePath.c_str(), &db);
-            if (rc) {
+            if (rc != SQLITE_OK) {
                 spdlog::error("Failed to open DB connection");
             }
             initDB();
@@ -104,6 +104,7 @@ class Database {
             sqlite3_stmt *pStmt;
             const char *pzTail;
             int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &pStmt, &pzTail);
+
             if (rc != SQLITE_OK) {
                 spdlog::error("SQL prepare failed for query: {}", query);
             }
@@ -111,9 +112,11 @@ class Database {
             int paramIdx = 1;
             for (const auto& s : params) {
                 rc = sqlite3_bind_text(pStmt, paramIdx, s.c_str(), -1, SQLITE_STATIC);
+
                 if (rc != SQLITE_OK) {
                     spdlog::error("SQL bind text failed for param {} ({}) of query: {}", s, paramIdx, query);
                 }
+
                 paramIdx++;
             }
 

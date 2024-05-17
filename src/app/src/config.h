@@ -10,6 +10,7 @@
 #include <toml.hpp>
 #include <cxxopts.hpp>
 #include <interfaces/CameraInterface.h>
+#include <interfaces/AcquisitionInterface.h>
 
 class Config {
     public:
@@ -43,6 +44,10 @@ class Config {
         bool enableDownsampleRawFiles;
         bool keepOriginalRaw;
         uint8_t binFactor;
+        std::string plateId;
+        RecordingType recordingType;
+        bool useBackgroundSubtraction;
+        
 
         //acquisition.region options
         Region rgn;

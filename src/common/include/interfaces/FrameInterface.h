@@ -30,6 +30,7 @@
 #ifndef FRAME_INTERFACE_H
 #define FRAME_INTERFACE_H
 #include <concepts>
+#include <filesystem>
 
 
 /*
@@ -46,9 +47,6 @@ struct FrameInfo {
             timestampEOF = other.timestampEOF;
             readoutTime = other.readoutTime;
             expTime = other.expTime;
-            colorWbScaleRed = other.colorWbScaleRed;
-            colorWbScaleGreen = other.colorWbScaleGreen;
-            colorWbScaleBlue = other.colorWbScaleBlue;
         }
         return *this;
     }
@@ -59,9 +57,14 @@ struct FrameInfo {
     uint32_t readoutTime{ 0 };
 
     uint32_t expTime{ 0 };
-    float colorWbScaleRed{ 1.0 };
-    float colorWbScaleGreen{ 1.0 };
-    float colorWbScaleBlue{ 1.0 };
+};
+
+struct FrameCtx {
+    int width{0};
+    int height{0};
+    uint64_t index{0};
+    uint8_t bitDepth{16};
+    std::filesystem::path path;
 };
 
 /*

@@ -36,6 +36,8 @@
 #include <fstream>
 #include <future>
 #include <iostream>
+#include <fstream>
+#include <cstddef>
 #include <stdlib.h>
 #include <thread>
 
@@ -45,6 +47,7 @@
 #endif
 
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 #include <QMessageBox>
 #include <QThread>
 #include <QTimer>
@@ -60,6 +63,9 @@
 #include <PostProcess.h>
 #include <RawFile.h>
 #include <Database.h>
+#include <processing/WriteRawFrame.h>
+#include <processing/BackgroundProcess.h>
+#include <Rois.h>
 
 #define DATA_DIR "data"
 
@@ -190,6 +196,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
     //fps, duration update
+    m_savedDuration = m_config->duration;
     connect(this, &MainWindow::sig_set_fps_duration, this, [this](int maxfps, int fps, int duration) {
         ui.frameRateEdit->setMaximum(maxfps);
         ui.frameRateEdit->setValue((m_config->fps <= maxfps) ? m_config->fps : maxfps);
@@ -507,6 +514,7 @@ void MainWindow::updateInputs() {
     ui.advancedSetupBtn->setEnabled(testMask(AdvancedSetupMask));
     ui.settingsBtn->setEnabled(testMask(SettingsMask));
     ui.stageNavigationBtn->setEnabled(testMask(StageNavigationMask) && !m_stageControl->isVisible());
+    ui.disableBackgroundRecording->setEnabled(testMask(DisableBackgroundRecordingMask));
 
     if (!testMask(StageNavigationMask)) {
         emit m_stageControl->sig_stage_disable_all();
@@ -619,6 +627,34 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
 }
 
+bool MainWindow::startBackgroundRecording() {
+    if (m_plateFormatCurrentIndex == -1) {
+        QMessageBox messageBox;
+        messageBox.setWindowTitle("Warning!");
+        messageBox.setText("Plate format must be selected to run run backround recording.");
+        messageBox.setIcon(QMessageBox::NoIcon);
+        messageBox.addButton(QMessageBox::Ok);
+
+        messageBox.exec();
+        spdlog::info("Background recording canceled because no platemap was selected.");
+        return false;
+    }
+
+    spdlog::info("Starting background recording");
+    m_backgroundRecordingThread = QThread::create(MainWindow::backgroundRecordingThread, this);
+
+    connect(m_backgroundRecordingThread, &QThread::finished, m_backgroundRecordingThread, [this]() {
+        &QThread::quit;
+        delete m_backgroundRecordingThread;
+        m_backgroundRecordingThread = nullptr;
+    });
+
+    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
+    m_backgroundRecordingThread->start();
+
+    return true;
+}
+
 bool MainWindow::startAcquisition() {
     if (m_plateFormatCurrentIndex == -1) {
         QMessageBox messageBox;
@@ -641,7 +677,11 @@ bool MainWindow::startAcquisition() {
 
     spdlog::info("Starting acquisition");
 
-    m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    if (ui.dataTypeList->currentText().toStdString() == "Background Recording") {
+        m_acquisitionThread = QThread::create(MainWindow::backgroundRecordingThread, this);
+    } else {
+        m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    }
 
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
         &QThread::quit;
@@ -649,11 +689,12 @@ bool MainWindow::startAcquisition() {
         m_acquisitionThread = nullptr;
     });
 
+    m_userCanceled = false;
+    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
+
+    ui.startAcquisitionBtn->setText("Stop Acquisition");
     m_acquisitionThread->start();
 
-    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
-    ui.startAcquisitionBtn->setText("Stop Acquisition");
-    m_userCanceled = false;
     return true;
 }
 
@@ -692,7 +733,13 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
     disableMask(StageNavigationMask);
 
     m_userCanceled = false;
-    m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+
+    if (ui.dataTypeList->currentText().toStdString() == "Background Recording") {
+        m_acquisitionThread = QThread::create(MainWindow::backgroundRecordingThread, this);
+    } else {
+        m_acquisitionThread = QThread::create(MainWindow::acquisitionThread, this);
+    }
+
     connect(m_acquisitionThread, &QThread::finished, m_acquisitionThread, [this]() {
         &QThread::quit;
         delete m_acquisitionThread;
@@ -837,8 +884,8 @@ void MainWindow::on_levelsSlider_valueChanged(int value) {
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
     if (value * m_config->duration < 1.0) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.durationEdit->setStyleSheet("background-color: red");
+        //ui.frameRateEdit->setStyleSheet("background-color: red");
+        //ui.durationEdit->setStyleSheet("background-color: red");
     } else {
         checkFrameRate(value);
 
@@ -863,11 +910,34 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
 
 void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
     if (text.toStdString() == "Background Recording") {
-        ui.disableBackgroundRecording->setEnabled(false);
+        //disable use background recording checkbox
+        disableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
+
+        if (m_config->plateId == "") {
+            disableMask(StartAcquisitionMask);
+        }
+
+        //save current duration sao it can be set back when data type is changed
+        m_savedDuration = m_config->duration;
+        ui.durationEdit->setValue(1.0);
+        ui.durationEdit->setEnabled(false);
+
         ui.disableBackgroundRecording->setChecked(false);
+
+        m_config->recordingType = RecordingType::Background;
     } else {
-        ui.disableBackgroundRecording->setEnabled(true);
+        enableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask | StartAcquisitionMask);
+
+        m_config->duration = m_savedDuration;
+        ui.durationEdit->setValue(m_config->duration);
+        ui.durationEdit->setEnabled(true);
+
+        ui.disableBackgroundRecording->setChecked(false);
+
+        m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
+
+    updateInputs();
 }
 
 void MainWindow::on_plateFormatDropDown_activated(int index) {
@@ -927,31 +997,52 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
     availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
 }
 
+void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
+    m_config->plateId = plateId.toStdString();
+
+    if (m_config->recordingType == RecordingType::Background) {
+        if (m_config->plateId != "" ) {
+            enableMask(StartAcquisitionMask);
+        } else {
+            disableMask(StartAcquisitionMask);
+        }
+    }
+}
+
+void MainWindow::on_plateIdEdit_editingFinished() {
+    spdlog::info("Set plateId: {}", m_config->plateId);
+}
+
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
-    // TODO implement this
+    m_config->useBackgroundSubtraction = (state == 0) ? true : false;
 }
 
 void MainWindow::updatePlateIdList() {
-    auto plateIds = m_db->getPlateIds();
     QStringList newList;
+    auto plateIds = m_db->getPlateIds();
+
     for (auto pid : plateIds) {
         newList << QString::fromStdString(pid);
     }
+
     QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
     model->setStringList(newList);
 }
 
 void MainWindow::saveBackgroundRecordingMetadata() {
     std::string plateFormat = ui.plateFormatDropDown->currentText().toStdString();
+
     if (plateFormat != "") {
-        auto plateId = ui.plateIdEdit->text().toStdString();
+        m_config->plateId = ui.plateIdEdit->text().toStdString();
         QStringListModel* model = (QStringListModel*)(ui.plateIdEdit->completer()->model());
-        if (model->stringList().contains(QString::fromStdString(plateId))) {
-            m_db->overwritePlateId(plateId, plateFormat);
+
+        if (model->stringList().contains(QString::fromStdString(m_config->plateId))) {
+            m_db->overwritePlateId(m_config->plateId, plateFormat);
         } else {
-            std::string filePath = (m_config->backgroundRecordingDir / plateId).string();
-            m_db->addPlateId(plateId, plateFormat, filePath);
+            std::string filePath = (m_config->backgroundRecordingDir / m_config->plateId).string();
+            m_db->addPlateId(m_config->plateId, plateFormat, filePath);
         }
+
         // update list after updating DB
         updatePlateIdList();
     }
@@ -1037,9 +1128,11 @@ void MainWindow::checkFrameRate(double value) {
         spdlog::error("Frame rate is set to <= 1Hz");
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
+        ui.frameRateEdit->update();
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
         ui.frameRateEdit->setToolTip("");
+        ui.frameRateEdit->update();
     }
 }
 
@@ -1236,73 +1329,19 @@ void MainWindow::updateLiveView() noexcept {
  */
 void MainWindow::postProcess() {
     if (!m_userCanceled) {
-        spdlog::info("Writing settings file to {}\\settings.toml", m_expSettings.acquisitionDir.string());
-        //TODO add settingsPath to m_config
-        std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-        std::ofstream outfile(settingsPath.string()); // create output file stream
-
         std::vector<toml::value> stagePos;
         std::vector<bool> tileEnabled;
+
         for (auto& loc : m_stageControl->GetPositions()) {
             stagePos.push_back(toml::value{{"x", loc->x}, {"y", loc->y}});
             tileEnabled.push_back(!loc->skipped);
         }
 
-        //need this here even if auto tile is disabled
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
         std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
 
-
-        //output capture settings
-        const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
-            { "instrument_name", "Nautilai" },
-            { "software_version", m_config->version },
-            { "recording_date", m_recordingDateFmt },
-            { "led_intensity", m_config->ledIntensity },
-            { "auto_contrast_brightness", !m_config->noAutoConBright },
-            { "fps", m_config->fps },
-            { "duration", m_config->duration },
-            { "num_frames", m_expSettings.frameCount },
-            { "scale_factor", m_config->rgn.sbin }, //TODO not sure if this is right?
-            { "bit_depth", m_camInfo.spdTable[m_config->spdtable].bitDepth },
-            { "vflip", m_config->vflip },
-            { "hflip", m_config->hflip },
-            { "auto_tile", m_config->autoTile },
-            { "width", m_width },
-            { "height", m_height },
-            { "num_horizontal_pixels", m_config->cols * m_width },
-            { "num_vertical_pixels", m_config->rows * m_height },
-            { "rows", m_config->rows },
-            { "cols", m_config->cols },
-            { "xy_pixel_size", m_config->xyPixelSize },
-            { "data_type", ui.dataTypeList->currentText().toStdString() }
-        };
-        outfile << std::setw(100) << settings << std::endl;
-
-        if (m_config->enableDownsampleRawFiles) {
-            const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
-                { "additional_bin_factor", m_config->binFactor },
-                { "keep_original", m_config->keepOriginalRaw },
-                { "downsampled_input_path", (m_expSettings.acquisitionDir / rawFileDownsampled).string() },
-            };
-
-            outfile << std::setw(100) << binSettings << std::endl;
-        }
-
-        const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths{
-            { "output_dir_path", m_expSettings.acquisitionDir.string() },
-            { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
-        };
-
-        outfile << std::setw(300) << paths << std::endl;
-
-        //output platemap format
-        if (m_config->plateFormat != "") {
-            auto platemapFormat = toml::parse(m_config->plateFormat);
-            outfile << std::setw(100) << platemapFormat << std::endl;
-        }
-
-        outfile.close();
+        spdlog::info("Writing settings file to {}\\settings.toml", m_expSettings.acquisitionDir.string());
+        writeSettingsFile(m_expSettings.acquisitionDir);
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
@@ -1372,6 +1411,7 @@ void MainWindow::postProcess() {
 // handle acquisition done signal from thread finished slot
 void MainWindow::acquisitionThread(MainWindow* cls) {
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
+    auto processFrame = [](FrameCtx* frameCtx, pm::Frame* frame) { processing::writeRawFrame(frameCtx, frame); };
 
     double voltage = (cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage;
     cls->ledON(voltage);
@@ -1435,7 +1475,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         cls->m_camera->UpdateExp(cls->m_expSettings);
 
         emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
-        cls->m_acquisition->StartAcquisition(progressCB);
+        cls->m_acquisition->StartAcquisition(progressCB, processFrame);
 
         if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
             cls->m_acquisition->StartLiveView();
@@ -1468,6 +1508,246 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     spdlog::info("Acquisition Thread Stopped");
 }
 
+
+// handle acquisition done signal from thread finished slot
+void MainWindow::backgroundRecordingThread(MainWindow* cls) {
+    if (cls->m_config->plateFormat == "") {
+        spdlog::error("Platemap format is not set");
+        return;
+    }
+    auto platemapFormat = toml::parse(cls->m_config->plateFormat);
+
+    RoiCfg roiCfg;
+    try {
+        roiCfg.well_spacing = toml::find<uint32_t>(platemapFormat, "stage", "well_spacing");
+        roiCfg.xy_pixel_size = cls->m_config->xyPixelSize;
+        roiCfg.scale = cls->m_config->rgn.sbin;
+        roiCfg.rows = toml::find<uint32_t>(platemapFormat, "stage", "num_wells_v");
+        roiCfg.cols = toml::find<uint32_t>(platemapFormat, "stage", "num_wells_h");
+        roiCfg.width = toml::find<uint32_t>(platemapFormat, "stage", "roi_size_x");
+        roiCfg.height = toml::find<uint32_t>(platemapFormat, "stage", "roi_size_y");
+    } catch(const std::exception &e) {
+        spdlog::error("Failed to load platemap format values, {}", e.what());
+        return;
+    }
+
+    //progress bar callback
+    auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
+
+    std::vector<size_t> rois = roiOffsets(&roiCfg, cls->m_width, cls->m_height);
+    std::vector<uint32_t> avgs(rois.size(), 0);
+
+    //TODO parameterize intensity count
+    std::vector<uint32_t> *wellAvgs[3];
+
+    for (auto &v : wellAvgs) {
+        v = new std::vector<uint32_t>[rois.size() * cls->m_config->rows * cls->m_config->cols];
+    }
+
+
+    //Fall back to unvectorized version if we don't know about the roi size for a platemap
+    //otherwise use the specialized version
+    auto roiFn = processing::roiAvgGeneric;
+    if (roiCfg.width / roiCfg.scale == 16 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<16, 16>; }
+    else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<32, 32>; }
+    else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<64, 64>; }
+    else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<32, 16>; }
+    else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<64, 32>; }
+    else if (roiCfg.width / roiCfg.scale == 128 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<128, 64>; }
+    else if (roiCfg.width / roiCfg.scale == 256 && roiCfg.height / roiCfg.scale == 128) { roiFn = processing::roiAvg<256, 128>; }
+
+    //process frame callback
+    auto processFrame = [&](size_t intensityIdx, size_t fovIdx) {
+        auto plateCols = cls->m_config->cols;
+        auto plateRows = cls->m_config->rows;
+        auto wellsPerRow = roiCfg.cols * plateCols;
+
+        return [&, wellsPerRow, intensityIdx, fovIdx, plateCols, plateRows](FrameCtx* frameCtx, pm::Frame* frame) {
+            for (auto const& [roiIdx, roiOffset] : rois | std::views::enumerate) {
+                roiFn(&roiCfg, (uint16_t*)(frame->GetData()) + roiOffset, frameCtx->width, &avgs[roiIdx]);
+            }
+
+            for (auto r = 0; r < roiCfg.rows; r++) {
+                for (auto c = 0; c < roiCfg.cols; c++) {
+                    auto idx = c + (fovIdx % plateCols) * roiCfg.cols + \
+                               (r * roiCfg.cols * plateCols) + \
+                               (int(fovIdx / plateCols) * roiCfg.cols * plateCols * roiCfg.rows);
+
+                    wellAvgs[intensityIdx][idx].push_back(avgs[c + r*c]);
+                }
+            }
+        };
+    };
+
+    std::vector<double> ledIntensities = {
+        cls->m_config->ledIntensity,
+        0.5 * cls->m_config->ledIntensity,
+        0.25 * cls->m_config->ledIntensity,
+    };
+
+    cls->ledON((cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage);
+    cls->m_needsPostProcessing = false;
+
+    spdlog::info("Starting background recording thread");
+    cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
+
+    // only need 1 sec of data for background recordings
+    cls->m_expSettings.frameCount = cls->m_config->fps;
+
+    for (auto [fovIdx, loc] : cls->m_stageControl->GetPositions() | std::views::enumerate) {
+        emit cls->sig_disable_ui_moving_stage();
+        emit cls->sig_set_platemap(fovIdx+1);
+
+        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+
+        cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
+        emit cls->sig_enable_ui_moving_stage();
+
+        if (!cls->m_acquisition) {
+            cls->m_acquisition = std::make_unique<pmAcquisition>(cls->m_camera);
+        }
+
+        cls->m_acquisition->StopAll();
+        cls->m_acquisition->WaitForStop();
+
+        cls->m_expSettings.trigMode = cls->m_config->triggerMode;
+        cls->m_camera->UpdateExp(cls->m_expSettings);
+
+        for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
+            auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
+
+            cls->ledON((intensity / 100.0) * cls->m_config->maxVoltage);
+            cls->m_acquisition->StartAcquisition(progressCB, frameFn);
+
+            if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
+                cls->m_acquisition->StartLiveView();
+            }
+
+            cls->m_acquisition->WaitForAcquisition();
+            std::fill(avgs.begin(), avgs.end(), 0);
+        }
+        spdlog::info("Background Recording for location x: {}, y: {} finished", loc->x, loc->y);
+    }
+
+    std::vector<double> wellAverageIntensity[3];
+
+    for (auto i = 0; i < ledIntensities.size(); i++) {
+        for (auto w = 0; w < rois.size() * cls->m_config->rows * cls->m_config->cols; w++) {
+
+            //drop first and last 0.1 seconds of data and average each well per led intensity
+            auto n = 0.1 * wellAvgs[i][w].size();
+            wellAvgs[i][w].erase(wellAvgs[i][w].begin(), wellAvgs[i][w].begin() + n);
+            wellAvgs[i][w].resize(wellAvgs[i][w].size() - n);
+
+            //avgerage intensity for well
+            double wavg = std::reduce(wellAvgs[i][w].begin(), wellAvgs[i][w].end(), 0.0) / wellAvgs[i][w].size();
+            wellAverageIntensity[i].push_back(wavg);
+        }
+    }
+
+    if (cls->m_config->plateId != "") {
+        std::ofstream backgroundFile;
+
+        // get local timestamp to add to subdir name
+        auto now = std::chrono::system_clock::now();
+        auto timestamp = std::chrono::system_clock::to_time_t(now);
+        std::tm *tm = std::localtime(&timestamp);
+
+        // make subdirectory to write to
+        std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
+        std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
+        std::string bgname = cls->m_config->plateId + "_" + std::string(cls->m_startAcquisitionTS) + ".tsv";
+
+        std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
+        spdlog::info("Writing background recording to {}", dir.string());
+
+        if (!std::filesystem::exists(dir)) {
+            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir);
+            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir / cls->m_config->plateId);
+        }
+
+        backgroundFile.open(dir.string());
+        backgroundFile << "Well\t" << "Background Fluorescence, 100% LED Intensity (AU)\t"
+                       << "Background Fluorescence, 50% LED Intensity (AU)\t"
+                       << "Background Fluorescence, 25% LED Intensity (AU)"
+                       << std::endl;
+
+        if (!cls->m_config->vflip && !cls->m_config->hflip) {
+            for (int32_t c = 0; c < cls->m_config->cols * roiCfg.cols; c++) {
+                for (int32_t r = 0; r < cls->m_config->rows * roiCfg.rows; r++) {
+                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
+                    backgroundFile << fmt::format("{}\t", wellName(r, c));
+
+                    std::vector<double> row;
+                    for (auto i = 0; i < ledIntensities.size(); i++) {
+                        row.push_back(wellAverageIntensity[i][idx]);
+                    }
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
+                }
+            }
+        } else if (cls->m_config->vflip && !cls->m_config->hflip) {
+            for (int32_t c = 0; c < cls->m_config->cols * roiCfg.cols; c++) {
+                int32_t rowIdx = 0;
+                for (int32_t r = cls->m_config->rows * roiCfg.rows - 1; r >= 0; r--) {
+                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
+                    backgroundFile << fmt::format("{}\t", wellName(rowIdx++, c));
+
+                    std::vector<double> row;
+                    for (auto i = 0; i < ledIntensities.size(); i++) {
+                        row.push_back(wellAverageIntensity[i][idx]);
+                    }
+                    backgroundFile << fmt::format("{}\t", fmt::join(row, "\t")) << std::endl;
+                }
+            }
+        } else if (!cls->m_config->vflip && cls->m_config->hflip) {
+            int32_t colIdx = 0;
+            for (int32_t c = cls->m_config->cols * roiCfg.cols - 1; c >= 0; c--) {
+                for (int32_t r = 0; r < cls->m_config->rows * roiCfg.rows; r++) {
+                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
+                    backgroundFile << fmt::format("{}\t", wellName(r,colIdx++));
+
+                    std::vector<double> row;
+                    for (auto i = 0; i < ledIntensities.size(); i++) {
+                        row.push_back(wellAverageIntensity[i][idx]);
+                    }
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
+                }
+            }
+        } else { //vflip && hflip
+            for (int32_t c = cls->m_config->cols * roiCfg.cols - 1; c >= 0; c--) {
+                int32_t colIdx = 0;
+                for (int32_t r = cls->m_config->rows * roiCfg.rows - 1; r >= 0; r--) {
+                    int32_t rowIdx = 0;
+                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
+                    backgroundFile << fmt::format("{}\t", wellName(rowIdx++,colIdx++));
+
+                    std::vector<double> row;
+                    for (auto i = 0; i < ledIntensities.size(); i++) {
+                        row.push_back(wellAverageIntensity[i][idx]);
+                    }
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
+                }
+            }
+        }
+
+        backgroundFile.close();
+        cls->writeSettingsFile(cls->m_config->backgroundRecordingDir / cls->m_config->plateId);
+    }
+
+    for (auto& v : wellAvgs) { delete[] v; }
+
+    cls->saveBackgroundRecordingMetadata();
+
+    //write settings file
+    spdlog::info("Writing settings file to {}\\{}\\settings.toml", cls->m_config->backgroundRecordingDir.string(), cls->m_config->plateId);
+
+    emit cls->sig_set_platemap(0);
+    emit cls->sig_update_state(AcquisitionDone);
+
+    spdlog::info("Background Recording Thread Stopped");
+}
+
+
 void MainWindow::sendManualTrigger() {
     spdlog::info("User is sending manual trigger");
     uint8_t on_lines[8] = {1,1,1,1,1,1,1,1};
@@ -1484,6 +1764,70 @@ void MainWindow::sendManualTrigger() {
         spdlog::error("Failed to send manual trigger");
         m_DAQmx.StopTask(m_trigTaskDO);
     }
+}
+
+void MainWindow::writeSettingsFile(std::filesystem::path fp) {
+    spdlog::info("Writing settings file to {}\\settings.toml", fp.string());
+    std::ofstream outfile((fp / "settings.toml").string()); // create output file stream
+
+    //need this here even if auto tile is disabled
+    std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
+    std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
+
+
+    //output capture settings
+    const toml::basic_value<toml::preserve_comments, tsl::ordered_map> settings{
+        { "instrument_name", "Nautilai" },
+        { "software_version", m_config->version },
+        { "recording_date", m_recordingDateFmt },
+        { "led_intensity", m_config->ledIntensity },
+        { "auto_contrast_brightness", !m_config->noAutoConBright },
+        { "fps", m_config->fps },
+        { "duration", m_config->duration },
+        { "num_frames", m_expSettings.frameCount },
+        { "scale_factor", m_config->rgn.sbin }, //TODO not sure if this is right?
+        { "bit_depth", m_camInfo.spdTable[m_config->spdtable].bitDepth },
+        { "vflip", m_config->vflip },
+        { "hflip", m_config->hflip },
+        { "auto_tile", m_config->autoTile },
+        { "width", m_width },
+        { "height", m_height },
+        { "num_horizontal_pixels", m_config->cols * m_width },
+        { "num_vertical_pixels", m_config->rows * m_height },
+        { "rows", m_config->rows },
+        { "cols", m_config->cols },
+        { "xy_pixel_size", m_config->xyPixelSize },
+        { "data_type", ui.dataTypeList->currentText().toStdString() },
+        { "plate_id", m_config->plateId },
+        { "use_background_subtraction", !m_config->useBackgroundSubtraction }
+    };
+    outfile << std::setw(100) << settings << std::endl;
+
+    if (m_config->enableDownsampleRawFiles) {
+        const toml::basic_value<toml::preserve_comments, tsl::ordered_map> binSettings{
+            { "additional_bin_factor", m_config->binFactor },
+            { "keep_original", m_config->keepOriginalRaw },
+            { "downsampled_input_path", (m_expSettings.acquisitionDir / rawFileDownsampled).string() },
+        };
+
+        outfile << std::setw(100) << binSettings << std::endl;
+    }
+
+    const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths {
+        { "output_dir_path", m_expSettings.acquisitionDir.string() },
+        { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
+        { "background_recording_dir", m_config->backgroundRecordingDir.string() }
+    };
+
+    outfile << std::setw(300) << paths << std::endl;
+
+    //output platemap format
+    if (m_config->plateFormat != "") {
+        auto platemapFormat = toml::parse(m_config->plateFormat);
+        outfile << std::setw(100) << platemapFormat << std::endl;
+    }
+
+    outfile.close();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

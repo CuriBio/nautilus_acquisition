@@ -48,6 +48,14 @@ enum AcquisitionState {
     AcqIdle,
 };
 
+/*
+ * @brief Recording Type
+ */
+enum class RecordingType {
+    Calcium,
+    Voltage,
+    Background,
+};
 
 /*
 * Defines acquisition concept, any class that needs to fulfill this interface must
@@ -59,8 +67,8 @@ enum AcquisitionState {
 * @tparam Cfg Color config type.
 */
 template<typename T, typename F, template<typename C> typename Color, typename Cfg>
-concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB) {
-    { c.StartAcquisition(progressCB, double(), cctx) } -> std::same_as<void>;
+concept AcquisitionConcept = FrameConcept<F> and ColorConfigConcept<Color<Cfg>> and requires(T c, F* pframe, const Color<Cfg>* cctx, std::function<void(size_t)> progressCB, std::function<void(FrameCtx*, F*)> processFn) {
+    { c.StartAcquisition(progressCB, processFn) } -> std::same_as<void>;
     { c.StartLiveView() } -> std::same_as<void>;
     { c.StopAll() } -> std::same_as<void>;
     { c.StopCapture() } -> std::same_as<void>;
