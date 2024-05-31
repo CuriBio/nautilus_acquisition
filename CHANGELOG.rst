@@ -2,6 +2,15 @@ Changelog for Nautilai
 ======================
 
 
+0.1.44 (unreleased)
+-------------------
+
+Changed:
+^^^^^^^^
+- Removed unused "File Type" drop down in save options
+
+
+
 0.1.43 (2024-05-17)
 -------------------
 
