@@ -61,7 +61,7 @@ class RoiCoords:
 
 @dataclass
 class BackgroundRecordingInfo:
-    data: pl.Dataframe
+    data: pl.DataFrame
     metadata: dict[str, Any]
 
 
