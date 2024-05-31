@@ -52,7 +52,7 @@
       <x>20</x>
       <y>40</y>
       <width>421</width>
-      <height>31</height>
+      <height>76</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -130,7 +130,7 @@
       <x>20</x>
       <y>30</y>
       <width>421</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -145,39 +145,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="filePrefix"></widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="fileTypeLabel">
-       <property name="text">
-        <string>File type:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="fileType">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="currentText">
-        <string>Tiff</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Tiff</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Tiff Stack</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>BigTiff</string>
-        </property>
-       </item>
-      </widget>
+      <widget class="QLineEdit" name="filePrefix"/>
      </item>
     </layout>
    </widget>
