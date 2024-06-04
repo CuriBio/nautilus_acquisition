@@ -9,6 +9,9 @@ Changed:
 ^^^^^^^^
 - Removed unused "File Type" drop down in save options
 
+Fixed:
+^^^^^^
+- Fix pyinstaller version
 
 
 0.1.43 (2024-05-17)
