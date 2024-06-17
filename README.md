@@ -8,6 +8,8 @@ The Nautilai installer by default will install the application and create a star
 
 ## Configuration
 
+### Configuration File
+
 On first run the application will create a new config file at `C:\Users\<your user>\AppData\Local\Nautilai\nautilai.toml` that contains the following settings.
 
 ```
@@ -57,9 +59,9 @@ sub_electron = 60.1
 com = "COM3"
 ```
 
-`[nautilai] settings`  
+`[nautilai] settings`
 `prefix` is the value used as a prefix for each saved image. For example, the final image name using the default value will be as follows
-`default_N_XXX.tiff`  
+`default_N_XXX.tiff`
 where `N` is a 1-based index of the stage position and `XXX` is the frame number
 
 `auto_contrast_brightness` Controls if auto contrast/brightness is applied to the live view image. This does not affect the image that is saved to disk.
@@ -70,7 +72,7 @@ where `N` is a 1-based index of the stage position and `XXX` is the frame number
 
 `max_voltage` The max voltage allowed for the analog output channel.
 
-`[device.photometrics] settings`  
+`[device.photometrics] settings`
 `trigger_mode` The camera trigger mode is an enum value for the following modes.
 
 ```
@@ -102,23 +104,40 @@ Refer to the PVCAM documentation for an explanation of each mode.
 
 `speed_table_index` The index of the camera speed table to use. This value is dependent on the camera. The speed table is logged as output when running the application, if you need to change this value refer to the output and select one of the speed table entries and restart.
 
-`[device.tango] settings`  
+`[device.tango] settings`
 `com` The COM port for the connected stage.
 
-`[acquisition] settings`  
+`[acquisition] settings`
 These are the default acquisition settings, all these values can be changed from the application itself, changing the values in the application does not change the default values in the config file.
 
-`[acquisition.region] settings`  
+`[acquisition.region] settings`
 This is the default region to capture, there is no interface in the UI to change these values.
 
-`s1` Serial register 1 value.  
-`p1` Parallel register 1 value.  
-`s2` Serial register 2 value.  
-`p2` Parallel register 2 value.  
-`sbin` Serial binning factor.  
+`s1` Serial register 1 value.
+`p1` Parallel register 1 value.
+`s2` Serial register 2 value.
+`p2` Parallel register 2 value.
+`sbin` Serial binning factor.
 `pbin` Parallel binning factor.
 
 Depending on the camera sensor the point (s1,p1) will either be the top left corner or the top right corner of the region. The point (s2, p2) will be the bottom right or bottom left respectfully. For more information about the coordinate model refer to the PVCAM documentation.
+
+### E Drive
+
+The simplest way to set up the E Drive without having another separate physical drive is to partition the existing disk.
+
+Windows 10 steps:
+- Open Start menu.
+- Search "Computer Management" and launch the app.
+- Locate and right-click the C volume, select "Shrink Volume"
+- Shrink the volume by however much you like, the resulting unallocated space on the disk will be used for the volume used for E Drive. If there is already sufficient unallocated space, skip this step.
+- Right-click the unallocated space on the disk, select "New Simple Volume". This will launch the wizard. Click Next to reach the first configuration option.
+- Select your preferred size for the new volume. Proceed to the next page.
+- Choose the "Assign the following drive letter" radio button and set the letter to "E" in the dropdown. Proceed to the next page.
+- Make sure "Format this volume with the following settings" is selected. Use all the default settings, but set the "Volume Label" option if you like. Proceed to the next page.
+- Review the settings, then click Finish.
+- You should now be able to use the E Drive.
+
 
 ## Running
 

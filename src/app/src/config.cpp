@@ -6,6 +6,13 @@
 #include "config.h"
 #include <pm/Camera.h>
 
+std::filesystem::path enableLongPath(std::filesystem::path path) {
+#ifdef _WIN32
+    path = "\\\\?\\" + path.string();
+#endif
+    return path.make_preferred();
+}
+
 Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs) {
     toml::value config;
 

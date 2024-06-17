@@ -187,8 +187,8 @@ int main(int argc, char* argv[]) {
 
         ExpSettings m_expSettings {
             .acqMode = AcqMode::LiveCircBuffer,
-            .workingDir = "\\\\?\\" + config->path.string(),
-            .acquisitionDir = "\\\\?\\" + config->path.string(),
+            .workingDir = enableLongPath(config->path),
+            .acquisitionDir = enableLongPath(config->path),
             .filePrefix = config->prefix,
             .region = {
                 .s1 = uns16(config->rgn.s1), .s2 = uns16(config->rgn.s2), .sbin = config->rgn.sbin,
