@@ -1,6 +1,13 @@
 Changelog for Nautilai
 ======================
 
+0.1.45 (unreleased)
+-------------------
+
+Fixed:
+^^^^^^
+- Acquisition failing to run after changing recording location in Save Options
+
 
 0.1.44 (2024-06-04)
 -------------------

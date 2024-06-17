@@ -12,6 +12,9 @@
 #include <interfaces/CameraInterface.h>
 #include <interfaces/AcquisitionInterface.h>
 
+
+std::filesystem::path enableLongPath(std::filesystem::path path);
+
 class Config {
     public:
         //nautilai options

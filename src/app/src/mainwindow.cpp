@@ -330,8 +330,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
 
-    m_expSettings.workingDir = "\\\\?\\" + m_config->path.string();
-    m_expSettings.acquisitionDir = "\\\\?\\" + m_config->path.string();
+    m_expSettings.workingDir = enableLongPath(m_config->path);
+    m_expSettings.acquisitionDir = enableLongPath(m_config->path);
     m_expSettings.filePrefix = m_config->prefix;
     m_expSettings.spdTableIdx = m_config->spdtable;
     m_expSettings.expTimeMS = m_config->expTimeMs,
@@ -1060,8 +1060,8 @@ void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix)
     m_config->path = path;
     m_config->prefix = prefix;
 
-    m_expSettings.workingDir = "\\\\?\\" + m_config->path.string();
-    m_expSettings.acquisitionDir = "\\\\?\\" + m_config->path.string();
+    m_expSettings.workingDir = enableLongPath(m_config->path);
+    m_expSettings.acquisitionDir = enableLongPath(m_config->path);
     m_expSettings.filePrefix = m_config->prefix;
     m_camera->UpdateExp(m_expSettings);
 }
@@ -1433,9 +1433,9 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
     if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
+        spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
         std::filesystem::create_directories(cls->m_expSettings.acquisitionDir);
         std::filesystem::create_directories(cls->m_expSettings.acquisitionDir / DATA_DIR);
-        spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
     }
 
     cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
