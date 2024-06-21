@@ -105,6 +105,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.setupUi(this);
     m_config = params;
 
+    //show error popup
+    connect(this, &MainWindow::sig_show_error, this, [this](std::string msg) {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error", msg.c_str());
+        messageBox.setFixedSize(500,200);
+        if (!m_config->ignoreErrors) { exit(1); }
+    });
+
+    if (!m_config->configError.empty()) {
+        return;
+    }
+
     //setup width/height and initial exposure settings
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
@@ -114,14 +126,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     ui.liveViewLayout->addWidget(m_liveView);
 
     connect(this, &MainWindow::sig_update_state, this, &MainWindow::updateState);
-
-    //show error popup
-    connect(this, &MainWindow::sig_show_error, this, [this](std::string msg) {
-        QMessageBox messageBox;
-        messageBox.critical(0,"Error", msg.c_str());
-        messageBox.setFixedSize(500,200);
-        if (!m_config->ignoreErrors) { exit(1); }
-    });
 
     connect(this, &MainWindow::sig_disable_ui_moving_stage, this, [this]() {
         disableMask(StartAcquisitionMask);
