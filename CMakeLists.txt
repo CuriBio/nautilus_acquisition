@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(NAUTILAI_VERSION 0.1.44)
+set(NAUTILAI_VERSION 0.1.45)
 
 project(nautilai LANGUAGES CXX C VERSION ${NAUTILAI_VERSION})
 set(PROJECT_BRIEF "Nautilai Acquisition")

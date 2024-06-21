@@ -25,16 +25,22 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());
         configFile = cfg.string();
+    } catch(const toml::syntax_error& e) {
+        configError = std::format("Syntax error in nautilai.toml: file {}", e.what());
+        spdlog::error(configError);
     } catch(const std::exception& e) {
-        spdlog::error("Failed to parse config file \"{}\"", e.what());
+        spdlog::error("Failed to read nautilai.toml: {}", e.what());
         configError = "Missing required nautilai.toml file";
     }
 
     try {
         machineVarsFilePath = std::filesystem::path("C:\\ProgramData\\Curi Bio\\Nautilai\\machine.toml");
         machineVars = toml::parse<toml::preserve_comments, tsl::ordered_map>(machineVarsFilePath.string());
+    } catch(const toml::syntax_error& e) {
+        configError = std::format("Syntax error in machine.toml file: {}", e.what());
+        spdlog::error(configError);
     } catch(const std::exception& e) {
-        spdlog::error("Failed to parse machine vars file \"{}\"", e.what());
+        spdlog::error("Failed to read machine.toml: {}", e.what());
         configError = "Missing required machine.toml file";
     }
 
@@ -242,11 +248,15 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
     } catch(const std::out_of_range& e) {
-        configError = std::format("Missing required config values {}", e.what());
-        spdlog::error("Missing required config values {}", configError);
+        configError = std::format("Missing required config value(s): {}", e.what());
+        spdlog::error(configError);
     } catch(const std::exception& e2) {
-       // exception occurs if machine or nautilai.toml files are missing
-       spdlog::error("Unable to parse config variables due to missing toml file(s), {}", e2.what());
+        if (configError.empty()) {
+            configError = std::format("Error parsing config variable: {}", e2.what());
+            spdlog::error(configError);
+        } else {
+            spdlog::error("Unable to parse config variables due to missing toml file(s): {}", e2.what());
+        }
     }
 
     //updates default to false, will get set when manifest is downloaded
