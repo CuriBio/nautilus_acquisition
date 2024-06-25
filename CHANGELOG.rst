@@ -8,6 +8,7 @@ Fixed:
 ^^^^^^
 - Acquisition failing to run after changing recording location in Save Options
 - Handling of errors related to nautilai.toml and machine.toml files
+- Turn off LEDs after each capture during background recording
 
 
 0.1.44 (2024-06-04)

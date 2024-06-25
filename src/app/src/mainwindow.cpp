@@ -1625,7 +1625,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
             auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
 
-            cls->ledON((intensity / 100.0) * cls->m_config->maxVoltage);
+            cls->ledON((intensity / 100.0) * cls->m_config->maxVoltage, true);
             cls->m_acquisition->StartAcquisition(progressCB, frameFn);
 
             if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
@@ -1633,6 +1633,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
             }
 
             cls->m_acquisition->WaitForAcquisition();
+            cls->ledOFF();
             std::fill(avgs.begin(), avgs.end(), 0);
         }
         spdlog::info("Background Recording for location x: {}, y: {} finished", loc->x, loc->y);
