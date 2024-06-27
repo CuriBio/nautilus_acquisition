@@ -268,10 +268,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_extVidEncoder.start(QString::fromStdString(encodingCmd));
     });
 
-    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Process started"); });
+    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Video encoding started"); });
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("Video encoding finished");
+        spdlog::info("Video encoding finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
         if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
             deleteOriginalRawFile();
         }
@@ -282,7 +282,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         if (++m_extEncodingRetries < 5) {
             double backoff = m_extRetryBackoffms * std::pow(m_extEncodingRetries, 2);
-            spdlog::error("External video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
+            spdlog::error("Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
 
             std::thread t([&] {
                 std::this_thread::sleep_for(std::chrono::duration<double>(backoff / 1000.0)); //in seconds
@@ -290,7 +290,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             });
             t.detach();
         } else {
-            spdlog::error("External video encoding failed: {}", err);
+            spdlog::error("Video encoding failed: {}", err);
             emit sig_start_analysis();
         }
     });
@@ -299,12 +299,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      * Start external analysis
      */
     connect(&m_extAnalysis, &QProcess::started, this, [this] {
-        spdlog::info("Process started");
+        spdlog::info("Analysis started");
         emit sig_progress_text("Running Analysis");
     });
 
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        spdlog::info("Analysis finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        spdlog::info("------------ Analysis logs ------------\n{}", m_extAnalysis.readAllStandardOutput().toStdString());
         m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
@@ -315,7 +316,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        spdlog::error("External analysis error: {}", err);
+        spdlog::error("Analysis error: {}", err);
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
@@ -327,9 +328,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(this, &MainWindow::sig_start_analysis, this, [&] {
         //run external analysis, probably want to start another progress bar/spinner
         std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-        spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+        spdlog::info("Starting analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
 
-        m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
+        m_extAnalysis.setProcessChannelMode(QProcess::SeparateChannels);
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
     });
 

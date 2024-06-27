@@ -4,6 +4,10 @@ Changelog for Nautilai
 0.1.45 (unreleased)
 -------------------
 
+Added:
+^^^^^^
+- Local Analysis logs are now captured in the controller's logs
+
 Fixed:
 ^^^^^^
 - Acquisition failing to run after changing recording location in Save Options
