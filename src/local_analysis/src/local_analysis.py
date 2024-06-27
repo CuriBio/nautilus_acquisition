@@ -23,15 +23,6 @@ import toml
 
 logger = logging.getLogger(__name__)
 
-
-logging.basicConfig(
-    format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
-    level=logging.INFO,
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-logger = logging.getLogger(__name__)
-
-
 def _get_well_row_name(row: int):
     well_name = chr(ord("A") + row % 26)
     if row >= 26:
@@ -102,8 +93,25 @@ class RawDataReader:
         return frame
 
 
+# have to subclass and override this method to gain control over what happens when there is an issue 
+# with the provided arguments
+class ArgParse(argparse.ArgumentParser):
+    def error(self, message):
+        logger.error(message)
+        sys.exit(2)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Extracts signals from a multi-well microscope experiment")
+    logging.basicConfig(
+        format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
+        level=logging.INFO,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        stream=sys.stdout
+    )
+
+    logger.info("Nautilai Local Analysis Starting")
+
+    parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
     parser.add_argument(
         "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
     )
@@ -494,6 +502,6 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
 if __name__ == "__main__":
     try:
         main()
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Local Analysis")
         sys.exit(1)
