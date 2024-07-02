@@ -366,6 +366,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         this
     );
 
+    connect(this, &AutoUpdate::sig_start_update, this, [&] {
+        emit sig_progress_start("Applying update", 0);
+        m_autoUpdate->applyUpdate();
+        emit sig_progress_done();
+
+        m_config->updateAvailable = false;
+
+        close();
+    });
+
 
     //live view timer signals
     m_liveViewTimer = new QTimer(this);
@@ -412,10 +422,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_text("Calibrating stage");
 
-    //check for update
-    m_autoUpdate->hasUpdate();
-    spdlog::info("Update available {}", m_config->updateAvailable);
-
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
@@ -426,6 +432,11 @@ void MainWindow::Initialize() {
             setupNIDevices(m_config->niDev, m_config->trigDev);
             m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
+
+        std::async(std::launch::async, [&] {
+            m_autoUpdate->hasUpdate();
+            spdlog::info("Update available {}", m_config->updateAvailable);
+        });
     } else {
         m_stageControl->Calibrate();
         emit sig_progress_done();
@@ -433,6 +444,10 @@ void MainWindow::Initialize() {
         //setup NI device
         setupNIDevices(m_config->niDev, m_config->trigDev);
         m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
+
+        //check for update
+        m_autoUpdate->hasUpdate();
+        spdlog::info("Update available {}", m_config->updateAvailable);
     }
 
     //for 8 bit image conversion for liveview, might not need it anymore
@@ -483,11 +498,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
-
-    if (m_config->updateAvailable) {
-        emit m_autoUpdate->sig_notify_update();
-        //m_autoUpdate->show();
-    }
 }
 
 void MainWindow::updateState(AppState state) {
@@ -1860,11 +1870,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
 
         if (m_config->updateAvailable) {
-            spdlog::info("Applying update");
-            emit sig_progress_start("Applying update", 0);
-            m_autoUpdate->applyUpdate();
-
-            emit sig_progress_done();
+            event->ignore();
+            m_autoUpdate->show();
         }
     }
 }

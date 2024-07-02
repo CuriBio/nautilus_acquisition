@@ -56,7 +56,6 @@ class AutoUpdate : public QDialog {
         std::filesystem::path m_updatePath{};
         std::shared_ptr<Config> m_config;
 
-        QProcess m_updateProcess;
         Ui::AutoUpdate *ui;
 
     public:
@@ -71,7 +70,6 @@ class AutoUpdate : public QDialog {
         bool downloadManifest();
 
     signals:
-        void sig_notify_update();
         void sig_start_update();
 
     private slots:
@@ -80,13 +78,15 @@ class AutoUpdate : public QDialog {
                 //TODO delete update files
                 spdlog::info("Update ignored, removing installer");
                 std::filesystem::remove_all(m_updatePath);
-
-                m_config->updateAvailable = false;
             }
             QDialog::close();
         }
         void on_acceptUpdate_clicked() {
             spdlog::info("Update accepted");
+
+            if (m_config && m_config->updateAvailable) {
+                emit sig_start_update();
+            }
             QDialog::close();
         }
 };

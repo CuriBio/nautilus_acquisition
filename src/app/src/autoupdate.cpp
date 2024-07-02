@@ -21,27 +21,6 @@ AutoUpdate::AutoUpdate(std::shared_ptr<Config> config, std::string origin, std::
     spdlog::info("Remove old updates");
     std::filesystem::remove_all(m_updatePath);
 
-    connect(this, &AutoUpdate::sig_notify_update, this, &AutoUpdate::show);
-    connect(&m_updateProcess, &QProcess::started, this, [this] {
-        spdlog::info("Update started");
-    });
-
-    connect(&m_updateProcess, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("Update finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
-    });
-
-    connect(&m_updateProcess, &QProcess::errorOccurred, this, [this](QProcess::ProcessError err) {
-        spdlog::error("Update error: {}", err);
-    });
-
-    connect(this, &AutoUpdate::sig_start_update, this, [&] {
-        std::string installer_path = (m_updatePath / m_file).string();
-        spdlog::info("Start update {}", installer_path);
-
-        QString installer = QString::fromStdString(installer_path);
-        m_updateProcess.start(installer);
-    });
-
     ui->setupUi(this);
     ui->current->setText(QString::fromStdString(std::format("You are currently using version {}.", m_config->version)));
 }
@@ -52,7 +31,6 @@ void AutoUpdate::show() {
 
 bool AutoUpdate::hasUpdate() {
     spdlog::info("Checking for update");
-    //QDialog::show();
     m_config->updateAvailable = downloadManifest();
     return m_config->updateAvailable;
 }
