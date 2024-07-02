@@ -66,18 +66,22 @@ class AutoUpdate : public QDialog {
         void applyUpdate();
         void show();
 
+    signals:
+        void sig_update_accepted();
+        void sig_update_ignored();
+
     private:
         bool downloadManifest();
 
-    signals:
-        void sig_start_update();
-
     private slots:
         void on_ignoreUpdate_clicked() {
+            spdlog::info("Update ignored");
             if (m_config && m_config->updateAvailable) {
                 //TODO delete update files
-                spdlog::info("Update ignored, removing installer");
+                spdlog::info("Removing installer");
                 std::filesystem::remove_all(m_updatePath);
+
+                emit sig_update_ignored();
             }
             QDialog::close();
         }
@@ -85,7 +89,7 @@ class AutoUpdate : public QDialog {
             spdlog::info("Update accepted");
 
             if (m_config && m_config->updateAvailable) {
-                emit sig_start_update();
+                emit sig_update_accepted();
             }
             QDialog::close();
         }

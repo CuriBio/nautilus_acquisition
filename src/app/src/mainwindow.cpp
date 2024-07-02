@@ -358,7 +358,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //initial autoupdate class
-    m_autoUpdate = std::make_unique<AutoUpdate>(
+    m_autoUpdate = new AutoUpdate(
         m_config,
         //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
         "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
@@ -366,13 +366,17 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         this
     );
 
-    connect(this, &AutoUpdate::sig_start_update, this, [&] {
+    connect(m_autoUpdate, &AutoUpdate::sig_update_accepted, this, [this] {
         emit sig_progress_start("Applying update", 0);
         m_autoUpdate->applyUpdate();
         emit sig_progress_done();
 
         m_config->updateAvailable = false;
+        close();
+    });
 
+    connect(m_autoUpdate, &AutoUpdate::sig_update_ignored, this, [this] {
+        m_config->updateAvailable = false;
         close();
     });
 
@@ -433,7 +437,7 @@ void MainWindow::Initialize() {
             m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
 
-        std::async(std::launch::async, [&] {
+        m_autoUpdateCheck = std::async(std::launch::async, [&] {
             m_autoUpdate->hasUpdate();
             spdlog::info("Update available {}", m_config->updateAvailable);
         });
@@ -1851,12 +1855,12 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    spdlog::info("Close event received");
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
+        spdlog::info("Ignoring close event as post processing is running");
         event->ignore();
     } else {
         m_userCanceled = true;
-
-        delete m_db;
 
         if (m_curState == LiveViewRunning) {
             stopLiveView();
@@ -1870,8 +1874,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
 
         if (m_config->updateAvailable) {
+            spdlog::info("Ignoring close event, prompting user to confirm/ignore update");
             event->ignore();
             m_autoUpdate->show();
+        } else if (m_db) {
+            delete m_db;
+            m_db = nullptr;
         }
     }
 }
