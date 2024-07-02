@@ -358,13 +358,27 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //initial autoupdate class
-    m_autoUpdate = std::make_unique<AutoUpdate>(
+    m_autoUpdate = new AutoUpdate(
         m_config,
         //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
         "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
         "prod",
         this
     );
+
+    connect(m_autoUpdate, &AutoUpdate::sig_update_accepted, this, [this] {
+        emit sig_progress_start("Applying update", 0);
+        m_autoUpdate->applyUpdate();
+        emit sig_progress_done();
+
+        m_config->updateAvailable = false;
+        close();
+    });
+
+    connect(m_autoUpdate, &AutoUpdate::sig_update_ignored, this, [this] {
+        m_config->updateAvailable = false;
+        close();
+    });
 
 
     //live view timer signals
@@ -412,10 +426,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_text("Calibrating stage");
 
-    //check for update
-    m_autoUpdate->hasUpdate();
-    spdlog::info("Update available {}", m_config->updateAvailable);
-
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
@@ -426,6 +436,11 @@ void MainWindow::Initialize() {
             setupNIDevices(m_config->niDev, m_config->trigDev);
             m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
+
+        m_autoUpdateCheck = std::async(std::launch::async, [&] {
+            m_autoUpdate->hasUpdate();
+            spdlog::info("Update available {}", m_config->updateAvailable);
+        });
     } else {
         m_stageControl->Calibrate();
         emit sig_progress_done();
@@ -433,6 +448,10 @@ void MainWindow::Initialize() {
         //setup NI device
         setupNIDevices(m_config->niDev, m_config->trigDev);
         m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
+
+        //check for update
+        m_autoUpdate->hasUpdate();
+        spdlog::info("Update available {}", m_config->updateAvailable);
     }
 
     //for 8 bit image conversion for liveview, might not need it anymore
@@ -483,11 +502,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
-
-    if (m_config->updateAvailable) {
-        emit m_autoUpdate->sig_notify_update();
-        //m_autoUpdate->show();
-    }
 }
 
 void MainWindow::updateState(AppState state) {
@@ -1841,12 +1855,12 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    spdlog::info("Close event received");
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
+        spdlog::info("Ignoring close event as post processing is running");
         event->ignore();
     } else {
         m_userCanceled = true;
-
-        delete m_db;
 
         if (m_curState == LiveViewRunning) {
             stopLiveView();
@@ -1860,11 +1874,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
 
         if (m_config->updateAvailable) {
-            spdlog::info("Applying update");
-            emit sig_progress_start("Applying update", 0);
-            m_autoUpdate->applyUpdate();
-
-            emit sig_progress_done();
+            spdlog::info("Ignoring close event, prompting user to confirm/ignore update");
+            event->ignore();
+            m_autoUpdate->show();
+        } else if (m_db) {
+            delete m_db;
+            m_db = nullptr;
         }
     }
 }
