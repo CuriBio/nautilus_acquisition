@@ -1590,10 +1590,10 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     // only need 1 sec of data for background recordings
     cls->m_expSettings.frameCount = cls->m_config->fps;
 
-    // TODO magic number
-    emit cls->sig_progress_start("Acquiring images", 6 * 3 * cls->m_expSettings.frameCount);
+    auto stagePositions = cls->m_stageControl->GetPositions();
+    emit cls->sig_progress_start("Acquiring images", stagePositions.size() * ledIntensities.size() * cls->m_expSettings.frameCount);
 
-    for (auto [fovIdx, loc] : cls->m_stageControl->GetPositions() | std::views::enumerate) {
+    for (auto [fovIdx, loc] : stagePositions | std::views::enumerate) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(fovIdx+1);
 
@@ -1725,7 +1725,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     std::vector<double> row;
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
-                    }
+
                     backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
