@@ -646,34 +646,6 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
 }
 
-bool MainWindow::startBackgroundRecording() {
-    if (m_plateFormatCurrentIndex == -1) {
-        QMessageBox messageBox;
-        messageBox.setWindowTitle("Warning!");
-        messageBox.setText("Plate format must be selected to run run backround recording.");
-        messageBox.setIcon(QMessageBox::NoIcon);
-        messageBox.addButton(QMessageBox::Ok);
-
-        messageBox.exec();
-        spdlog::info("Background recording canceled because no platemap was selected.");
-        return false;
-    }
-
-    spdlog::info("Starting background recording");
-    m_backgroundRecordingThread = QThread::create(MainWindow::backgroundRecordingThread, this);
-
-    connect(m_backgroundRecordingThread, &QThread::finished, m_backgroundRecordingThread, [this]() {
-        &QThread::quit;
-        delete m_backgroundRecordingThread;
-        m_backgroundRecordingThread = nullptr;
-    });
-
-    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
-    m_backgroundRecordingThread->start();
-
-    return true;
-}
-
 bool MainWindow::startAcquisition() {
     if (m_plateFormatCurrentIndex == -1) {
         QMessageBox messageBox;
@@ -1618,12 +1590,15 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     // only need 1 sec of data for background recordings
     cls->m_expSettings.frameCount = cls->m_config->fps;
 
+    // TODO magic number
+    emit cls->sig_progress_start("Acquiring images", 6 * 3 * cls->m_expSettings.frameCount);
+
     for (auto [fovIdx, loc] : cls->m_stageControl->GetPositions() | std::views::enumerate) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(fovIdx+1);
 
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
-
+        emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
         emit cls->sig_enable_ui_moving_stage();
 
@@ -1636,6 +1611,8 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
         cls->m_expSettings.trigMode = cls->m_config->triggerMode;
         cls->m_camera->UpdateExp(cls->m_expSettings);
+
+        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
 
         for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
             auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
