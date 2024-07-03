@@ -1725,6 +1725,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     std::vector<double> row;
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
+                    }
 
                     backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
