@@ -20,7 +20,7 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     userProfile = profile;
     backgroundRecordingDir = userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings";
     plateId = "";
-    useBackgroundSubtraction = false;
+    useBackgroundSubtraction = true;
 
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());

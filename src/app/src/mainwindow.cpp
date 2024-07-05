@@ -646,34 +646,6 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
 }
 
-bool MainWindow::startBackgroundRecording() {
-    if (m_plateFormatCurrentIndex == -1) {
-        QMessageBox messageBox;
-        messageBox.setWindowTitle("Warning!");
-        messageBox.setText("Plate format must be selected to run run backround recording.");
-        messageBox.setIcon(QMessageBox::NoIcon);
-        messageBox.addButton(QMessageBox::Ok);
-
-        messageBox.exec();
-        spdlog::info("Background recording canceled because no platemap was selected.");
-        return false;
-    }
-
-    spdlog::info("Starting background recording");
-    m_backgroundRecordingThread = QThread::create(MainWindow::backgroundRecordingThread, this);
-
-    connect(m_backgroundRecordingThread, &QThread::finished, m_backgroundRecordingThread, [this]() {
-        &QThread::quit;
-        delete m_backgroundRecordingThread;
-        m_backgroundRecordingThread = nullptr;
-    });
-
-    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
-    m_backgroundRecordingThread->start();
-
-    return true;
-}
-
 bool MainWindow::startAcquisition() {
     if (m_plateFormatCurrentIndex == -1) {
         QMessageBox messageBox;
@@ -1033,7 +1005,12 @@ void MainWindow::on_plateIdEdit_editingFinished() {
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
-    m_config->useBackgroundSubtraction = (state == 0) ? true : false;
+    m_config->useBackgroundSubtraction = state == 0;
+    if (m_config->useBackgroundSubtraction) {
+        spdlog::info("Background subtraction enabled");
+    } else {
+        spdlog::info("Background subtraction disabled");
+    }
 }
 
 void MainWindow::updatePlateIdList() {
@@ -1618,12 +1595,15 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     // only need 1 sec of data for background recordings
     cls->m_expSettings.frameCount = cls->m_config->fps;
 
-    for (auto [fovIdx, loc] : cls->m_stageControl->GetPositions() | std::views::enumerate) {
+    auto stagePositions = cls->m_stageControl->GetPositions();
+    emit cls->sig_progress_start("Acquiring images", stagePositions.size() * ledIntensities.size() * cls->m_expSettings.frameCount);
+
+    for (auto [fovIdx, loc] : stagePositions | std::views::enumerate) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(fovIdx+1);
 
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
-
+        emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
         emit cls->sig_enable_ui_moving_stage();
 
@@ -1636,6 +1616,8 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
         cls->m_expSettings.trigMode = cls->m_config->triggerMode;
         cls->m_camera->UpdateExp(cls->m_expSettings);
+
+        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
 
         for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
             auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
@@ -1680,7 +1662,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         // make subdirectory to write to
         std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
         std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-        std::string bgname = cls->m_config->plateId + "_" + std::string(cls->m_startAcquisitionTS) + ".tsv";
+        std::string bgname = cls->m_config->plateId + ".tsv";
 
         std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
         spdlog::info("Writing background recording to {}", dir.string());
@@ -1720,7 +1702,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
                     }
-                    backgroundFile << fmt::format("{}\t", fmt::join(row, "\t")) << std::endl;
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
         } else if (!cls->m_config->vflip && cls->m_config->hflip) {
@@ -1749,6 +1731,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
                     }
+
                     backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
@@ -1823,7 +1806,7 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
         { "xy_pixel_size", m_config->xyPixelSize },
         { "data_type", ui.dataTypeList->currentText().toStdString() },
         { "plate_id", m_config->plateId },
-        { "use_background_subtraction", !m_config->useBackgroundSubtraction }
+        { "use_background_subtraction", m_config->useBackgroundSubtraction }
     };
     outfile << std::setw(100) << settings << std::endl;
 
