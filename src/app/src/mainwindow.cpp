@@ -1005,7 +1005,12 @@ void MainWindow::on_plateIdEdit_editingFinished() {
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
-    m_config->useBackgroundSubtraction = (state == 0) ? true : false;
+    m_config->useBackgroundSubtraction = state == 0;
+    if (m_config->useBackgroundSubtraction) {
+        spdlog::info("Background subtraction enabled");
+    } else {
+        spdlog::info("Background subtraction disabled");
+    }
 }
 
 void MainWindow::updatePlateIdList() {
@@ -1657,7 +1662,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         // make subdirectory to write to
         std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
         std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-        std::string bgname = cls->m_config->plateId + "_" + std::string(cls->m_startAcquisitionTS) + ".tsv";
+        std::string bgname = cls->m_config->plateId + ".tsv";
 
         std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
         spdlog::info("Writing background recording to {}", dir.string());
@@ -1697,7 +1702,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
                     }
-                    backgroundFile << fmt::format("{}\t", fmt::join(row, "\t")) << std::endl;
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
         } else if (!cls->m_config->vflip && cls->m_config->hflip) {
@@ -1801,7 +1806,7 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
         { "xy_pixel_size", m_config->xyPixelSize },
         { "data_type", ui.dataTypeList->currentText().toStdString() },
         { "plate_id", m_config->plateId },
-        { "use_background_subtraction", !m_config->useBackgroundSubtraction }
+        { "use_background_subtraction", m_config->useBackgroundSubtraction }
     };
     outfile << std::setw(100) << settings << std::endl;
 
