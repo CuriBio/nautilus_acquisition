@@ -14,6 +14,7 @@ Fixed:
 - Handling of errors related to nautilai.toml and machine.toml files
 - Installer now works for multiple users
 - Update check now runs in background instead of blocking during stage calibration
+- Background subtraction now runs correctly in Local Analysis
 
 
 0.1.44 (2024-06-04)
