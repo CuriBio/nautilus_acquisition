@@ -7,6 +7,7 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - Local Analysis logs are now captured in the controller's logs
+- Progress bar is now shown during background recordings
 
 Fixed:
 ^^^^^^
