@@ -1,7 +1,6 @@
 # Configure version
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/banner.h)
 
-set(app_icon_resource_windows "${CMAKE_SOURCE_DIR}/resources/logo.png")
 # setting up sources
 add_executable(${PROJECT_NAME} WIN32
     ./src/main.cpp
@@ -13,6 +12,7 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/advancedsetupdialog.cpp
     ./src/config.cpp
     ./src/autoupdate.cpp
+    ${CMAKE_SOURCE_DIR}/resources/app.rc
     )
 
 target_include_directories(${PROJECT_NAME}
