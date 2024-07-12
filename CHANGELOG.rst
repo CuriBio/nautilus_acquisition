@@ -13,6 +13,7 @@ Fixed:
 ^^^^^^
 - Acquisition failing to run after changing recording location in Save Options
 - Handling of errors related to nautilai.toml and machine.toml files
+- Turn off LEDs after each capture during background recording
 - Installer now works for multiple users
 - Update check now runs in background instead of blocking during stage calibration
 - Background subtraction now runs correctly in Local Analysis
