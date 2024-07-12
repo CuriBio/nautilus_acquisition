@@ -268,10 +268,10 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         m_extVidEncoder.start(QString::fromStdString(encodingCmd));
     });
 
-    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Process started"); });
+    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Video encoding started"); });
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("Video encoding finished");
+        spdlog::info("Video encoding finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
         if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
             deleteOriginalRawFile();
         }
@@ -282,7 +282,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         if (++m_extEncodingRetries < 5) {
             double backoff = m_extRetryBackoffms * std::pow(m_extEncodingRetries, 2);
-            spdlog::error("External video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
+            spdlog::error("Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
 
             std::thread t([&] {
                 std::this_thread::sleep_for(std::chrono::duration<double>(backoff / 1000.0)); //in seconds
@@ -290,7 +290,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             });
             t.detach();
         } else {
-            spdlog::error("External video encoding failed: {}", err);
+            spdlog::error("Video encoding failed: {}", err);
             emit sig_start_analysis();
         }
     });
@@ -299,12 +299,13 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      * Start external analysis
      */
     connect(&m_extAnalysis, &QProcess::started, this, [this] {
-        spdlog::info("Process started");
+        spdlog::info("Analysis started");
         emit sig_progress_text("Running Analysis");
     });
 
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("External process finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        spdlog::info("Analysis finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        spdlog::info("------------ Analysis logs ------------\n{}", m_extAnalysis.readAllStandardOutput().toStdString());
         m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
@@ -315,7 +316,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        spdlog::error("External analysis error: {}", err);
+        spdlog::error("Analysis error: {}", err);
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
@@ -327,9 +328,9 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(this, &MainWindow::sig_start_analysis, this, [&] {
         //run external analysis, probably want to start another progress bar/spinner
         std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-        spdlog::info("Starting external analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+        spdlog::info("Starting analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
 
-        m_extAnalysis.setProcessChannelMode(QProcess::ForwardedChannels);
+        m_extAnalysis.setProcessChannelMode(QProcess::SeparateChannels);
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
     });
 
@@ -357,13 +358,27 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     spdlog::info("Image capture width: {}, height: {}", m_width, m_height);
 
     //initial autoupdate class
-    m_autoUpdate = std::make_unique<AutoUpdate>(
+    m_autoUpdate = new AutoUpdate(
         m_config,
         //need to use this instead of downloads.curibio.com b/c cloudfront caches files for 24 hours
         "https://s3.amazonaws.com/downloads.curibio.com/software/nautilai",
         "prod",
         this
     );
+
+    connect(m_autoUpdate, &AutoUpdate::sig_update_accepted, this, [this] {
+        emit sig_progress_start("Applying update", 0);
+        m_autoUpdate->applyUpdate();
+        emit sig_progress_done();
+
+        m_config->updateAvailable = false;
+        close();
+    });
+
+    connect(m_autoUpdate, &AutoUpdate::sig_update_ignored, this, [this] {
+        m_config->updateAvailable = false;
+        close();
+    });
 
 
     //live view timer signals
@@ -411,10 +426,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_text("Calibrating stage");
 
-    //check for update
-    m_autoUpdate->hasUpdate();
-    spdlog::info("Update available {}", m_config->updateAvailable);
-
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
@@ -425,6 +436,11 @@ void MainWindow::Initialize() {
             setupNIDevices(m_config->niDev, m_config->trigDev);
             m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
         });
+
+        m_autoUpdateCheck = std::async(std::launch::async, [&] {
+            m_autoUpdate->hasUpdate();
+            spdlog::info("Update available {}", m_config->updateAvailable);
+        });
     } else {
         m_stageControl->Calibrate();
         emit sig_progress_done();
@@ -432,6 +448,10 @@ void MainWindow::Initialize() {
         //setup NI device
         setupNIDevices(m_config->niDev, m_config->trigDev);
         m_advancedSetupDialog->Initialize(m_DAQmx.GetListOfDevices());
+
+        //check for update
+        m_autoUpdate->hasUpdate();
+        spdlog::info("Update available {}", m_config->updateAvailable);
     }
 
     //for 8 bit image conversion for liveview, might not need it anymore
@@ -482,11 +502,6 @@ void MainWindow::Initialize() {
 
     emit sig_progress_done();
     emit sig_update_state(Idle);
-
-    if (m_config->updateAvailable) {
-        emit m_autoUpdate->sig_notify_update();
-        //m_autoUpdate->show();
-    }
 }
 
 void MainWindow::updateState(AppState state) {
@@ -629,34 +644,6 @@ bool MainWindow::stopLiveView_PostProcessing() {
 
     return true;
 
-}
-
-bool MainWindow::startBackgroundRecording() {
-    if (m_plateFormatCurrentIndex == -1) {
-        QMessageBox messageBox;
-        messageBox.setWindowTitle("Warning!");
-        messageBox.setText("Plate format must be selected to run run backround recording.");
-        messageBox.setIcon(QMessageBox::NoIcon);
-        messageBox.addButton(QMessageBox::Ok);
-
-        messageBox.exec();
-        spdlog::info("Background recording canceled because no platemap was selected.");
-        return false;
-    }
-
-    spdlog::info("Starting background recording");
-    m_backgroundRecordingThread = QThread::create(MainWindow::backgroundRecordingThread, this);
-
-    connect(m_backgroundRecordingThread, &QThread::finished, m_backgroundRecordingThread, [this]() {
-        &QThread::quit;
-        delete m_backgroundRecordingThread;
-        m_backgroundRecordingThread = nullptr;
-    });
-
-    setMask((m_config->enableLiveViewDuringAcquisition ? LiveScanMask : 0) | StartAcquisitionMask | LedIntensityMask);
-    m_backgroundRecordingThread->start();
-
-    return true;
 }
 
 bool MainWindow::startAcquisition() {
@@ -1018,7 +1005,12 @@ void MainWindow::on_plateIdEdit_editingFinished() {
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
-    m_config->useBackgroundSubtraction = (state == 0) ? true : false;
+    m_config->useBackgroundSubtraction = state == 0;
+    if (m_config->useBackgroundSubtraction) {
+        spdlog::info("Background subtraction enabled");
+    } else {
+        spdlog::info("Background subtraction disabled");
+    }
 }
 
 void MainWindow::updatePlateIdList() {
@@ -1603,12 +1595,15 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     // only need 1 sec of data for background recordings
     cls->m_expSettings.frameCount = cls->m_config->fps;
 
-    for (auto [fovIdx, loc] : cls->m_stageControl->GetPositions() | std::views::enumerate) {
+    auto stagePositions = cls->m_stageControl->GetPositions();
+    emit cls->sig_progress_start("Acquiring images", stagePositions.size() * ledIntensities.size() * cls->m_expSettings.frameCount);
+
+    for (auto [fovIdx, loc] : stagePositions | std::views::enumerate) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(fovIdx+1);
 
         spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
-
+        emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
         emit cls->sig_enable_ui_moving_stage();
 
@@ -1621,6 +1616,8 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
         cls->m_expSettings.trigMode = cls->m_config->triggerMode;
         cls->m_camera->UpdateExp(cls->m_expSettings);
+
+        emit cls->sig_progress_text(fmt::format("Acquiring images for position ({}, {})", loc->x, loc->y));
 
         for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
             auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
@@ -1666,7 +1663,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         // make subdirectory to write to
         std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
         std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-        std::string bgname = cls->m_config->plateId + "_" + std::string(cls->m_startAcquisitionTS) + ".tsv";
+        std::string bgname = cls->m_config->plateId + ".tsv";
 
         std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
         spdlog::info("Writing background recording to {}", dir.string());
@@ -1706,7 +1703,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
                     }
-                    backgroundFile << fmt::format("{}\t", fmt::join(row, "\t")) << std::endl;
+                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
         } else if (!cls->m_config->vflip && cls->m_config->hflip) {
@@ -1735,6 +1732,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     for (auto i = 0; i < ledIntensities.size(); i++) {
                         row.push_back(wellAverageIntensity[i][idx]);
                     }
+
                     backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
                 }
             }
@@ -1809,7 +1807,7 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
         { "xy_pixel_size", m_config->xyPixelSize },
         { "data_type", ui.dataTypeList->currentText().toStdString() },
         { "plate_id", m_config->plateId },
-        { "use_background_subtraction", !m_config->useBackgroundSubtraction }
+        { "use_background_subtraction", m_config->useBackgroundSubtraction }
     };
     outfile << std::setw(100) << settings << std::endl;
 
@@ -1841,12 +1839,12 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+    spdlog::info("Close event received");
     if (m_curState == PostProcessing || m_curState == PostProcessingLiveView) {
+        spdlog::info("Ignoring close event as post processing is running");
         event->ignore();
     } else {
         m_userCanceled = true;
-
-        delete m_db;
 
         if (m_curState == LiveViewRunning) {
             stopLiveView();
@@ -1860,11 +1858,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
 
         if (m_config->updateAvailable) {
-            spdlog::info("Applying update");
-            emit sig_progress_start("Applying update", 0);
-            m_autoUpdate->applyUpdate();
-
-            emit sig_progress_done();
+            spdlog::info("Ignoring close event, prompting user to confirm/ignore update");
+            event->ignore();
+            m_autoUpdate->show();
+        } else if (m_db) {
+            delete m_db;
+            m_db = nullptr;
         }
     }
 }

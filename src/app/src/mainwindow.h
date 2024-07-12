@@ -213,7 +213,6 @@ class MainWindow : public QMainWindow {
         };
 
         QThread* m_acquisitionThread {nullptr};
-        QThread* m_backgroundRecordingThread {nullptr};
         QTimer* m_liveViewTimer {nullptr};
         QProgressDialog* m_acquisitionProgress {nullptr};
 
@@ -235,6 +234,7 @@ class MainWindow : public QMainWindow {
 
         std::future<void> m_niSetup = {};
         std::future<bool> m_stageCalibrate = {};
+        std::future<void> m_autoUpdateCheck = {};
 
         uint32_t m_width, m_height;
         uint32_t m_min, m_max;
@@ -266,7 +266,7 @@ class MainWindow : public QMainWindow {
         std::mutex m_lock;
         std::mutex m_liveViewLock;
 
-        std::unique_ptr<AutoUpdate> m_autoUpdate;
+        AutoUpdate* m_autoUpdate;
 
         AppState m_curState = Uninitialized;
 
@@ -373,7 +373,6 @@ class MainWindow : public QMainWindow {
         bool stopLiveView_AcquisitionRunning();
         bool stopLiveView_PostProcessing();
         bool startAcquisition();
-        bool startBackgroundRecording();
         bool stopAcquisition();
         bool startAcquisition_LiveViewRunning();
         bool stopAcquisition_LiveViewRunning();

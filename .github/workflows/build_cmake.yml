@@ -63,7 +63,7 @@ jobs:
           ./la-venv/Scripts/Activate
           pip install -r src/requirements-dev.txt
           pip install -r src/requirements.txt
-          pyinstaller -i app/icon/logo.ico -F --windowed src/local_analysis.py
+          pyinstaller -i app/icon/logo.ico -F src/local_analysis.py
           mv ./dist/local_analysis.exe ../../resources
 
       - name: Install on Mac/Linux/Windows

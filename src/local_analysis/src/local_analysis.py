@@ -23,15 +23,6 @@ import toml
 
 logger = logging.getLogger(__name__)
 
-
-logging.basicConfig(
-    format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
-    level=logging.INFO,
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-logger = logging.getLogger(__name__)
-
-
 def _get_well_row_name(row: int):
     well_name = chr(ord("A") + row % 26)
     if row >= 26:
@@ -102,8 +93,25 @@ class RawDataReader:
         return frame
 
 
+# have to subclass and override this method to gain control over what happens when there is an issue 
+# with the provided arguments
+class ArgParse(argparse.ArgumentParser):
+    def error(self, message):
+        logger.error(message)
+        sys.exit(2)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Extracts signals from a multi-well microscope experiment")
+    logging.basicConfig(
+        format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
+        level=logging.INFO,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        stream=sys.stdout
+    )
+
+    logger.info("Nautilai Local Analysis Starting")
+
+    parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
     parser.add_argument(
         "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
     )
@@ -126,14 +134,21 @@ def main():
 
     time_series_df = _calculate_fluorescence_time_series(raw_data_reader, rois, setup_config)
 
-    if plate_id := setup_config["plate_id"]:
-        background_recording_info = _load_background(plate_id)
-        time_series_df = _subtract_background(time_series_df, setup_config, background_recording_info)
+    if setup_config["use_background_subtraction"]:
+        if plate_id := setup_config["plate_id"]:
+            background_recording_info = _load_background(setup_config["background_recording_dir"], plate_id)
+            time_series_df = _subtract_background(time_series_df, setup_config, background_recording_info)
+        else:
+            logger.info("Background subtraction enabled, however no Plate ID was given")
+    else:
+        logger.info("Background subtraction disabled")
 
     _write_time_series_parquet(time_series_df, setup_config)
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
     _write_time_series_legacy_xlsx_zip(time_series_df, setup_config)
+
+    logger.info("Done")
 
 
 def _scale_inputs(setup_config: dict[str, Any]) -> None:
@@ -300,20 +315,20 @@ def _calculate_fluorescence_time_series(
     return pl.DataFrame({"time": timepoints} | well_arrs)
 
 
-def _load_background(plate_id: str) -> BackgroundRecordingInfo:
-    user_profile = os.getenv("USERPROFILE", r"C:\Users")
-    bg_recording_dir = os.path.join(user_profile, "AppData", "Local", "Nautilai", "BackgroundRecordings")
+def _load_background(bg_recording_dir: str, plate_id: str) -> BackgroundRecordingInfo:
+    logger.info("Loading background recording data")
+
     if not os.path.exists(bg_recording_dir):
-        raise Exception("Background recording dir does not exist")
+        raise Exception(f"Background recording dir ({bg_recording_dir}) does not exist")
 
-    plate_id_dir_path = None
-    for dir_name in os.listdir(bg_recording_dir):
-        if "_".join(dir_name.split("_")[:-1]) == plate_id:
-            plate_id_dir_path = os.path.join(bg_recording_dir, dir_name)
-    if plate_id_dir_path is None:
-        raise Exception("Background recording dir for plate ID not found")
-
+    plate_id_dir_path = os.path.join(bg_recording_dir, plate_id)
+    if not os.path.exists(plate_id_dir_path):
+        raise Exception(f"Background recording dir ({plate_id_dir_path}) for plate ID not found")
+    
     bg_rec_data_path = os.path.join(plate_id_dir_path, f"{plate_id}.tsv")
+    if not os.path.exists(bg_rec_data_path):
+        raise Exception(f"Background recording file ({bg_rec_data_path}) not found")
+
     bg_rec_data = pl.read_csv(bg_rec_data_path, has_header=True, separator="\t")
 
     bg_rec_metadata_path = os.path.join(plate_id_dir_path, "settings.toml")
@@ -325,7 +340,9 @@ def _load_background(plate_id: str) -> BackgroundRecordingInfo:
 
 def _subtract_background(
     time_series_df: pl.DataFrame, setup_config: dict[str, Any], bg_recording_info: BackgroundRecordingInfo
-):
+) -> pl.DataFrame:
+    logger.info("Performing background subtraction")
+
     bg_recording = bg_recording_info.data
 
     if set(time_series_df.drop("time").columns) != set(bg_recording["Well"]):
@@ -373,9 +390,9 @@ def _subtract_background(
 def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
     logger.info("Writing parquet output file")
 
-    barcode_field = setup_config.get("plate_id")
-    if not barcode_field:
-        barcode_field = "N/A"
+    barcode_field = "N/A"
+    if setup_config["use_background_subtraction"] and (plate_id := setup_config["plate_id"]):
+        barcode_field = plate_id
 
     metadata = {
         "utc_beginning_recording": setup_config["recording_date"],
@@ -494,6 +511,6 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
 if __name__ == "__main__":
     try:
         main()
-    except Exception as e:
+    except Exception:
         logger.exception("Error in Local Analysis")
         sys.exit(1)
