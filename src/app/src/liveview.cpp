@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -50,7 +50,7 @@ std::string fragShader = R"(
 layout (location = 0) out vec4 fragColor;
 layout (location = 1) in vec2 texCoord;
 
-layout (binding = 0) uniform R { 
+layout (binding = 0) uniform R {
     vec2 iResolution;
     vec2 iScreen;
     vec2 iLevels;
@@ -106,7 +106,7 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     m_roisTex = new uint8_t[m_width * m_height];
     memset(m_roisTex, 0x00, m_width * m_height);
     //TODO these falues need to come from the config before this feature is released
-    drawFOV_ROIs(32, 4500, 80, 8, 8);
+    //drawFOV_ROIs(32, 4500, 80, 8, 8);
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -317,14 +317,14 @@ void LiveView::initializeGL() {
     // generate and bind the vao
     fx->glGenVertexArrays(1, &m_vao);
     fx->glBindVertexArray(m_vao);
-    
+
     // generate and bind the vertex buffer object
     f->glGenBuffers(1, &m_vbo);
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-            
+
     // data for a fullscreen quad (this time with texture coords)
     GLfloat vertexData[] = {
-    //  X     Y     Z           U     V     
+    //  X     Y     Z           U     V
        1.0f, 1.0f, 0.0f,       1.0f, 1.0f, // vertex 0
       -1.0f, 1.0f, 0.0f,       0.0f, 1.0f, // vertex 1
        1.0f,-1.0f, 0.0f,       1.0f, 0.0f, // vertex 2
@@ -333,18 +333,18 @@ void LiveView::initializeGL() {
 
     // fill with data
     f->glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*4*5, vertexData, GL_STATIC_DRAW);
-           
+
     // set up generic attrib pointers
     f->glEnableVertexAttribArray(0);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (char*)0 + 0*sizeof(GLfloat));
- 
+
     f->glEnableVertexAttribArray(1);
     f->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (char*)0 + 3*sizeof(GLfloat));
-    
+
     // generate and bind the index buffer object
     f->glGenBuffers(1, &m_ibo);
     f->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-            
+
     GLuint indexData[] = {
         0,1,2, // first triangle
         2,1,3, // second triangle
@@ -422,7 +422,7 @@ void LiveView::paintGL() {
     GLubyte* ptr = (GLubyte*)fx->glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, m_width*m_height*CHANNEL_COUNT, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
     if(ptr) {
-        if (m_imageData) { 
+        if (m_imageData) {
             memcpy(ptr, m_imageData, m_width*m_height*CHANNEL_COUNT);
         } else {
             memcpy(ptr, (uint8_t*)m_backgroundImage, m_width*m_height*CHANNEL_COUNT);
@@ -434,7 +434,7 @@ void LiveView::paintGL() {
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
     f->glActiveTexture(GL_TEXTURE1);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-    
+
     // bind the vao
     fx->glBindVertexArray(m_vao);
     f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

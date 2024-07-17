@@ -1,7 +1,15 @@
 Changelog for Nautilai
 ======================
 
-0.1.45 (unreleased)
+0.1.46 (2024-07-16)
+-------------------
+
+Fixed:
+^^^^^^
+- App crashing on startup when sbin and pbin are set to 4
+
+
+0.1.45 (2024-07-12)
 -------------------
 
 Added:
