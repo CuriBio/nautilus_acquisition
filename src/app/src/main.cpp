@@ -145,6 +145,7 @@ int main(int argc, char* argv[]) {
     std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs);
     config->version = version;
     config->configFile = configFile.string();
+
     if (config->configError.empty()) {
         config->Dump();
     }

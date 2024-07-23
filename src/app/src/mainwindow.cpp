@@ -40,6 +40,8 @@
 #include <cstddef>
 #include <stdlib.h>
 #include <thread>
+#include <vector>
+#include <tuple>
 
 #ifdef _WIN64
 #include <windows.h>
@@ -408,8 +410,8 @@ void MainWindow::Initialize() {
     emit sig_progress_text("Calibrating stage");
 
     //check for update
-    m_autoUpdate->hasUpdate();
-    spdlog::info("Update available {}", m_config->updateAvailable);
+    //m_autoUpdate->hasUpdate();
+    //spdlog::info("Update available {}", m_config->updateAvailable);
 
     //Async calibrate stage
     if (m_config->asyncInit) {
@@ -481,7 +483,6 @@ void MainWindow::Initialize() {
 
     if (m_config->updateAvailable) {
         emit m_autoUpdate->sig_notify_update();
-        //m_autoUpdate->show();
     }
 }
 
@@ -946,28 +947,45 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     auto plateFormatFileName = m_config->plateFormat.string();
 
     m_stageControl->loadList(plateFormatFileName);
-
     spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
 
-    auto plateFormatFile = toml::parse(plateFormatFileName);
-    auto numWells = toml::find<int>(plateFormatFile, "stage", "num_wells");
-    if (numWells == 24) {
-        m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
-        for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i));
+    try {
+        auto plateFormatFile = toml::parse(plateFormatFileName);
+        auto numWells = toml::find<int>(plateFormatFile, "stage", "num_wells");
+
+        if (numWells == 24) {
+            m_plateFormatImgs[0] = QString("./resources/Nautilus-software_24-well-plate-inactive.svg");
+            for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
+                m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_24-well-plate-section{}-active.svg", i));
+            }
+        } else if (numWells == 96) {
+            m_plateFormatImgs[0] = QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg");
+            for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
+                m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
+            }
+        } else {
+            spdlog::error(fmt::format("No platemap svg for {} well plate", numWells));
+            for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
+                m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
+            }
         }
-    } else if (numWells == 96) {
-        m_plateFormatImgs[0] = QString::fromStdString("./resources/Nautilus-software_96-well-plate-round-inactive.svg");
-        for (size_t i = 1; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
-        }
-    } else {
-        spdlog::error(fmt::format("No platemap svg for {} well plate", numWells));
-        for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
-            m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
-        }
+
+        m_platemap->load(m_plateFormatImgs[0]);
+
+        m_roiCfg.well_spacing = toml::find<uint32_t>(plateFormatFile, "stage", "well_spacing");
+        m_roiCfg.xy_pixel_size = m_config->xyPixelSize;
+        m_roiCfg.scale = m_config->rgn.sbin;
+        m_roiCfg.rows = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_v");
+        m_roiCfg.cols = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
+        m_roiCfg.width = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_x");
+        m_roiCfg.height = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_y");
+
+        std::vector<std::tuple<uint32_t, uint32_t>> rois = Rois::roiOffsets(&m_roiCfg, m_width, m_height);
+        m_liveView->UpdateRois(&m_roiCfg, rois);
+
+    } catch(const std::exception &e) {
+        spdlog::error("Failed to load platemap format values, {}", e.what());
     }
-    m_platemap->load(m_plateFormatImgs[0]);
 }
 
 
@@ -1515,65 +1533,50 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         spdlog::error("Platemap format is not set");
         return;
     }
-    auto platemapFormat = toml::parse(cls->m_config->plateFormat);
-
-    RoiCfg roiCfg;
-    try {
-        roiCfg.well_spacing = toml::find<uint32_t>(platemapFormat, "stage", "well_spacing");
-        roiCfg.xy_pixel_size = cls->m_config->xyPixelSize;
-        roiCfg.scale = cls->m_config->rgn.sbin;
-        roiCfg.rows = toml::find<uint32_t>(platemapFormat, "stage", "num_wells_v");
-        roiCfg.cols = toml::find<uint32_t>(platemapFormat, "stage", "num_wells_h");
-        roiCfg.width = toml::find<uint32_t>(platemapFormat, "stage", "roi_size_x");
-        roiCfg.height = toml::find<uint32_t>(platemapFormat, "stage", "roi_size_y");
-    } catch(const std::exception &e) {
-        spdlog::error("Failed to load platemap format values, {}", e.what());
-        return;
-    }
 
     //progress bar callback
     auto progressCB = [&](size_t n) { emit cls->sig_progress_update(n); };
 
-    std::vector<size_t> rois = roiOffsets(&roiCfg, cls->m_width, cls->m_height);
-    std::vector<uint32_t> avgs(rois.size(), 0);
+    std::vector<std::tuple<uint32_t, uint32_t>> rois = Rois::roiOffsets(&cls->m_roiCfg, cls->m_width, cls->m_height);
+    //std::vector<double> avgs(rois.size(), 0);
 
     //TODO parameterize intensity count
-    std::vector<uint32_t> *wellAvgs[3];
+    std::vector<double> *wellAvgs[3];
 
     for (auto &v : wellAvgs) {
-        v = new std::vector<uint32_t>[rois.size() * cls->m_config->rows * cls->m_config->cols];
+        v = new std::vector<double>[rois.size() * cls->m_config->rows * cls->m_config->cols]{};
     }
 
 
     //Fall back to unvectorized version if we don't know about the roi size for a platemap
     //otherwise use the specialized version
     auto roiFn = processing::roiAvgGeneric;
-    if (roiCfg.width / roiCfg.scale == 16 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<16, 16>; }
-    else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<32, 32>; }
-    else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<64, 64>; }
-    else if (roiCfg.width / roiCfg.scale == 32 && roiCfg.height / roiCfg.scale == 16) { roiFn = processing::roiAvg<32, 16>; }
-    else if (roiCfg.width / roiCfg.scale == 64 && roiCfg.height / roiCfg.scale == 32) { roiFn = processing::roiAvg<64, 32>; }
-    else if (roiCfg.width / roiCfg.scale == 128 && roiCfg.height / roiCfg.scale == 64) { roiFn = processing::roiAvg<128, 64>; }
-    else if (roiCfg.width / roiCfg.scale == 256 && roiCfg.height / roiCfg.scale == 128) { roiFn = processing::roiAvg<256, 128>; }
+    if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 16 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 16) { roiFn = processing::roiAvg<16, 16>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 32 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 32) { roiFn = processing::roiAvg<32, 32>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 40 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 40) { roiFn = processing::roiAvg<40, 40>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 64 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 64) { roiFn = processing::roiAvg<64, 64>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 32 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 16) { roiFn = processing::roiAvg<32, 16>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 64 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 32) { roiFn = processing::roiAvg<64, 32>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 128 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 64) { roiFn = processing::roiAvg<128, 64>; }
+    else if (cls->m_roiCfg.width / cls->m_roiCfg.scale == 256 && cls->m_roiCfg.height / cls->m_roiCfg.scale == 128) { roiFn = processing::roiAvg<256, 128>; }
 
     //process frame callback
     auto processFrame = [&](size_t intensityIdx, size_t fovIdx) {
         auto plateCols = cls->m_config->cols;
         auto plateRows = cls->m_config->rows;
-        auto wellsPerRow = roiCfg.cols * plateCols;
+        auto wellsPerRow = cls->m_roiCfg.cols * plateCols;
 
         return [&, wellsPerRow, intensityIdx, fovIdx, plateCols, plateRows](FrameCtx* frameCtx, pm::Frame* frame) {
-            for (auto const& [roiIdx, roiOffset] : rois | std::views::enumerate) {
-                roiFn(&roiCfg, (uint16_t*)(frame->GetData()) + roiOffset, frameCtx->width, &avgs[roiIdx]);
-            }
+            for (auto r = 0; r < cls->m_roiCfg.rows; r++) {
+                for (auto c = 0; c < cls->m_roiCfg.cols; c++) {
+                    auto idx = fovIdx * cls->m_roiCfg.rows * cls->m_roiCfg.cols;
+                    idx += c + r*cls->m_roiCfg.cols;
 
-            for (auto r = 0; r < roiCfg.rows; r++) {
-                for (auto c = 0; c < roiCfg.cols; c++) {
-                    auto idx = c + (fovIdx % plateCols) * roiCfg.cols + \
-                               (r * roiCfg.cols * plateCols) + \
-                               (int(fovIdx / plateCols) * roiCfg.cols * plateCols * roiCfg.rows);
+                    size_t x, y;
+                    std::tie(x, y) = rois[c + r*cls->m_roiCfg.cols];
 
-                    wellAvgs[intensityIdx][idx].push_back(avgs[c + r*c]);
+                    double avg = roiFn(&cls->m_roiCfg, (uint16_t*)(frame->GetData()), x, y, frameCtx->width);
+                    wellAvgs[intensityIdx][idx].push_back(avg);
                 }
             }
         };
@@ -1616,7 +1619,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         for (auto [i, intensity] : ledIntensities | std::views::enumerate) {
             auto frameFn = processFrame(i, cls->m_config->tileMap[fovIdx]);
 
-            cls->ledON((intensity / 100.0) * cls->m_config->maxVoltage);
+            cls->ledSetVoltage((intensity / 100.0) * cls->m_config->maxVoltage);
             cls->m_acquisition->StartAcquisition(progressCB, frameFn);
 
             if (cls->m_curState == LiveViewAcquisitionRunning || cls->m_curState == LiveViewRunning) {
@@ -1624,7 +1627,6 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
             }
 
             cls->m_acquisition->WaitForAcquisition();
-            std::fill(avgs.begin(), avgs.end(), 0);
         }
         spdlog::info("Background Recording for location x: {}, y: {} finished", loc->x, loc->y);
     }
@@ -1672,62 +1674,36 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                        << "Background Fluorescence, 25% LED Intensity (AU)"
                        << std::endl;
 
-        if (!cls->m_config->vflip && !cls->m_config->hflip) {
-            for (int32_t c = 0; c < cls->m_config->cols * roiCfg.cols; c++) {
-                for (int32_t r = 0; r < cls->m_config->rows * roiCfg.rows; r++) {
-                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
-                    backgroundFile << fmt::format("{}\t", wellName(r, c));
 
-                    std::vector<double> row;
+        std::vector<std::tuple<size_t, std::string>> file_rows{};
+
+        for (auto fovIdx = 0; fovIdx < cls->m_config->cols * cls->m_config->rows; fovIdx++) {
+            for (auto r = 0; r < cls->m_roiCfg.rows; r++) {
+                for (auto c = 0; c < cls->m_roiCfg.cols; c++) {
+                    //handle image flips
+                    auto c_adj = (cls->m_config->hflip) ? cls->m_roiCfg.cols - c - 1 : c;
+                    auto r_adj = (cls->m_config->vflip) ? cls->m_roiCfg.rows - r - 1 : r;
+                    auto idx = (c_adj + r_adj * cls->m_roiCfg.cols) + (fovIdx * cls->m_roiCfg.cols * cls->m_roiCfg.rows);
+
+                    //don't need to flip these because the idx is already flipped
+                    auto col = c + (fovIdx % cls->m_config->cols) * cls->m_roiCfg.cols;
+                    auto row = r + (cls->m_roiCfg.rows * (fovIdx / cls->m_config->cols));
+                    auto wellIdx = row * (cls->m_roiCfg.rows * cls->m_config->cols) + col;
+
+                    std::vector<double> file_row;
                     for (auto i = 0; i < ledIntensities.size(); i++) {
-                        row.push_back(wellAverageIntensity[i][idx]);
+                        file_row.push_back(wellAverageIntensity[i][idx]);
                     }
-                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
+
+                    std::string well_name = Rois::wellName(row, col);
+                    file_rows.push_back(std::make_tuple(wellIdx, fmt::format("{}\t{}", well_name, fmt::join(file_row, "\t"))));
                 }
             }
-        } else if (cls->m_config->vflip && !cls->m_config->hflip) {
-            for (int32_t c = 0; c < cls->m_config->cols * roiCfg.cols; c++) {
-                int32_t rowIdx = 0;
-                for (int32_t r = cls->m_config->rows * roiCfg.rows - 1; r >= 0; r--) {
-                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
-                    backgroundFile << fmt::format("{}\t", wellName(rowIdx++, c));
+        }
 
-                    std::vector<double> row;
-                    for (auto i = 0; i < ledIntensities.size(); i++) {
-                        row.push_back(wellAverageIntensity[i][idx]);
-                    }
-                    backgroundFile << fmt::format("{}\t", fmt::join(row, "\t")) << std::endl;
-                }
-            }
-        } else if (!cls->m_config->vflip && cls->m_config->hflip) {
-            int32_t colIdx = 0;
-            for (int32_t c = cls->m_config->cols * roiCfg.cols - 1; c >= 0; c--) {
-                for (int32_t r = 0; r < cls->m_config->rows * roiCfg.rows; r++) {
-                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
-                    backgroundFile << fmt::format("{}\t", wellName(r,colIdx++));
-
-                    std::vector<double> row;
-                    for (auto i = 0; i < ledIntensities.size(); i++) {
-                        row.push_back(wellAverageIntensity[i][idx]);
-                    }
-                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
-                }
-            }
-        } else { //vflip && hflip
-            for (int32_t c = cls->m_config->cols * roiCfg.cols - 1; c >= 0; c--) {
-                int32_t colIdx = 0;
-                for (int32_t r = cls->m_config->rows * roiCfg.rows - 1; r >= 0; r--) {
-                    int32_t rowIdx = 0;
-                    auto idx = c + r*cls->m_config->cols*roiCfg.rows;
-                    backgroundFile << fmt::format("{}\t", wellName(rowIdx++,colIdx++));
-
-                    std::vector<double> row;
-                    for (auto i = 0; i < ledIntensities.size(); i++) {
-                        row.push_back(wellAverageIntensity[i][idx]);
-                    }
-                    backgroundFile << fmt::format("{}", fmt::join(row, "\t")) << std::endl;
-                }
-            }
+        std::sort(file_rows.begin(), file_rows.end());
+        for (auto fr : file_rows) {
+            backgroundFile << std::get<1>(fr) << std::endl;
         }
 
         backgroundFile.close();

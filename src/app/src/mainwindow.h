@@ -63,6 +63,7 @@
 #include <TaskFrameStats.h>
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
+#include <Rois.h>
 
 
 #include "config.h"
@@ -226,6 +227,7 @@ class MainWindow : public QMainWindow {
         int m_plateFormatCurrentIndex{-1};
         QString m_plateFormatImgs[PLATEMAP_COUNT];
         QSvgWidget* m_platemap;
+        Rois::RoiCfg m_roiCfg;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_ledTaskAO, m_ledDevAO;

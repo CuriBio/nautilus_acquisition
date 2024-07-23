@@ -5,7 +5,8 @@ find_package(sqlite3)
 add_library(Common STATIC
 ./src/Bitmap.cpp
 ./src/BitmapFormat.cpp
-./src/TiffFile.cpp)
+./src/TiffFile.cpp
+./src/Rois.cpp)
 
 set_target_properties(Common PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Common PROPERTIES SOVERSION 1)
