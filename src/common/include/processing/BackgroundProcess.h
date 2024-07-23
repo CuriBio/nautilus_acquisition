@@ -35,26 +35,30 @@
 
 namespace processing {
     template<size_t XW, size_t YW>
-    void roiAvg(RoiCfg* roi, uint16_t* data, size_t width, uint32_t* out) noexcept {
-        *out = 0;
+    double roiAvg(Rois::RoiCfg* roi, uint16_t* data, size_t x, size_t y, size_t width) noexcept {
+        double out = 0.0;
+
+        uint16_t* dataStart = data + Rois::roiToOffset(x, y, width);
 
         for (size_t j = 0; j < XW; j++) {
             for (size_t i = 0; i < YW; i++) {
-                *out += data[i + j * width];
+                out += dataStart[i + j * width];
             }
         }
-        *out = *out / (XW * YW);
+        return out / double((XW * YW));
     }
 
-    void roiAvgGeneric(RoiCfg* roi, uint16_t* data, size_t width, uint32_t* out) noexcept {
-        *out = 0;
+    double roiAvgGeneric(Rois::RoiCfg* roi, uint16_t* data, size_t x, size_t y, size_t width) noexcept {
+        double out = 0.0;
 
-        for (size_t j = 0; j < roi->height; j++) {
-            for (size_t i = 0; i < roi->width; i++) {
-                *out += data[i + j * width];
+        uint16_t* dataStart = data + Rois::roiToOffset(x, y, width);
+
+        for (size_t j = 0; j < roi->height / roi->scale; j++) {
+            for (size_t i = 0; i < roi->width / roi->scale; i++) {
+                out += dataStart[i + j * width];
             }
         }
-        *out = *out / (roi->width * roi->height);
+        return out / double(((roi->width / roi->scale) * (roi->height / roi->scale)));
     }
 }
 

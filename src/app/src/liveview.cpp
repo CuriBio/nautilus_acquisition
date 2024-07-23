@@ -67,6 +67,7 @@ void main() {
     uv -= 0.5;
     uv.x *= iResolution.x / iResolution.y;
 
+    //TODO This needs to handle flips in config settings
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
@@ -105,8 +106,6 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 
     m_roisTex = new uint8_t[m_width * m_height];
     memset(m_roisTex, 0x00, m_width * m_height);
-    //TODO these falues need to come from the config before this feature is released
-    //drawFOV_ROIs(32, 4500, 80, 8, 8);
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -127,49 +126,45 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 LiveView::~LiveView() {
 }
 
+void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
+    spdlog::info("Updating roi offsets");
+    m_roiOffsets = roiOffsets;
 
-/*
- * @brief Draw all ROIs for FOW
- */
-void LiveView::drawFOV_ROIs(uint32_t roi_size, uint32_t well_spacing, uint8_t scaled_px, uint16_t rows, uint16_t cols) {
-    int32_t well_width_px = (well_spacing / scaled_px);
-    int32_t top_x = m_width / 2 - 0.5*(cols - 1) * well_width_px;
-    int32_t top_y = m_height / 2 - 0.5*(rows - 1) * well_width_px;
+    //reset texture
+    memset(m_roisTex, 0x00, m_width * m_height);
 
-    top_x -= m_width / 2;
-    top_y -= m_height / 2;
+    //TODO uncomment when roi liveview is ready
+    // for (auto roiStart : m_roiOffsets) {
+    //     drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
+    // }
 
-    for (int32_t r = 0; r < rows; r++) {
-        int32_t y = top_y + r*well_width_px;
-	    for (int32_t c = 0; c < cols; c++) {
-	        int32_t x = top_x + c*well_width_px;
-	        drawROI(x, y, roi_size, 2);
-	    }
-    }
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    f->glActiveTexture(GL_TEXTURE1);
+    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_width, m_height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+
+    this->update();
 }
 
-/*
- * @brief Draw ROI
- */
-void LiveView::drawROI(int32_t x, int32_t y, uint16_t size, uint8_t border) {
-    x -= (m_width / 2);
-    y -= (m_height / 2) - (size / 2);
-
-    auto from_xy = [&](int32_t x, int32_t y) {
-        return x - (size / 2) + (y * m_width);
-    };
-
+void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t height, uint8_t border) {
     if (!m_roisTex) { return; }
 
-    for (int32_t i = 0; i < size; i++) {
-        for (int32_t j = 0; j < size; j++) {
-            if (i < border || i > size-border-1) {
-                memset(m_roisTex+from_xy(x, i-y), 0xFF, size);
+    size_t x, y;
+    std::tie(x, y) = offsets;
+
+    auto from_xy = [&](int32_t x, int32_t y) {
+        return Rois::roiToOffset(x, y, m_width);
+    };
+
+    for (size_t i = 0; i < height; i++) {
+            if (i < border || i > height-border-1) {
+                memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
             } else {
-                memset(m_roisTex+from_xy(x, i - y), 0xFF, border);
-                memset(m_roisTex+from_xy(x + size - border, i - y), 0xFF, border);
+                memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
+                memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
             }
-        }
     }
 }
 
@@ -252,7 +247,9 @@ void LiveView::initializeGL() {
 
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
+
     f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
+
     int32_t width = (min / aspect);
     int32_t height = min * aspect;
 
@@ -383,6 +380,8 @@ void LiveView::paintGL() {
 
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
+
+    //TODO this needs to handle flip settings in config
     f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
 
     m_shader_uniforms.resolution[0] = float(min / aspect);
