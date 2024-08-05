@@ -32,6 +32,9 @@
 #define LIVEVIEW_H
 
 #include <mutex>
+#include <tuple>
+#include <vector>
+
 #include <QOpenGLWidget>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
@@ -41,6 +44,7 @@
 #include <QOpenGLTexture>
 
 #include <BitmapFormat.h>
+#include <Rois.h>
 
 #define MAX_ROIS 4
 const int CHANNEL_COUNT = 2;
@@ -70,6 +74,7 @@ class LiveView : public QOpenGLWidget {
         void UpdateImage(uint16_t* data, float scale, float min);
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
+        void UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
 
         //QT Overrides
         void initializeGL();
@@ -77,7 +82,8 @@ class LiveView : public QOpenGLWidget {
 
     private:
         uint8_t* m_imageData{nullptr};
-	uint8_t* m_roisTex{nullptr};
+        uint8_t* m_roisTex{nullptr};
+        std::vector<std::tuple<uint32_t, uint32_t>> m_roiOffsets;
 
         uint16_t* m_backgroundImage;
         std::mutex m_lock;
@@ -106,16 +112,14 @@ class LiveView : public QOpenGLWidget {
         unsigned int m_vertexShader, m_fragmentShader, m_shaderProgram;
         uint8_t* m_texData = nullptr;
 
-	GLuint m_textures[2];
+        GLuint m_textures[2];
         GLuint m_blockIndex, m_R;
         GLint m_binding, m_texLoc, m_roisLoc;
 
         GLuint m_pbo[2];           // IDs of PBOs
         int m_pboIndex{0};
 
-        void updatePixels(GLubyte* ptr, size_t len);
-        void drawFOV_ROIs(uint32_t roi_size, uint32_t well_spacing, uint8_t scaled_px, uint16_t rows, uint16_t cols);
-        void drawROI(int32_t x, int32_t y, uint16_t size, uint8_t border);
+        void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
 };
 
 #endif //LIVEVIEW_H

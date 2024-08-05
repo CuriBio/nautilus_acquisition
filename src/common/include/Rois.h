@@ -29,49 +29,26 @@
 #ifndef _ROIS_H
 #define _ROIS_H
 
-struct RoiCfg {
-    double well_spacing;
-    double xy_pixel_size;
-    double scale;
+#include <string>
+#include <vector>
+#include <tuple>
 
-    size_t rows;
-    size_t cols;
+namespace Rois {
+    struct RoiCfg {
+        double well_spacing;
+        double xy_pixel_size;
+        double scale;
 
-    size_t width;
-    size_t height;
-};
+        size_t rows;
+        size_t cols;
 
-std::vector<size_t> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight) {
-    std::vector<size_t> roi_offsets = {};
-    size_t roiX = roi->width / roi->scale;
-    size_t roiY = roi->height / roi->scale;
+        double width;
+        double height;
+    };
 
-    int32_t well_width_px = (roi->well_spacing / (roi->xy_pixel_size * roi->scale));
-    int32_t top_x = frameWidth / 2 - 0.5*(roi->cols - 1) * well_width_px;
-    int32_t top_y = frameHeight / 2 - 0.5*(roi->rows - 1) * well_width_px;
-
-    for (size_t r = 0; r < roi->rows; r++) {
-        int32_t y = top_y + r * well_width_px - roiY/2;
-        for (size_t c = 0; c < roi->cols; c++) {
-            int32_t x = top_x + c * well_width_px - roiX/2;
-            roi_offsets.push_back(x + (y * frameWidth));
-        }
-    }
-
-    return roi_offsets;
-}
-
-std::string wellName(uint32_t row, uint32_t col) {
-    row += 1;
-    std::string name =  (row > 0) ? "" : "A";
-
-    while (row > 0) {
-        char r = (row - 1) % 26;
-        name = static_cast<char>('A' + r) + name;
-        row = (row - r) / 26;
-    }
-
-    return name + std::to_string(col+1);
+    std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight);
+    std::string wellName(uint32_t row, uint32_t col);
+    uint32_t roiToOffset(uint32_t x, uint32_t y, uint32_t width);
 }
 
 #endif //_ROIS_H
