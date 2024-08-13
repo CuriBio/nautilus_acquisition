@@ -1,4 +1,11 @@
 Changelog for Nautilai
+0.2.1 (2024-08-13)
+------------------
+
+Added:
+^^^^^^
+- Extra logging for win api calls
+
 
 0.2.0 (2024-08-05)
 ------------------
