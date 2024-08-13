@@ -47,18 +47,28 @@ namespace PostProcess {
 #ifdef _WIN64
         HANDLE file = CreateFileA(inf.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
         if(file == INVALID_HANDLE_VALUE) {
-            spdlog::error("Could not open file {}", inf);
+            spdlog::error("Could not open file {}, Error {}", inf, GetLastError());
             return;
         };
 
         HANDLE mapping  = CreateFileMapping(file, 0, PAGE_READONLY, 0, 0, 0);
 
         if(mapping == 0) {
-            spdlog::error("Could not mmap file {}", inf);
+            spdlog::error("Could not mmap file {}, Error {}", inf, GetLastError());
+            CloseHandle(file);
+
             return;
         }
 
         data = (uint16_t*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0);
+
+        if (data == 0) {
+            spdlog::error("Could not map file view for file {}, Error {}", inf, GetLastError());
+            CloseHandle(mapping);
+            CloseHandle(file);
+
+            return;
+        }
 #endif
 
         for (uint32_t i = 0; i < height; i++) {

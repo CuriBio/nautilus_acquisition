@@ -1355,7 +1355,6 @@ void MainWindow::postProcess() {
         std::string rawFile = fmt::format("{}_{}.raw", m_config->prefix, std::string(m_startAcquisitionTS));
         std::string rawFileDownsampled = fmt::format("{}_{}_bin{}.raw", m_config->prefix, std::string(m_startAcquisitionTS), m_config->binFactor);
 
-        spdlog::info("Writing settings file to {}\\settings.toml", m_expSettings.acquisitionDir.string());
         writeSettingsFile(m_expSettings.acquisitionDir);
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
