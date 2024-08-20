@@ -1,4 +1,12 @@
 Changelog for Nautilai
+0.2.2 (2024-08-20)
+------------------
+
+Added:
+^^^^^^
+- Extra logging for WriteFile call
+
+
 0.2.1 (2024-08-13)
 ------------------
 

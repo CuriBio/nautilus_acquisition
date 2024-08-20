@@ -90,7 +90,28 @@ class RawFile {
                 m_ovs[_idx].OffsetHigh = uli.HighPart;
                 m_ovs[_idx].hEvent = m_hEvents[_idx];
 
-                WriteFile(m_fd, static_cast<uint8_t*>(data)+(_idx*_chunk), count, NULL, &m_ovs[_idx]);
+                if (0 == WriteFile(m_fd, static_cast<uint8_t*>(data)+(_idx*_chunk), count, NULL, &m_ovs[_idx])) {
+                    DWORD lastError = GetLastError();
+                    switch (lastError) {
+                        case ERROR_IO_PENDING:
+                            //expected for overlapping async IO so do nothing
+                            break;
+                        case ERROR_INVALID_USER_BUFFER:
+                        case ERROR_NOT_ENOUGH_MEMORY:
+                            spdlog::error("Too many outstanding async IO requests");
+                            break;
+                        case ERROR_OPERATION_ABORTED:
+                            spdlog::error("IO operations canceled");
+                            break;
+                        case ERROR_NOT_ENOUGH_QUOTA:
+                            spdlog::error("Buffer could not be page locked");
+                            break;
+                        default:
+                            spdlog::error("Unknow error when writing file");
+                            break;
+                    }
+                }
+
                 ovRes = GetOverlappedResult(m_fd, &m_ovs[_idx], &wrote, FALSE);
                 if (ovRes == 0) {
                     DWORD lastError = GetLastError();
