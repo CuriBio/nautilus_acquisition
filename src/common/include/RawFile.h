@@ -94,7 +94,7 @@ class RawFile {
                 m_ovs[_idx].hEvent = m_hEvents[_idx];
 
                 int r = std::rand();
-                if (r % 10 == 0) {
+                if (r % 13 == 0 && r % 17 == 0) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(3100));
                 }
 
