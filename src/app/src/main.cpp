@@ -32,6 +32,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <thread>
+#include <cstdlib>
 
 #include <cxxopts.hpp>
 #include <fmt/chrono.h>
@@ -64,6 +65,7 @@
  * @param argv Array of pointers to cli arguments.
  */
 int main(int argc, char* argv[]) {
+    std::srand(nullptr);
     std::cout << banner << std::endl;
 
     //get user profile path

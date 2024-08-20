@@ -1,6 +1,9 @@
 #ifndef __RAW_FILE__H
 #define __RAW_FILE__H
 #include <string>
+#include <thread>
+#include <chrono>
+#include <cstdlib>
 
 #include <spdlog/spdlog.h>
 
@@ -89,6 +92,11 @@ class RawFile {
                 m_ovs[_idx].Offset = uli.LowPart;
                 m_ovs[_idx].OffsetHigh = uli.HighPart;
                 m_ovs[_idx].hEvent = m_hEvents[_idx];
+
+                int r = std::rand();
+                if (r % 10 == 0) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(3100));
+                }
 
                 if (0 == WriteFile(m_fd, static_cast<uint8_t*>(data)+(_idx*_chunk), count, NULL, &m_ovs[_idx])) {
                     DWORD lastError = GetLastError();
