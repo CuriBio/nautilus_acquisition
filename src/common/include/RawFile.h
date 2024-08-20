@@ -95,7 +95,7 @@ class RawFile {
 
                 int r = std::rand();
                 if (r % 13 == 0 && r % 17 == 0) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(3100));
+                    return;
                 }
 
                 if (0 == WriteFile(m_fd, static_cast<uint8_t*>(data)+(_idx*_chunk), count, NULL, &m_ovs[_idx])) {
