@@ -81,8 +81,8 @@ void main() {
     }
 
     //TODO need a uniform to control showing the rois, disable for now since we aren't releasing this feature yet anyway
-    //fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
-    fragColor = texColor;
+    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
+    //fragColor = texColor;
 })";
 
 /*
@@ -134,9 +134,9 @@ void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, ui
     memset(m_roisTex, 0x00, m_width * m_height);
 
     //TODO uncomment when roi liveview is ready
-    // for (auto roiStart : m_roiOffsets) {
-    //     drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
-    // }
+    for (auto roiStart : m_roiOffsets) {
+        drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
+    }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glActiveTexture(GL_TEXTURE1);
