@@ -44,6 +44,9 @@ namespace Rois {
 
         double width;
         double height;
+
+        double h_offset;
+        double v_offset;
     };
 
     std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight);

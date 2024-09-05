@@ -971,6 +971,8 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_roiCfg.cols = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
         m_roiCfg.width = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_x");
         m_roiCfg.height = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_y");
+        m_roiCfg.v_offset = toml::find<int32_t>(plateFormatFile, "stage", "v_offset");
+        m_roiCfg.h_offset = toml::find<int32_t>(plateFormatFile, "stage", "h_offset");
 
         std::vector<std::tuple<uint32_t, uint32_t>> rois = Rois::roiOffsets(&m_roiCfg, m_width, m_height);
         m_liveView->UpdateRois(&m_roiCfg, rois);
