@@ -40,8 +40,8 @@ namespace processing {
 
         uint16_t* dataStart = data + Rois::roiToOffset(x, y, width);
 
-        for (size_t j = 0; j < XW; j++) {
-            for (size_t i = 0; i < YW; i++) {
+        for (size_t j = 0; j < YW; j++) {
+            for (size_t i = 0; i < XW; i++) {
                 out += dataStart[i + j * width];
             }
         }
