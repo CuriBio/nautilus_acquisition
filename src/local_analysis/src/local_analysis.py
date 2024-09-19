@@ -20,6 +20,11 @@ import polars as pl
 import pyarrow.parquet as pq
 from scipy.stats import linregress
 import toml
+import tkinter as tk
+from tkinter import filedialog
+import ijroi
+import struct
+
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +106,7 @@ class ArgParse(argparse.ArgumentParser):
         sys.exit(2)
 
 
-def main():
+def main(toml_config_path: str, roi_path: str) -> None:
     logging.basicConfig(
         format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
         level=logging.INFO,
@@ -111,14 +116,18 @@ def main():
 
     logger.info("Nautilai Local Analysis Starting")
 
-    parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
-    parser.add_argument(
-        "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
-    )
+    #parse toml_config_path from command line arguments
+    #parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
+    #parser.add_argument(
+    #    "toml_config_path", type=str, default=None, help="Path to a toml file with run config parameters"
+    #)
+    # cmd_line_args = parser.parse_args()
 
-    cmd_line_args = parser.parse_args()
 
-    with open(cmd_line_args.toml_config_path) as toml_file:
+    if os.path.exists(roi_path):
+        ij_rois = read_roi_set(roi_path)
+    
+    with open(toml_config_path) as toml_file:
         setup_config = toml.load(toml_file)
 
     logger.info(f"Metadata: {setup_config}")
@@ -130,6 +139,12 @@ def main():
     raw_data_reader = _create_raw_data_reader(setup_config)
 
     rois = _create_rois(setup_config)
+    _write_ij_rois(rois, setup_config)
+    setup_config["roi_source"] = "Auto"
+    if os.path.exists(roi_path):
+        rois = ij_rois
+        setup_config["roi_source"] = "Custom"
+
     _create_roi_annotated_image(raw_data_reader, setup_config, rois)
 
     time_series_df = _calculate_fluorescence_time_series(raw_data_reader, rois, setup_config)
@@ -200,10 +215,29 @@ def _create_raw_data_reader(setup_config: dict[str, Any]) -> np.ndarray:
 
     return raw_data_reader
 
+#read the roi set from the ImageJ roi zip file
+def read_roi_set(roi_path) -> dict[str, RoiCoords]:
+    roi_set = ijroi.read_roi_zip(roi_path)
+    rois = {}
+    for roi_set_item in roi_set:
+        rois[roi_set_item[0].replace(".roi", "")] = RoiCoords(
+                        Point(
+                            int(roi_set_item[1][0][1]),
+                            int(roi_set_item[1][0][0]),
+                        ),
+                        Point(
+                            int(roi_set_item[1][2][1]),
+                            int(roi_set_item[1][2][0]),
+                        ),
+                    )
+    return rois
+
+
+
 
 def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
     logger.info("Creating ROIs")
-
+    
     well_spacing = setup_config["stage"]["well_spacing"]
     num_wells_h = setup_config["stage"]["num_wells_h"]
     num_wells_v = setup_config["stage"]["num_wells_v"]
@@ -250,7 +284,7 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
                             int(well_y_center + scaled_roi_size_y / 2),
                         ),
                     )
-
+    # print(rois)
     return rois
 
 
@@ -405,6 +439,7 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
         "stage_config": setup_config["stage"],
         "tissue_sampling_period": 1 / setup_config["fps"],
         "image_dimensions": (setup_config["num_horizontal_pixels"], setup_config["num_vertical_pixels"]),
+        "roi_source": setup_config["roi_source"],
     } | {
         key: setup_config[key]
         for key in (
@@ -492,14 +527,15 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
                     "NAUTILAI",  # instrument serial number
                     None,  # resample period
                     setup_config["data_type"],
+                    setup_config["roi_source"],
                 ]
             }
         )
 
         output_path = os.path.join(output_dir, f"{well_name}.xlsx")
         with Workbook(output_path) as wb:
-            well_data.write_excel(wb, "sheet", position="A2", has_header=False)
-            metadata.write_excel(wb, "sheet", position="E2", has_header=False)
+            well_data.write_excel(wb, "sheet", position="A2", include_header=False)
+            metadata.write_excel(wb, "sheet", position="E2", include_header=False)
 
     with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "xlsx-results.zip"), "w") as zf:
         for dir_name, _, file_names in os.walk(output_dir):
@@ -507,10 +543,101 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
                 file_path = os.path.join(dir_name, file_name)
                 zf.write(file_path, os.path.basename(file_path))
 
+def _write_ij_rois(rois: dict[str, RoiCoords], setup_config: dict):
+    output_dir = os.path.join(setup_config["output_dir_path"], "rois")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    for well_name, roi in rois.items():
+        output_path = os.path.join(output_dir, f"{well_name}.roi")
+        #write ImageJ roi binary file, see https://imagej.net/ij/developer/api/ij/ij/io/RoiDecoder.html
+        with open(output_path, 'wb') as binary_file:
+            binary_file.write('Iout'.encode('utf-8')) #0-3             "Iout"
+            binary_file.write(struct.pack('>H', 228)) #4-5             version (>=217)
+            binary_file.write(struct.pack('B', 1)) #6            roi type (encoded as one byte)
+            binary_file.write(struct.pack('B', 0)) #7 empty
+            binary_file.write(struct.pack('>H', roi.p_ul.y)) #8-9             top
+            binary_file.write(struct.pack('>H', roi.p_ul.x)) #10-11   left
+            binary_file.write(struct.pack('>H', roi.p_br.y)) # 12-13   bottom
+            binary_file.write(struct.pack('>H', roi.p_br.x)) #14-15   right
+            binary_file.write(struct.pack('>H', 0)) #16-17   NCoordinates
+            #18-33   x1,y1,x2,y2 (straight line) | x,y,width,height (double rect) | size (npoints)
+            binary_file.write(struct.pack('f', 0.0)) #18-21 x1, float 32
+            binary_file.write(struct.pack('f', 0.0)) #22-25 y1, float 32
+            binary_file.write(struct.pack('f', 0.0)) #26-29 x2, float 32
+            binary_file.write(struct.pack('f', 0.0)) #30-33 y2, float 32
+            binary_file.write(struct.pack('>H', 0)) #34-35   stroke width (v1.43i or later)
+            binary_file.write(struct.pack('i', 0)) #36-39   ShapeRoi size (type must be 1 if this value>0)
+            binary_file.write(struct.pack('I', 16777215)) #40-43   stroke color (v1.43i or later)
+            binary_file.write(struct.pack('i', 0)) #44-47   fill color (v1.43i or later)
+            binary_file.write(struct.pack('>H', 0)) #48-49   subtype (v1.43k or later)
+            binary_file.write(struct.pack('>H', 0)) #50-51   options (v1.43k or later)
+            binary_file.write(struct.pack('B', 0)) #52-52   arrow style or aspect ratio (v1.43p or later)
+            binary_file.write(struct.pack('B', 0)) #53-53   arrow head size (v1.43p or later)
+            binary_file.write(struct.pack('>H', 0)) #rounded rect arc size (v1.43p or later)
+            binary_file.write(struct.pack('i', -1509031936)) #56-59   position
+            binary_file.write(struct.pack('i', 1073741824)) #60-63   header2 offset
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 2147483648)) #magic
+            binary_file.write(struct.pack('I', 33554432)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write(struct.pack('I', 0)) #magic
+            binary_file.write('          '.encode('utf-8')) #"magic number"
+            binary_file.write(well_name.encode('utf-8')) #"magic number"
+    with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "DefaultRoiSet.zip"), "w") as zf:
+        for dir_name, _, file_names in os.walk(output_dir):
+            for file_name in file_names:
+                file_path = os.path.join(dir_name, file_name)
+                zf.write(file_path, os.path.basename(file_path))
 
 if __name__ == "__main__":
     try:
-        main()
+        def run_main_function():
+            #file_path = filedialog.askopenfilename()
+            main(file_entry.get(),roi_set_entry.get())
+
+        root = tk.Tk()
+        root.title("GUI")
+        root.geometry("300x200")
+
+        file_label = tk.Label(root, text="Select settings file:")
+        file_label.pack()
+
+        def choose_file():
+            file_path = filedialog.askopenfilename()
+            file_entry.delete(0, tk.END)
+            file_entry.insert(0, file_path)
+
+        file_entry = tk.Entry(root)
+        file_entry.pack()
+
+        file_button = tk.Button(root, text="Browse", command=choose_file)
+        file_button.pack()
+        
+        roi_set_label = tk.Label(root, text="Select ImageJ RoiSet.zip file:")
+        roi_set_label.pack()
+        
+        def choose_roi_set():
+            file_path = filedialog.askopenfilename()
+            roi_set_entry.delete(0, tk.END)
+            roi_set_entry.insert(0, file_path)
+        
+        roi_set_entry = tk.Entry(root)
+        roi_set_entry.pack()
+
+        roi_set_button = tk.Button(root, text="Browse", command=choose_roi_set)
+        roi_set_button.pack()
+
+        run_button = tk.Button(root, text="Run", command=run_main_function)
+        run_button.pack()
+
+        root.mainloop()
+        #main()
     except Exception:
         logger.exception("Error in Local Analysis")
         sys.exit(1)
