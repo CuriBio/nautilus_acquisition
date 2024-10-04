@@ -15,15 +15,9 @@ class PlateIdEdit : public QLineEdit {
         PlateIdEdit(QWidget *parent = nullptr);
         ~PlateIdEdit() {}
 
-        // void setCompleter(QCompleter *c);
-        // QCompleter *completer() const;
-
     protected:
         void focusInEvent(QFocusEvent *e) override;
         // void inputMethodEvent(QInputMethodEvent *e) override;
-
-    private:
-        QCompleter *c = nullptr;
 };
 
 #endif // PLATEIDEDIT_H
