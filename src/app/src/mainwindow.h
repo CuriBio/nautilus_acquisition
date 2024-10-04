@@ -145,6 +145,7 @@ class PlateIdEdit : public QLineEdit {
 
     private:
         QCompleter *c = nullptr;
+}
 
 
 /*
