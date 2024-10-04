@@ -1013,17 +1013,27 @@ void MainWindow::on_durationEdit_valueChanged(double value) {
 void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
     m_config->plateId = plateId.toStdString();
 
+    if (m_config->plateId == "" ) {
+        // if empty, need to use unfiltered completion so that all options are included.
+        // if set to other popup completion, this will not show all options
+        ui.plateIdEdit->completer()->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+    } else {
+        // if not empty, only want to match options based on the prefix
+        ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
+    }
+    // ui.plateIdEdit->completer()->complete();
+
     if (m_config->recordingType == RecordingType::Background) {
-        if (m_config->plateId != "" ) {
-            enableMask(StartAcquisitionMask);
-        } else {
+        if (m_config->plateId == "" ) {
             disableMask(StartAcquisitionMask);
+        } else {
+            enableMask(StartAcquisitionMask);
         }
     }
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
-    spdlog::info("Set plateId: {}", m_config->plateId);
+    spdlog::info("Set plateId: '{}'", m_config->plateId);
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {

@@ -1,6 +1,7 @@
 #include <QLineEdit>
 #include <QCompleter>
 #include <QFocusEvent>
+#include <QKeyEvent>
 #include <QInputMethodEvent>
 #include <QWidget>
 
@@ -17,7 +18,7 @@ class PlateIdEdit : public QLineEdit {
 
     protected:
         void focusInEvent(QFocusEvent *e) override;
-        // void inputMethodEvent(QInputMethodEvent *e) override;
+        void keyPressEvent(QKeyEvent *e) override;
 };
 
 #endif // PLATEIDEDIT_H
