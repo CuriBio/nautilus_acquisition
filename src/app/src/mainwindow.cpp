@@ -68,7 +68,7 @@
 #include <processing/WriteRawFrame.h>
 #include <processing/BackgroundProcess.h>
 #include <Rois.h>
-#include <plateidedit.h>
+#include "plateidedit.h"
 
 #define DATA_DIR "data"
 

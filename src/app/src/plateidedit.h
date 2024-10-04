@@ -1,24 +1,29 @@
 #include <QLineEdit>
 #include <QCompleter>
-#include <QKeyEvent>
+#include <QFocusEvent>
 #include <QInputMethodEvent>
 #include <QWidget>
+
+#ifndef PLATEIDEDIT_H
+#define PLATEIDEDIT_H
 
 
 class PlateIdEdit : public QLineEdit {
     Q_OBJECT
 
     public:
-        explicit PlateIdEdit(QWidget *parent = nullptr);
+        PlateIdEdit(QWidget *parent = nullptr);
         ~PlateIdEdit() {}
 
-        void setCompleter(QCompleter *c);
-        QCompleter *completer() const;
+        // void setCompleter(QCompleter *c);
+        // QCompleter *completer() const;
 
     protected:
-        void keyPressEvent(QKeyEvent *e) override;
-        void inputMethodEvent(QInputMethodEvent *e) override;
+        void focusInEvent(QFocusEvent *e) override;
+        // void inputMethodEvent(QInputMethodEvent *e) override;
 
     private:
         QCompleter *c = nullptr;
-}
+};
+
+#endif // PLATEIDEDIT_H

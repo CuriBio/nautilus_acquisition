@@ -64,7 +64,6 @@
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
 #include <Rois.h>
-#include <plateidedit.h>
 
 
 #include "config.h"
@@ -74,6 +73,7 @@
 #include "advancedsetupdialog.h"
 #include "liveview.h"
 #include "autoupdate.h"
+#include "plateidedit.h"
 
 #define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
