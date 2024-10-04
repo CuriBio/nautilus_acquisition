@@ -64,6 +64,7 @@
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
 #include <Rois.h>
+#include <plateidedit.h>
 
 
 #include "config.h"
