@@ -1015,20 +1015,37 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
 
     if (m_config->plateId == "" ) {
         // if empty, need to use unfiltered completion so that all options are included.
-        // if set to other popup completion, this will not show all options
+        // other popup completion will not show all options if no text entered
         ui.plateIdEdit->completer()->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
     } else {
         // if not empty, only want to match options based on the prefix
         ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
     }
-    // ui.plateIdEdit->completer()->complete();
 
+    // TODO update border of plate ID input in these checks
     if (m_config->recordingType == RecordingType::Background) {
-        if (m_config->plateId == "" ) {
+        // a background recording must be given a plate ID before acquisition can begin
+        if (m_config->plateId == "") {
             disableMask(StartAcquisitionMask);
+            ui.startAcquisitionBtn->setToolTip("Plate ID required for background recording");
         } else {
             enableMask(StartAcquisitionMask);
+            ui.startAcquisitionBtn->setToolTip("");
         }
+    } else if (m_config->useBackgroundSubtraction) {
+        // if using background subtraction, a valid plate ID must be entered before starting acquisition
+        // TODO see if the mask needs to be updated when the BG rec checkbox state changes. This might handle it
+        bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end()
+        if (plateIdExists) {
+            enableMask(StartAcquisitionMask);
+            ui.startAcquisitionBtn->setToolTip("");
+        } else {
+            disableMask(StartAcquisitionMask);
+            ui.startAcquisitionBtn->setToolTip("Invalid Plate ID");
+        }
+    } else {
+        // TODO set border default here?
+        // TODO do something to tooltip of start acq button here?
     }
 }
 
@@ -1047,9 +1064,9 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
 
 void MainWindow::updatePlateIdList() {
     QStringList newList;
-    auto plateIds = m_db->getPlateIds();
+    m_config->storedPlateIds = m_db->getPlateIds();
 
-    for (auto pid : plateIds) {
+    for (auto pid : m_config->storedPlateIds) {
         newList << QString::fromStdString(pid);
     }
 

@@ -47,6 +47,7 @@ class Config {
         bool enableDownsampleRawFiles;
         bool keepOriginalRaw;
         uint8_t binFactor;
+        std::vector<std::string> storedPlateIds;
         std::string plateId;
         RecordingType recordingType;
         bool useBackgroundSubtraction;
