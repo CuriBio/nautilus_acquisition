@@ -158,7 +158,7 @@ void StageControl::loadList(std::string fileName) {
         }
     }
 
-    emit this->sig_stagelist_updated(m_positions.size());
+    emit this->sig_stagelist_updated();
 }
 
 

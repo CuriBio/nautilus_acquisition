@@ -51,7 +51,7 @@ class Config {
         std::string plateId;
         RecordingType recordingType;
         bool useBackgroundSubtraction;
-        
+
 
         //acquisition.region options
         Region rgn;

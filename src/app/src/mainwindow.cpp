@@ -179,8 +179,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         }
     });
 
-    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this](size_t count) {
-        availableDriveSpace(m_config->fps, m_config->duration, count);
+    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this]() {
+        checkStartAcqRequirements();
     });
 
     connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
@@ -313,7 +313,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        checkStartAcqRequirements();
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -323,7 +323,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        checkStartAcqRequirements();
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -876,51 +876,31 @@ void MainWindow::on_levelsSlider_valueChanged(int value) {
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    if (value * m_config->duration < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        //ui.frameRateEdit->setStyleSheet("background-color: red");
-        //ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        checkFrameRate(value);
-
-        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
-
-        m_config->fps = value;
-        m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-        m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-    }
-
+    m_config->fps = value;
     if (m_curState == LiveViewRunning) {
         m_liveViewTimer->stop();
         double minFps = std::min<double>(m_config->fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
     }
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+    checkStartAcqRequirements();
 }
 
 
 void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
     if (text.toStdString() == "Background Recording") {
-        //disable use background recording checkbox
         disableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
 
-        if (m_config->plateId == "") {
-            disableMask(StartAcquisitionMask);
-        }
-
-        //save current duration sao it can be set back when data type is changed
+        //save current duration so it can be set back when data type is changed
         m_savedDuration = m_config->duration;
         ui.durationEdit->setValue(1.0);
         ui.durationEdit->setEnabled(false);
 
+        //disable use background recording checkbox
         ui.disableBackgroundRecording->setChecked(false);
 
         m_config->recordingType = RecordingType::Background;
     } else {
-        enableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask | StartAcquisitionMask);
+        enableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
 
         m_config->duration = m_savedDuration;
         ui.durationEdit->setValue(m_config->duration);
@@ -931,7 +911,7 @@ void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
         m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
 
-    updateInputs();
+    checkStartAcqRequirements();
 }
 
 void MainWindow::on_plateFormatDropDown_activated(int index) {
@@ -990,29 +970,12 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    if (value * m_config->fps < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
-        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
-
-        checkFrameRate(m_config->fps);
-    }
-
     m_config->duration = value;
-    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-    m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+    checkStartAcqRequirements();
 }
 
 void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
     m_config->plateId = plateId.toStdString();
-
     if (m_config->plateId == "" ) {
         // if empty, need to use unfiltered completion so that all options are included.
         // other popup completion will not show all options if no text entered
@@ -1021,32 +984,7 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
         // if not empty, only want to match options based on the prefix
         ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
     }
-
-    // TODO update border of plate ID input in these checks
-    if (m_config->recordingType == RecordingType::Background) {
-        // a background recording must be given a plate ID before acquisition can begin
-        if (m_config->plateId == "") {
-            disableMask(StartAcquisitionMask);
-            ui.startAcquisitionBtn->setToolTip("Plate ID required for background recording");
-        } else {
-            enableMask(StartAcquisitionMask);
-            ui.startAcquisitionBtn->setToolTip("");
-        }
-    } else if (m_config->useBackgroundSubtraction) {
-        // if using background subtraction, a valid plate ID must be entered before starting acquisition
-        // TODO see if the mask needs to be updated when the BG rec checkbox state changes. This might handle it
-        bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end()
-        if (plateIdExists) {
-            enableMask(StartAcquisitionMask);
-            ui.startAcquisitionBtn->setToolTip("");
-        } else {
-            disableMask(StartAcquisitionMask);
-            ui.startAcquisitionBtn->setToolTip("Invalid Plate ID");
-        }
-    } else {
-        // TODO set border default here?
-        // TODO do something to tooltip of start acq button here?
-    }
+    checkStartAcqRequirements();
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
@@ -1060,6 +998,17 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     } else {
         spdlog::info("Background subtraction disabled");
     }
+    checkStartAcqRequirements();
+}
+
+void MainWindow::checkStartAcqRequirements() {
+    // these will handle setting+clearing the tooltip+styling of the start acq btn
+    if (availableDriveSpace() && checkFrameRateAndDur() && checkPlateIdRequirements()) {
+        enableMask(StartAcquisitionMask);
+    } else {
+        disableMask(StartAcquisitionMask);
+    }
+    updateInputs();
 }
 
 void MainWindow::updatePlateIdList() {
@@ -1168,17 +1117,58 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
 }
 
 
-void MainWindow::checkFrameRate(double value) {
-    if (value <= 1.0) {
-        spdlog::error("Frame rate is set to <= 1Hz");
+bool MainWindow::checkFrameRateAndDur() {
+    bool invalid = m_config->duration * m_config->fps < 1.0;
+    if (invalid) {
+        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
-        ui.frameRateEdit->update();
+        ui.durationEdit->setStyleSheet("background-color: red");
     } else {
         ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
-        ui.frameRateEdit->setToolTip("");
-        ui.frameRateEdit->update();
+        // frame rates <= 1Hz are discouraged but not disallowed
+        if (m_config->fps <= 1.0) {
+            spdlog::error("Frame rate is set to <= 1Hz");
+            ui.frameRateEdit->setStyleSheet("background-color: red"); // TODO use yellow/orange here so that red always means disallowed?
+            ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
+        } else {
+            ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+            ui.frameRateEdit->setToolTip("");
+        }
+        ui.frameRateEdit->update(); // TODO what is this doing?
     }
+
+    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+    m_expSettings.frameCount = m_config->duration * m_config->fps;
+
+    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+
+    return !invalid;
+}
+
+
+bool MainWindow::checkPlateIdRequirements() {
+    std::string startAcqBtnTooltip = "";
+
+    // TODO set plate ID input border (red if empty, green if valid, default if value not used)
+    if (m_config->recordingType == RecordingType::Background) {
+        // a background recording must be given a plate ID before acquisition can begin
+        if (m_config->plateId == "") {
+            startAcqBtnTooltip = "Plate ID required for background recording";
+        }
+    } else if (m_config->useBackgroundSubtraction) {
+        // if using background subtraction, a valid plate ID must be entered before starting acquisition
+        bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
+        if (!plateIdExists) {
+          startAcqBtnTooltip = "Invalid Plate ID";
+        }
+    } else {
+        // TODO clear plate ID input, and clear border color
+        // TODO disable plate ID input?
+    }
+
+    ui.startAcquisitionBtn->setToolTip(startAcqBtnTooltip);
+
+    return startAcqBtnTooltip == "";
 }
 
 
@@ -1269,12 +1259,12 @@ bool MainWindow::ledSetVoltage(double voltage) {
  * Check if default drive on windows has sufficient space for acquisition.
  * Update startAcquisitionBtn if error.
  *
- * @param fps setting of acquisition
- * @param duration of acquisition
- *
  * @returns boolean true if space is available
 */
-bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStagePositions) {
+bool MainWindow::availableDriveSpace() {
+    double fps = m_config->fps;
+    double duration = m_config->duration;
+    size_t nStagePositions = m_stageControl->GetPositions().size();
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;

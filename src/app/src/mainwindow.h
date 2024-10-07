@@ -421,9 +421,11 @@ class MainWindow : public QMainWindow {
         void updateTriggerMode(int16_t triggerMode);
         void updateEnableLiveViewDuringAcquisition(bool enable);
 
-        void checkFrameRate(double value);
+        bool checkFrameRateAndDur();
+        bool checkPlateIdRequirements();
+        void checkStartAcqRequirements();
 
-        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
+        bool availableDriveSpace();
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
