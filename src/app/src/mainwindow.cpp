@@ -1128,13 +1128,13 @@ bool MainWindow::checkFrameRateAndDur() {
         // frame rates <= 1Hz are discouraged but not disallowed
         if (m_config->fps <= 1.0) {
             spdlog::error("Frame rate is set to <= 1Hz");
-            ui.frameRateEdit->setStyleSheet("background-color: red"); // TODO use yellow/orange here so that red always means disallowed?
+            ui.frameRateEdit->setStyleSheet("background-color: yellow");
             ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
         } else {
             ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
             ui.frameRateEdit->setToolTip("");
         }
-        ui.frameRateEdit->update(); // TODO what is this doing?
+        ui.frameRateEdit->update(); // TODO try removing this
     }
 
     m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
@@ -1149,23 +1149,30 @@ bool MainWindow::checkFrameRateAndDur() {
 bool MainWindow::checkPlateIdRequirements() {
     std::string startAcqBtnTooltip = "";
 
-    // TODO set plate ID input border (red if empty, green if valid, default if value not used)
+    std::string plateIdEditStyling = "background-color: #2F2F2F";
+
     if (m_config->recordingType == RecordingType::Background) {
         // a background recording must be given a plate ID before acquisition can begin
         if (m_config->plateId == "") {
             startAcqBtnTooltip = "Plate ID required for background recording";
+            plateIdEditStyling = "background-color: red";
+        } else {
+            plateIdEditStyling = "background-color: green";
         }
     } else if (m_config->useBackgroundSubtraction) {
         // if using background subtraction, a valid plate ID must be entered before starting acquisition
         bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
         if (!plateIdExists) {
-          startAcqBtnTooltip = "Invalid Plate ID";
+            startAcqBtnTooltip = "Invalid Plate ID";
+            plateIdEditStyling = "background-color: red";
+        } else {
+            plateIdEditStyling = "background-color: green";
         }
     } else {
-        // TODO clear plate ID input, and clear border color
-        // TODO disable plate ID input?
+        // TODO clear plate ID input and disable (or do this somewhere else?)
     }
 
+    ui.plateIdEdit->setStyleSheet(plateIdEditStyling);
     ui.startAcquisitionBtn->setToolTip(startAcqBtnTooltip);
 
     return startAcqBtnTooltip == "";
