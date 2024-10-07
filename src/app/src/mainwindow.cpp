@@ -1133,23 +1133,23 @@ bool MainWindow::checkFrameRateAndDur(bool log) {
         if (log) {
             spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
         }
-        ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.frameRateEdit->setStyleSheet("border: 2px solid red");
         ui.frameRateEdit->setToolTip("Capture is set to less than 1 frame");
-        ui.durationEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setStyleSheet("border: 2px solid red");
         ui.durationEdit->setToolTip("Capture is set to less than 1 frame");
         ui.startAcquisitionBtn->setToolTip("Capture is set to less than 1 frame");
     } else {
-        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.durationEdit->setStyleSheet("border: none");
         ui.durationEdit->setToolTip("");
         // frame rates <= 1Hz are discouraged but not disallowed
         if (m_config->fps <= 1.0) {
             if (log) {
                 spdlog::error("Frame rate is set to <= 1Hz");
             }
-            ui.frameRateEdit->setStyleSheet("background-color: red"); // TODO if ok with changing border instead of background, use yellow instead
+            ui.frameRateEdit->setStyleSheet("border: 2px solid orange");
             ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
         } else {
-            ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+            ui.frameRateEdit->setStyleSheet("border: none");
             ui.frameRateEdit->setToolTip("");
         }
     }
@@ -1168,7 +1168,7 @@ bool MainWindow::checkFrameRateAndDur(bool log) {
 bool MainWindow::checkPlateIdRequirements() {
     std::string startAcqBtnTooltip = "";
 
-    std::string plateIdEditStyling = "background-color: #2F2F2F";
+    std::string plateIdEditStyling = "border: 2px solid white";
 
     if (m_config->recordingType == RecordingType::Background) {
         if (!ui.plateIdEdit->isEnabled()) {
@@ -1178,9 +1178,7 @@ bool MainWindow::checkPlateIdRequirements() {
         // a background recording must be given a plate ID before acquisition can begin
         if (m_config->plateId == "") {
             startAcqBtnTooltip = "Plate ID required for background recording";
-            plateIdEditStyling = "background-color: red";
-        } else {
-            plateIdEditStyling = "background-color: #2F2F2F"; // TODO use green if changing border color is ok
+            plateIdEditStyling = "border: 2px solid red";
         }
     } else if (m_config->useBackgroundSubtraction) {
         if (!ui.plateIdEdit->isEnabled()) {
@@ -1191,14 +1189,13 @@ bool MainWindow::checkPlateIdRequirements() {
         bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
         if (!plateIdExists) {
             startAcqBtnTooltip = "Invalid Plate ID";
-            plateIdEditStyling = "background-color: red";
-        } else {
-            plateIdEditStyling = "background-color: #2F2F2F"; // TODO use green if changing border color is ok
+            plateIdEditStyling = "border: 2px solid red";
         }
     } else {
         ui.plateIdEdit->setEnabled(false);
         // if set to empty the placeholder value will show, using a space so that it does not
         ui.plateIdEdit->setText(" ");
+        plateIdEditStyling = "border: 2px solid grey";
     }
 
     ui.plateIdEdit->setStyleSheet(QString::fromStdString(plateIdEditStyling));
