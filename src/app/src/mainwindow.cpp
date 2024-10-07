@@ -135,7 +135,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
-        setMask(StartAcquisitionMask);
+        checkStartAcqRequirements();
     });
 
     // set platmapFormat
@@ -551,7 +551,8 @@ bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
     //emit sig_disable_all();
 
-    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | StageNavigationMask);
+    setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
+    checkStartAcqRequirements();
     emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
@@ -623,6 +624,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements();
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -695,6 +697,7 @@ bool MainWindow::startAcquisition() {
 bool MainWindow::stopAcquisition() {
     spdlog::info("Stopping acquisition");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements();
     emit m_stageControl->sig_stage_enable_all();
     emit sig_progress_done();
 
@@ -777,6 +780,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements();
     return true;
 }
 
@@ -790,6 +794,7 @@ bool MainWindow::settingsOpen() {
 bool MainWindow::settingsClosed() {
     spdlog::info("Settings Closed");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements();
     return true;
 }
 
@@ -852,6 +857,7 @@ bool MainWindow::postProcessingDone() {
     spdlog::info("Post Processing Done");
 
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements();
     emit m_stageControl->sig_stage_enable_all();
     return true;
 }
@@ -1002,8 +1008,12 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
 }
 
 void MainWindow::checkStartAcqRequirements() {
-    // these will handle setting+clearing the tooltip+styling of the start acq btn
-    if (availableDriveSpace() && checkFrameRateAndDur() && checkPlateIdRequirements()) {
+    // these will handle setting the tooltip of the start acq btn for an error, so order matters here to get the most important errors to show up over others
+    bool validPlateIdVals = checkPlateIdRequirements();
+    bool validFrameRateAndDur = checkFrameRateAndDur();
+    bool isAvailableDriveSpace = availableDriveSpace();
+    if (validPlateIdVals && validFrameRateAndDur && isAvailableDriveSpace) {
+        ui.startAcquisitionBtn->setToolTip("");
         enableMask(StartAcquisitionMask);
     } else {
         disableMask(StartAcquisitionMask);
@@ -1122,19 +1132,22 @@ bool MainWindow::checkFrameRateAndDur() {
     if (invalid) {
         spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
         ui.frameRateEdit->setStyleSheet("background-color: red");
+        ui.frameRateEdit->setToolTip("Capture is set to less than 1 frame");
         ui.durationEdit->setStyleSheet("background-color: red");
+        ui.durationEdit->setToolTip("Capture is set to less than 1 frame");
+        ui.startAcquisitionBtn->setToolTip("Capture is set to less than 1 frame");
     } else {
-        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
+        ui.durationEdit->setToolTip("");
         // frame rates <= 1Hz are discouraged but not disallowed
         if (m_config->fps <= 1.0) {
             spdlog::error("Frame rate is set to <= 1Hz");
-            ui.frameRateEdit->setStyleSheet("background-color: yellow");
+            ui.frameRateEdit->setStyleSheet("background-color: red"); // TODO if ok with changing border instead of background, use yellow instead
             ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
         } else {
             ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
             ui.frameRateEdit->setToolTip("");
         }
-        ui.frameRateEdit->update(); // TODO try removing this
     }
 
     m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
@@ -1152,30 +1165,44 @@ bool MainWindow::checkPlateIdRequirements() {
     std::string plateIdEditStyling = "background-color: #2F2F2F";
 
     if (m_config->recordingType == RecordingType::Background) {
+        if (!ui.plateIdEdit->isEnabled()) {
+            ui.plateIdEdit->setEnabled(true);
+            ui.plateIdEdit->setText("");    
+        }
         // a background recording must be given a plate ID before acquisition can begin
         if (m_config->plateId == "") {
             startAcqBtnTooltip = "Plate ID required for background recording";
             plateIdEditStyling = "background-color: red";
         } else {
-            plateIdEditStyling = "background-color: green";
+            plateIdEditStyling = "background-color: #2F2F2F"; // TODO use green if changing border color is ok
         }
     } else if (m_config->useBackgroundSubtraction) {
+        if (!ui.plateIdEdit->isEnabled()) {
+            ui.plateIdEdit->setEnabled(true);
+            ui.plateIdEdit->setText("");    
+        }
         // if using background subtraction, a valid plate ID must be entered before starting acquisition
         bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
         if (!plateIdExists) {
             startAcqBtnTooltip = "Invalid Plate ID";
             plateIdEditStyling = "background-color: red";
         } else {
-            plateIdEditStyling = "background-color: green";
+            plateIdEditStyling = "background-color: #2F2F2F"; // TODO use green if changing border color is ok
         }
     } else {
-        // TODO clear plate ID input and disable (or do this somewhere else?)
+        ui.plateIdEdit->setEnabled(false);
+        // if set to empty the placeholder value will show, using a space so that it does not
+        ui.plateIdEdit->setText(" ");
     }
 
-    ui.plateIdEdit->setStyleSheet(plateIdEditStyling);
-    ui.startAcquisitionBtn->setToolTip(startAcqBtnTooltip);
+    ui.plateIdEdit->setStyleSheet(QString::fromStdString(plateIdEditStyling));
 
-    return startAcqBtnTooltip == "";
+    bool valid = startAcqBtnTooltip == "";
+    if (!valid) {
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(startAcqBtnTooltip));
+    }
+
+    return valid;
 }
 
 
@@ -1294,7 +1321,6 @@ bool MainWindow::availableDriveSpace() {
 
             spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
             ui.startAcquisitionBtn->setStyleSheet("");
-            ui.startAcquisitionBtn->setToolTip("");
             return true;
        }
 

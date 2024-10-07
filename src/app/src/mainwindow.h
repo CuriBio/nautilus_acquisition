@@ -280,6 +280,7 @@ class MainWindow : public QMainWindow {
             }},
             { {Initializing, Idle}, [this]() {
                 setMask(ENABLE_ALL);
+                checkStartAcqRequirements();
                 m_curState = Idle;
             }},
             //live view states
