@@ -1167,7 +1167,7 @@ bool MainWindow::checkPlateIdRequirements() {
     if (m_config->recordingType == RecordingType::Background) {
         if (!ui.plateIdEdit->isEnabled()) {
             ui.plateIdEdit->setEnabled(true);
-            ui.plateIdEdit->setText("");    
+            ui.plateIdEdit->setText("");
         }
         // a background recording must be given a plate ID before acquisition can begin
         if (m_config->plateId == "") {
@@ -1179,7 +1179,7 @@ bool MainWindow::checkPlateIdRequirements() {
     } else if (m_config->useBackgroundSubtraction) {
         if (!ui.plateIdEdit->isEnabled()) {
             ui.plateIdEdit->setEnabled(true);
-            ui.plateIdEdit->setText("");    
+            ui.plateIdEdit->setText("");
         }
         // if using background subtraction, a valid plate ID must be entered before starting acquisition
         bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
@@ -1702,27 +1702,17 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     }
 
     if (cls->m_config->plateId != "") {
-        std::ofstream backgroundFile;
-
-        // get local timestamp to add to subdir name
-        auto now = std::chrono::system_clock::now();
-        auto timestamp = std::chrono::system_clock::to_time_t(now);
-        std::tm *tm = std::localtime(&timestamp);
-
-        // make subdirectory to write to
-        std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
-        std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-        std::string bgname = cls->m_config->plateId + ".tsv";
-
-        std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
-        spdlog::info("Writing background recording to {}", dir.string());
-
-        if (!std::filesystem::exists(dir)) {
-            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir);
-            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir / cls->m_config->plateId);
+        std::filesystem::path backgroundRecSubDir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId;
+        if (!std::filesystem::exists(backgroundRecSubDir)) {
+            std::filesystem::create_directories(backgroundRecSubDir);
         }
 
-        backgroundFile.open(dir.string());
+        std::string bgname = cls->m_config->plateId + ".tsv";
+        std::filesystem::path backgroundFilePath = backgroundRecSubDir / bgname;
+        spdlog::info("Writing background recording to {}", dir.string());
+
+        std::ofstream backgroundFile;
+        backgroundFile.open(backgroundFilePath.string());
         backgroundFile << "Well\t" << "Background Fluorescence, 100% LED Intensity (AU)\t"
                        << "Background Fluorescence, 50% LED Intensity (AU)\t"
                        << "Background Fluorescence, 25% LED Intensity (AU)"

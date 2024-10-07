@@ -150,6 +150,11 @@ int main(int argc, char* argv[]) {
         config->Dump();
     }
 
+    if (!std::filesystem::exists(config->backgroundRecordingDir)) {
+        spdlog::info("Creating {}", config->backgroundRecordingDir.string());
+        std::filesystem::create_directory(config->backgroundRecordingDir);
+    }
+
     if (!userargs.count("no_gui")) {
         spdlog::info("Gui mode: {}", true);
         QApplication app(argc, argv);
