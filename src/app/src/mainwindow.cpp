@@ -1306,10 +1306,8 @@ bool MainWindow::availableDriveSpace(bool log) {
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
         //account for each acquisition and if autotile is enabled
-        uint32_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile) ? 2 : 1;
-
+        uint64_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile ? 2 : 1);
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
-        std::stringstream tool_tip_text;
 
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
@@ -1324,7 +1322,12 @@ bool MainWindow::availableDriveSpace(bool log) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             if (log) {
-                spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
+                spdlog::info(
+                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will use {} bytes",
+                    m_config->path.string(),
+                    lpTotalNumberOfFreeBytes.QuadPart, 
+                    totalAcquisitionBytes
+                );
             }
             ui.startAcquisitionBtn->setStyleSheet("");
             return true;
@@ -1332,10 +1335,14 @@ bool MainWindow::availableDriveSpace(bool log) {
 
         //not enough space for acquisition
         if (log) {
-            spdlog::error("Not enough space for acquisition");
+            spdlog::error(
+                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require {} bytes",
+                m_config->path.string(),
+                lpTotalNumberOfFreeBytes.QuadPart, 
+                totalAcquisitionBytes
+            );
         }
         ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
-        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
         return false;
     } else {
         ui.startAcquisitionBtn->setToolTip("Camera not found.");
