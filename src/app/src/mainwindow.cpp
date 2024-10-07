@@ -135,7 +135,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
-        checkStartAcqRequirements();
+        checkStartAcqRequirements(false, false);
     });
 
     // set platmapFormat
@@ -180,7 +180,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this]() {
-        checkStartAcqRequirements();
+        checkStartAcqRequirements(false, false);
     });
 
     connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
@@ -313,7 +313,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        checkStartAcqRequirements();
+        checkStartAcqRequirements(true, false);
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -323,7 +323,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        checkStartAcqRequirements();
+        checkStartAcqRequirements(true, false);
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -552,7 +552,7 @@ bool MainWindow::startLiveView() {
     //emit sig_disable_all();
 
     setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
     emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
@@ -624,7 +624,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -697,7 +697,7 @@ bool MainWindow::startAcquisition() {
 bool MainWindow::stopAcquisition() {
     spdlog::info("Stopping acquisition");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(true, false);
     emit m_stageControl->sig_stage_enable_all();
     emit sig_progress_done();
 
@@ -780,7 +780,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
     return true;
 }
 
@@ -794,7 +794,7 @@ bool MainWindow::settingsOpen() {
 bool MainWindow::settingsClosed() {
     spdlog::info("Settings Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
     return true;
 }
 
@@ -857,7 +857,7 @@ bool MainWindow::postProcessingDone() {
     spdlog::info("Post Processing Done");
 
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(true, false);
     emit m_stageControl->sig_stage_enable_all();
     return true;
 }
@@ -888,7 +888,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         double minFps = std::min<double>(m_config->fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
     }
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(true, true);
 }
 
 
@@ -917,7 +917,7 @@ void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
         m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
 
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
 }
 
 void MainWindow::on_plateFormatDropDown_activated(int index) {
@@ -977,7 +977,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
     m_config->duration = value;
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(true, true);
 }
 
 void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
@@ -990,7 +990,7 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
         // if not empty, only want to match options based on the prefix
         ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
     }
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
@@ -1004,14 +1004,14 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     } else {
         spdlog::info("Background subtraction disabled");
     }
-    checkStartAcqRequirements();
+    checkStartAcqRequirements(false, false);
 }
 
-void MainWindow::checkStartAcqRequirements() {
+void MainWindow::checkStartAcqRequirements(bool logDriveCheck, bool logFrameRateAndDurCheck) {
     // these will handle setting the tooltip of the start acq btn for an error, so order matters here to get the most important errors to show up over others
     bool validPlateIdVals = checkPlateIdRequirements();
-    bool validFrameRateAndDur = checkFrameRateAndDur();
-    bool isAvailableDriveSpace = availableDriveSpace();
+    bool validFrameRateAndDur = checkFrameRateAndDur(logFrameRateAndDurCheck);
+    bool isAvailableDriveSpace = availableDriveSpace(logDriveCheck);
     if (validPlateIdVals && validFrameRateAndDur && isAvailableDriveSpace) {
         ui.startAcquisitionBtn->setToolTip("");
         enableMask(StartAcquisitionMask);
@@ -1127,10 +1127,12 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
 }
 
 
-bool MainWindow::checkFrameRateAndDur() {
+bool MainWindow::checkFrameRateAndDur(bool log) {
     bool invalid = m_config->duration * m_config->fps < 1.0;
     if (invalid) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
+        if (log) {
+            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
+        }
         ui.frameRateEdit->setStyleSheet("background-color: red");
         ui.frameRateEdit->setToolTip("Capture is set to less than 1 frame");
         ui.durationEdit->setStyleSheet("background-color: red");
@@ -1141,7 +1143,9 @@ bool MainWindow::checkFrameRateAndDur() {
         ui.durationEdit->setToolTip("");
         // frame rates <= 1Hz are discouraged but not disallowed
         if (m_config->fps <= 1.0) {
-            spdlog::error("Frame rate is set to <= 1Hz");
+            if (log) {
+                spdlog::error("Frame rate is set to <= 1Hz");
+            }
             ui.frameRateEdit->setStyleSheet("background-color: red"); // TODO if ok with changing border instead of background, use yellow instead
             ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
         } else {
@@ -1153,7 +1157,9 @@ bool MainWindow::checkFrameRateAndDur() {
     m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
     m_expSettings.frameCount = m_config->duration * m_config->fps;
 
-    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    if (log) {
+        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    }
 
     return !invalid;
 }
@@ -1295,7 +1301,7 @@ bool MainWindow::ledSetVoltage(double voltage) {
  *
  * @returns boolean true if space is available
 */
-bool MainWindow::availableDriveSpace() {
+bool MainWindow::availableDriveSpace(bool log) {
     double fps = m_config->fps;
     double duration = m_config->duration;
     size_t nStagePositions = m_stageControl->GetPositions().size();
@@ -1310,7 +1316,9 @@ bool MainWindow::availableDriveSpace() {
 
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
-            spdlog::error("Default drive could not be found when");
+            if (log) {
+                spdlog::error("Default drive could not be found");
+            }
             ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
             return false;
         }
@@ -1318,14 +1326,17 @@ bool MainWindow::availableDriveSpace() {
        if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
-
-            spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
+            if (log) {
+                spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
+            }
             ui.startAcquisitionBtn->setStyleSheet("");
             return true;
        }
 
         //not enough space for acquisition
-        spdlog::error("Not enough space for acquisition");
+        if (log) {
+            spdlog::error("Not enough space for acquisition");
+        }
         ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
         ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
         return false;
@@ -1709,7 +1720,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
         std::string bgname = cls->m_config->plateId + ".tsv";
         std::filesystem::path backgroundFilePath = backgroundRecSubDir / bgname;
-        spdlog::info("Writing background recording to {}", dir.string());
+        spdlog::info("Writing background recording to {}", backgroundFilePath.string());
 
         std::ofstream backgroundFile;
         backgroundFile.open(backgroundFilePath.string());

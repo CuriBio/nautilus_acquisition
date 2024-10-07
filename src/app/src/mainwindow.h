@@ -280,7 +280,7 @@ class MainWindow : public QMainWindow {
             }},
             { {Initializing, Idle}, [this]() {
                 setMask(ENABLE_ALL);
-                checkStartAcqRequirements();
+                checkStartAcqRequirements(true, false);
                 m_curState = Idle;
             }},
             //live view states
@@ -422,11 +422,11 @@ class MainWindow : public QMainWindow {
         void updateTriggerMode(int16_t triggerMode);
         void updateEnableLiveViewDuringAcquisition(bool enable);
 
-        bool checkFrameRateAndDur();
+        bool checkFrameRateAndDur(bool log);
         bool checkPlateIdRequirements();
-        void checkStartAcqRequirements();
+        void checkStartAcqRequirements(bool logDriveCheck, bool logFrameRateAndDurCheck);
 
-        bool availableDriveSpace();
+        bool availableDriveSpace(bool log);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 
