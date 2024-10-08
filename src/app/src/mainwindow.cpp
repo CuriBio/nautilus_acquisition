@@ -135,7 +135,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
-        checkStartAcqRequirements(false, false);
+        checkStartAcqRequirements({});
     });
 
     // set platmapFormat
@@ -180,7 +180,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this]() {
-        checkStartAcqRequirements(true, false);
+        checkStartAcqRequirements({ .space = true });
     });
 
     connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
@@ -313,7 +313,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        checkStartAcqRequirements(true, false);
+        checkStartAcqRequirements({ .space = true });
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -323,7 +323,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        checkStartAcqRequirements(true, false);
+        checkStartAcqRequirements({ .space = true });
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -552,7 +552,7 @@ bool MainWindow::startLiveView() {
     //emit sig_disable_all();
 
     setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
     emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
@@ -624,7 +624,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -697,7 +697,7 @@ bool MainWindow::startAcquisition() {
 bool MainWindow::stopAcquisition() {
     spdlog::info("Stopping acquisition");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements(true, false);
+    checkStartAcqRequirements({ .space = true });
     emit m_stageControl->sig_stage_enable_all();
     emit sig_progress_done();
 
@@ -780,7 +780,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
     return true;
 }
 
@@ -794,7 +794,7 @@ bool MainWindow::settingsOpen() {
 bool MainWindow::settingsClosed() {
     spdlog::info("Settings Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
     return true;
 }
 
@@ -857,7 +857,7 @@ bool MainWindow::postProcessingDone() {
     spdlog::info("Post Processing Done");
 
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements(true, false);
+    checkStartAcqRequirements({ .space = true });
     emit m_stageControl->sig_stage_enable_all();
     return true;
 }
@@ -888,7 +888,7 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
         double minFps = std::min<double>(m_config->fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
     }
-    checkStartAcqRequirements(true, true);
+    checkStartAcqRequirements({ .space = true, .framerate_dur = true });
 }
 
 
@@ -917,7 +917,7 @@ void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
         m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
 
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
 }
 
 void MainWindow::on_plateFormatDropDown_activated(int index) {
@@ -977,7 +977,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
     m_config->duration = value;
-    checkStartAcqRequirements(true, true);
+    checkStartAcqRequirements({ .space = true, .framerate_dur = true });
 }
 
 void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
@@ -990,7 +990,7 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
         // if not empty, only want to match options based on the prefix
         ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
     }
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
@@ -1004,14 +1004,14 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     } else {
         spdlog::info("Background subtraction disabled");
     }
-    checkStartAcqRequirements(false, false);
+    checkStartAcqRequirements({});
 }
 
-void MainWindow::checkStartAcqRequirements(bool logDriveCheck, bool logFrameRateAndDurCheck) {
+void MainWindow::checkStartAcqRequirements(StartAcqCheckLogOpts opts) {
     // these will handle setting the tooltip of the start acq btn for an error, so order matters here to get the most important errors to show up over others
     bool validPlateIdVals = checkPlateIdRequirements();
-    bool validFrameRateAndDur = checkFrameRateAndDur(logFrameRateAndDurCheck);
-    bool isAvailableDriveSpace = availableDriveSpace(logDriveCheck);
+    bool validFrameRateAndDur = checkFrameRateAndDur(opts);
+    bool isAvailableDriveSpace = availableDriveSpace(opts);
     if (validPlateIdVals && validFrameRateAndDur && isAvailableDriveSpace) {
         ui.startAcquisitionBtn->setToolTip("");
         enableMask(StartAcquisitionMask);
@@ -1127,7 +1127,8 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
 }
 
 
-bool MainWindow::checkFrameRateAndDur(bool log) {
+bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
+    bool log = opts.framerate_dur;
     bool invalid = m_config->duration * m_config->fps < 1.0;
     if (invalid) {
         if (log) {
@@ -1298,7 +1299,8 @@ bool MainWindow::ledSetVoltage(double voltage) {
  *
  * @returns boolean true if space is available
 */
-bool MainWindow::availableDriveSpace(bool log) {
+bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
+    bool log = opts.space;
     double fps = m_config->fps;
     double duration = m_config->duration;
     size_t nStagePositions = 0;
@@ -1331,7 +1333,7 @@ bool MainWindow::availableDriveSpace(bool log) {
                 spdlog::info(
                     "Drive {} has: {} bytes free for acquisition, current acquisition settings will use {} bytes",
                     m_config->path.string(),
-                    lpTotalNumberOfFreeBytes.QuadPart, 
+                    lpTotalNumberOfFreeBytes.QuadPart,
                     totalAcquisitionBytes
                 );
             }
@@ -1344,7 +1346,7 @@ bool MainWindow::availableDriveSpace(bool log) {
             spdlog::error(
                 "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require {} bytes",
                 m_config->path.string(),
-                lpTotalNumberOfFreeBytes.QuadPart, 
+                lpTotalNumberOfFreeBytes.QuadPart,
                 totalAcquisitionBytes
             );
         }
