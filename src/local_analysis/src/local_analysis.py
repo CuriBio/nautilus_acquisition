@@ -23,6 +23,7 @@ import toml
 
 logger = logging.getLogger(__name__)
 
+
 def _get_well_row_name(row: int):
     well_name = chr(ord("A") + row % 26)
     if row >= 26:
@@ -93,7 +94,7 @@ class RawDataReader:
         return frame
 
 
-# have to subclass and override this method to gain control over what happens when there is an issue 
+# have to subclass and override this method to gain control over what happens when there is an issue
 # with the provided arguments
 class ArgParse(argparse.ArgumentParser):
     def error(self, message):
@@ -106,7 +107,7 @@ def main():
         format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
         level=logging.INFO,
         datefmt="%Y-%m-%d %H:%M:%S",
-        stream=sys.stdout
+        stream=sys.stdout,
     )
 
     logger.info("Nautilai Local Analysis Starting")
@@ -139,7 +140,7 @@ def main():
             background_recording_info = _load_background(setup_config["background_recording_dir"], plate_id)
             time_series_df = _subtract_background(time_series_df, setup_config, background_recording_info)
         else:
-            logger.info("Background subtraction enabled, however no Plate ID was given")
+            raise ValueError("Background subtraction enabled, however no Plate ID was given")
     else:
         logger.info("Background subtraction disabled")
 
@@ -324,7 +325,7 @@ def _load_background(bg_recording_dir: str, plate_id: str) -> BackgroundRecordin
     plate_id_dir_path = os.path.join(bg_recording_dir, plate_id)
     if not os.path.exists(plate_id_dir_path):
         raise Exception(f"Background recording dir ({plate_id_dir_path}) for plate ID not found")
-    
+
     bg_rec_data_path = os.path.join(plate_id_dir_path, f"{plate_id}.tsv")
     if not os.path.exists(bg_rec_data_path):
         raise Exception(f"Background recording file ({bg_rec_data_path}) not found")
