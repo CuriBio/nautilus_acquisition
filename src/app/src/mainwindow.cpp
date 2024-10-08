@@ -353,7 +353,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         .p1 = uns16(m_config->rgn.p1), .p2 = uns16(m_config->rgn.p2), .pbin = m_config->rgn.pbin
     };
 
-    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
+    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {})",
         m_expSettings.region.s1, m_expSettings.region.s2,
         m_expSettings.region.p1, m_expSettings.region.p2,
         m_expSettings.region.sbin, m_expSettings.region.pbin
