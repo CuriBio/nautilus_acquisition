@@ -180,7 +180,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this]() {
-        checkStartAcqRequirements(false, false);
+        checkStartAcqRequirements(true, false);
     });
 
     connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
@@ -1301,7 +1301,13 @@ bool MainWindow::ledSetVoltage(double voltage) {
 bool MainWindow::availableDriveSpace(bool log) {
     double fps = m_config->fps;
     double duration = m_config->duration;
-    size_t nStagePositions = m_stageControl->GetPositions().size();
+    size_t nStagePositions = 0;
+    for (auto stagePos : m_stageControl->GetPositions()) {
+        if (!stagePos->skipped) {
+            nStagePositions++;
+        }
+    };
+
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
