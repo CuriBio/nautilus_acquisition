@@ -69,7 +69,7 @@ class Database {
         bool initDB() {
             if (db != nullptr) {
                 spdlog::error("DB already initialized");
-                return;
+                return false;
             }
             spdlog::info("Opening DB connection");
             int rc = sqlite3_open(dbFilePath.c_str(), &db);
@@ -85,9 +85,7 @@ class Database {
                 "created_at TEXT NOT NULL, "
                 "updated_at TEXT NOT NULL, "
                 "plate_format TEXT NOT NULL); ";
-
             auto res = exec(query, std::vector<std::string> {});
-
             if (!res.success) {
                 spdlog::error("Failed to initialize DB");
             }
