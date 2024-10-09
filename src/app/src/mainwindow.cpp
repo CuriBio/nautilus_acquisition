@@ -426,8 +426,7 @@ void MainWindow::Initialize() {
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
 
-    bool dbInitSuccess = m_db->initDB();
-    if (!dbInitSuccess) {
+    if (!m_db->initDB()) {
         emit sig_show_error("Error initializing plate ID database");
         return;
     }
