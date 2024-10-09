@@ -161,6 +161,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     // plate ID widget
     m_db = new Database(m_config->userProfile);
+    m_db->initDB(); // TODO what to do here if this fails?
     QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
     updatePlateIdList();
