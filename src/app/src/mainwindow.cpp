@@ -163,7 +163,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_db = new Database(m_config->userProfile);
     QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
-    updatePlateIdList();
 
     //settings dialog
     m_settings = new Settings(this, m_config);
@@ -432,6 +431,7 @@ void MainWindow::Initialize() {
         emit sig_show_error("Error initializing plate ID database");
         return;
     }
+    updatePlateIdList();
 
     emit sig_progress_text("Calibrating stage");
 
