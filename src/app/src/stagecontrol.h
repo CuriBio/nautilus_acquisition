@@ -88,7 +88,7 @@ class StageControl : public QDialog {
         void loadList(std::string fileName);
 
     signals:
-        void sig_stagelist_updated(size_t count);
+        void sig_stagelist_updated();
         void sig_stage_disable_all();
         void sig_stage_enable_all();
         void sig_start_move();

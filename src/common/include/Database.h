@@ -40,22 +40,25 @@
 
 typedef tsl::ordered_map<std::string, std::string> dbRow;
 
+struct execRes {
+    bool success;
+    std::vector<dbRow> rows;
+};
+
 class Database {
     private:
-        sqlite3 *db;
+        std::string dbFilePath;
+        sqlite3 *db {nullptr};
 
     public:
         Database(std::filesystem::path userProfile) {
-            std::string dbFilePath = (userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.db").string();
-            spdlog::info("Opening DB connection");
-            int rc = sqlite3_open(dbFilePath.c_str(), &db);
-            if (rc != SQLITE_OK) {
-                spdlog::error("Failed to open DB connection");
-            }
-            initDB();
+            dbFilePath = (userProfile / "AppData" / "Local" / "Nautilai" / "nautilai.db").string();
         }
 
         ~Database() {
+            if (db == nullptr) {
+                return;
+            }
             spdlog::info("Closing DB connection");
             int rc = sqlite3_close(db);
             if (rc) {
@@ -63,32 +66,18 @@ class Database {
             }
         }
 
-        std::vector<std::string> getPlateIds() {
-            std::string query = "SELECT plate_id FROM background_recordings ORDER BY updated_at DESC;";
-            auto res = exec(query, std::vector<std::string> {});
-
-            std::vector<std::string> plateIds {};
-            for (auto& row : res) {
-                plateIds.push_back(row["plate_id"]);
+        bool initDB() {
+            if (db != nullptr) {
+                spdlog::error("DB already initialized");
+                return false;
+            }
+            spdlog::info("Opening DB connection");
+            int rc = sqlite3_open(dbFilePath.c_str(), &db);
+            if (rc != SQLITE_OK) {
+                spdlog::error("Failed to open DB connection");
+                return false;
             }
 
-            return plateIds;
-        }
-
-        void addPlateId(std::string plateId, std::string plateFormat, std::string filePath) {
-            spdlog::info("Adding plate ID '{}' with format '{}'", plateId, plateFormat);
-            std::string query = "INSERT INTO background_recordings VALUES (?, ?, ?, ?, ?);";
-            exec(query, std::vector<std::string> {plateId, filePath, now_timestamp(), now_timestamp(), plateFormat});
-        }
-
-        void overwritePlateId(std::string plateId, std::string plateFormat) {
-            spdlog::info("Overwriting plate ID '{}' to format '{}'", plateId, plateFormat);
-            std::string query = "UPDATE background_recordings SET plate_format=?, updated_at=? WHERE plate_id=?;";
-            exec(query, std::vector<std::string> {plateFormat, now_timestamp(), plateId});
-        }
-    
-    private:
-        void initDB() {
             spdlog::info("Initializing DB");
             std::string query = "CREATE TABLE IF NOT EXISTS background_recordings("
                 "plate_id TEXT PRIMARY KEY, "
@@ -96,17 +85,77 @@ class Database {
                 "created_at TEXT NOT NULL, "
                 "updated_at TEXT NOT NULL, "
                 "plate_format TEXT NOT NULL); ";
-            
-            exec(query, std::vector<std::string> {});
+            auto res = exec(query, std::vector<std::string> {});
+            if (!res.success) {
+                spdlog::error("Failed to initialize DB");
+            }
+
+            return res.success;
         }
 
-        std::vector<dbRow> exec(std::string query, std::vector<std::string> params) {
+        std::vector<std::string> getPlateIds() {
+            std::vector<std::string> plateIds {};
+
+            if (db == nullptr) {
+                spdlog::error("Cannot get plate IDs, no DB connection");
+                return plateIds;
+            }
+
+            std::string query = "SELECT plate_id FROM background_recordings ORDER BY updated_at DESC;";
+            auto res = exec(query, std::vector<std::string> {});
+
+
+            if (res.success) {
+                for (auto& row : res.rows) {
+                    plateIds.push_back(row["plate_id"]);
+                }
+            } else {
+                spdlog::error("Failed to get plate IDs");
+            }
+
+            return plateIds;
+        }
+
+        void addPlateId(std::string plateId, std::string plateFormat, std::string filePath) {
+            if (db == nullptr) {
+                spdlog::error("Cannot add plate ID, no DB connection");
+            }
+            spdlog::info("Adding plate ID '{}' with format '{}'", plateId, plateFormat);
+            std::string query = "INSERT INTO background_recordings VALUES (?, ?, ?, ?, ?);";
+            auto res = exec(query, std::vector<std::string> {plateId, filePath, now_timestamp(), now_timestamp(), plateFormat});
+            if (!res.success) {
+                spdlog::error("Failed to add plate ID '{}' with format '{}'", plateId, plateFormat);
+            }
+        }
+
+        void overwritePlateId(std::string plateId, std::string plateFormat) {
+            if (db == nullptr) {
+                spdlog::error("Cannot overwrite plate ID, no DB connection");
+            }
+            spdlog::info("Overwriting plate ID '{}' to format '{}'", plateId, plateFormat);
+            std::string query = "UPDATE background_recordings SET plate_format=?, updated_at=? WHERE plate_id=?;";
+            auto res = exec(query, std::vector<std::string> {plateFormat, now_timestamp(), plateId});
+            if (!res.success) {
+                spdlog::error("Failed to overwrite plate ID '{}' to format '{}'", plateId, plateFormat);
+            }
+        }
+
+    private:
+        execRes exec(std::string query, std::vector<std::string> params) {
+            std::vector<dbRow> results {};
+
+            if (db == nullptr) {
+                spdlog::error("Cannot execute query, no DB connection");
+                return {false, results};
+            }
+
             sqlite3_stmt *pStmt;
             const char *pzTail;
             int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &pStmt, &pzTail);
 
             if (rc != SQLITE_OK) {
                 spdlog::error("SQL prepare failed for query: {}", query);
+                return {false, results};
             }
 
             int paramIdx = 1;
@@ -115,12 +164,11 @@ class Database {
 
                 if (rc != SQLITE_OK) {
                     spdlog::error("SQL bind text failed for param {} ({}) of query: {}", s, paramIdx, query);
+                    return {false, results};
                 }
 
                 paramIdx++;
             }
-
-            std::vector<dbRow> results {};
 
             rc = sqlite3_step(pStmt);
             while (rc == SQLITE_ROW) {
@@ -139,14 +187,16 @@ class Database {
             }
             if (rc != SQLITE_DONE) {
                 spdlog::error("SQL step failed for query: {}", query);
+                return {false, results};
             }
 
             rc = sqlite3_finalize(pStmt);
             if (rc != SQLITE_OK) {
                 spdlog::error("SQL finalize failed for query: {}", query);
+                return {false, results};
             }
 
-            return results;
+            return {true, results};
         }
 
         std::string now_timestamp() {

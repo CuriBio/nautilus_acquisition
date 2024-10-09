@@ -68,6 +68,7 @@
 #include <processing/WriteRawFrame.h>
 #include <processing/BackgroundProcess.h>
 #include <Rois.h>
+#include "plateidedit.h"
 
 #define DATA_DIR "data"
 
@@ -134,7 +135,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(this, &MainWindow::sig_enable_ui_moving_stage, this, [this]() {
-        setMask(StartAcquisitionMask);
+        checkStartAcqRequirements({});
     });
 
     // set platmapFormat
@@ -162,7 +163,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_db = new Database(m_config->userProfile);
     QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
-    updatePlateIdList();
 
     //settings dialog
     m_settings = new Settings(this, m_config);
@@ -178,8 +178,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         }
     });
 
-    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this](size_t count) {
-        availableDriveSpace(m_config->fps, m_config->duration, count);
+    connect(m_stageControl, &StageControl::sig_stagelist_updated, this, [this]() {
+        checkStartAcqRequirements({ .space = true });
     });
 
     connect(m_stageControl, &StageControl::sig_start_move, this, [this]() {
@@ -312,7 +312,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        checkStartAcqRequirements({ .space = true });
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -322,7 +322,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
-        availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+        checkStartAcqRequirements({ .space = true });
         emit sig_progress_done();
         emit sig_update_state(PostProcessingDone);
     });
@@ -352,7 +352,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         .p1 = uns16(m_config->rgn.p1), .p2 = uns16(m_config->rgn.p2), .pbin = m_config->rgn.pbin
     };
 
-    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {}",
+    spdlog::info("Setting region: (s1: {}, s2: {}, p1: {}, p2: {}, sbin: {}, pbin: {})",
         m_expSettings.region.s1, m_expSettings.region.s2,
         m_expSettings.region.p1, m_expSettings.region.p2,
         m_expSettings.region.sbin, m_expSettings.region.pbin
@@ -425,6 +425,12 @@ void MainWindow::Initialize() {
 
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
+
+    if (!m_db->initDB()) {
+        emit sig_show_error("Error initializing plate ID database");
+        return;
+    }
+    updatePlateIdList();
 
     emit sig_progress_text("Calibrating stage");
 
@@ -550,7 +556,8 @@ bool MainWindow::startLiveView() {
     spdlog::info("Starting liveview");
     //emit sig_disable_all();
 
-    setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | StageNavigationMask);
+    setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
+    checkStartAcqRequirements({});
     emit m_stageControl->sig_stage_enable_all();
 
     double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
@@ -622,6 +629,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 bool MainWindow::stopLiveView() {
     spdlog::info("Stop liveview");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements({});
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
 
@@ -694,6 +702,7 @@ bool MainWindow::startAcquisition() {
 bool MainWindow::stopAcquisition() {
     spdlog::info("Stopping acquisition");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements({ .space = true });
     emit m_stageControl->sig_stage_enable_all();
     emit sig_progress_done();
 
@@ -776,6 +785,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements({});
     return true;
 }
 
@@ -789,6 +799,7 @@ bool MainWindow::settingsOpen() {
 bool MainWindow::settingsClosed() {
     spdlog::info("Settings Closed");
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements({});
     return true;
 }
 
@@ -851,6 +862,7 @@ bool MainWindow::postProcessingDone() {
     spdlog::info("Post Processing Done");
 
     setMask(ENABLE_ALL);
+    checkStartAcqRequirements({ .space = true });
     emit m_stageControl->sig_stage_enable_all();
     return true;
 }
@@ -875,51 +887,31 @@ void MainWindow::on_levelsSlider_valueChanged(int value) {
  * @param value The updated FPS value.
  */
 void MainWindow::on_frameRateEdit_valueChanged(double value) {
-    if (value * m_config->duration < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        //ui.frameRateEdit->setStyleSheet("background-color: red");
-        //ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        checkFrameRate(value);
-
-        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
-
-        m_config->fps = value;
-        m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-        m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-    }
-
+    m_config->fps = value;
     if (m_curState == LiveViewRunning) {
         m_liveViewTimer->stop();
         double minFps = std::min<double>(m_config->fps, 24.0);
         m_liveViewTimer->start(int32_t(1000 * (1.0 / minFps)));
     }
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+    checkStartAcqRequirements({ .space = true, .framerate_dur = true });
 }
 
 
 void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
     if (text.toStdString() == "Background Recording") {
-        //disable use background recording checkbox
         disableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
 
-        if (m_config->plateId == "") {
-            disableMask(StartAcquisitionMask);
-        }
-
-        //save current duration sao it can be set back when data type is changed
+        //save current duration so it can be set back when data type is changed
         m_savedDuration = m_config->duration;
         ui.durationEdit->setValue(1.0);
         ui.durationEdit->setEnabled(false);
 
+        //disable use background recording checkbox
         ui.disableBackgroundRecording->setChecked(false);
 
         m_config->recordingType = RecordingType::Background;
     } else {
-        enableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask | StartAcquisitionMask);
+        enableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
 
         m_config->duration = m_savedDuration;
         ui.durationEdit->setValue(m_config->duration);
@@ -930,7 +922,7 @@ void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
         m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
 
-    updateInputs();
+    checkStartAcqRequirements({});
 }
 
 void MainWindow::on_plateFormatDropDown_activated(int index) {
@@ -989,40 +981,25 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
  * @param value The updated duration value in seconds.
  */
 void MainWindow::on_durationEdit_valueChanged(double value) {
-    if (value * m_config->fps < 1.0) {
-        spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", value, m_config->duration);
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.durationEdit->setStyleSheet("background-color: red");
-    } else {
-        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
-        ui.durationEdit->setStyleSheet("background-color: #2F2F2F");
-
-        checkFrameRate(m_config->fps);
-    }
-
     m_config->duration = value;
-    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
-    m_expSettings.frameCount = m_config->duration * m_config->fps;
-
-    spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
-
-    availableDriveSpace(m_config->fps, m_config->duration, m_stageControl->GetPositions().size());
+    checkStartAcqRequirements({ .space = true, .framerate_dur = true });
 }
 
 void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
     m_config->plateId = plateId.toStdString();
-
-    if (m_config->recordingType == RecordingType::Background) {
-        if (m_config->plateId != "" ) {
-            enableMask(StartAcquisitionMask);
-        } else {
-            disableMask(StartAcquisitionMask);
-        }
+    if (m_config->plateId == "" ) {
+        // if empty, need to use unfiltered completion so that all options are included.
+        // other popup completion will not show all options if no text entered
+        ui.plateIdEdit->completer()->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+    } else {
+        // if not empty, only want to match options based on the prefix
+        ui.plateIdEdit->completer()->setCompletionMode(QCompleter::PopupCompletion);
     }
+    checkStartAcqRequirements({});
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
-    spdlog::info("Set plateId: {}", m_config->plateId);
+    spdlog::info("Set plateId: '{}'", m_config->plateId);
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
@@ -1032,13 +1009,28 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     } else {
         spdlog::info("Background subtraction disabled");
     }
+    checkStartAcqRequirements({});
+}
+
+void MainWindow::checkStartAcqRequirements(StartAcqCheckLogOpts opts) {
+    // these will handle setting the tooltip of the start acq btn for an error, so order matters here to get the most important errors to show up over others
+    bool validPlateIdVals = checkPlateIdRequirements();
+    bool validFrameRateAndDur = checkFrameRateAndDur(opts);
+    bool isAvailableDriveSpace = availableDriveSpace(opts);
+    if (validPlateIdVals && validFrameRateAndDur && isAvailableDriveSpace) {
+        ui.startAcquisitionBtn->setToolTip("");
+        enableMask(StartAcquisitionMask);
+    } else {
+        disableMask(StartAcquisitionMask);
+    }
+    updateInputs();
 }
 
 void MainWindow::updatePlateIdList() {
     QStringList newList;
-    auto plateIds = m_db->getPlateIds();
+    m_config->storedPlateIds = m_db->getPlateIds();
 
-    for (auto pid : plateIds) {
+    for (auto pid : m_config->storedPlateIds) {
         newList << QString::fromStdString(pid);
     }
 
@@ -1140,17 +1132,86 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
 }
 
 
-void MainWindow::checkFrameRate(double value) {
-    if (value <= 1.0) {
-        spdlog::error("Frame rate is set to <= 1Hz");
-        ui.frameRateEdit->setStyleSheet("background-color: red");
-        ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
-        ui.frameRateEdit->update();
+bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
+    bool log = opts.framerate_dur;
+    bool invalid = m_config->duration * m_config->fps < 1.0;
+    if (invalid) {
+        if (log) {
+            spdlog::error("Capture is set to less than 1 frame, fps: {}, duration: {}", m_config->fps, m_config->duration);
+        }
+        ui.frameRateEdit->setStyleSheet("border: 2px solid red");
+        ui.frameRateEdit->setToolTip("Capture is set to less than 1 frame");
+        ui.durationEdit->setStyleSheet("border: 2px solid red");
+        ui.durationEdit->setToolTip("Capture is set to less than 1 frame");
+        ui.startAcquisitionBtn->setToolTip("Capture is set to less than 1 frame");
     } else {
-        ui.frameRateEdit->setStyleSheet("background-color: #2F2F2F");
-        ui.frameRateEdit->setToolTip("");
-        ui.frameRateEdit->update();
+        ui.durationEdit->setStyleSheet("border: none");
+        ui.durationEdit->setToolTip("");
+        // frame rates <= 1Hz are discouraged but not disallowed
+        if (m_config->fps <= 1.0) {
+            if (log) {
+                spdlog::error("Frame rate is set to <= 1Hz");
+            }
+            ui.frameRateEdit->setStyleSheet("border: 2px solid orange");
+            ui.frameRateEdit->setToolTip("Warning: frame rates <= 1Hz will likely result in poor signal to noise ratios");
+        } else {
+            ui.frameRateEdit->setStyleSheet("border: none");
+            ui.frameRateEdit->setToolTip("");
+        }
     }
+
+    m_expSettings.expTimeMS = (1 / m_config->fps) * 1000;
+    m_expSettings.frameCount = m_config->duration * m_config->fps;
+
+    if (log) {
+        spdlog::info("Setting new exposure value, fps: {}, frame count: {}, exposure time ms: {}", m_config->fps, m_expSettings.frameCount, m_expSettings.expTimeMS);
+    }
+
+    return !invalid;
+}
+
+
+bool MainWindow::checkPlateIdRequirements() {
+    std::string startAcqBtnTooltip = "";
+
+    std::string plateIdEditStyling = "border: 2px solid white";
+
+    if (m_config->recordingType == RecordingType::Background) {
+        if (!ui.plateIdEdit->isEnabled()) {
+            ui.plateIdEdit->setEnabled(true);
+            ui.plateIdEdit->setText("");
+        }
+        // a background recording must be given a plate ID before acquisition can begin
+        if (m_config->plateId == "") {
+            startAcqBtnTooltip = "Plate ID required for background recording";
+            plateIdEditStyling = "border: 2px solid red";
+        }
+    } else if (m_config->useBackgroundSubtraction) {
+        if (!ui.plateIdEdit->isEnabled()) {
+            ui.plateIdEdit->setEnabled(true);
+            ui.plateIdEdit->setText("");
+        }
+        // if using background subtraction, a valid plate ID must be entered before starting acquisition
+        bool plateIdExists = std::find(m_config->storedPlateIds.begin(), m_config->storedPlateIds.end(), m_config->plateId) != m_config->storedPlateIds.end();
+        if (!plateIdExists) {
+            startAcqBtnTooltip = "Invalid Plate ID";
+            plateIdEditStyling = "border: 2px solid red";
+        }
+    } else {
+        ui.plateIdEdit->setEnabled(false);
+        // if set to empty the placeholder value will show, using a space so that it does not
+        ui.plateIdEdit->setText(" ");
+        plateIdEditStyling = "border: 2px solid grey";
+    }
+
+    ui.plateIdEdit->setStyleSheet(QString::fromStdString(plateIdEditStyling));
+
+    bool valid = startAcqBtnTooltip == "";
+    if (!valid) {
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(startAcqBtnTooltip));
+    }
+
+    return valid;
 }
 
 
@@ -1241,24 +1302,31 @@ bool MainWindow::ledSetVoltage(double voltage) {
  * Check if default drive on windows has sufficient space for acquisition.
  * Update startAcquisitionBtn if error.
  *
- * @param fps setting of acquisition
- * @param duration of acquisition
- *
  * @returns boolean true if space is available
 */
-bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStagePositions) {
+bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
+    bool log = opts.space;
+    double fps = m_config->fps;
+    double duration = m_config->duration;
+    size_t nStagePositions = 0;
+    for (auto stagePos : m_stageControl->GetPositions()) {
+        if (!stagePos->skipped) {
+            nStagePositions++;
+        }
+    };
+
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
         //account for each acquisition and if autotile is enabled
-        uint32_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile) ? 2 : 1;
-
+        uint64_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile ? 2 : 1);
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
-        std::stringstream tool_tip_text;
 
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
-            spdlog::error("Default drive could not be found when");
+            if (log) {
+                spdlog::error("Default drive could not be found");
+            }
             ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
             return false;
         }
@@ -1266,17 +1334,28 @@ bool MainWindow::availableDriveSpace(double fps, double duration, size_t nStageP
        if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
-
-            spdlog::info("Drive {} has: {} bytes free for acquisition", m_config->path.string(), lpTotalNumberOfFreeBytes.QuadPart);
+            if (log) {
+                spdlog::info(
+                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will use {} bytes",
+                    m_config->path.string(),
+                    lpTotalNumberOfFreeBytes.QuadPart,
+                    totalAcquisitionBytes
+                );
+            }
             ui.startAcquisitionBtn->setStyleSheet("");
-            ui.startAcquisitionBtn->setToolTip("");
             return true;
        }
 
         //not enough space for acquisition
-        spdlog::error("Not enough space for acquisition");
+        if (log) {
+            spdlog::error(
+                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require {} bytes",
+                m_config->path.string(),
+                lpTotalNumberOfFreeBytes.QuadPart,
+                totalAcquisitionBytes
+            );
+        }
         ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
-        ui.startAcquisitionBtn->setStyleSheet("background-color: gray");
         return false;
     } else {
         ui.startAcquisitionBtn->setToolTip("Camera not found.");
@@ -1651,27 +1730,17 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     }
 
     if (cls->m_config->plateId != "") {
-        std::ofstream backgroundFile;
-
-        // get local timestamp to add to subdir name
-        auto now = std::chrono::system_clock::now();
-        auto timestamp = std::chrono::system_clock::to_time_t(now);
-        std::tm *tm = std::localtime(&timestamp);
-
-        // make subdirectory to write to
-        std::strftime(std::data(cls->m_startAcquisitionTS), std::size(cls->m_startAcquisitionTS), TIMESTAMP_STR, tm);
-        std::strftime(std::data(cls->m_recordingDateFmt), std::size(cls->m_recordingDateFmt), RECORDING_DATE_FMT, tm);
-        std::string bgname = cls->m_config->plateId + ".tsv";
-
-        std::filesystem::path dir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId / bgname;
-        spdlog::info("Writing background recording to {}", dir.string());
-
-        if (!std::filesystem::exists(dir)) {
-            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir);
-            std::filesystem::create_directories(cls->m_config->backgroundRecordingDir / cls->m_config->plateId);
+        std::filesystem::path backgroundRecSubDir = cls->m_config->backgroundRecordingDir / cls->m_config->plateId;
+        if (!std::filesystem::exists(backgroundRecSubDir)) {
+            std::filesystem::create_directories(backgroundRecSubDir);
         }
 
-        backgroundFile.open(dir.string());
+        std::string bgname = cls->m_config->plateId + ".tsv";
+        std::filesystem::path backgroundFilePath = backgroundRecSubDir / bgname;
+        spdlog::info("Writing background recording to {}", backgroundFilePath.string());
+
+        std::ofstream backgroundFile;
+        backgroundFile.open(backgroundFilePath.string());
         backgroundFile << "Well\t" << "Background Fluorescence, 100% LED Intensity (AU)\t"
                        << "Background Fluorescence, 50% LED Intensity (AU)\t"
                        << "Background Fluorescence, 25% LED Intensity (AU)"

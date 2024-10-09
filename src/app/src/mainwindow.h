@@ -73,6 +73,7 @@
 #include "advancedsetupdialog.h"
 #include "liveview.h"
 #include "autoupdate.h"
+#include "plateidedit.h"
 
 #define TASKS 2
 #define TIMESTAMP_STR "%Y_%m_%d_%H%M%S"
@@ -124,6 +125,11 @@ enum InputMask {
 
 #define ENABLE_ALL LedIntensityMask | FrameRateMask | DurationMask | AdvancedSetupMask | LiveScanMask | SettingsMask | StartAcquisitionMask | StageNavigationMask | PlateMapMask | DisableBackgroundRecordingMask
 #define DISABLE_ALL 0x0
+
+struct StartAcqCheckLogOpts {
+    bool space = false;
+    bool framerate_dur = false;
+};
 
 /*
  * Nautilai main window class.
@@ -279,6 +285,7 @@ class MainWindow : public QMainWindow {
             }},
             { {Initializing, Idle}, [this]() {
                 setMask(ENABLE_ALL);
+                checkStartAcqRequirements({ .space = true });
                 m_curState = Idle;
             }},
             //live view states
@@ -420,9 +427,11 @@ class MainWindow : public QMainWindow {
         void updateTriggerMode(int16_t triggerMode);
         void updateEnableLiveViewDuringAcquisition(bool enable);
 
-        void checkFrameRate(double value);
+        bool checkFrameRateAndDur(StartAcqCheckLogOpts opts);
+        bool checkPlateIdRequirements();
+        void checkStartAcqRequirements(StartAcqCheckLogOpts opts);
 
-        bool availableDriveSpace(double fps, double duration, size_t nStagePositions);
+        bool availableDriveSpace(StartAcqCheckLogOpts opts);
         std::vector<std::filesystem::path> getFileNamesFromDirectory(std::filesystem::path path);
         QStringList vectorToQStringList(const std::vector<std::filesystem::path>& paths);
 

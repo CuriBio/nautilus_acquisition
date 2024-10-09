@@ -481,7 +481,7 @@
            <string>Select Plate Format</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="plateIdEdit">
+         <widget class="PlateIdEdit" name="plateIdEdit">
           <property name="geometry">
            <rect>
             <x>14</x>
@@ -665,6 +665,12 @@
    <class>HistView</class>
    <extends>QWidget</extends>
    <header>histview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlateIdEdit</class>
+   <extends>QLineEdit</extends>
+   <header>plateidedit.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

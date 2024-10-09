@@ -86,6 +86,8 @@ void StageControl::on_unskipBtn_clicked() {
         i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos_, i->x, i->y).c_str());
         i->skipped = false;
     }
+
+    emit this->sig_stagelist_updated();
 }
 
 void StageControl::on_skipBtn_clicked() {
@@ -97,6 +99,8 @@ void StageControl::on_skipBtn_clicked() {
         i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos_, i->x, i->y).c_str());
         i->skipped = true;
     }
+
+    emit this->sig_stagelist_updated();
 }
 
 
@@ -158,7 +162,7 @@ void StageControl::loadList(std::string fileName) {
         }
     }
 
-    emit this->sig_stagelist_updated(m_positions.size());
+    emit this->sig_stagelist_updated();
 }
 
 

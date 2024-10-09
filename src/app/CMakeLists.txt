@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME} WIN32
     ./src/liveview.cpp
     ./src/settings.cpp
     ./src/histview.cpp
+    ./src/plateidedit.cpp
     ./src/stagecontrol.cpp
     ./src/advancedsetupdialog.cpp
     ./src/config.cpp

@@ -1,4 +1,24 @@
 Changelog for Nautilai
+======================
+
+0.2.4 (unreleased)
+------------------
+
+Added:
+^^^^^^
+- More tooltips for invalid inputs
+
+Changed:
+^^^^^^^^
+- Prevent starting acquisition if an invalid plate ID is entered
+- Invalid inputs will now change border color instead of background color
+- Better autocomplete for Plate ID input
+
+Fixed:
+^^^^^^
+- Check for available space in disk drive not calculating acquisition size correctly
+
+
 0.2.3 (2024-09-05)
 ------------------
 
