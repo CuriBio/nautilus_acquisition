@@ -161,7 +161,6 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
 
     // plate ID widget
     m_db = new Database(m_config->userProfile);
-    m_db->initDB(); // TODO what to do here if this fails?
     QCompleter *plateIdCompleter = new QCompleter(QStringList {}, this);
     ui.plateIdEdit->setCompleter(plateIdCompleter);
     updatePlateIdList();
@@ -427,6 +426,12 @@ void MainWindow::Initialize() {
 
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
+
+    bool dbInitSuccess = m_db->initDB();
+    if (!dbInitSucess) {
+        emit sig_show_error("Error initializing plate ID database");
+        return;
+    }
 
     emit sig_progress_text("Calibrating stage");
 
