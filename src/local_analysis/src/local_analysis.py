@@ -106,7 +106,7 @@ class ArgParse(argparse.ArgumentParser):
         sys.exit(2)
 
 
-def main(toml_config_path: str, roi_path: str) -> None:
+def main(root:tk.Tk) -> None:
     logging.basicConfig(
         format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
         level=logging.INFO,
@@ -116,6 +116,10 @@ def main(toml_config_path: str, roi_path: str) -> None:
 
     logger.info("Nautilai Local Analysis Starting")
 
+    #toml_config_path = file_entry.get()
+  
+    
+
     #parse toml_config_path from command line arguments
     #parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
     #parser.add_argument(
@@ -124,11 +128,12 @@ def main(toml_config_path: str, roi_path: str) -> None:
     # cmd_line_args = parser.parse_args()
 
 
-    if os.path.exists(roi_path):
-        ij_rois = read_roi_set(roi_path)
+    if os.path.exists(roi_set_entry.get()):
+        ij_rois = read_roi_set(roi_set_entry.get())
     
-    with open(toml_config_path) as toml_file:
+    with open(file_entry.get()) as toml_file:
         setup_config = toml.load(toml_file)
+    setup_config["use_background_subtraction"] = use_background_subtraction_value.get()
 
     logger.info(f"Metadata: {setup_config}")
 
@@ -141,7 +146,7 @@ def main(toml_config_path: str, roi_path: str) -> None:
     rois = _create_rois(setup_config)
     _write_ij_rois(rois, setup_config)
     setup_config["roi_source"] = "Auto"
-    if os.path.exists(roi_path):
+    if os.path.exists(roi_set_entry.get()):
         rois = ij_rois
         setup_config["roi_source"] = "Custom"
 
@@ -217,10 +222,16 @@ def _create_raw_data_reader(setup_config: dict[str, Any]) -> np.ndarray:
 
 #read the roi set from the ImageJ roi zip file
 def read_roi_set(roi_path) -> dict[str, RoiCoords]:
-    roi_set = ijroi.read_roi_zip(roi_path)
+    try:
+        roi_set = ijroi.read_roi_zip(roi_path)
+        pass
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
     rois = {}
     for roi_set_item in roi_set:
-        rois[roi_set_item[0].replace(".roi", "")] = RoiCoords(
+        try:
+            rois[roi_set_item[0].replace(".roi", "")] = RoiCoords(
                         Point(
                             int(roi_set_item[1][0][1]),
                             int(roi_set_item[1][0][0]),
@@ -230,6 +241,10 @@ def read_roi_set(roi_path) -> dict[str, RoiCoords]:
                             int(roi_set_item[1][2][0]),
                         ),
                     )
+            pass
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
     return rois
 
 
@@ -599,10 +614,10 @@ if __name__ == "__main__":
     try:
         def run_main_function():
             #file_path = filedialog.askopenfilename()
-            main(file_entry.get(),roi_set_entry.get())
+            main(root = root)
 
         root = tk.Tk()
-        root.title("GUI")
+        root.title("Nautilai Local Analysis Tool")
         root.geometry("300x200")
 
         file_label = tk.Label(root, text="Select settings file:")
@@ -616,7 +631,7 @@ if __name__ == "__main__":
         file_entry = tk.Entry(root)
         file_entry.pack()
 
-        file_button = tk.Button(root, text="Browse", command=choose_file)
+        file_button = tk.Button(root, text="Load Settings File", command=choose_file)
         file_button.pack()
         
         roi_set_label = tk.Label(root, text="Select ImageJ RoiSet.zip file:")
@@ -630,8 +645,12 @@ if __name__ == "__main__":
         roi_set_entry = tk.Entry(root)
         roi_set_entry.pack()
 
-        roi_set_button = tk.Button(root, text="Browse", command=choose_roi_set)
+        roi_set_button = tk.Button(root, text="Load ImageJ ROI set", command=choose_roi_set)
         roi_set_button.pack()
+
+        use_background_subtraction_value = tk.BooleanVar()
+        use_background_subtraction_checkbutton = tk.Checkbutton(root, text="Use Background Subtraction", variable=use_background_subtraction_value)
+        use_background_subtraction_checkbutton.pack()
 
         run_button = tk.Button(root, text="Run", command=run_main_function)
         run_button.pack()
