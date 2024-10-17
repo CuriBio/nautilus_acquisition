@@ -15,7 +15,7 @@ import cv2 as cv
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageTk
 import polars as pl
 import pyarrow.parquet as pq
 from scipy.stats import linregress
@@ -60,6 +60,275 @@ class BackgroundRecordingInfo:
     data: pl.DataFrame
     metadata: dict[str, Any]
 
+class NautilaiApplication:
+    def __init__(self, root: tk.Tk) -> None:
+        self.root = root
+        self.root2 = tk.Toplevel(root)
+        self._setup_gui()
+        self.setup_config = None
+        self.rect = None
+        self.start_x = None
+        self.start_y = None
+        self.stop = None
+        self.active_roi = None
+        self.roi_index = {}
+        self.mode = None
+        self.margin = 10
+        self.roi_preview.bind("<ButtonPress-1>", self.on_click)
+        self.roi_preview.bind("<B1-Motion>", self.on_drag) 
+        self.roi_preview.bind("<ButtonRelease-1>", self.on_release)
+
+    def _setup_gui(self) -> None:
+        self.file_label = tk.Label(self.root, text="Select settings file:")
+        self.file_label.pack()
+
+        self.file_entry = tk.Entry(self.root)
+        self.file_entry.pack()
+
+        self.file_button = tk.Button(self.root, text="Load Settings File", command=self._choose_file)
+        self.file_button.pack()
+
+        self.roi_set_label = tk.Label(self.root, text="Select ImageJ RoiSet.zip file:")
+        self.roi_set_label.pack()
+
+        self.roi_set_entry = tk.Entry(self.root)
+        self.roi_set_entry.pack()
+
+        self.roi_set_button = tk.Button(self.root, text="Load ImageJ ROI set", command=self._choose_roi_set)
+        self.roi_set_button.pack()
+
+        self.use_background_subtraction_value = tk.BooleanVar()
+        self.use_background_subtraction_checkbutton = tk.Checkbutton(
+            self.root, text="Use Background Subtraction", variable=self.use_background_subtraction_value, command = self.update_background_subtraction
+        )
+        self.use_background_subtraction_checkbutton.pack()
+
+        self.run_button = tk.Button(self.root, text="Run", command=self._run_main_function)
+        self.run_button.pack()
+        
+        # self.roi_preview = tk.Canvas(self.root, width=500, height=500, bg="white")
+        self.roi_preview = tk.Canvas(self.root2, width=500, height=500, bg="white")
+        self.roi_preview.pack( expand = True, fill = tk.BOTH)
+
+        self.scroll_x = tk.Scrollbar(self.roi_preview, orient=tk.HORIZONTAL, command=self.roi_preview.xview)
+        self.scroll_x.pack(side=tk.BOTTOM, fill=tk.X)
+        self.scroll_y = tk.Scrollbar(self.roi_preview, orient="vertical", command=self.roi_preview.yview)
+        self.scroll_y.pack(side="right", fill="y")
+        self.roi_preview.config(xscrollcommand=self.scroll_x.set, yscrollcommand=self.scroll_y.set)
+
+
+       
+    def update_background_subtraction(self):
+        self.use_background_subtraction_value = not self.use_background_subtraction_value
+        self.setup_config["use_background_subtraction"] = self.use_background_subtraction_value
+        
+    def _choose_file(self) -> dict[str, Any]:
+        file_path = filedialog.askopenfilename()
+        self.file_entry.delete(0, tk.END)
+        self.file_entry.insert(0, file_path)
+        with open(self.file_entry.get()) as toml_file:
+            self.setup_config = toml.load(toml_file)
+        self.setup_config["recording_name"] = os.path.splitext(os.path.basename(self.setup_config["input_path"]))[0]
+        _scale_inputs(self.setup_config)
+        rois = _create_rois(self.setup_config)
+        self.setup_config["rois"] = rois
+        self.use_background_subtraction_value = self.setup_config["use_background_subtraction"]
+        if self.setup_config["use_background_subtraction"]:
+            self.use_background_subtraction_checkbutton.select()
+        rois = self.setup_config["rois"]
+        _write_ij_rois(rois, self.setup_config)
+        self.setup_config["roi_source"] = "Auto"
+        # print(self.setup_config)
+        self._create_roi_preview()
+
+    def _choose_roi_set(self):
+        file_path = filedialog.askopenfilename()
+        self.roi_set_entry.delete(0, tk.END)
+        self.roi_set_entry.insert(0, file_path)
+        if os.path.exists(self.roi_set_entry.get()):
+            ij_rois = read_roi_set(self.roi_set_entry.get())
+            self.setup_config["rois"] = ij_rois
+            self.setup_config["roi_source"] = "Custom"
+            self._create_roi_preview()
+
+    def _create_roi_preview(self):
+        
+        logger.info("Creating ROI sanity check image")
+        
+        
+        setup_config = self.setup_config
+        raw_data_reader = _create_raw_data_reader(setup_config)
+        rois = setup_config["rois"]
+
+        # second frame is used for the roi annotation
+        first_frame = raw_data_reader.frame(1)
+
+        # scale values down to uint8 so PIL can process them
+        if setup_config["bit_depth"] in (12, 16):
+            first_frame = (first_frame / first_frame.max() * 255).astype("uint8")
+
+        # TODO why is this necessary? Assuming it's for the colors
+        first_frame = np.stack((first_frame, first_frame, first_frame), axis=-1)
+
+        # for well_name, roi in rois.items():
+        #     cv.rectangle(
+        #         img=first_frame,
+        #         pt1=dataclasses.astuple(roi.p_ul),
+        #         pt2=dataclasses.astuple(roi.p_br),
+        #         color=(0, 255, 0),  # gbr
+        #         thickness=1,
+        #         lineType=cv.LINE_AA,
+        #     )
+
+        first_frame_image = Image.fromarray(first_frame)
+        draw = ImageDraw.Draw(first_frame_image)
+
+        font_size_px = 15
+        try:
+            font = ImageFont.truetype("arial.ttf", font_size_px)
+        except OSError:
+            font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size_px)
+
+        for well_name, roi in rois.items():
+            draw.text((roi.p_ul.x, roi.p_br.y), well_name, fill="rgb(0, 255, 0)", font=font)
+
+        roi_output_path = os.path.join(
+            setup_config["output_dir_path"], f"{setup_config['recording_name']}_roi_locations.png"
+        )
+        
+        tk_image = ImageTk.PhotoImage(first_frame_image)
+        
+        # roi_preview = tk.Label(root, image = tk_image)
+        # roi_preview.config(image = tk_image)
+        # self.roi_preview.destroy()
+        # self.roi_preview = tk.Canvas(self.root, width=500, height=500, bg="white")
+        # self.roi_preview.pack()
+        self.roi_preview.delete("all")
+        self.roi_preview.config(width = first_frame_image.width, height = first_frame_image.height)
+        self.roi_preview.create_image(0, 0, image = tk_image, anchor = tk.NW)
+        self.roi_preview.image = tk_image
+        
+        # self.rect = self.roi_preview.create_rectangle(10, 10, 100, 100, outline="red")
+        for well_name, roi in rois.items():
+            print(roi.p_ul.x, roi.p_ul.y, roi.p_br.x, roi.p_br.y)
+            self.rect = self.roi_preview.create_rectangle(roi.p_ul.x, roi.p_ul.y, roi.p_br.x, roi.p_br.y, outline="red")
+            self.roi_index[well_name] = self.rect
+        return(first_frame_image)
+    
+    def on_click(self, event):
+        self.start_x = event.x
+        self.start_y = event.y
+        for well_name, roi in self.setup_config["rois"].items():
+            x1, y1, x2, y2 = roi.p_ul.x, roi.p_ul.y, roi.p_br.x, roi.p_br.y
+            if x1 <= event.x <= x2 and y1 <= event.y <= y2:
+                self.active_roi = well_name
+                if abs(x1 - event.x) < self.margin:
+                    self.mode = "resize_left"
+                    if abs(y1 - event.y) < self.margin:
+                        self.mode = "resize_topleft"
+                        return None
+                    if abs(y2 - event.y) < self.margin:
+                        self.mode = "resize_bottomleft"
+                        return None
+                    return None
+                if abs(x2 - event.x) < self.margin:
+                    self.mode = "resize_right"
+                    if abs(y1 - event.y) < self.margin:
+                        self.mode = "resize_topright"
+                        return None
+                    if abs(y2 - event.y) < self.margin:
+                        self.mode = "resize_bottomright"
+                        return None
+                    return None
+                if abs(y1 - event.y) < self.margin:
+                    self.mode = "resize_top"
+                    return None
+                if abs(y2 - event.y) < self.margin:
+                    self.mode = "resize_bottom"
+                    return None
+                self.mode = "move"
+                return None
+        # print(self.rect)
+        # print(self.roi_preview.coords(2))
+        # if (self.rect is None):
+        #     self.start_x = event.x
+        #     self.start_y = event.y
+        #     self.rect = self.roi_preview.create_rectangle(self.start_x, self.start_y, self.start_x, self.start_y, outline="red")
+        # else:
+        #     x1, y1, x2, y2 = self.roi_preview.coords(self.rect)
+        #     if x1 <= event.x <= x2 and y1 <= event.y <= y2:
+        #         self.start_x = event.x
+        #         self.start_y = event.y
+        #     else:
+        #         self.start_x = event.x
+        #         self.start_y = event.y
+        #         self.rect = self.roi_preview.create_rectangle(self.start_x, self.start_y, self.start_x, self.start_y, outline="red")
+    def on_drag(self, event):
+        if self.active_roi is not None:
+            if self.mode == "move":
+                self.roi_preview.move(self.roi_index[self.active_roi], event.x - self.start_x, event.y - self.start_y)
+                self.start_x = event.x
+                self.start_y = event.y
+                return None
+            if self.mode == "resize_left":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], event.x, y1, x2, y2)
+                return None
+            if self.mode == "resize_right":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], x1, y1, event.x, y2)
+                return None
+            if self.mode == "resize_top":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], x1, event.y, x2, y2)
+                return None
+            if self.mode == "resize_bottom":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], x1, y1, x2, event.y)
+                return None
+            if self.mode == "resize_topleft":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], event.x, event.y, x2, y2)
+                return None
+            if self.mode == "resize_bottomleft":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], event.x, y1, x2, event.y)
+                return None
+            if self.mode == "resize_topright":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], x1, event.y, event.x, y2)
+                return None
+            if self.mode == "resize_bottomright":
+                x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+                self.roi_preview.coords(self.roi_index[self.active_roi], x1, y1, event.x, event.y)
+                return None
+        # if (self.stop is None):
+        #     self.stop_x = event.x
+        #     self.stop_y = event.y
+        #     self.roi_preview.coords(self.rect, self.start_x, self.start_y, self.stop_x, self.stop_y)
+        # else:
+        #     x1, y1, x2, y2 = self.roi_preview.coords(self.rect)
+        #     if x1 <= event.x <= x2 and y1 <= event.y <= y2:
+        #         self.roi_preview.move(self.rect, event.x - self.start_x, event.y - self.start_y)
+        #         self.start_x = event.x
+        #         self.start_y = event.y
+        #     else:
+        #         self.stop_x = event.x
+        #         self.stop_y = event.y
+        #         self.roi_preview.coords(self.rect, self.start_x, self.start_y, self.stop_x, self.stop_y)
+    def on_release(self, event):
+        x1, y1, x2, y2 = self.roi_preview.coords(self.roi_index[self.active_roi])
+        self.setup_config["rois"][self.active_roi] = RoiCoords(Point(int(x1),int(y1)),Point(int(x2),int(y2)))
+        print("well name",self.active_roi)
+        print("Roi value",self.setup_config["rois"][self.active_roi])
+        print("canvas index",self.roi_index[self.active_roi])
+        print("canvas coordinates",self.roi_preview.coords(self.roi_index[self.active_roi]))
+        self.stop = event.x, event.y
+        self.active_roi = None
+        _write_ij_rois(self.setup_config["rois"], self.setup_config)
+        self.setup_config["roi_source"] = "Custom"
+    def _run_main_function(self):
+        main(self.root, self.setup_config)
 
 class RawDataReader:
     def __init__(
@@ -106,7 +375,7 @@ class ArgParse(argparse.ArgumentParser):
         sys.exit(2)
 
 
-def main(root:tk.Tk) -> None:
+def main(root:tk.Tk, setup_config: dict) -> None:
     logging.basicConfig(
         format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
         level=logging.INFO,
@@ -128,27 +397,20 @@ def main(root:tk.Tk) -> None:
     # cmd_line_args = parser.parse_args()
 
 
-    if os.path.exists(roi_set_entry.get()):
-        ij_rois = read_roi_set(roi_set_entry.get())
+    # if os.path.exists(app.roi_set_entry.get()):
+    #     ij_rois = read_roi_set(app.roi_set_entry.get())
     
-    with open(file_entry.get()) as toml_file:
-        setup_config = toml.load(toml_file)
-    setup_config["use_background_subtraction"] = use_background_subtraction_value.get()
+    # setup_config["use_background_subtraction"] = app.use_background_subtraction_value.get()
 
     logger.info(f"Metadata: {setup_config}")
 
-    setup_config["recording_name"] = os.path.splitext(os.path.basename(setup_config["input_path"]))[0]
-
-    _scale_inputs(setup_config)
-
     raw_data_reader = _create_raw_data_reader(setup_config)
-
-    rois = _create_rois(setup_config)
-    _write_ij_rois(rois, setup_config)
-    setup_config["roi_source"] = "Auto"
-    if os.path.exists(roi_set_entry.get()):
-        rois = ij_rois
-        setup_config["roi_source"] = "Custom"
+    rois = setup_config["rois"]
+    # _write_ij_rois(rois, setup_config)
+    # setup_config["roi_source"] = "Auto"
+    # if os.path.exists(app.roi_set_entry.get()):
+    #     rois = ij_rois
+    #     setup_config["roi_source"] = "Custom"
 
     _create_roi_annotated_image(raw_data_reader, setup_config, rois)
 
@@ -610,51 +872,67 @@ def _write_ij_rois(rois: dict[str, RoiCoords], setup_config: dict):
                 file_path = os.path.join(dir_name, file_name)
                 zf.write(file_path, os.path.basename(file_path))
 
+def _create_roi_preview(
+    setup_config: dict[str, Any]
+) -> None:
+    logger.info("Creating ROI sanity check image")
+    setup_config["recording_name"] = os.path.splitext(os.path.basename(setup_config["input_path"]))[0]
+    _scale_inputs(setup_config)
+    raw_data_reader = _create_raw_data_reader(setup_config)
+    rois = _create_rois(setup_config)
+
+    # second frame is used for the roi annotation
+    first_frame = raw_data_reader.frame(1)
+
+    # scale values down to uint8 so PIL can process them
+    if setup_config["bit_depth"] in (12, 16):
+        first_frame = (first_frame / first_frame.max() * 255).astype("uint8")
+
+    # TODO why is this necessary? Assuming it's for the colors
+    first_frame = np.stack((first_frame, first_frame, first_frame), axis=-1)
+
+    for well_name, roi in rois.items():
+        cv.rectangle(
+            img=first_frame,
+            pt1=dataclasses.astuple(roi.p_ul),
+            pt2=dataclasses.astuple(roi.p_br),
+            color=(0, 255, 0),  # gbr
+            thickness=1,
+            lineType=cv.LINE_AA,
+        )
+
+    first_frame_image = Image.fromarray(first_frame)
+    draw = ImageDraw.Draw(first_frame_image)
+
+    font_size_px = 15
+    try:
+        font = ImageFont.truetype("arial.ttf", font_size_px)
+    except OSError:
+        font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size_px)
+
+    for well_name, roi in rois.items():
+        draw.text((roi.p_ul.x, roi.p_br.y), well_name, fill="rgb(0, 255, 0)", font=font)
+
+    roi_output_path = os.path.join(
+        setup_config["output_dir_path"], f"{setup_config['recording_name']}_roi_locations.png"
+    )
+    
+    tk_image = ImageTk.PhotoImage(first_frame_image)
+    # roi_preview = tk.Label(root, image = tk_image)
+    # roi_preview.config(image = tk_image)
+    
+    app.config(width = first_frame_image.width, height = first_frame_image.height)
+    app.roi_preview.create_image(0, 0, image = tk_image, anchor = tk.NW)
+    app.roi_preview.image = tk_image
+    return(first_frame_image)
+
+
+
 if __name__ == "__main__":
     try:
-        def run_main_function():
-            #file_path = filedialog.askopenfilename()
-            main(root = root)
-
         root = tk.Tk()
         root.title("Nautilai Local Analysis Tool")
-        root.geometry("300x200")
-
-        file_label = tk.Label(root, text="Select settings file:")
-        file_label.pack()
-
-        def choose_file():
-            file_path = filedialog.askopenfilename()
-            file_entry.delete(0, tk.END)
-            file_entry.insert(0, file_path)
-
-        file_entry = tk.Entry(root)
-        file_entry.pack()
-
-        file_button = tk.Button(root, text="Load Settings File", command=choose_file)
-        file_button.pack()
-        
-        roi_set_label = tk.Label(root, text="Select ImageJ RoiSet.zip file:")
-        roi_set_label.pack()
-        
-        def choose_roi_set():
-            file_path = filedialog.askopenfilename()
-            roi_set_entry.delete(0, tk.END)
-            roi_set_entry.insert(0, file_path)
-        
-        roi_set_entry = tk.Entry(root)
-        roi_set_entry.pack()
-
-        roi_set_button = tk.Button(root, text="Load ImageJ ROI set", command=choose_roi_set)
-        roi_set_button.pack()
-
-        use_background_subtraction_value = tk.BooleanVar()
-        use_background_subtraction_checkbutton = tk.Checkbutton(root, text="Use Background Subtraction", variable=use_background_subtraction_value)
-        use_background_subtraction_checkbutton.pack()
-
-        run_button = tk.Button(root, text="Run", command=run_main_function)
-        run_button.pack()
-
+        app = NautilaiApplication(root)        
         root.mainloop()
         #main()
     except Exception:
