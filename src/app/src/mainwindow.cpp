@@ -437,7 +437,11 @@ void MainWindow::Initialize() {
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
-            return m_stageControl->Calibrate();
+            auto res = m_stageControl->Calibrate();
+            // these aren't the exact starting values, but since no platemap is loaded at this point,
+            // using values that are close enough to them that they should work for all plate formats
+            m_stageControl->SetAbsolutePosition(65000.0, 44000.0);
+            return res;
         });
 
         m_niSetup = std::async(std::launch::async, [&] {
@@ -451,6 +455,9 @@ void MainWindow::Initialize() {
         });
     } else {
         m_stageControl->Calibrate();
+        // these aren't the exact starting values, but since no platemap is loaded at this point,
+        // using values that are close enough to them that they should work for all plate formats
+        m_stageControl->SetAbsolutePosition(65000.0, 44000.0);
         emit sig_progress_done();
 
         //setup NI device
@@ -489,16 +496,14 @@ void MainWindow::Initialize() {
     emit sig_set_fps_duration(max_fps, (m_config->fps <= max_fps) ? m_config->fps : max_fps, m_config->duration);
     spdlog::info("Max frame rate: {}", max_fps);
 
-    //Wait for stage calibration
     if (m_config->asyncInit) {
+        //Wait for stage calibration
         m_stageCalibrate.wait();
         if (!m_stageCalibrate.get()) {
             spdlog::error("Stage calibration failed");
         }
-    }
 
-    //wait for ni device setup
-    if (m_config->asyncInit) {
+        //wait for ni device setup
         m_niSetup.wait();
     }
 
