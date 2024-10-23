@@ -196,7 +196,7 @@ void StageControl::on_gotoPosBtn_clicked() {
 
 void StageControl::closeEvent(QCloseEvent *event) {
     auto msg = fmt::format("Stage navigation closed");
-    spd::info(msg);
+    spdlog::info(msg);
     spdlog::get("nautilai_gxp")->info(msg);
 }
 

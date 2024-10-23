@@ -79,7 +79,7 @@ void Settings::on_dirChoiceBtn_clicked() {
 
     if (!dir.startsWith(prefix)) {
         if (dir.isEmpty()) {
-            auto msg = "Cancelled changing output directory");
+            auto msg = "Cancelled changing output directory";
             spdlog::info(msg);
             spdlog::get("nautilai_gxp")->info(msg);
         } else {
@@ -133,7 +133,7 @@ void Settings::on_modalChoice_rejected() {
 }
 
 
-void Settings:closeEvent(QCloseEvent *e) {
+void Settings::closeEvent(QCloseEvent *e) {
     if (changesConfirmed) {
         spdlog::get("nautilai_gxp")->info("New settings saved");
     } else {
