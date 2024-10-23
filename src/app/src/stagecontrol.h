@@ -147,11 +147,11 @@ class StageControl : public QDialog {
             SetRelativeY(-m_stepSizes[0]);
         };
         void on_stageDownBtn2_clicked() {
-            spdlog::get("nautilai_gxp")->info("Stage Down 3 pressed");
+            spdlog::get("nautilai_gxp")->info("Stage Down 2 pressed");
             SetRelativeY(-m_stepSizes[1]);
         };
         void on_stageDownBtn3_clicked() {
-            spdlog::get("nautilai_gxp")->info("Stage Down 2 pressed");
+            spdlog::get("nautilai_gxp")->info("Stage Down 3 pressed");
             SetRelativeY(-m_stepSizes[2]);
         };
 
