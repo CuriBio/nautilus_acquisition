@@ -53,6 +53,8 @@ class Settings : public QDialog {
         Ui::Settings ui;
         bool changesConfirmed;
 
+        void closeEvent(QCloseEvent *event);
+
     signals:
         void sig_settings_changed(std::string dir, std::string prefix);
 
@@ -62,7 +64,6 @@ class Settings : public QDialog {
         void on_filePrefix_editingFinished();
         void on_modalChoice_accepted();
         void on_modalChoice_rejected();
-        void closeEvent(QCloseEvent *event);
 };
 
 #endif //SETTINGS_H

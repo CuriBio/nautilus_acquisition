@@ -155,7 +155,6 @@ class StageControl : public QDialog {
             SetRelativeY(-m_stepSizes[2]);
         };
 
-
     private:
         void closeEvent(QCloseEvent *event);
 

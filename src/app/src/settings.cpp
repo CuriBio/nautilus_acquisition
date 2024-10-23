@@ -133,7 +133,7 @@ void Settings::on_modalChoice_rejected() {
 }
 
 
-void Settings::closeEvent(QCloseEvent *e) {
+void Settings::closeEvent(QCloseEvent *event) {
     if (changesConfirmed) {
         spdlog::get("nautilai_gxp")->info("New settings saved");
     } else {
