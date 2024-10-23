@@ -138,5 +138,6 @@ void Settings::closeEvent(QCloseEvent *event) {
         spdlog::get("nautilai_gxp")->info("New settings saved");
     } else {
         spdlog::get("nautilai_gxp")->info("New settings discarded");
+        this->reject();
     }
 }

@@ -198,6 +198,7 @@ void StageControl::closeEvent(QCloseEvent *event) {
     auto msg = fmt::format("Stage navigation closed");
     spdlog::info(msg);
     spdlog::get("nautilai_gxp")->info(msg);
+    this->accept();
 }
 
 void StageControl::disableAll() {
@@ -242,5 +243,4 @@ void StageControl::enableAll() {
     ui->stageDownBtn1->setEnabled(true);
     ui->stageDownBtn2->setEnabled(true);
     ui->stageDownBtn3->setEnabled(true);
-
 }
