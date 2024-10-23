@@ -164,14 +164,8 @@ class MainWindow : public QMainWindow {
     private slots:
         void updateState(AppState newState);
 
-        void on_liveScanBtn_clicked() {
-            spdlog::get("nautilai_gxp")->info("Live scan button pressed");
-            emit sig_update_state(LiveViewBtnPress);
-        }
-        void on_startAcquisitionBtn_clicked() {
-            spdlog::get("nautilai_gxp")->info("Acquisition button pressed");
-            emit sig_update_state(AcquisitionBtnPress);
-        }
+        void on_liveScanBtn_clicked() { emit sig_update_state(LiveViewBtnPress); }
+        void on_startAcquisitionBtn_clicked() { emit sig_update_state(AcquisitionBtnPress); }
         void on_advancedSetupBtn_clicked() {
             emit sig_update_state(AdvSetupBtnPress);
             m_advancedSetupDialog->setFixedSize(m_advancedSetupDialog->size());

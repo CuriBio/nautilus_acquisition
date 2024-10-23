@@ -462,7 +462,7 @@ void MainWindow::Initialize() {
         spdlog::info("Update available {}", m_config->updateAvailable);
     }
 
-    //for 8 bit image conversion for liveview, might not need it anymore
+    //for 8 bit image conversion for live view, might not need it anymore
     m_img16 = new uint16_t[m_width*m_height];
 
     //Set sensor size for live view
@@ -553,7 +553,9 @@ void MainWindow::updateInputs() {
 
 //state handlers
 bool MainWindow::startLiveView() {
-    spdlog::info("Starting liveview");
+    auto msg = "Starting Live View";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
     //emit sig_disable_all();
 
     setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
@@ -591,7 +593,8 @@ bool MainWindow::startLiveView() {
 }
 
 bool MainWindow::startLiveView_PostProcessing() {
-    spdlog::info("Starting liveview post processing");
+    spdlog::info("Starting live view post processing");
+    spdlog::get("nautilai_gxp")->info("Starting Live View");
     setMask(LiveScanMask);
 
     emit m_stageControl->sig_stage_enable_all();
@@ -627,7 +630,9 @@ bool MainWindow::startLiveView_PostProcessing() {
 }
 
 bool MainWindow::stopLiveView() {
-    spdlog::info("Stop liveview");
+    auto msg = "Stopping Live View";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({});
     ui.liveScanBtn->setText("Live Scan");
@@ -642,7 +647,8 @@ bool MainWindow::stopLiveView() {
 }
 
 bool MainWindow::stopLiveView_PostProcessing() {
-    spdlog::info("Stop liveview post processing");
+    spdlog::info("Stop live view post processing");
+    spdlog::get("nautilai_gxp")->info("Stopping Live View");
     emit m_stageControl->sig_stage_enable_all();
     ui.liveScanBtn->setText("Live Scan");
     ledOFF();
@@ -680,7 +686,9 @@ bool MainWindow::startAcquisition() {
         }
     }
 
-    spdlog::info("Starting acquisition");
+    auto msg = "Starting acquisition";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
 
     if (ui.dataTypeList->currentText().toStdString() == "Background Recording") {
         m_acquisitionThread = QThread::create(MainWindow::backgroundRecordingThread, this);
@@ -704,7 +712,10 @@ bool MainWindow::startAcquisition() {
 }
 
 bool MainWindow::stopAcquisition() {
-    spdlog::info("Stopping acquisition");
+    auto msg = "Stopping acquisition";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
+
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({ .space = true });
     emit m_stageControl->sig_stage_enable_all();
@@ -722,6 +733,7 @@ bool MainWindow::stopAcquisition() {
 
 bool MainWindow::startLiveView_AcquisitionRunning() {
     spdlog::info("Live view + Acquisition starting");
+    spdlog::get("nautilai_gxp")->info("Starting Live View");
     ui.liveScanBtn->setText("Stop Live Scan");
 
     // max frame rate allowed in live scan is 24, acquisition can capture at higher frame rates
@@ -734,6 +746,7 @@ bool MainWindow::startLiveView_AcquisitionRunning() {
 
 bool MainWindow::startAcquisition_LiveViewRunning() {
     spdlog::info("Live view + Acquisition starting");
+    spdlog::get("nautilai_gxp")->info("Starting Acquisition");
     emit m_stageControl->sig_stage_disable_all();
     ui.startAcquisitionBtn->setText("Stop Acquisition");
     disableMask(StageNavigationMask);
@@ -758,6 +771,8 @@ bool MainWindow::startAcquisition_LiveViewRunning() {
 
 bool MainWindow::stopAcquisition_LiveViewRunning() {
     spdlog::info("Stopping Acquisition, Live view still running");
+    spdlog::get("nautilai_gxp")->info("Stopping Acquisition");
+
     ui.startAcquisitionBtn->setText("Start Acquisition");
     enableMask(StageNavigationMask | LiveScanMask);
     emit m_stageControl->sig_stage_enable_all();
@@ -771,6 +786,7 @@ bool MainWindow::stopAcquisition_LiveViewRunning() {
 
 bool MainWindow::stopLiveView_AcquisitionRunning() {
     spdlog::info("Stopping Live view, acquisition still running");
+    spdlog::get("nautilai_gxp")->info("Stopping Live View");
     ui.liveScanBtn->setText("Live Scan");
     m_liveViewTimer->stop();
     m_liveView->update();

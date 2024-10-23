@@ -177,7 +177,7 @@ void StageControl::on_gotoPosBtn_clicked() {
 
         if (row >= 0) {
             StagePosition* item = static_cast<StagePosition*>(ui->stageLocations->item(row));
-            auto msg = fmt::format("Stage go-to button pressed, setting stage to position x: {}, y: {}", item->x, item->y);
+            auto msg = fmt::format("Setting stage to position x: {}, y: {}", item->x, item->y);
             spdlog::info(msg);
             spdlog::get("nautilai_gxp")->info(msg);
             m_tango->SetAbsolutePos(item->x, item->y, true);
