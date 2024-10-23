@@ -51,7 +51,6 @@ class Settings : public QDialog {
 
         std::shared_ptr<const Config> m_config;
         Ui::Settings ui;
-        bool changesConfirmed;
 
         void closeEvent(QCloseEvent *event);
 

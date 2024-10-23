@@ -43,7 +43,6 @@ Settings::Settings(QWidget* parent, std::shared_ptr<const Config> config) : QDia
     ui.setupUi(this);
 
     m_config = config;
-    changesConfirmed = false;
 
     setupOptions();
 }
@@ -116,6 +115,7 @@ void Settings::on_filePrefix_editingFinished() {
  * Emits signal for when a user accepts changes to settings.
  */
 void Settings::on_modalChoice_accepted() {
+    spdlog::get("nautilai_gxp")->info("New settings saved");
     emit sig_settings_changed(
         ui.dirChoice->toPlainText().toStdString(),
         ui.filePrefix->text().toStdString()
@@ -129,15 +129,11 @@ void Settings::on_modalChoice_accepted() {
  * Cancels updating settings dialog value when user clicks cancel.
  */
 void Settings::on_modalChoice_rejected() {
+    spdlog::get("nautilai_gxp")->info("New settings discarded");
     this->reject();
 }
 
 
 void Settings::closeEvent(QCloseEvent *event) {
-    if (changesConfirmed) {
-        spdlog::get("nautilai_gxp")->info("New settings saved");
-    } else {
-        spdlog::get("nautilai_gxp")->info("New settings discarded");
-        this->reject();
-    }
+    spdlog::get("nautilai_gxp")->info("New settings discarded");
 }
