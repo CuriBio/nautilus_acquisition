@@ -136,4 +136,5 @@ void Settings::on_modalChoice_rejected() {
 
 void Settings::closeEvent(QCloseEvent *event) {
     spdlog::get("nautilai_gxp")->info("New settings discarded");
+    this->reject();
 }
