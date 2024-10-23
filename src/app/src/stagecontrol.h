@@ -87,6 +87,8 @@ class StageControl : public QDialog {
 
         void loadList(std::string fileName);
 
+        // TODO log when this is closed
+
     signals:
         void sig_stagelist_updated();
         void sig_stage_disable_all();
@@ -118,6 +120,8 @@ class StageControl : public QDialog {
 
 
     private:
+        void closeEvent(QCloseEvent *event);
+
         void disableAll();
         void enableAll();
 };

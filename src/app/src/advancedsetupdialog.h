@@ -43,10 +43,13 @@ class AdvancedSetupDialog : public QDialog{
         void on_checkDownsampleRawFiles_stateChanged(int state);
         void on_checkKeepOriginalRaw_stateChanged(int state);
         void on_binFactorList_currentTextChanged(const QString &text);
+        void on_videoQualityList_currentTextChanged(const QString &text);
 
     private:
         void closeEvent(QCloseEvent *event);
         void setDefaultValues();
+
+        bool changesConfirmed;
 
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;

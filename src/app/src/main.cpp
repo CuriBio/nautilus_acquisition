@@ -76,6 +76,7 @@ int main(int argc, char* argv[]) {
     std::filesystem::path logPath = (userProfile / "Documents" / "Nautilai" / "Logs");
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", logPath.string(), fmt::localtime(ts));
+    std::string gxpLogfile = fmt::format("{}/{:%F_%H%M%S}_nautilai_gxp.log", logPath.string(), fmt::localtime(ts));
 
     auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
@@ -85,11 +86,20 @@ int main(int argc, char* argv[]) {
     spdlog::flush_every(std::chrono::seconds(10));
     spdlog::set_default_logger(logger);
 
+    auto gxp_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(gxpLogfile, true);
+    // TODO
+    // gxp_file_sink->set_pattern("{\"timestamp\": \"%Y-%m-%dT%H:%M:%S.%f%z\", \"name\": \"%n\", \"level\": \"%^%l%$\", \"process\": %P, \"thread\": %t, \"message\": \"%v\"},");
+    auto gxpLogger = std::make_shared<spdlog::logger>("nautilai_gxp", gxp_file_sink);
+    gxpLogger->flush_on(spdlog::level::info);
+    spdlog::register_logger(gxpLogger);
+
     //create AppData directory for config file
     std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
     std::filesystem::path configFile = (configPath / "nautilai.toml");
 
-    spdlog::info("Nautilai Version: {}", version);
+    auto versionLogMsg = fmt::format("Nautilai Version: {}", version);
+    spdlog::info(versionLogMsg);
+    spdlog::get("nautilai_gxp")->info(versionLogMsg);
 
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());

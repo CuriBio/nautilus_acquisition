@@ -669,10 +669,14 @@ bool MainWindow::startAcquisition() {
 
         m_userCanceledAcquisition = messageBox.exec() == QMessageBox::Cancel;
         if (m_userCanceledAcquisition) {
-            spdlog::info("User canceled acquisition start because no platemap was selected.");
+            auto msg = "User canceled acquisition start because no platemap was selected.";
+            spdlog::info(msg);
+            spdlog::get("nautilai_gxp")->info(msg);
             return false;
         } else {
-            spdlog::info("User selected to continue acquisition with no platemap selected.");
+            auto msg = "User selected to continue acquisition with no platemap selected.";
+            spdlog::info(msg);
+            spdlog::get("nautilai_gxp")->info(msg);
         }
     }
 
@@ -776,28 +780,32 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
 }
 
 bool MainWindow::advSetupOpen() {
-    spdlog::info("Opening Advanced Setup Dialog");
+    auto msg = "Opening Advanced Setup Dialog";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
     setMask(DISABLE_ALL);
     m_advancedSetupDialog->show();
     return true;
 }
 
 bool MainWindow::advSetupClosed() {
-    spdlog::info("Advanced Setup Closed");
+    spdlog::info("Closing Advanced Setup Dialog");
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({});
     return true;
 }
 
 bool MainWindow::settingsOpen() {
-    spdlog::info("Open Settings Dialog");
+    auto msg = "Opening Settings Dialog";
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
     setMask(DISABLE_ALL);
     m_settings->show();
     return true;
 }
 
 bool MainWindow::settingsClosed() {
-    spdlog::info("Settings Closed");
+    spdlog::info( "Closing Settings Dialog");
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({});
     return true;
@@ -896,9 +904,12 @@ void MainWindow::on_frameRateEdit_valueChanged(double value) {
     checkStartAcqRequirements({ .space = true, .framerate_dur = true });
 }
 
-
 void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
-    if (text.toStdString() == "Background Recording") {
+    auto textStd = text.toStdString();
+
+    spdlog::get("nautilai_gxp")->info("Data type set to {}", textStd);
+
+    if (textStd == "Background Recording") {
         disableMask(DisableBackgroundRecordingMask | SettingsMask | AdvancedSetupMask | DurationMask | StageNavigationMask);
 
         //save current duration so it can be set back when data type is changed
@@ -919,7 +930,7 @@ void MainWindow::on_dataTypeList_currentTextChanged(const QString &text) {
 
         ui.disableBackgroundRecording->setChecked(false);
 
-        m_config->recordingType = (text.toStdString() == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
+        m_config->recordingType = (textStd == "Calcium") ? RecordingType::Calcium : RecordingType::Voltage;
     }
 
     checkStartAcqRequirements({});
@@ -931,7 +942,10 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
     auto plateFormatFileName = m_config->plateFormat.string();
 
     m_stageControl->loadList(plateFormatFileName);
-    spdlog::info("Setting platemap for plate format {}", m_plateFormats[index].string());
+
+    auto msg = fmt::format("Setting platemap for plate format {}", m_plateFormats[index].string());
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
 
     try {
         auto plateFormatFile = toml::parse(plateFormatFileName);
@@ -999,16 +1013,22 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
-    spdlog::info("Set plateId: '{}'", m_config->plateId);
+    auto msg = fmt::format("Set plate ID: '{}'", m_config->plateId);
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     m_config->useBackgroundSubtraction = state == 0;
+    std::string msg;
     if (m_config->useBackgroundSubtraction) {
-        spdlog::info("Background subtraction enabled");
+        msg = "Background subtraction enabled";
     } else {
-        spdlog::info("Background subtraction disabled");
+        msg = "Background subtraction disabled";
     }
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
+
     checkStartAcqRequirements({});
 }
 

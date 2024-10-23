@@ -36,6 +36,7 @@
 #include <bitset>
 #include <stack>
 
+#include <spdlog/spdlog.h>
 #include <toml.hpp>
 #include <tsl/ordered_map.h>
 #include <QProgressDialog>
@@ -163,8 +164,14 @@ class MainWindow : public QMainWindow {
     private slots:
         void updateState(AppState newState);
 
-        void on_liveScanBtn_clicked() { emit sig_update_state(LiveViewBtnPress); }
-        void on_startAcquisitionBtn_clicked() { emit sig_update_state(AcquisitionBtnPress); }
+        void on_liveScanBtn_clicked() {
+            spdlog::get("nautilai_gxp")->info("Live scan button pressed");
+            emit sig_update_state(LiveViewBtnPress);
+        }
+        void on_startAcquisitionBtn_clicked() {
+            spdlog::get("nautilai_gxp")->info("Acquisition button pressed");
+            emit sig_update_state(AcquisitionBtnPress);
+        }
         void on_advancedSetupBtn_clicked() {
             emit sig_update_state(AdvSetupBtnPress);
             m_advancedSetupDialog->setFixedSize(m_advancedSetupDialog->size());
@@ -174,13 +181,20 @@ class MainWindow : public QMainWindow {
 
         void on_dataTypeList_currentTextChanged(const QString &text);
         void on_frameRateEdit_valueChanged(double value);
+        void on_frameRateEdit_editingFinished() {
+            spdlog::get("nautilai_gxp")->info("Frame rate set to {}", m_config->fps);
+        }
         void on_plateIdEdit_textChanged(const QString &plateId);
         void on_plateIdEdit_editingFinished();
         void on_plateFormatDropDown_activated(int index);
         void on_durationEdit_valueChanged(double value);
+        void on_durationEdit_editingFinished() {
+            spdlog::get("nautilai_gxp")->info("Acquisition duration set to {}", m_config->duration);
+        }
         void on_disableBackgroundRecording_stateChanged(int state);
 
         void on_stageNavigationBtn_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage navigation opened");
             m_stageControl->show();
             m_stageControl->setFixedSize(m_stageControl->size());
             ui.stageNavigationBtn->setEnabled(false);
@@ -190,6 +204,9 @@ class MainWindow : public QMainWindow {
             m_config->ledIntensity = value;
             double voltage = (m_config->ledIntensity / 100.0) * m_config->maxVoltage;
             ledSetVoltage(voltage);
+        }
+        void on_ledIntensityEdit_editingFinished() {
+            spdlog::get("nautilai_gxp")->info("LED intensity set to {}", m_config->ledIntensity);
         }
 
     private:

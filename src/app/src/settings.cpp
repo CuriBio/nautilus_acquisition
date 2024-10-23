@@ -43,6 +43,7 @@ Settings::Settings(QWidget* parent, std::shared_ptr<const Config> config) : QDia
     ui.setupUi(this);
 
     m_config = config;
+    changesConfirmed = false;
 
     setupOptions();
 }
@@ -77,12 +78,21 @@ void Settings::on_dirChoiceBtn_clicked() {
     QString prefix = "E:";
 
     if (!dir.startsWith(prefix)) {
-        spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
-        QMessageBox messageBox;
-        messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
-        messageBox.setFixedSize(500,200);
+        if (dir.isEmpty()) {
+            auto msg = "Cancelled changing output directory");
+            spdlog::info(msg);
+            spdlog::get("nautilai_gxp")->info(msg);
+        } else {
+            spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
+            spdlog::get("nautilai_gxp")->info("Set invalid output directory (not on E:\\ drive) {}", dir.toStdString());
+            QMessageBox messageBox;
+            messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
+            messageBox.setFixedSize(500,200);
+        }
     } else {
-        spdlog::info("Selected dir: {}", dir.toStdString());
+        auto msg = fmt::format("Selected new output directory: {}", dir.toStdString());
+        spdlog::info(msg);
+        spdlog::get("nautilai_gxp")->info(msg);
         ui.dirChoice->setPlainText(dir);
     }
 }
@@ -96,6 +106,10 @@ void Settings::on_filePrefix_textChanged() {
     ui.filePrefix->setStyleSheet(newStyle);
 
     ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
+}
+
+void Settings::on_filePrefix_editingFinished() {
+    spdlog::get("nautilai_gxp")->info("Set file prefix '{}'", ui.filePrefix->text().toStdString());
 }
 
 /*
@@ -116,4 +130,13 @@ void Settings::on_modalChoice_accepted() {
  */
 void Settings::on_modalChoice_rejected() {
     this->reject();
+}
+
+
+void Settings:closeEvent(QCloseEvent *e) {
+    if (changesConfirmed) {
+        spdlog::get("nautilai_gxp")->info("New settings saved");
+    } else {
+        spdlog::get("nautilai_gxp")->info("New settings discarded");
+    }
 }
