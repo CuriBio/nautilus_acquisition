@@ -1355,6 +1355,10 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
                 totalAcquisitionBytes
             );
         }
+        ui.frameRateEdit->setStyleSheet("border: 2px solid red");
+        ui.frameRateEdit->setToolTip("Not enough space in drive for these acquisition settings");
+        ui.durationEdit->setStyleSheet("border: 2px solid red");
+        ui.durationEdit->setToolTip("Not enough space in drive for these acquisition settings");
         ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
         return false;
     } else {
