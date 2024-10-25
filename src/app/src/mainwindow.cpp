@@ -286,7 +286,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         if (++m_extEncodingRetries < 5) {
             double backoff = m_extRetryBackoffms * std::pow(m_extEncodingRetries, 2);
-            dualLog(spdlog::level::error, fmt::format("Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff));
+            dualLog(spdlog::level::err, fmt::format("Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff));
 
             std::thread t([&] {
                 std::this_thread::sleep_for(std::chrono::duration<double>(backoff / 1000.0)); //in seconds
@@ -294,7 +294,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             });
             t.detach();
         } else {
-            dualLog(spdlog::level::error, fmt::format("Video encoding failed: {}", err));
+            dualLog(spdlog::level::err, fmt::format("Video encoding failed: {}", err));
             emit sig_start_analysis();
         }
     });
@@ -320,7 +320,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        dualLog(spdlog::level::error, fmt::format("Analysis error: {}", err));
+        dualLog(spdlog::level::err, fmt::format("Analysis error: {}", err));
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
@@ -420,7 +420,7 @@ void MainWindow::Initialize() {
 
     dualLog(spdlog::level::info, "Opening camera 0");
     if (!m_camera->Open(0)) {
-        dualLog(spdlog::level::error, "Failed to open camera 0");
+        dualLog(spdlog::level::err, "Failed to open camera 0");
         emit sig_show_error("Camera could not be found, please plug in camera and restart application");
         return;
     }
@@ -495,7 +495,7 @@ void MainWindow::Initialize() {
     if (m_config->asyncInit) {
         m_stageCalibrate.wait();
         if (!m_stageCalibrate.get()) {
-            dualLog(spdlog::level::error, "Stage calibration failed");
+            dualLog(spdlog::level::err, "Stage calibration failed");
         }
     }
 
@@ -980,7 +980,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
                 m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
             }
         } else {
-            dualLog(spdlog::level::error, fmt::format("No platemap svg for {} well plate", numWells));
+            dualLog(spdlog::level::err, fmt::format("No platemap svg for {} well plate", numWells));
             for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
                 m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
             }
@@ -1002,7 +1002,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_liveView->UpdateRois(&m_roiCfg, rois);
 
     } catch(const std::exception &e) {
-        dualLog(spdlog::level::error, fmt::format("Failed to load platemap format values, {}", e.what()));
+        dualLog(spdlog::level::err, fmt::format("Failed to load platemap format values, {}", e.what()));
     }
 }
 
@@ -1650,7 +1650,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 // handle acquisition done signal from thread finished slot
 void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     if (cls->m_config->plateFormat == "") {
-        dualLog(spdlog::level::error, "Platemap format is not set");
+        dualLog(spdlog::level::err, "Platemap format is not set");
         return;
     }
 
@@ -1851,7 +1851,7 @@ void MainWindow::sendManualTrigger() {
     );
 
     if (!taskDO_2_result) {
-        dualLog(spdlog::level::error, "Failed to send manual trigger");
+        dualLog(spdlog::level::err, "Failed to send manual trigger");
         m_DAQmx.StopTask(m_trigTaskDO);
     }
 }
