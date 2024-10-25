@@ -264,16 +264,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
                         fmt::format("\"{}_stack_{}.avi\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
                       );
 
-        spdlog::info("Starting video encoding {}", encodingCmd);
+        dualLog(spdlog::level::info, "Starting video encoding {}", encodingCmd);
 
         m_extVidEncoder.setProcessChannelMode(QProcess::ForwardedChannels);
         m_extVidEncoder.start(QString::fromStdString(encodingCmd));
     });
 
-    connect(&m_extVidEncoder, &QProcess::started, this, [this] { spdlog::info("Video encoding started"); });
+    connect(&m_extVidEncoder, &QProcess::started, this, [this] {
+        dualLog(spdlog::level::info, "Video encoding started");
+    });
 
     connect(&m_extVidEncoder, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("Video encoding finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        dualLog(spdlog::level::info, "Video encoding finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
         if (m_config->enableDownsampleRawFiles && !m_config->keepOriginalRaw) {
             deleteOriginalRawFile();
         }
@@ -284,7 +286,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(&m_extVidEncoder, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
         if (++m_extEncodingRetries < 5) {
             double backoff = m_extRetryBackoffms * std::pow(m_extEncodingRetries, 2);
-            spdlog::error("Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
+            dualLog(spdlog::level::error, "Video encoding error: {}, retrying {} with backoff {}ms", err, m_extEncodingRetries, backoff);
 
             std::thread t([&] {
                 std::this_thread::sleep_for(std::chrono::duration<double>(backoff / 1000.0)); //in seconds
@@ -292,7 +294,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
             });
             t.detach();
         } else {
-            spdlog::error("Video encoding failed: {}", err);
+            dualLog(spdlog::level::error, "Video encoding failed: {}", err);
             emit sig_start_analysis();
         }
     });
@@ -301,12 +303,12 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      * Start external analysis
      */
     connect(&m_extAnalysis, &QProcess::started, this, [this] {
-        spdlog::info("Analysis started");
+        dualLog(spdlog::level::info, "Analysis started");
         emit sig_progress_text("Running Analysis");
     });
 
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        spdlog::info("Analysis finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
+        dualLog(spdlog::level::info, "Analysis finished, exitCode {}, exitStatus {}", exitCode, exitStatus);
         spdlog::info("------------ Analysis logs ------------\n{}", m_extAnalysis.readAllStandardOutput().toStdString());
         m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
@@ -318,7 +320,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     });
 
     connect(&m_extAnalysis, &QProcess::errorOccurred, this, [&](QProcess::ProcessError err) {
-        spdlog::error("Analysis error: {}", err);
+        dualLog(spdlog::level::error, "Analysis error: {}", err);
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
         //need to check if there is enough space for another acquisition
@@ -330,7 +332,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(this, &MainWindow::sig_start_analysis, this, [&] {
         //run external analysis, probably want to start another progress bar/spinner
         std::filesystem::path settingsPath = m_expSettings.acquisitionDir / "settings.toml";
-        spdlog::info("Starting analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
+        dualLog(spdlog::level::info, "Starting analysis {} with {}", m_config->extAnalysis.string(), settingsPath.string());
 
         m_extAnalysis.setProcessChannelMode(QProcess::SeparateChannels);
         m_extAnalysis.start(QString::fromStdString(m_config->extAnalysis.string()), QStringList() << settingsPath.string().c_str());
@@ -413,12 +415,12 @@ void MainWindow::Initialize() {
     emit sig_set_platmapFormat(vectorToQStringList(m_plateFormats));
     emit sig_progress_start("Initializing Camera", 0);
 
-    spdlog::info("Initialize camera");
+    dualLog(spdlog::level::info, "Initialize camera");
     m_camera = std::make_shared<pmCamera>();
 
-    spdlog::info("Opening camera 0");
+    dualLog(spdlog::level::info, "Opening camera 0");
     if (!m_camera->Open(0)) {
-        spdlog::error("Failed to open camera 0");
+        dualLog(spdlog::level::error, "Failed to open camera 0");
         emit sig_show_error("Camera could not be found, please plug in camera and restart application");
         return;
     }
@@ -493,7 +495,7 @@ void MainWindow::Initialize() {
     if (m_config->asyncInit) {
         m_stageCalibrate.wait();
         if (!m_stageCalibrate.get()) {
-            spdlog::error("Stage calibration failed");
+            dualLog(spdlog::level::error, "Stage calibration failed");
         }
     }
 
@@ -828,7 +830,7 @@ bool MainWindow::settingsClosed() {
 }
 
 bool MainWindow::startPostProcessing() {
-    spdlog::info("Start PostProcessing");
+    dualLog(spdlog::level::info, "Start PostProcessing");
     disableMask(StartAcquisitionMask);
     m_acquisition->StopAll();
 
@@ -865,7 +867,7 @@ bool MainWindow::startPostProcessing() {
 }
 
 bool MainWindow::startPostProcessing_LiveViewRunning() {
-    spdlog::info("Stopping Live View to Start Post Processing");
+    dualLog(spdlog::level::info, "Stopping Live View to Start Post Processing");
     stopLiveView();
     startPostProcessing();
 
@@ -883,7 +885,7 @@ void MainWindow::deleteOriginalRawFile() {
 }
 
 bool MainWindow::postProcessingDone() {
-    spdlog::info("Post Processing Done");
+    dualLog(spdlog::level::info, "Post Processing Done");
 
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({ .space = true });
@@ -892,7 +894,7 @@ bool MainWindow::postProcessingDone() {
 }
 
 bool MainWindow::postProcessingDone_LiveViewRunning() {
-    spdlog::info("Post Processing Done + Live View Running");
+    dualLog(spdlog::level::info, "Post Processing Done + Live View Running");
     setMask(LiveScanMask | StartAcquisitionMask | LedIntensityMask | (m_stageControl->isVisible() ? 0 : StageNavigationMask));
     emit m_stageControl->sig_stage_enable_all();
 
@@ -978,7 +980,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
                 m_plateFormatImgs[i] = QString::fromStdString(fmt::format("./resources/Nautilus-software_96-well-plate-round-section{}-active.svg", i));
             }
         } else {
-            spdlog::error(fmt::format("No platemap svg for {} well plate", numWells));
+            dualLog(spdlog::level::error, fmt::format("No platemap svg for {} well plate", numWells));
             for (size_t i = 0; i < PLATEMAP_COUNT; i++) {
                 m_plateFormatImgs[i] = QString("./resources/Nautilus-software_plate-base.svg");
             }
@@ -1000,7 +1002,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_liveView->UpdateRois(&m_roiCfg, rois);
 
     } catch(const std::exception &e) {
-        spdlog::error("Failed to load platemap format values, {}", e.what());
+        dualLog(spdlog::level::error, "Failed to load platemap format values, {}", e.what());
     }
 }
 
@@ -1269,10 +1271,10 @@ bool MainWindow::ledON(double voltage, bool delay) {
     spdlog::info("m_led: {}", m_led);
     if (!m_led) {
         if (!ledSetVoltage(voltage)) {
-            spdlog::error("Failed to run taskAO");
+            dualLog(spdlog::level::error, "Failed to run taskAO");
         }
 
-       bool taskDO_result = (
+        bool taskDO_result = (
             m_DAQmx.StartTask(m_ledTaskDO) && \
             m_DAQmx.WriteDigitalLines(m_ledTaskDO, 1, 0, 10.0, DAQmx_Val_GroupByChannel, lines, NULL) && \
             m_DAQmx.StopTask(m_ledTaskDO)
@@ -1285,7 +1287,7 @@ bool MainWindow::ledON(double voltage, bool delay) {
         }
 
         if (delay) {
-            spdlog::info("led ON, delaying {}ms", m_config->shutterDelayMs);
+            dualLog(spdlog::level::info, "led ON, delaying {}ms", m_config->shutterDelayMs);
             std::this_thread::sleep_for(std::chrono::milliseconds(m_config->shutterDelayMs));
         }
 
@@ -1302,7 +1304,7 @@ bool MainWindow::ledON(double voltage, bool delay) {
  */
 bool MainWindow::ledOFF() {
     if (m_led) {
-        spdlog::info("led OFF");
+        dualLog(spdlog::level::info, "led OFF");
         uint8_t lines[8] = {0,0,0,0,0,0,0,0};
         bool taskDO_result = (
             m_DAQmx.StartTask(m_ledTaskDO) && \
@@ -1480,14 +1482,14 @@ void MainWindow::postProcess() {
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
         if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
-            spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+            dualLog(spdlog::level::warn, "Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
             return;
             //TODO fix this to use enum values
         } else if (m_expSettings.storageType != 0 && m_expSettings.storageType != 2) { //single tiff file storage, raw file
-            spdlog::warn("Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
+            dualLog(spdlog::level::warn, "Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
             return;
         } else if (m_config->autoTile) {
-            spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
+            dualLog(spdlog::level::info, "Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile),
@@ -1552,7 +1554,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_needsPostProcessing = true;
 
-    spdlog::info("Starting acquisitions");
+    dualLog(spdlog::level::info, "Starting acquisitions");
     int pos = 1;
 
     // get local timestamp to add to subdir name
@@ -1567,7 +1569,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
 
     cls->m_expSettings.acquisitionDir = cls->m_expSettings.workingDir / subdir;
     if (!std::filesystem::exists(cls->m_expSettings.acquisitionDir)) {
-        spdlog::info("Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
+        dualLog(spdlog::level::info, "Acquisition being written under directory: {}", cls->m_expSettings.acquisitionDir.string());
         std::filesystem::create_directories(cls->m_expSettings.acquisitionDir);
         std::filesystem::create_directories(cls->m_expSettings.acquisitionDir / DATA_DIR);
     }
@@ -1591,7 +1593,7 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(pos);
 
-        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+        dualLog(spdlog::level::info, "Moving stage, x: {}, y: {}", loc->x, loc->y);
         emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
         emit cls->sig_enable_ui_moving_stage();
@@ -1615,17 +1617,17 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
             cls->m_acquisition->StartLiveView();
         }
 
-        spdlog::info("Waiting for acquisition");
+        dualLog(spdlog::level::info, "Waiting for acquisition");
         cls->m_acquisition->WaitForAcquisition();
 
         //TODO check for user cancel and jump out
         if (cls->m_userCanceled) {
-            spdlog::info("User canceled acquisition");
+            dualLog(spdlog::level::info, "User canceled acquisition");
             cls->m_needsPostProcessing = false;
             break;
         }
 
-        spdlog::info("Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
+        dualLog(spdlog::level::info, "Acquisition for location x: {}, y: {} finished", loc->x, loc->y);
     }
     emit cls->sig_set_platemap(0);
 
@@ -1635,18 +1637,18 @@ void MainWindow::acquisitionThread(MainWindow* cls) {
     if (cls->m_config->autoTile && sizeMatches && cls->m_needsPostProcessing) {
         emit cls->sig_update_state(PostProcessing);
     } else if(!cls->m_userCanceled) {
-        spdlog::info("Acquisition done, sending signal");
+        dualLog(spdlog::level::info, "Acquisition done, sending signal");
         emit cls->sig_update_state(AcquisitionDone);
     }
 
-    spdlog::info("Acquisition Thread Stopped");
+    dualLog(spdlog::level::info, "Acquisition Thread Stopped");
 }
 
 
 // handle acquisition done signal from thread finished slot
 void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     if (cls->m_config->plateFormat == "") {
-        spdlog::error("Platemap format is not set");
+        dualLog(spdlog::level::error, "Platemap format is not set");
         return;
     }
 
@@ -1707,7 +1709,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     cls->ledON((cls->m_config->ledIntensity / 100.0) * cls->m_config->maxVoltage);
     cls->m_needsPostProcessing = false;
 
-    spdlog::info("Starting background recording thread");
+    dualLog(spdlog::level::info, "Starting background recording thread");
     cls->m_expSettings.expTimeMS = (1 / cls->m_config->fps) * 1000;
 
     // only need 1 sec of data for background recordings
@@ -1720,7 +1722,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
         emit cls->sig_disable_ui_moving_stage();
         emit cls->sig_set_platemap(fovIdx+1);
 
-        spdlog::info("Moving stage, x: {}, y: {}", loc->x, loc->y);
+        dualLog(spdlog::level::info, "Moving stage, x: {}, y: {}", loc->x, loc->y);
         emit cls->sig_progress_text("Moving stage");
         cls->m_stageControl->SetAbsolutePosition(loc->x, loc->y);
         emit cls->sig_enable_ui_moving_stage();
@@ -1749,7 +1751,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
             cls->m_acquisition->WaitForAcquisition();
         }
-        spdlog::info("Background Recording for location x: {}, y: {} finished", loc->x, loc->y);
+        dualLog(spdlog::level::info, "Background Recording for location x: {}, y: {} finished", loc->x, loc->y);
     }
 
     std::vector<double> wellAverageIntensity[3];
@@ -1776,7 +1778,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
 
         std::string bgname = cls->m_config->plateId + ".tsv";
         std::filesystem::path backgroundFilePath = backgroundRecSubDir / bgname;
-        spdlog::info("Writing background recording to {}", backgroundFilePath.string());
+        dualLog(spdlog::level::info, "Writing background recording to {}", backgroundFilePath.string());
 
         std::ofstream backgroundFile;
         backgroundFile.open(backgroundFilePath.string());
@@ -1825,17 +1827,17 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
     cls->saveBackgroundRecordingMetadata();
 
     //write settings file
-    spdlog::info("Writing settings file to {}\\{}\\settings.toml", cls->m_config->backgroundRecordingDir.string(), cls->m_config->plateId);
+    dualLog(spdlog::level::info, "Writing settings file to {}\\{}\\settings.toml", cls->m_config->backgroundRecordingDir.string(), cls->m_config->plateId);
 
     emit cls->sig_set_platemap(0);
     emit cls->sig_update_state(AcquisitionDone);
 
-    spdlog::info("Background Recording Thread Stopped");
+    dualLog(spdlog::level::info, "Background Recording Thread Stopped");
 }
 
 
 void MainWindow::sendManualTrigger() {
-    spdlog::info("User is sending manual trigger");
+    dualLog(spdlog::level::info, "User is sending manual trigger");
     uint8_t on_lines[8] = {1,1,1,1,1,1,1,1};
     uint8_t off_lines[8] = {0,0,0,0,0,0,0,0};
 
@@ -1847,13 +1849,13 @@ void MainWindow::sendManualTrigger() {
     );
 
     if (!taskDO_2_result) {
-        spdlog::error("Failed to send manual trigger");
+        dualLog(spdlog::level::error, "Failed to send manual trigger");
         m_DAQmx.StopTask(m_trigTaskDO);
     }
 }
 
 void MainWindow::writeSettingsFile(std::filesystem::path fp) {
-    spdlog::info("Writing settings file to {}\\settings.toml", fp.string());
+    dualLog(spdlog::level::info, "Writing settings file to {}\\settings.toml", fp.string());
     std::ofstream outfile((fp / "settings.toml").string()); // create output file stream
 
     //need this here even if auto tile is disabled
