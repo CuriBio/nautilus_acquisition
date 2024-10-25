@@ -140,7 +140,7 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
         "video-quality='{}' ",
         m_niDev, m_trigDev, m_triggerMode, m_enableLiveViewDuringAcquisition,
         m_enableDownsampleRawFiles, m_binFactor, m_keepOriginalRaw,
-        m_config->selectedVideoQualityOption,
+        m_config->selectedVideoQualityOption
     );
     spdlog::info(msg);
     spdlog::get("nautilai_gxp")->info(msg);

@@ -90,9 +90,8 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
                 storageTypeName = "big tiff";
                 break;
             case 2:
-                auto msg = "Storage type: raw";
-                spdlog::info(msg);
-                spdlog::get("nautilai_gxp")->info(msg);
+                spdlog::info("Storage type: raw");
+                spdlog::get("nautilai_gxp")->info("Storage type: raw");
                 storageType = StorageType::Raw;
                 storageTypeName = "raw";
                 break;
