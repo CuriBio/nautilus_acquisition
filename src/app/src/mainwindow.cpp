@@ -1101,7 +1101,10 @@ void MainWindow::saveBackgroundRecordingMetadata() {
  * @param prefix The file prefix to use for captured images.
  */
 void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix) {
-    spdlog::info("Settings changed, dir: {}, prefix: {}", path.string().c_str(), prefix);
+    auto msg = fmt::format("New settings saved: dir='{}', prefix='{}'", path.string().c_str(), prefix);
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
+
     m_config->path = path;
     m_config->prefix = prefix;
 

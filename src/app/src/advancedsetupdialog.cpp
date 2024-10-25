@@ -110,18 +110,12 @@ void AdvancedSetupDialog::setDefaultValues() {
 void AdvancedSetupDialog::updateAdvancedSetup(){
     changesConfirmed = true;
 
-    spdlog::info("User confirmed advanced settings");
-
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
 
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
     m_config->keepOriginalRaw = m_keepOriginalRaw;
-
-    if (m_enableDownsampleRawFiles) {
-        spdlog::info("User enabled additional binning settings to a factor of {} and keep original to {}", m_binFactor, m_keepOriginalRaw);
-    }
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
@@ -139,6 +133,18 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 
     m_config->selectedVideoQualityOption = ui->videoQualityList->currentText().toStdString();
 
+    auto msg = fmt::format(
+        "New advanced settings saved: "
+        "led-ni=device='{}', trigger-ni-device='{}', trigger-in-mode='{}', enable-live-view-during-acquisition='{}', "
+        "downsample-raw-data='{}', binning-factor='{}' keep-original-raw-data-after-downsample='{}', "
+        "video-quality='{}' ",
+        m_niDev, m_trigDev, m_triggerMode, m_enableLiveViewDuringAcquisition,
+        m_enableDownsampleRawFiles, m_binFactor, m_keepOriginalRaw,
+        m_config->selectedVideoQualityOption,
+    );
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
+
     this->close();
 }
 
@@ -150,7 +156,6 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 */
 void AdvancedSetupDialog::on_ledDeviceList_currentTextChanged(const QString &text) {
     m_niDev = text.toStdString();
-    spdlog::get("nautilai_gxp")->info("LED NI Device set to {}", m_niDev);
 }
 
 /*
@@ -160,7 +165,6 @@ void AdvancedSetupDialog::on_ledDeviceList_currentTextChanged(const QString &tex
 */
 void AdvancedSetupDialog::on_triggerDeviceList_currentTextChanged(const QString &text) {
     m_trigDev = text.toStdString();
-    spdlog::get("nautilai_gxp")->info("Trigger NI Device set to {}", m_trigDev);
 }
 
 
@@ -171,7 +175,6 @@ void AdvancedSetupDialog::on_triggerDeviceList_currentTextChanged(const QString 
 */
 void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &text) {
     auto textStd = text.toStdString();
-    spdlog::get("nautilai_gxp")->info("Trigger In mode set to {}", textStd);
     if (textStd == "Wait for trigger") {
         m_triggerMode = EXT_TRIG_TRIG_FIRST;
     } else {  // "Start acquisition immediately"
@@ -186,11 +189,6 @@ void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &t
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state) {
-    if (state) {
-        spdlog::get("nautilai_gxp")->info("Enabling Live View during acquisition");
-    } else {
-        spdlog::get("nautilai_gxp")->info("Disabling Live View during acquisition");
-    }
     m_enableLiveViewDuringAcquisition = state;
 }
 
@@ -200,12 +198,6 @@ void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
-    if (state) {
-        spdlog::get("nautilai_gxp")->info("Enabling downsample of raw data");
-    } else {
-        spdlog::get("nautilai_gxp")->info("Disabling downsample of raw data (binning factor and option to keep original raw file will be reset to default values)");
-    }
-
     // enable additional downsample settings
     ui->binFactorList->setEnabled(state);
     ui->checkKeepOriginalRaw->setEnabled(state);
@@ -225,7 +217,6 @@ void AdvancedSetupDialog::on_checkDownsampleRawFiles_stateChanged(int state) {
 * @param text of new choice
 */
 void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &text) {
-    spdlog::get("nautilai_gxp")->info("Binning factor set to {}", text.toStdString());
     m_binFactor = text.toInt();
 }
 
@@ -235,22 +226,11 @@ void AdvancedSetupDialog::on_binFactorList_currentTextChanged(const QString &tex
 * @param new checked state
 */
 void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
-    if (state) {
-        spdlog::get("nautilai_gxp")->info("Keeping original raw data after downsample");
-    } else {
-        spdlog::get("nautilai_gxp")->info("Discarding original raw data after downsample");
-    }
     m_keepOriginalRaw = state;
 }
 
-void AdvancedSetupDialog::on_videoQualityList_currentTextChanged(const QString &text) {
-    spdlog::get("nautilai_gxp")->info("Video quality set to {}", text.toStdString());
-}
-
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
-    if (changesConfirmed) {
-        spdlog::get("nautilai_gxp")->info("New advanced settings saved");
-    } else {
+    if (!changesConfirmed) {
         spdlog::get("nautilai_gxp")->info("New advanced settings discarded");
     }
     emit this->sig_close_adv_settings();

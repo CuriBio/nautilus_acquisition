@@ -90,7 +90,9 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
                 storageTypeName = "big tiff";
                 break;
             case 2:
-                spdlog::info("Storage type: {}", "raw");
+                auto msg = "Storage type: raw";
+                spdlog::info(msg);
+                spdlog::get("nautilai_gxp")->info(msg);
                 storageType = StorageType::Raw;
                 storageTypeName = "raw";
                 break;
@@ -272,67 +274,72 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 }
 
 void Config::Dump() {
+    auto logFn = [](std::string s) {
+        spdlog::info(s);
+        spdlog::get("nautilai_gxp")->info(s);
+    };
+
     //nautilai options
-    spdlog::info("nautilai.outdir: {}", path.string());
-    spdlog::info("nautilai.prefix: {}", prefix);
-    spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
-    spdlog::info("nautilai.ext_analysis {}", extAnalysis.string());
-    spdlog::info("nautilai.ffmpeg_dir {}", ffmpegDir.string());
-    spdlog::info("nautilai.xy_pixel_size: {}", xyPixelSize);
-    spdlog::info("nautilai.machine_vars_file_path: {}", machineVarsFilePath.string());
+    logFn(fmt::format("nautilai.outdir: {}", path.string()));
+    logFn(fmt::format("nautilai.prefix: {}", prefix));
+    logFn(fmt::format("nautilai.auto_contrast_brightness: {}", !noAutoConBright));
+    logFn(fmt::format("nautilai.ext_analysis {}", extAnalysis.string()));
+    logFn(fmt::format("nautilai.ffmpeg_dir {}", ffmpegDir.string()));
+    logFn(fmt::format("nautilai.xy_pixel_size: {}", xyPixelSize));
+    logFn(fmt::format("nautilai.machine_vars_file_path: {}", machineVarsFilePath.string()));
 
     //acquisition options
-    spdlog::info("acquisition.fps: {}", fps);
-    spdlog::info("acquisition.duration: {}", duration);
-    spdlog::info("acquisition.led_intensity: {}", ledIntensity);
-    spdlog::info("acquisition.buffers: {}", bufferCount);
-    spdlog::info("acquisition.frameCount: {}", frameCount);
-    spdlog::info("acquisition.expTimeMs: {}", expTimeMs);
-    spdlog::info("acquisition.tile_map: [{}]", fmt::join(tileMap, ", "));
+    logFn(fmt::format("acquisition.fps: {}", fps));
+    logFn(fmt::format("acquisition.duration: {}", duration));
+    logFn(fmt::format("acquisition.led_intensity: {}", ledIntensity));
+    logFn(fmt::format("acquisition.buffers: {}", bufferCount));
+    logFn(fmt::format("acquisition.frameCount: {}", frameCount));
+    logFn(fmt::format("acquisition.expTimeMs: {}", expTimeMs));
+    logFn(fmt::format("acquisition.tile_map: [{}]", fmt::join(tileMap, ", ")));
 
-    spdlog::info("acquisition.storage_type: {} ({})", storageType, storageTypeName);
-    spdlog::info("acquisition.auto_tile: {}", autoTile);
-    spdlog::info("acquisition.encode_video: {}", encodeVideo);
-    spdlog::info("acquisition.rows: {}", rows);
-    spdlog::info("acquisition.cols: {}", cols);
+    logFn(fmt::format("acquisition.storage_type: {} ({})", storageType, storageTypeName));
+    logFn(fmt::format("acquisition.auto_tile: {}", autoTile));
+    logFn(fmt::format("acquisition.encode_video: {}", encodeVideo));
+    logFn(fmt::format("acquisition.rows: {}", rows));
+    logFn(fmt::format("acquisition.cols: {}", cols));
 
     //acquisition.region
-    spdlog::info("acquisition.region.s1: {}", rgn.s1);
-    spdlog::info("acquisition.region.s2: {}", rgn.s2);
-    spdlog::info("acquisition.region.sbin: {}", rgn.sbin);
-    spdlog::info("acquisition.region.p1: {}", rgn.p1);
-    spdlog::info("acquisition.region.p2: {}", rgn.p2);
-    spdlog::info("acquisition.region.pbin: {}", rgn.pbin);
+    logFn(fmt::format("acquisition.region.s1: {}", rgn.s1));
+    logFn(fmt::format("acquisition.region.s2: {}", rgn.s2));
+    logFn(fmt::format("acquisition.region.sbin: {}", rgn.sbin));
+    logFn(fmt::format("acquisition.region.p1: {}", rgn.p1));
+    logFn(fmt::format("acquisition.region.p2: {}", rgn.p2));
+    logFn(fmt::format("acquisition.region.pbin: {}", rgn.pbin));
 
 
     //acquisition.live_view
-    spdlog::info("acquisition.live_view.vflip: {}", vflip);
-    spdlog::info("acquisition.live_view.hflip: {}", hflip);
+    logFn(fmt::format("acquisition.live_view.vflip: {}", vflip));
+    logFn(fmt::format("acquisition.live_view.hflip: {}", hflip));
 
     //device.photometrics
-    spdlog::info("device.photometrics.trigger_mode  {} ({})", triggerMode, triggerModeName);
-    spdlog::info("device.photometrics.exposure_mode  {} ({})", exposureMode, exposureModeName);
-    spdlog::info("device.photometrics.speed_table_index: {}", spdtable);
+    logFn(fmt::format("device.photometrics.trigger_mode  {} ({})", triggerMode, triggerModeName));
+    logFn(fmt::format("device.photometrics.exposure_mode  {} ({})", exposureMode, exposureModeName));
+    logFn(fmt::format("device.photometrics.speed_table_index: {}", spdtable));
 
     //device.kinetix.line_read_times
-    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]);
-    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]);
-    spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]);
-    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]);
+    logFn(fmt::format("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]));
+    logFn(fmt::format("device.kinetix.line_read_times.speed: {}", lineTimes[1]));
+    logFn(fmt::format("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]));
+    logFn(fmt::format("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]));
 
     //device.nidaqmx
-    spdlog::info("device.nidaqmx.device: {}", niDev);
-    spdlog::info("device.nidaqmx.device_2: {}", trigDev);
-    spdlog::info("device.nidaqmx.max_voltage: {}", maxVoltage);
-    spdlog::info("device.nidaqmx.shutter_delay_ms: {}", shutterDelayMs);
+    logFn(fmt::format("device.nidaqmx.device: {}", niDev));
+    logFn(fmt::format("device.nidaqmx.device_2: {}", trigDev));
+    logFn(fmt::format("device.nidaqmx.max_voltage: {}", maxVoltage));
+    logFn(fmt::format("device.nidaqmx.shutter_delay_ms: {}", shutterDelayMs));
 
     //device.tango
-    spdlog::info("device.tango.com_port: {}", stageComPort);
-    spdlog::info("device.tango.step_small: {}", stageStepSizes[0]);
-    spdlog::info("device.tango.step_medium: {}", stageStepSizes[1]);
-    spdlog::info("device.tango.step_large: {}", stageStepSizes[2]);
+    logFn(fmt::format("device.tango.com_port: {}", stageComPort));
+    logFn(fmt::format("device.tango.step_small: {}", stageStepSizes[0]));
+    logFn(fmt::format("device.tango.step_medium: {}", stageStepSizes[1]));
+    logFn(fmt::format("device.tango.step_large: {}", stageStepSizes[2]));
 
     //debug
-    spdlog::info("debug.ignore_errors: {}", ignoreErrors);
-    spdlog::info("debug.async_init: {}", asyncInit);
+    logFn(fmt::format("debug.ignore_errors: {}", ignoreErrors));
+    logFn(fmt::format("debug.async_init: {}", asyncInit));
 }

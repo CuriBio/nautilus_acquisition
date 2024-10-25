@@ -78,20 +78,15 @@ void Settings::on_dirChoiceBtn_clicked() {
 
     if (!dir.startsWith(prefix)) {
         if (dir.isEmpty()) {
-            auto msg = "Cancelled changing output directory";
-            spdlog::info(msg);
-            spdlog::get("nautilai_gxp")->info(msg);
+            spdlog::info("Cancelled changing output directory");
         } else {
             spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
-            spdlog::get("nautilai_gxp")->info("Set invalid output directory (not on E:\\ drive) {}", dir.toStdString());
             QMessageBox messageBox;
             messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
             messageBox.setFixedSize(500,200);
         }
     } else {
-        auto msg = fmt::format("Selected new output directory: {}", dir.toStdString());
-        spdlog::info(msg);
-        spdlog::get("nautilai_gxp")->info(msg);
+        spdlog::info("Selected new output directory: {}", dir.toStdString());
         ui.dirChoice->setPlainText(dir);
     }
 }
@@ -107,15 +102,11 @@ void Settings::on_filePrefix_textChanged() {
     ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
 }
 
-void Settings::on_filePrefix_editingFinished() {
-    spdlog::get("nautilai_gxp")->info("Set file prefix '{}'", ui.filePrefix->text().toStdString());
-}
 
 /*
  * Emits signal for when a user accepts changes to settings.
  */
 void Settings::on_modalChoice_accepted() {
-    spdlog::get("nautilai_gxp")->info("New settings saved");
     emit sig_settings_changed(
         ui.dirChoice->toPlainText().toStdString(),
         ui.filePrefix->text().toStdString()

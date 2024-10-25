@@ -97,17 +97,20 @@ int main(int argc, char* argv[]) {
     std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
     std::filesystem::path configFile = (configPath / "nautilai.toml");
 
-    auto versionLogMsg = fmt::format("Nautilai Version: {}", version);
-    spdlog::info(versionLogMsg);
-    spdlog::get("nautilai_gxp")->info(versionLogMsg);
+    auto logFn = [](std::string s) {
+        spdlog::info(s);
+        spdlog::get("nautilai_gxp")->info(s);
+    };
+
+    logFn(fmt::format("Nautilai Version: {}", version));
 
     if (!std::filesystem::exists(configPath.string())) {
-        spdlog::info("Creating {}", configPath.string());
+        logFn(fmt::format("Creating {}", configPath.string()));
         std::filesystem::create_directory(configPath.string());
     }
 
     if (!std::filesystem::exists(configFile)) {
-        spdlog::info("Creating {}", configFile.string());
+        logFn(fmt::format("Creating {}", configFile.string()));
         auto cfg = toml::parse<toml::preserve_comments, tsl::ordered_map>(std::filesystem::path("nautilai.toml").string());
         std::ofstream outf(configFile.string());
         outf << std::setw(0) << cfg << std::endl;
@@ -151,7 +154,8 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-    spdlog::info("Loading config {}", configFile.string());
+
+    logFn(fmt::format("Loading config {}", configFile.string()));
     std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs);
     config->version = version;
     config->configFile = configFile.string();
@@ -161,7 +165,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (!std::filesystem::exists(config->backgroundRecordingDir)) {
-        spdlog::info("Creating {}", config->backgroundRecordingDir.string());
+        logFn(fmt::format("Creating {}", config->backgroundRecordingDir.string()));
         std::filesystem::create_directory(config->backgroundRecordingDir);
     }
 
