@@ -456,9 +456,9 @@ class MainWindow : public QMainWindow {
         void deleteOriginalRawFile();
         void writeSettingsFile(std::filesystem::path fp);
 
-        void dualLog(spdlog::level::level_enum lvl, const char *fmt, const Args &...args) {
-            spdlog::log(lvl, fmt, args);
-            spdlog::get("nautilai_gxp")->log(lvl, fmt, args);
+        void dualLog(spdlog::level::level_enum lvl, std::string msg) {
+            spdlog::log(lvl, msg);
+            spdlog::get("nautilai_gxp")->log(lvl, msg);
         }
 };
 #endif
