@@ -25,7 +25,6 @@ import toml
 
 
 def rename(logger, name, event_dict):
-    breakpoint()
     try:
         event_dict_ = json.loads(event_dict)
         event_dict_["message"] = event_dict_.pop("event")
@@ -46,7 +45,7 @@ structlog.configure(
 )
 
 
-logger = logging.getLogger(__name__)
+logger = structlog.getLogger()
 
 
 def _get_well_row_name(row: int):
