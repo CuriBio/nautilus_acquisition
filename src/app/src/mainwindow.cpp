@@ -312,7 +312,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         auto localAnalysisLogs = m_extAnalysis.readAllStandardOutput().toStdString();
         spdlog::info("------------ Analysis logs ------------\n{}", localAnalysisLogs);
         auto localAnalysisLogsForGxp = localAnalysisLogs.substr(0, localAnalysisLogs.length() - 2);
-        spdlog::get("nautilai_gxp")->info("------------ Analysis logs ------------\n{}", localAnalysisLogsForGxp);
+        spdlog::get("nautilai_gxp")->info("------------ Start Analysis logs ------------\"}\n{}", localAnalysisLogsForGxp);
+        spdlog::get("nautilai_gxp")->info("------------ End Analysis logs ------------");
         m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
