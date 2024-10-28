@@ -214,6 +214,8 @@ def _scale_inputs(setup_config: dict[str, Any]) -> None:
 
 
 def _create_raw_data_reader(setup_config: dict[str, Any]) -> np.ndarray:
+    _log_file_md5(setup_config["input_path"])
+
     match setup_config["bit_depth"]:
         case 8:
             dtype = np.dtype(np.uint8)
@@ -551,7 +553,10 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
 def _log_file_md5(file_path):
     try:
         with open(file_path, "rb") as f:
-            md5 = hashlib.md5(f.read()).hexdigest()
+            file_hash = hashlib.md5()
+            while chunk := f.read(8192):
+                file_hash.update(chunk)
+            md5 = file_hash.hexdigest()
     except Exception:
         logger.exception(f"Failed to calculate md5 hash for {file_path}")
     else:

@@ -310,7 +310,8 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(&m_extAnalysis, &QProcess::finished, this, [this](int exitCode, QProcess::ExitStatus exitStatus) {
         dualLog(spdlog::level::info, fmt::format("Analysis finished, exitCode {}, exitStatus {}", exitCode, exitStatus));
         auto localAnalysisLogs = m_extAnalysis.readAllStandardOutput().toStdString();
-        spdlog::info("------------ Analysis logs ------------\n{}", localAnalysisLogs);
+        spdlog::info("------------ Start Analysis logs ------------\n{}", localAnalysisLogs);
+        spdlog::info("------------ End Analysis logs ------------");
         auto localAnalysisLogsForGxp = localAnalysisLogs.substr(0, localAnalysisLogs.length() - 4);
         spdlog::get("nautilai_gxp")->info("------------ Start Analysis logs ------------\"}}\n{}", localAnalysisLogsForGxp);
         spdlog::get("nautilai_gxp")->info("------------ End Analysis logs ------------");
