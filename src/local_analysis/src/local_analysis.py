@@ -528,11 +528,11 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
 def _log_file_md5(file_path):
     try:
         with open(file_path, "rb") as f:
-            md5 = hashlib.md5(f.read()).digest()
+            md5 = hashlib.md5(f.read()).hexdigest()
     except Exception:
         logger.exception(f"Failed to calculate md5 hash for {file_path}")
     else:
-        logger.info(f"md5 hash for {file_path}: {md5}")
+        logger.info(f"MD5 hash for {file_path}: {md5}")
 
 
 if __name__ == "__main__":
