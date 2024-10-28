@@ -91,7 +91,7 @@ namespace PostProcess {
         CloseHandle(file);
 #endif
     }
-    
+
     /** @brief Downsample images with user-defined bin factor */
     void Downsample(
         int fr,
@@ -100,7 +100,7 @@ namespace PostProcess {
         uint32_t width,
         uint32_t height,
         uint8_t binFactor)
-    {   
+    {
         size_t binnedWidth = width / binFactor;
         size_t binnedHeight = height / binFactor;
         uint16_t *binnedFrameData = new uint16_t[binnedWidth * binnedHeight];
@@ -117,7 +117,7 @@ namespace PostProcess {
 
                     size_t start = firstIdx + (width * k);
                     size_t end = start + binFactor;
-                    
+
                     for (size_t l = start; l < end; l++) {
                         pixelsToAvg.push_back(frameData[l]);
                     }
@@ -128,7 +128,7 @@ namespace PostProcess {
             }
         }
 
-        r->Write(binnedFrameData, fr); 
+        r->Write(binnedFrameData, fr);
     }
 
     /** @brief Autotile images from indir to single tiff stack in outdir */
@@ -157,7 +157,9 @@ namespace PostProcess {
             return static_cast<size_t>((rowIdx * height) * (width * cols) + (colIdx * width));
         };
 
-        spdlog::info("Tiling images from {} with rows: {}, cols: {}, frames: {}, width: {}, height: {}, vflip: {}, hflip: {}, thread count: {}", indir.string(), rows, cols, frames, width, height, vflip, hflip, p.ThreadCount());
+        auto msg = fmt::format("Tiling images from {} with rows: {}, cols: {}, frames: {}, width: {}, height: {}, vflip: {}, hflip: {}, thread count: {}", indir.string(), rows, cols, frames, width, height, vflip, hflip, p.ThreadCount());
+        spdlog::info(msg);
+        spdlog::get("nautilai_gxp")->info(msg);
 
         uint16_t *frameData = new uint16_t[rows * cols * width * height];
 
@@ -193,7 +195,7 @@ namespace PostProcess {
             }
             p.WaitForAll();
             r->Write(frameData, fr);
-            
+
             if (r2 != nullptr) {
                 spdlog::info("Downsampling frame {}", fr);
                 // pass in complete pixels, rows/columns do not matter at this point

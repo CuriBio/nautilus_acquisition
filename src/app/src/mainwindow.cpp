@@ -555,9 +555,7 @@ void MainWindow::updateInputs() {
 
 //state handlers
 bool MainWindow::startLiveView() {
-    auto msg = "Starting Live View";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Starting Live View");
     //emit sig_disable_all();
 
     setMask(LiveScanMask | LedIntensityMask | StageNavigationMask);
@@ -632,9 +630,7 @@ bool MainWindow::startLiveView_PostProcessing() {
 }
 
 bool MainWindow::stopLiveView() {
-    auto msg = "Stopping Live View";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Stopping Live View");
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({});
     ui.liveScanBtn->setText("Live Scan");
@@ -677,20 +673,14 @@ bool MainWindow::startAcquisition() {
 
         m_userCanceledAcquisition = messageBox.exec() == QMessageBox::Cancel;
         if (m_userCanceledAcquisition) {
-            auto msg = "User canceled acquisition start because no platemap was selected.";
-            spdlog::info(msg);
-            spdlog::get("nautilai_gxp")->info(msg);
+            dualLog(spdlog::level::info, "User canceled acquisition start because no platemap was selected");
             return false;
         } else {
-            auto msg = "User selected to continue acquisition with no platemap selected.";
-            spdlog::info(msg);
-            spdlog::get("nautilai_gxp")->info(msg);
+            dualLog(spdlog::level::info, "User selected to continue acquisition with no platemap selected");
         }
     }
 
-    auto msg = "Starting acquisition";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Starting acquisition");
 
     if (ui.dataTypeList->currentText().toStdString() == "Background Recording") {
         m_acquisitionThread = QThread::create(MainWindow::backgroundRecordingThread, this);
@@ -714,9 +704,7 @@ bool MainWindow::startAcquisition() {
 }
 
 bool MainWindow::stopAcquisition() {
-    auto msg = "Stopping acquisition";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Stopping acquisition");
 
     setMask(ENABLE_ALL);
     checkStartAcqRequirements({ .space = true });
@@ -798,9 +786,7 @@ bool MainWindow::stopLiveView_AcquisitionRunning() {
 }
 
 bool MainWindow::advSetupOpen() {
-    auto msg = "Opening Advanced Setup Dialog";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Opening Advanced Setup Dialog");
     setMask(DISABLE_ALL);
     m_advancedSetupDialog->show();
     return true;
@@ -814,9 +800,7 @@ bool MainWindow::advSetupClosed() {
 }
 
 bool MainWindow::settingsOpen() {
-    auto msg = "Opening Settings Dialog";
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, "Opening Settings Dialog");
     setMask(DISABLE_ALL);
     m_settings->show();
     return true;
@@ -961,9 +945,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
 
     m_stageControl->loadList(plateFormatFileName);
 
-    auto msg = fmt::format("Setting platemap for plate format {}", m_plateFormats[index].string());
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, fmt::format("Setting platemap for plate format {}", m_plateFormats[index].string()));
 
     try {
         auto plateFormatFile = toml::parse(plateFormatFileName);
@@ -1031,9 +1013,7 @@ void MainWindow::on_plateIdEdit_textChanged(const QString &plateId) {
 }
 
 void MainWindow::on_plateIdEdit_editingFinished() {
-    auto msg = fmt::format("Set plate ID: '{}'", m_config->plateId);
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, fmt::format("Set plate ID: '{}'", m_config->plateId));
 }
 
 void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
@@ -1044,8 +1024,7 @@ void MainWindow::on_disableBackgroundRecording_stateChanged(int state) {
     } else {
         msg = "Background subtraction disabled";
     }
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, msg);
 
     checkStartAcqRequirements({});
 }
@@ -1103,9 +1082,7 @@ void MainWindow::saveBackgroundRecordingMetadata() {
  * @param prefix The file prefix to use for captured images.
  */
 void MainWindow::settingsChanged(std::filesystem::path path, std::string prefix) {
-    auto msg = fmt::format("New settings saved: dir='{}', prefix='{}'", path.string().c_str(), prefix);
-    spdlog::info(msg);
-    spdlog::get("nautilai_gxp")->info(msg);
+    dualLog(spdlog::level::info, fmt::format("New settings saved: dir='{}', prefix='{}'", path.string().c_str(), prefix));
 
     m_config->path = path;
     m_config->prefix = prefix;
