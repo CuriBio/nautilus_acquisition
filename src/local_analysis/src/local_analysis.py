@@ -20,7 +20,31 @@ from PIL import Image, ImageDraw, ImageFont
 import polars as pl
 import pyarrow.parquet as pq
 from scipy.stats import linregress
+import structlog
 import toml
+
+
+def rename(logger, name, event_dict):
+    breakpoint()
+    try:
+        event_dict_ = json.loads(event_dict)
+        event_dict_["message"] = event_dict_.pop("event")
+        event_dict = json.dumps(event_dict_)
+    except:
+        pass
+    return event_dict
+
+
+structlog.configure(
+    processors=[
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
+        structlog.processors.format_exc_info,
+        structlog.processors.add_log_level,
+        structlog.processors.JSONRenderer(),
+        rename,
+    ]
+)
+
 
 logger = logging.getLogger(__name__)
 
