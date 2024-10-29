@@ -4,9 +4,12 @@ import argparse
 import dataclasses
 from dataclasses import dataclass
 import hashlib
+import io
 import json
 import logging
 import os
+import random
+import struct
 import sys
 from typing import Any
 import zipfile
@@ -176,6 +179,7 @@ def main():
         logger.info("Background subtraction disabled")
 
     _write_time_series_parquet(time_series_df, setup_config)
+    _write_curi_file(setup_config)
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
     _write_time_series_legacy_xlsx_zip(time_series_df, setup_config)
@@ -467,6 +471,39 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
     pq.write_table(time_series_table, time_series_pq_output_path)
 
     _log_file_md5(time_series_pq_output_path)
+
+
+def _write_curi_file(setup_config: dict):
+    time_series_pq_file_name = f"{setup_config['recording_name']}.parquet"
+    time_series_pq_output_path = os.path.join(setup_config["output_dir_path"], time_series_pq_file_name)
+
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w") as zf:
+        zf.write(time_series_pq_output_path, time_series_pq_file_name)
+        # TODO include gxp log file
+    zip_buffer.seek(0)
+
+    chunk_size = 2**16  # TODO is there a better value to use?
+
+    key = random.randint(0, 2**32 - 1)
+    key_bytes = struct.pack(">I", key)
+    key_u8s = struct.unpack(">4B", key_bytes)
+    key_arr = np.array(key_u8s * chunk_size, dtype=np.uint8)
+
+    def _xor_bytes(data_bytes):
+        data_u8s = np.frombuffer(data_bytes, dtype=np.uint8)
+        xored_u8s = data_u8s ^ key_arr[: len(data_u8s)]
+        xored_bytes = xored_u8s.tobytes()
+        return xored_bytes
+
+    curi_file_output_path = os.path.splitext(time_series_pq_file_name)[0] + ".curi"
+    with open(curi_file_output_path, "wb") as cf:
+        cf.write(b"CURI")
+        cf.write(key_bytes)
+        cf.write(_xor_bytes(b"NAUT"))
+        cf.write(_xor_bytes((0x0100).to_bytes(4, "big", signed=False)))
+        while data_chunk := zip_buffer.read(chunk_size):
+            cf.write(_xor_bytes(data_chunk))
 
 
 def _write_time_series_csv(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:

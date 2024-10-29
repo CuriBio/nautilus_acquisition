@@ -8,6 +8,7 @@ Added:
 ^^^^^^
 - More tooltips for invalid inputs
 - GxP logging
+- .curi file output from Local Analysis
 
 Changed:
 ^^^^^^^^
