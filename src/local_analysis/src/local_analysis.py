@@ -498,7 +498,7 @@ def _write_curi_file(setup_config: dict):
         xored_bytes = xored_u8s.tobytes()
         return xored_bytes
 
-    curi_file_output_path = os.path.splitext(time_series_pq_file_name)[0] + ".curi"
+    curi_file_output_path = os.path.splitext(time_series_pq_output_path)[0] + ".curi"
     with open(curi_file_output_path, "wb") as cf:
         cf.write(b"CURI")
         cf.write(key_bytes)
