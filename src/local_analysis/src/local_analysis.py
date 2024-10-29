@@ -474,6 +474,8 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
 
 
 def _write_curi_file(setup_config: dict):
+    logger.info("Writing curi output file")
+
     time_series_pq_file_name = f"{setup_config['recording_name']}.parquet"
     time_series_pq_output_path = os.path.join(setup_config["output_dir_path"], time_series_pq_file_name)
 
