@@ -503,7 +503,7 @@ def _write_curi_file(setup_config: dict):
         cf.write(b"CURI")
         cf.write(key_bytes)
         cf.write(_xor_bytes(b"NAUT"))
-        cf.write(_xor_bytes((0x0100).to_bytes(4, "big", signed=False)))
+        cf.write(_xor_bytes(bytes([0, 1, 0, 0])))
         while data_chunk := zip_buffer.read(chunk_size):
             cf.write(_xor_bytes(data_chunk))
 
