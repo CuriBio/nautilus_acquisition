@@ -7,6 +7,7 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - More tooltips for invalid inputs
+- GxP logging
 
 Changed:
 ^^^^^^^^
