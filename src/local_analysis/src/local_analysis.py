@@ -27,6 +27,7 @@ import toml
 def rename(logger, name, event_dict):
     try:
         event_dict_ = json.loads(event_dict)
+        event_dict_["timestamp"] = event_dict_["timestamp"][:-3]
         event_dict_["message"] = event_dict_.pop("event")
         event_dict = json.dumps(event_dict_)
     except:
@@ -36,7 +37,7 @@ def rename(logger, name, event_dict):
 
 structlog.configure(
     processors=[
-        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S.%f"),
         structlog.processors.format_exc_info,
         structlog.processors.add_log_level,
         structlog.processors.JSONRenderer(),

@@ -87,8 +87,8 @@ int main(int argc, char* argv[]) {
     spdlog::set_default_logger(logger);
 
     auto gxp_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(gxpLogfile, true);
-    gxp_file_sink->set_pattern("{\"timestamp\": \"%Y-%m-%d %H:%M:%S.%e\", \"level\": \"%^%l%$\", \"message\": \"%v\"}");
     auto gxpLogger = std::make_shared<spdlog::logger>("nautilai_gxp", gxp_file_sink);
+    gxpLogger->set_pattern("{\"timestamp\": \"%Y-%m-%d %H:%M:%S.%e\", \"level\": \"%^%l%$\", \"message\": \"%v\"}", spdlog::pattern_time_type::utc);
     gxpLogger->flush_on(spdlog::level::info);
     spdlog::register_logger(gxpLogger);
 
