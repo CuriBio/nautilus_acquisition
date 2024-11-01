@@ -13,7 +13,7 @@ std::filesystem::path enableLongPath(std::filesystem::path path) {
     return path.make_preferred();
 }
 
-Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs) {
+Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs, std::string gxpLogfile) {
     toml::value config;
 
     //save user profile path
@@ -21,6 +21,8 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
     backgroundRecordingDir = userProfile / "AppData" / "Local" / "Nautilai" / "BackgroundRecordings";
     plateId = "";
     useBackgroundSubtraction = true;
+
+    gxpLogFilePath = gxpLogfile;
 
     try {
         config = toml::parse<toml::preserve_comments, tsl::ordered_map>(cfg.string());

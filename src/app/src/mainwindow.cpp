@@ -315,6 +315,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
         auto localAnalysisLogsForGxp = localAnalysisLogs.substr(0, localAnalysisLogs.length() - 4);
         spdlog::get("nautilai_gxp")->info("------------ Start Analysis logs ------------\"}}\n{}", localAnalysisLogsForGxp);
         spdlog::get("nautilai_gxp")->info("------------ End Analysis logs ------------");
+
         m_extEncodingRetries = 0;
         ui.startAcquisitionBtn->setText("Start Acquisition");
 
@@ -1888,7 +1889,8 @@ void MainWindow::writeSettingsFile(std::filesystem::path fp) {
     const toml::basic_value<toml::preserve_comments, tsl::ordered_map> paths {
         { "output_dir_path", m_expSettings.acquisitionDir.string() },
         { "input_path", (m_expSettings.acquisitionDir / rawFile).string() },
-        { "background_recording_dir", m_config->backgroundRecordingDir.string() }
+        { "background_recording_dir", m_config->backgroundRecordingDir.string() },
+        { "gxp_log_file_path", m_config->gxpLogFilePath }
     };
 
     outfile << std::setw(300) << paths << std::endl;

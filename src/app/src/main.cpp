@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
 
 
     logFn(fmt::format("Loading config {}", configFile.string()));
-    std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs);
+    std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs, gxpLogfile);
     config->version = version;
     config->configFile = configFile.string();
 

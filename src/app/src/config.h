@@ -29,6 +29,7 @@ class Config {
         double xyPixelSize;
         std::filesystem::path machineVarsFilePath;
         toml::value machineVars;
+        std::string gxpLogFilePath;
 
         //acquisition options
         double fps;
@@ -107,7 +108,7 @@ class Config {
         bool updateAvailable;
 
     public:
-        Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs);
+        Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts::ParseResult userargs, std::string gxpLogfile);
         ~Config() { };
         void Dump();
 };

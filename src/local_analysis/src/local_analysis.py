@@ -137,11 +137,13 @@ class ArgParse(argparse.ArgumentParser):
 
 
 def main():
+    log_buf = io.StringIO()
+
     logging.basicConfig(
         format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
         level=logging.INFO,
         datefmt="%Y-%m-%d %H:%M:%S",
-        stream=sys.stdout,
+        handlers=[logging.StreamHandler(sys.stdout), logging.StreamHandler(log_buf)],
     )
 
     logger.info("Nautilai Local Analysis Starting")
@@ -179,10 +181,10 @@ def main():
         logger.info("Background subtraction disabled")
 
     _write_time_series_parquet(time_series_df, setup_config)
-    _write_curi_file(setup_config)
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
     _write_time_series_legacy_xlsx_zip(time_series_df, setup_config)
+    _write_curi_file(setup_config, log_buf)
 
     logger.info("Done")
 
@@ -473,16 +475,27 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
     _log_file_md5(time_series_pq_output_path)
 
 
-def _write_curi_file(setup_config: dict):
+def _write_curi_file(setup_config: dict, log_buf: io.StringIO):
     logger.info("Writing curi output file")
+
+    # read in gxp logs and then write all together for curi file
+    gxp_log_file_path = setup_config["gxp_log_file_path"]
+    combined_gxp_log_buf = io.StringIO()
+    with open(gxp_log_file_path, "r") as gxp_log_file:
+        combined_gxp_log_buf.write(gxp_log_file.read())
+    size = log_buf.tell()
+    log_buf.seek(0)
+    combined_gxp_log_buf.write(log_buf.read())
+    # reset for future logging
+    log_buf.seek(size)
 
     time_series_pq_file_name = f"{setup_config['recording_name']}.parquet"
     time_series_pq_output_path = os.path.join(setup_config["output_dir_path"], time_series_pq_file_name)
 
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, "w") as zf:
-        zf.write(time_series_pq_output_path, time_series_pq_file_name)
-        # TODO include gxp log file
+        zf.write(time_series_pq_output_path, f"data/{time_series_pq_file_name}")
+        zf.writestr(f"gxp/{os.path.basename(gxp_log_file_path)}", combined_gxp_log_buf.getvalue())
     zip_buffer.seek(0)
 
     chunk_size = 2**16  # TODO is there a better value to use?
