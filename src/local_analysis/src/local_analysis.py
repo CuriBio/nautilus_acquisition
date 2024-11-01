@@ -38,6 +38,17 @@ def rename(logger, name, event_dict):
     return event_dict
 
 
+GXP_LOG_BUF = io.StringIO()
+
+
+def add_to_log_buf(logger, name, event_dict):
+    try:
+        GXP_LOG_BUF.write(event_dict + "\n")
+    except:
+        pass
+    return event_dict
+
+
 structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S.%f"),
@@ -45,6 +56,7 @@ structlog.configure(
         structlog.processors.add_log_level,
         structlog.processors.JSONRenderer(),
         rename,
+        add_to_log_buf
     ]
 )
 
@@ -137,15 +149,6 @@ class ArgParse(argparse.ArgumentParser):
 
 
 def main():
-    log_buf = io.StringIO()
-
-    logging.basicConfig(
-        format="[%(asctime)s.%(msecs)03d] [local_analysis] [%(levelname)s] %(message)s",
-        level=logging.INFO,
-        datefmt="%Y-%m-%d %H:%M:%S",
-        handlers=[logging.StreamHandler(sys.stdout), logging.StreamHandler(log_buf)],
-    )
-
     logger.info("Nautilai Local Analysis Starting")
 
     parser = ArgParse(description="Extracts signals from a multi-well microscope experiment")
@@ -184,7 +187,7 @@ def main():
     _write_time_series_csv(time_series_df, setup_config)
     _create_time_series_plot_image(time_series_df, setup_config)
     _write_time_series_legacy_xlsx_zip(time_series_df, setup_config)
-    _write_curi_file(setup_config, log_buf)
+    _write_curi_file(setup_config)
 
     logger.info("Done")
 
@@ -475,19 +478,18 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
     _log_file_md5(time_series_pq_output_path)
 
 
-def _write_curi_file(setup_config: dict, log_buf: io.StringIO):
+def _write_curi_file(setup_config: dict):
     logger.info("Writing curi output file")
 
-    # read in gxp logs and then write all together for curi file
-    gxp_log_file_path = setup_config["gxp_log_file_path"]
+    # create combined log buf
     combined_gxp_log_buf = io.StringIO()
+    # read in gxp logs from nautilai controller
+    gxp_log_file_path = setup_config["gxp_log_file_path"]
     with open(gxp_log_file_path, "r") as gxp_log_file:
         combined_gxp_log_buf.write(gxp_log_file.read())
-    size = log_buf.tell()
-    log_buf.seek(0)
-    combined_gxp_log_buf.write(log_buf.read())
-    # reset for future logging
-    log_buf.seek(size)
+    # read in logs from local analysis
+    GXP_LOG_BUF.seek(0)
+    combined_gxp_log_buf.write(GXP_LOG_BUF.read())
 
     time_series_pq_file_name = f"{setup_config['recording_name']}.parquet"
     time_series_pq_output_path = os.path.join(setup_config["output_dir_path"], time_series_pq_file_name)
