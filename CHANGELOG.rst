@@ -13,6 +13,7 @@ Changed:
 - Prevent starting acquisition if an invalid plate ID is entered
 - Invalid inputs will now change border color instead of background color
 - Better autocomplete for Plate ID input
+- Stage is moved back to position 1 after calibration completes during start up
 
 Fixed:
 ^^^^^^
