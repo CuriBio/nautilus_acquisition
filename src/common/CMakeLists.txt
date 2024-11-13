@@ -6,7 +6,6 @@ add_library(Common STATIC
 ./src/Bitmap.cpp
 ./src/BitmapFormat.cpp
 ./src/TiffFile.cpp
-./src/FFmpegFilter.cpp
 ./src/Rois.cpp)
 
 set_target_properties(Common PROPERTIES VERSION ${PROJECT_VERSION})

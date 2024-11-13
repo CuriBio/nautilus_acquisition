@@ -65,7 +65,6 @@
 #include <PostProcess.h>
 #include <RawFile.h>
 #include <Database.h>
-#include <FFmpegFilter.h>
 #include <processing/WriteRawFrame.h>
 #include <processing/BackgroundProcess.h>
 #include <Rois.h>
@@ -254,7 +253,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      *  Start video encoding
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
-        std::string cropFilter = FFmpegFilter::getCropFilter(&m_ffmpegFilterCfg);
+        std::string cropFilter = Rois::getFFmpegCropFilter(&m_roiCfg, m_width, m_height);
 
         //run external video encoder command
         std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
@@ -960,23 +959,13 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
 
         m_platemap->load(m_plateFormatImgs[0]);
 
-        m_ffmpegFilterCfg.well_spacing = toml::find<uint32_t>(plateFormatFile, "stage", "well_spacing");
-        m_ffmpegFilterCfg.xy_pixel_size = m_config->xyPixelSize;
-        m_ffmpegFilterCfg.scale = m_config->rgn.sbin;
-        m_ffmpegFilterCfg.num_wells_v = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_v");
-        m_ffmpegFilterCfg.num_wells_h = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
-        m_ffmpegFilterCfg.frameWidth = m_width;
-        m_ffmpegFilterCfg.frameHeight = m_height;
-        m_ffmpegFilterCfg.rows = m_config->rows;
-        m_ffmpegFilterCfg.cols = m_config->cols;
-        m_ffmpegFilterCfg.v_offset = toml::find<int32_t>(plateFormatFile, "stage", "v_offset");
-        m_ffmpegFilterCfg.h_offset = toml::find<int32_t>(plateFormatFile, "stage", "h_offset");
-
         m_roiCfg.well_spacing = toml::find<uint32_t>(plateFormatFile, "stage", "well_spacing");
         m_roiCfg.xy_pixel_size = m_config->xyPixelSize;
         m_roiCfg.scale = m_config->rgn.sbin;
         m_roiCfg.rows = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_v");
         m_roiCfg.cols = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
+        m_roiCfg.fovRows = m_config->rows;
+        m_roiCfg.fovCols = m_config->cols;
         m_roiCfg.width = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_x");
         m_roiCfg.height = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_y");
         m_roiCfg.v_offset = toml::find<int32_t>(plateFormatFile, "stage", "v_offset");

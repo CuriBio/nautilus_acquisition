@@ -64,7 +64,6 @@
 #include <TaskFrameLut16.h>
 #include <TaskApplyLut16.h>
 #include <Rois.h>
-#include <FFmpegFilter.h>
 
 
 #include "config.h"
@@ -234,7 +233,6 @@ class MainWindow : public QMainWindow {
         QString m_plateFormatImgs[PLATEMAP_COUNT];
         QSvgWidget* m_platemap;
         Rois::RoiCfg m_roiCfg;
-        FFmpegFilter::FFmpegFilterCfg m_ffmpegFilterCfg;
 
         NIDAQmx m_DAQmx; //NI-DAQmx controller for LEDs and manual triggers
         std::string m_ledTaskAO, m_ledDevAO;
