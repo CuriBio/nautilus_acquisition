@@ -253,13 +253,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      *  Start video encoding
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
+        std::string cropFilter = Rois::getFFmpegCropFilter(&m_roiCfg, m_width, m_height);
+
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -q:v {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
                         m_config->ffmpegDir.string(),
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
                         fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),
+                        cropFilter,
                         std::to_string(m_config->videoQualityOptions[m_config->selectedVideoQualityOption]),
                         fmt::format("\"{}_stack_{}.avi\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
                       );
@@ -444,7 +447,11 @@ void MainWindow::Initialize() {
     //Async calibrate stage
     if (m_config->asyncInit) {
         m_stageCalibrate = std::async(std::launch::async, [&] {
-            return m_stageControl->Calibrate();
+            auto res = m_stageControl->Calibrate();
+            // these aren't the exact starting values, but since no platemap is loaded at this point,
+            // using values that are close enough to them that they should work for all plate formats
+            m_stageControl->SetAbsolutePosition(65000.0, 44000.0);
+            return res;
         });
 
         m_niSetup = std::async(std::launch::async, [&] {
@@ -458,6 +465,9 @@ void MainWindow::Initialize() {
         });
     } else {
         m_stageControl->Calibrate();
+        // these aren't the exact starting values, but since no platemap is loaded at this point,
+        // using values that are close enough to them that they should work for all plate formats
+        m_stageControl->SetAbsolutePosition(65000.0, 44000.0);
         emit sig_progress_done();
 
         //setup NI device
@@ -496,16 +506,14 @@ void MainWindow::Initialize() {
     emit sig_set_fps_duration(max_fps, (m_config->fps <= max_fps) ? m_config->fps : max_fps, m_config->duration);
     spdlog::info("Max frame rate: {}", max_fps);
 
-    //Wait for stage calibration
     if (m_config->asyncInit) {
+        //Wait for stage calibration
         m_stageCalibrate.wait();
         if (!m_stageCalibrate.get()) {
             dualLog(spdlog::level::err, "Stage calibration failed");
         }
-    }
 
-    //wait for ni device setup
-    if (m_config->asyncInit) {
+        //wait for ni device setup
         m_niSetup.wait();
     }
 
@@ -980,6 +988,8 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_roiCfg.scale = m_config->rgn.sbin;
         m_roiCfg.rows = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_v");
         m_roiCfg.cols = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
+        m_roiCfg.fovRows = m_config->rows;
+        m_roiCfg.fovCols = m_config->cols;
         m_roiCfg.width = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_x");
         m_roiCfg.height = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_y");
         m_roiCfg.v_offset = toml::find<int32_t>(plateFormatFile, "stage", "v_offset");
@@ -1379,6 +1389,10 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
                 totalAcquisitionBytes
             );
         }
+        ui.frameRateEdit->setStyleSheet("border: 2px solid red");
+        ui.frameRateEdit->setToolTip("Not enough space in drive for these acquisition settings");
+        ui.durationEdit->setStyleSheet("border: 2px solid red");
+        ui.durationEdit->setToolTip("Not enough space in drive for these acquisition settings");
         ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
         return false;
     } else {
