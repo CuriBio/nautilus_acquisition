@@ -2,17 +2,27 @@
 #include <fmt/format.h>
 
 namespace Rois {
-    std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight) {
-        std::vector<std::tuple<uint32_t, uint32_t>> roi_offsets = {};
-
+    std::tuple<double, double> getFovTopLeftWellCenter(RoiCfg* roi, size_t frameWidth, size_t frameHeight) {
         double mid_x = frameWidth / 2.0;
         double mid_y = frameHeight / 2.0;
         double well_spacing_scaled = roi->well_spacing / (roi->xy_pixel_size * roi->scale);
         double h_offset_scaled = roi->h_offset / roi->scale;
         double v_offset_scaled = roi->v_offset / roi->scale;
 
-        double top_x = mid_x - 0.5 * (roi->cols - 1) * well_spacing_scaled - (roi->width / (2 * roi->scale)) + h_offset_scaled;
-        double top_y = mid_y - 0.5 * (roi->rows - 1) * well_spacing_scaled - (roi->height / (2 * roi->scale)) + v_offset_scaled;
+        return std::make_tuple(
+            mid_x - 0.5 * (roi->cols - 1) * well_spacing_scaled + h_offset_scaled,
+            mid_y - 0.5 * (roi->rows - 1) * well_spacing_scaled + v_offset_scaled
+        );
+    }
+
+    std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight) {
+        std::vector<std::tuple<uint32_t, uint32_t>> roi_offsets = {};
+
+        std::tuple<double, double> fovTopLeftWellCenter = getFovTopLeftWellCenter(roi, frameWidth, frameHeight);
+        double well_spacing_scaled = roi->well_spacing / (roi->xy_pixel_size * roi->scale);
+
+        double top_x = std::get<0>(fovTopLeftWellCenter) - (roi->width / (2 * roi->scale));
+        double top_y = std::get<1>(fovTopLeftWellCenter) - (roi->height / (2 * roi->scale));
 
         for (size_t r = 0; r < roi->rows; r++) {
             double y = top_y + (r * well_spacing_scaled);
@@ -75,14 +85,11 @@ namespace Rois {
      * See https://www.ffmpeg.org/ffmpeg-filters.html for more details
      */
     std::string getFFmpegCropFilter(RoiCfg* roi, size_t frameWidth, size_t frameHeight) {
-        double mid_x = frameWidth / 2.0;
-        double mid_y = frameHeight / 2.0;
+        std::tuple<double, double> fovTopLeftWellCenter = getFovTopLeftWellCenter(roi, frameWidth, frameHeight);
         double well_spacing_scaled = roi->well_spacing / (roi->xy_pixel_size * roi->scale);
-        double h_offset_scaled = roi->h_offset / roi->scale;
-        double v_offset_scaled = roi->v_offset / roi->scale;
 
-        uint32_t x_offset = std::round(mid_x - 0.5 * roi->cols * well_spacing_scaled + h_offset_scaled);
-        uint32_t y_offset = std::round(mid_y - 0.5 * roi->rows * well_spacing_scaled + v_offset_scaled);
+        uint32_t x_offset = std::round(std::get<0>(fovTopLeftWellCenter) - 0.5 * well_spacing_scaled);
+        uint32_t y_offset = std::round(std::get<1>(fovTopLeftWellCenter) - 0.5 * well_spacing_scaled);
 
         uint32_t x_crop_size = std::round(roi->cols * well_spacing_scaled);
         uint32_t y_crop_size = std::round(roi->rows * well_spacing_scaled);
