@@ -42,6 +42,9 @@ namespace Rois {
         size_t rows;
         size_t cols;
 
+        size_t fovRows;
+        size_t fovCols;
+
         double width;
         double height;
 
@@ -52,6 +55,7 @@ namespace Rois {
     std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets(RoiCfg* roi, size_t frameWidth, size_t frameHeight);
     std::string wellName(uint32_t row, uint32_t col);
     uint32_t roiToOffset(uint32_t x, uint32_t y, uint32_t width);
+    std::string getFFmpegCropFilter(RoiCfg* roi, size_t frameWidth, size_t frameHeight);
 }
 
 #endif //_ROIS_H

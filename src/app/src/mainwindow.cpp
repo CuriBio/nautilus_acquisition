@@ -253,13 +253,16 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      *  Start video encoding
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
+        std::string cropFilter = Rois::getFFmpegCropFilter(&m_roiCfg, m_width, m_height);
+
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -q:v {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
                         m_config->ffmpegDir.string(),
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
                         fmt::format("\"{}_{}.raw\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS)),
+                        cropFilter,
                         std::to_string(m_config->videoQualityOptions[m_config->selectedVideoQualityOption]),
                         fmt::format("\"{}_stack_{}.avi\"", (m_expSettings.acquisitionDir / m_config->prefix).string(), std::string(m_startAcquisitionTS))
                       );
@@ -966,6 +969,8 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_roiCfg.scale = m_config->rgn.sbin;
         m_roiCfg.rows = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_v");
         m_roiCfg.cols = toml::find<uint32_t>(plateFormatFile, "stage", "num_wells_h");
+        m_roiCfg.fovRows = m_config->rows;
+        m_roiCfg.fovCols = m_config->cols;
         m_roiCfg.width = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_x");
         m_roiCfg.height = toml::find<uint32_t>(plateFormatFile, "stage", "roi_size_y");
         m_roiCfg.v_offset = toml::find<int32_t>(plateFormatFile, "stage", "v_offset");

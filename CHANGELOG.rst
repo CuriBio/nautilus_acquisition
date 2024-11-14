@@ -7,6 +7,7 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - More tooltips for invalid inputs
+- Crop AVI file to remove overlapping areas
 
 Changed:
 ^^^^^^^^
