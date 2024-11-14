@@ -1,7 +1,7 @@
 Changelog for Nautilai
 ======================
 
-0.2.4 (unreleased)
+0.2.4 (2024-11-14)
 ------------------
 
 Added:
