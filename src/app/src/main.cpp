@@ -56,6 +56,8 @@
 #include <NIDAQmx_wrapper.h>
 #include <interfaces/CameraInterface.h>
 
+#define COMPUTER_NAME_BUF_SIZE 256
+
 
 /*
  * Entry point for nautilai, creates camera/acquisition and sets initial settings.
@@ -73,10 +75,16 @@ int main(int argc, char* argv[]) {
         userProfile = std::string(up);
     }
 
+    TCHAR computer_name[COMPUTER_NAME_BUF_SIZE];
+    GetComputerNameEx(ComputerNamePhysicalDnsHostname, computer_name, COMPUTER_NAME_BUF_SIZE);
+
+    std::filesystem::path naAppDataPath = (userProfile / "AppData" / "Local" / "Nautilai");
+
     std::filesystem::path logPath = (userProfile / "Documents" / "Nautilai" / "Logs");
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", logPath.string(), fmt::localtime(ts));
-    std::string gxpLogfile = fmt::format("{}/{:%F_%H%M%S}_nautilai_gxp.log", logPath.string(), fmt::localtime(ts));
+    std::filesystem::path gxpLogDir = (naAppDataPath / "GL");
+    std::string gxpLogfile = fmt::format("{}{:%F_%H%M%S}_nautilai_gxp.log", gxpLogDir.string(), fmt::localtime(ts));
 
     auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
@@ -88,13 +96,19 @@ int main(int argc, char* argv[]) {
 
     auto gxp_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(gxpLogfile, true);
     auto gxpLogger = std::make_shared<spdlog::logger>("nautilai_gxp", gxp_file_sink);
-    gxpLogger->set_pattern("{\"timestamp\": \"%Y-%m-%d %H:%M:%S.%e\", \"level\": \"%^%l%$\", \"message\": \"%v\"}", spdlog::pattern_time_type::utc);
+    gxpLogger->set_pattern(
+        fmt::format(
+            "{\"timestamp\": \"%Y-%m-%d %H:%M:%S.%e\", \"username\": \"{}\", \"computer_name\": \"{}, \"event\": \"%v\"}",
+            userProfile,
+            (std::string) computer_name
+        ),
+        spdlog::pattern_time_type::utc
+    );
     gxpLogger->flush_on(spdlog::level::info);
     spdlog::register_logger(gxpLogger);
 
     //create AppData directory for config file
-    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
-    std::filesystem::path configFile = (configPath / "nautilai.toml");
+    std::filesystem::path configFile = (naAppDataPath / "nautilai.toml");
 
     auto logFn = [](std::string s) {
         spdlog::info(s);
@@ -103,9 +117,9 @@ int main(int argc, char* argv[]) {
 
     logFn(fmt::format("Nautilai Version: {}", version));
 
-    if (!std::filesystem::exists(configPath.string())) {
+    if (!std::filesystem::exists(naAppDataPath.string())) {
         logFn(fmt::format("Creating {}", configPath.string()));
-        std::filesystem::create_directory(configPath.string());
+        std::filesystem::create_directory(naAppDataPath.string());
     }
 
     if (!std::filesystem::exists(configFile)) {
