@@ -1,20 +1,29 @@
 Changelog for Nautilai
 ======================
 
-0.2.4 (unreleased)
+0.2.5 (unreleased)
+------------------
+
+Added:
+^^^^^^
+- GxP logging
+- .curi file output from Local Analysis
+
+
+0.2.4 (2024-11-14)
 ------------------
 
 Added:
 ^^^^^^
 - More tooltips for invalid inputs
-- GxP logging
-- .curi file output from Local Analysis
+- Crop AVI file to remove overlapping areas
 
 Changed:
 ^^^^^^^^
 - Prevent starting acquisition if an invalid plate ID is entered
 - Invalid inputs will now change border color instead of background color
 - Better autocomplete for Plate ID input
+- Stage is moved back to position 1 after calibration completes during start up
 
 Fixed:
 ^^^^^^

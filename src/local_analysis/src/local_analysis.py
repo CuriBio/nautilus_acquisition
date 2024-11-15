@@ -9,11 +9,11 @@ import json
 import logging
 import os
 import random
+import socket
 import struct
 import sys
 from typing import Any
 import zipfile
-from xlsxwriter import Workbook
 
 import cv2 as cv
 from matplotlib.backends.backend_pdf import PdfPages
@@ -25,13 +25,19 @@ import pyarrow.parquet as pq
 from scipy.stats import linregress
 import structlog
 import toml
+from xlsxwriter import Workbook
+
+USERNAME = os.path.basename(os.getenv("USERPROFILE", "Users"))
+COMPUTER_NAME = socket.gethostname()
 
 
-def rename(logger, name, event_dict):
+def _modify_log(logger, name, event_dict):
     try:
         event_dict_ = json.loads(event_dict)
         event_dict_["timestamp"] = event_dict_["timestamp"][:-3]
-        event_dict_["message"] = event_dict_.pop("event")
+        event_dict_["username"] = USERNAME
+        event_dict_["computer_name"] = COMPUTER_NAME
+        event_dict_["event"] = event_dict_.pop("event")  # pop and re-add so it's the last key
         event_dict = json.dumps(event_dict_)
     except:
         pass
@@ -53,10 +59,9 @@ structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S.%f"),
         structlog.processors.format_exc_info,
-        structlog.processors.add_log_level,
         structlog.processors.JSONRenderer(),
-        rename,
-        add_to_log_buf
+        _modify_log,
+        add_to_log_buf,
     ]
 )
 

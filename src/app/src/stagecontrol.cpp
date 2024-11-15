@@ -46,7 +46,6 @@ void StageControl::SetRelativePosition(double x, double y) {
 }
 
 void StageControl::SetAbsolutePosition(double x, double y) {
-    //std::this_thread::sleep_for(2000ms);
     m_tango->SetAbsolutePos(x, y, true);
     m_tango->GetCurrentPos(m_curX, m_curY);
 }
