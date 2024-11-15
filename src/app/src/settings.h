@@ -28,6 +28,7 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QCloseEvent>
 
 #include "config.h"
 #include "ui_settings.h"
@@ -50,6 +51,8 @@ class Settings : public QDialog {
 
         std::shared_ptr<const Config> m_config;
         Ui::Settings ui;
+
+        void closeEvent(QCloseEvent *event);
 
     signals:
         void sig_settings_changed(std::string dir, std::string prefix);

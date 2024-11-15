@@ -48,6 +48,8 @@ class AdvancedSetupDialog : public QDialog{
         void closeEvent(QCloseEvent *event);
         void setDefaultValues();
 
+        bool changesConfirmed;
+
         Ui::AdvancedSetupDialog *ui;
         std::shared_ptr<Config> m_config;
         std::string m_niDev;

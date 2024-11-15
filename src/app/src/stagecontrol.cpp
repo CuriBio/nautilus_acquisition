@@ -81,7 +81,9 @@ void StageControl::on_unskipBtn_clicked() {
 
     if (0 <= row && row < m_positions.size()) {
         auto i = m_positions[row];
-        spdlog::info("Unskipping stage pos_{}", i->pos_);
+        auto msg = fmt::format("Unskipping stage pos_{}", i->pos_);
+        spdlog::info(msg);
+        spdlog::get("nautilai_gxp")->info(msg);
         i->setText(fmt::format("pos_{} - x: {}, y: {}", i->pos_, i->x, i->y).c_str());
         i->skipped = false;
     }
@@ -94,7 +96,9 @@ void StageControl::on_skipBtn_clicked() {
 
     if (0 <= row && row < m_positions.size()) {
         auto i = m_positions[row];
-        spdlog::info("Skipping stage pos_{}", i->pos_);
+        auto msg = fmt::format("Skipping stage pos_{}", i->pos_);
+        spdlog::info(msg);
+        spdlog::get("nautilai_gxp")->info(msg);
         i->setText(fmt::format("pos_{} - x: {}, y: {} (skipped)", i->pos_, i->x, i->y).c_str());
         i->skipped = true;
     }
@@ -172,16 +176,28 @@ void StageControl::on_gotoPosBtn_clicked() {
 
         if (row >= 0) {
             StagePosition* item = static_cast<StagePosition*>(ui->stageLocations->item(row));
-            spdlog::info("Setting stage to position x: {}, y: {}", item->x, item->y);
+            auto msg = fmt::format("Setting stage to position x: {}, y: {}", item->x, item->y);
+            spdlog::info(msg);
+            spdlog::get("nautilai_gxp")->info(msg);
             m_tango->SetAbsolutePos(item->x, item->y, true);
             m_tango->GetCurrentPos(m_curX, m_curY);
         } else {
-            spdlog::info("Invalid selection");
+            auto msg = fmt::format("Stage go-to button pressed with invalid selection");
+            spdlog::info(msg);
+            spdlog::get("nautilai_gxp")->info(msg);
         }
 
         emit sig_end_move();
     });
     t.detach();
+}
+
+
+void StageControl::closeEvent(QCloseEvent *event) {
+    auto msg = fmt::format("Stage navigation closed");
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
+    this->accept();
 }
 
 void StageControl::disableAll() {
@@ -226,5 +242,4 @@ void StageControl::enableAll() {
     ui->stageDownBtn1->setEnabled(true);
     ui->stageDownBtn2->setEnabled(true);
     ui->stageDownBtn3->setEnabled(true);
-
 }

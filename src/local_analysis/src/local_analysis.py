@@ -3,13 +3,14 @@
 import argparse
 import dataclasses
 from dataclasses import dataclass
+import hashlib
 import json
 import logging
 import os
+import socket
 import sys
 from typing import Any
 import zipfile
-from xlsxwriter import Workbook
 
 import cv2 as cv
 from matplotlib.backends.backend_pdf import PdfPages
@@ -19,9 +20,38 @@ from PIL import Image, ImageDraw, ImageFont
 import polars as pl
 import pyarrow.parquet as pq
 from scipy.stats import linregress
+import structlog
 import toml
+from xlsxwriter import Workbook
 
-logger = logging.getLogger(__name__)
+USERNAME = os.path.basename(os.getenv("USERPROFILE", "Users"))
+COMPUTER_NAME = socket.gethostname()
+
+
+def _modify_log(logger, name, event_dict):
+    try:
+        event_dict_ = json.loads(event_dict)
+        event_dict_["timestamp"] = event_dict_["timestamp"][:-3]
+        event_dict_["username"] = USERNAME
+        event_dict_["computer_name"] = COMPUTER_NAME
+        event_dict_["event"] = event_dict_.pop("event")  # pop and re-add so it's the last key
+        event_dict = json.dumps(event_dict_)
+    except:
+        pass
+    return event_dict
+
+
+structlog.configure(
+    processors=[
+        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S.%f"),
+        structlog.processors.format_exc_info,
+        structlog.processors.JSONRenderer(),
+        _modify_log,
+    ]
+)
+
+
+logger = structlog.getLogger()
 
 
 def _get_well_row_name(row: int):
@@ -44,11 +74,17 @@ class Point:
     x: int
     y: int
 
+    def __repr__(self) -> str:
+        return f"({self.x}, {self.y})"
+
 
 @dataclass
 class RoiCoords:
     p_ul: Point  # upper left
     p_br: Point  # bottom right
+
+    def __repr__(self) -> str:
+        return str({"UL": self.p_ul, "BR": self.p_br})
 
 
 @dataclass
@@ -184,6 +220,8 @@ def _scale_inputs(setup_config: dict[str, Any]) -> None:
 
 
 def _create_raw_data_reader(setup_config: dict[str, Any]) -> np.ndarray:
+    _log_file_md5(setup_config["input_path"])
+
     match setup_config["bit_depth"]:
         case 8:
             dtype = np.dtype(np.uint8)
@@ -252,6 +290,8 @@ def _create_rois(setup_config: dict[str, Any]) -> dict[str, RoiCoords]:
                         ),
                     )
 
+    logger.info(f"ROIs: {rois}")
+
     return rois
 
 
@@ -275,7 +315,7 @@ def _create_roi_annotated_image(
             img=first_frame,
             pt1=dataclasses.astuple(roi.p_ul),
             pt2=dataclasses.astuple(roi.p_br),
-            color=(0, 255, 0),  # gbr
+            color=(0, 255, 0),  # BGR
             thickness=1,
             lineType=cv.LINE_AA,
         )
@@ -431,6 +471,8 @@ def _write_time_series_parquet(time_series_df: pl.DataFrame, setup_config: dict[
     )
     pq.write_table(time_series_table, time_series_pq_output_path)
 
+    _log_file_md5(time_series_pq_output_path)
+
 
 def _write_time_series_csv(time_series_df: pl.DataFrame, setup_config: dict[str, Any]) -> None:
     logger.info("Writing csv output file")
@@ -440,6 +482,8 @@ def _write_time_series_csv(time_series_df: pl.DataFrame, setup_config: dict[str,
     )
 
     time_series_df.write_csv(time_series_csv_output_path)
+
+    _log_file_md5(time_series_csv_output_path)
 
 
 def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: dict[str, Any]):
@@ -502,11 +546,27 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
             well_data.write_excel(wb, "sheet", position="A2", has_header=False)
             metadata.write_excel(wb, "sheet", position="E2", has_header=False)
 
-    with zipfile.ZipFile(os.path.join(setup_config["output_dir_path"], "xlsx-results.zip"), "w") as zf:
+    zip_path = os.path.join(setup_config["output_dir_path"], "xlsx-results.zip")
+    with zipfile.ZipFile(zip_path, "w") as zf:
         for dir_name, _, file_names in os.walk(output_dir):
             for file_name in file_names:
                 file_path = os.path.join(dir_name, file_name)
                 zf.write(file_path, os.path.basename(file_path))
+
+    _log_file_md5(zip_path)
+
+
+def _log_file_md5(file_path):
+    try:
+        with open(file_path, "rb") as f:
+            file_hash = hashlib.md5()
+            while chunk := f.read(8192):
+                file_hash.update(chunk)
+            md5 = file_hash.hexdigest()
+    except Exception:
+        logger.exception(f"Failed to calculate md5 hash for {file_path}")
+    else:
+        logger.info(f"MD5 hash for {file_path}: {md5}")
 
 
 if __name__ == "__main__":

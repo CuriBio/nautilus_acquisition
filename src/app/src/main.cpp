@@ -56,6 +56,8 @@
 #include <NIDAQmx_wrapper.h>
 #include <interfaces/CameraInterface.h>
 
+#define COMPUTER_NAME_BUF_SIZE 256
+
 
 /*
  * Entry point for nautilai, creates camera/acquisition and sets initial settings.
@@ -72,10 +74,21 @@ int main(int argc, char* argv[]) {
     if (up != nullptr) {
         userProfile = std::string(up);
     }
+    std::string userName = userProfile.filename().string();
+
+    TCHAR computer_name_tchar[COMPUTER_NAME_BUF_SIZE];
+    DWORD computer_name_size = COMPUTER_NAME_BUF_SIZE;
+    GetComputerNameEx(ComputerNamePhysicalDnsHostname, computer_name_tchar, &computer_name_size);
+    std::wstring computer_name_w(computer_name_tchar);
+    std::string computer_name(computer_name_w.begin(), computer_name_w.end());
+
+    std::filesystem::path naAppDataPath = (userProfile / "AppData" / "Local" / "Nautilai");
 
     std::filesystem::path logPath = (userProfile / "Documents" / "Nautilai" / "Logs");
     std::time_t ts = std::time(nullptr);
     std::string logfile = fmt::format("{}/{:%F_%H%M%S}_nautilai.log", logPath.string(), fmt::localtime(ts));
+    std::filesystem::path gxpLogDir = (naAppDataPath / "GL");
+    std::string gxpLogfile = fmt::format("{}/{:%F_%H%M%S}_nautilai_gxp.log", gxpLogDir.string(), fmt::localtime(ts));
 
     auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logfile, true);
@@ -85,19 +98,36 @@ int main(int argc, char* argv[]) {
     spdlog::flush_every(std::chrono::seconds(10));
     spdlog::set_default_logger(logger);
 
+    auto gxp_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(gxpLogfile, true);
+    auto gxpLogger = std::make_shared<spdlog::logger>("nautilai_gxp", gxp_file_sink);
+    gxpLogger->set_pattern(
+        fmt::format(
+            fmt::runtime("{{\"timestamp\": \"%Y-%m-%d %H:%M:%S.%e\", \"username\": \"{}\", \"computer_name\": \"{}\", \"event\": \"%v\"}}"),
+            userName,
+            computer_name
+        ),
+        spdlog::pattern_time_type::utc
+    );
+    gxpLogger->flush_on(spdlog::level::info);
+    spdlog::register_logger(gxpLogger);
+
     //create AppData directory for config file
-    std::filesystem::path configPath = (userProfile / "AppData" / "Local" / "Nautilai");
-    std::filesystem::path configFile = (configPath / "nautilai.toml");
+    std::filesystem::path configFile = (naAppDataPath / "nautilai.toml");
 
-    spdlog::info("Nautilai Version: {}", version);
+    auto logFn = [](std::string s) {
+        spdlog::info(s);
+        spdlog::get("nautilai_gxp")->info(s);
+    };
 
-    if (!std::filesystem::exists(configPath.string())) {
-        spdlog::info("Creating {}", configPath.string());
-        std::filesystem::create_directory(configPath.string());
+    logFn(fmt::format("Nautilai Version: {}", version));
+
+    if (!std::filesystem::exists(naAppDataPath.string())) {
+        logFn(fmt::format("Creating {}", naAppDataPath.string()));
+        std::filesystem::create_directory(naAppDataPath.string());
     }
 
     if (!std::filesystem::exists(configFile)) {
-        spdlog::info("Creating {}", configFile.string());
+        logFn(fmt::format("Creating {}", configFile.string()));
         auto cfg = toml::parse<toml::preserve_comments, tsl::ordered_map>(std::filesystem::path("nautilai.toml").string());
         std::ofstream outf(configFile.string());
         outf << std::setw(0) << cfg << std::endl;
@@ -141,7 +171,8 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
-    spdlog::info("Loading config {}", configFile.string());
+
+    logFn(fmt::format("Loading config {}", configFile.string()));
     std::shared_ptr<Config> config = std::make_shared<Config>(configFile, userProfile, userargs);
     config->version = version;
     config->configFile = configFile.string();
@@ -151,7 +182,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (!std::filesystem::exists(config->backgroundRecordingDir)) {
-        spdlog::info("Creating {}", config->backgroundRecordingDir.string());
+        logFn(fmt::format("Creating {}", config->backgroundRecordingDir.string()));
         std::filesystem::create_directory(config->backgroundRecordingDir);
     }
 

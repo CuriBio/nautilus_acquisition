@@ -77,12 +77,16 @@ void Settings::on_dirChoiceBtn_clicked() {
     QString prefix = "E:";
 
     if (!dir.startsWith(prefix)) {
-        spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
-        QMessageBox messageBox;
-        messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
-        messageBox.setFixedSize(500,200);
+        if (dir.isEmpty()) {
+            spdlog::info("Cancelled changing output directory");
+        } else {
+            spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
+            QMessageBox messageBox;
+            messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
+            messageBox.setFixedSize(500,200);
+        }
     } else {
-        spdlog::info("Selected dir: {}", dir.toStdString());
+        spdlog::info("Selected new output directory: {}", dir.toStdString());
         ui.dirChoice->setPlainText(dir);
     }
 }
@@ -97,6 +101,7 @@ void Settings::on_filePrefix_textChanged() {
 
     ui.modalChoice->button(QDialogButtonBox::Save)->setEnabled(isPrefixValid);
 }
+
 
 /*
  * Emits signal for when a user accepts changes to settings.
@@ -115,5 +120,12 @@ void Settings::on_modalChoice_accepted() {
  * Cancels updating settings dialog value when user clicks cancel.
  */
 void Settings::on_modalChoice_rejected() {
+    spdlog::get("nautilai_gxp")->info("New settings discarded");
+    this->reject();
+}
+
+
+void Settings::closeEvent(QCloseEvent *event) {
+    spdlog::get("nautilai_gxp")->info("New settings discarded");
     this->reject();
 }

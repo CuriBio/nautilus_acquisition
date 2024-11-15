@@ -15,6 +15,7 @@
 AdvancedSetupDialog::AdvancedSetupDialog(std::shared_ptr<Config> config, QWidget *parent) : QDialog(parent), ui(new Ui::AdvancedSetupDialog) {
     ui->setupUi(this);
     m_config = config;
+    changesConfirmed = false;
     connect(ui->updateSetupBtn, &QPushButton::released, this, &AdvancedSetupDialog::updateAdvancedSetup);
     setDefaultValues();
 }
@@ -107,7 +108,7 @@ void AdvancedSetupDialog::setDefaultValues() {
 * Save the updates.
 */
 void AdvancedSetupDialog::updateAdvancedSetup(){
-    spdlog::info("User confirmed advanced settings");
+    changesConfirmed = true;
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
@@ -115,10 +116,6 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
     m_config->keepOriginalRaw = m_keepOriginalRaw;
-
-    if (m_enableDownsampleRawFiles) {
-        spdlog::info("User enabled additional binning settings to a factor of {} and keep original to {}", m_binFactor, m_keepOriginalRaw);
-    }
 
     //if new nidev selected then update toml and channels
     if (m_niDev != "No NI devices detected") {
@@ -135,6 +132,18 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
     }
 
     m_config->selectedVideoQualityOption = ui->videoQualityList->currentText().toStdString();
+
+    auto msg = fmt::format(
+        "New advanced settings saved: "
+        "led-ni=device='{}', trigger-ni-device='{}', trigger-in-mode='{}', enable-live-view-during-acquisition='{}', "
+        "downsample-raw-data='{}', binning-factor='{}' keep-original-raw-data-after-downsample='{}', "
+        "video-quality='{}' ",
+        m_niDev, m_trigDev, m_triggerMode, m_enableLiveViewDuringAcquisition,
+        m_enableDownsampleRawFiles, m_binFactor, m_keepOriginalRaw,
+        m_config->selectedVideoQualityOption
+    );
+    spdlog::info(msg);
+    spdlog::get("nautilai_gxp")->info(msg);
 
     this->close();
 }
@@ -165,7 +174,8 @@ void AdvancedSetupDialog::on_triggerDeviceList_currentTextChanged(const QString 
 * @param text of new choice
 */
 void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &text) {
-    if (text.toStdString() == (std::string) "Wait for trigger") {
+    auto textStd = text.toStdString();
+    if (textStd == "Wait for trigger") {
         m_triggerMode = EXT_TRIG_TRIG_FIRST;
     } else {  // "Start acquisition immediately"
         m_triggerMode = EXT_TRIG_INTERNAL;
@@ -219,7 +229,9 @@ void AdvancedSetupDialog::on_checkKeepOriginalRaw_stateChanged(int state) {
     m_keepOriginalRaw = state;
 }
 
-
 void AdvancedSetupDialog::closeEvent(QCloseEvent *event) {
+    if (!changesConfirmed) {
+        spdlog::get("nautilai_gxp")->info("New advanced settings discarded");
+    }
     emit this->sig_close_adv_settings();
 }

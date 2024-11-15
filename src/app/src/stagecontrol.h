@@ -12,6 +12,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <toml.hpp>
+#include <spdlog/spdlog.h>
 
 #include "config.h"
 #include <TangoStage.h>
@@ -100,24 +101,61 @@ class StageControl : public QDialog {
 
         void on_gotoPosBtn_clicked();
 
-        void on_stageRightBtn1_clicked() { SetRelativeX(m_stepSizes[0]); };
-        void on_stageRightBtn2_clicked() { SetRelativeX(m_stepSizes[1]); };
-        void on_stageRightBtn3_clicked() { SetRelativeX(m_stepSizes[2]); };
+        void on_stageRightBtn1_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Right 1 pressed");
+            SetRelativeX(m_stepSizes[0]);
+        };
+        void on_stageRightBtn2_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Right 2 pressed");
+            SetRelativeX(m_stepSizes[1]);
+        };
+        void on_stageRightBtn3_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Right 3 pressed");
+            SetRelativeX(m_stepSizes[2]);
+        };
 
-        void on_stageLeftBtn1_clicked() { SetRelativeX(-m_stepSizes[0]); };
-        void on_stageLeftBtn2_clicked() { SetRelativeX(-m_stepSizes[1]); };
-        void on_stageLeftBtn3_clicked() { SetRelativeX(-m_stepSizes[2]); };
+        void on_stageLeftBtn1_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Left 1 pressed");
+            SetRelativeX(-m_stepSizes[0]);
+        };
+        void on_stageLeftBtn2_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Left 2 pressed");
+            SetRelativeX(-m_stepSizes[1]);
+        };
+        void on_stageLeftBtn3_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Left 3 pressed");
+            SetRelativeX(-m_stepSizes[2]);
+        };
 
-        void on_stageUpBtn1_clicked() { SetRelativeY(m_stepSizes[0]); };
-        void on_stageUpBtn2_clicked() { SetRelativeY(m_stepSizes[1]); };
-        void on_stageUpBtn3_clicked() { SetRelativeY(m_stepSizes[2]); };
+        void on_stageUpBtn1_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Up 1 pressed");
+            SetRelativeY(m_stepSizes[0]);
+        };
+        void on_stageUpBtn2_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Up 2 pressed");
+            SetRelativeY(m_stepSizes[1]);
+        };
+        void on_stageUpBtn3_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Up 3 pressed");
+            SetRelativeY(m_stepSizes[2]);
+        };
 
-        void on_stageDownBtn1_clicked() { SetRelativeY(-m_stepSizes[0]); };
-        void on_stageDownBtn2_clicked() { SetRelativeY(-m_stepSizes[1]); };
-        void on_stageDownBtn3_clicked() { SetRelativeY(-m_stepSizes[2]); };
-
+        void on_stageDownBtn1_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Down 1 pressed");
+            SetRelativeY(-m_stepSizes[0]);
+        };
+        void on_stageDownBtn2_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Down 2 pressed");
+            SetRelativeY(-m_stepSizes[1]);
+        };
+        void on_stageDownBtn3_clicked() {
+            spdlog::get("nautilai_gxp")->info("Stage Down 3 pressed");
+            SetRelativeY(-m_stepSizes[2]);
+        };
 
     private:
+        void closeEvent(QCloseEvent *event);
+
         void disableAll();
         void enableAll();
 };
