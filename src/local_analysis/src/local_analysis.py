@@ -25,7 +25,7 @@ import toml
 from xlsxwriter import Workbook
 
 USERNAME = os.path.basename(os.getenv("USERPROFILE", "Users"))
-COMPUTER_NAME = socket.gethostname().encode(encoding="UTF-8")
+COMPUTER_NAME = socket.gethostname()
 
 
 def _modify_log(logger, name, event_dict):
@@ -34,6 +34,7 @@ def _modify_log(logger, name, event_dict):
         event_dict_["timestamp"] = event_dict_["timestamp"][:-3]
         event_dict_["username"] = USERNAME
         event_dict_["computer_name"] = COMPUTER_NAME
+        event_dict_["event"] = event_dict_.pop("event")  # pop and re-add so it's the last key
         event_dict = json.dumps(event_dict_)
     except:
         pass
@@ -44,7 +45,6 @@ structlog.configure(
     processors=[
         structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S.%f"),
         structlog.processors.format_exc_info,
-        structlog.processors.add_log_level,
         structlog.processors.JSONRenderer(),
         _modify_log,
     ]
