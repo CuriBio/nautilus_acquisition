@@ -1325,13 +1325,38 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         }
     };
 
+
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
-        //account for each acquisition and if autotile is enabled
-        uint64_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile ? 2 : 1);
-        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
 
+        uint64_t rawFileBytes = nStagePositions * fps * duration * frameBytes; // num bytes across all untiled raw files. Equal to the size of the tiled raw file
+        uint64_t additionalFileBytesEstimate = 0;
+        uint64_t transientRawBytes = 0;
+        uint64_t finalAcquisitionBytesEstimate = rawFileBytes;
+        if (m_config->autoTile) {
+            // over-estimate of the num bytes of all additional files created as a part of the acquisition.
+            // these files will only be ecreated if auto tiling is enabled
+            additionalFileBytesEstimate = rawFileBytes * 1.02;
+            // If auto tiling is enabled, double the amount of raw file bytes will be written to disk.
+            // The untiled raw files will always be deleted, but will exist on the disk at the same time as the tiled raw file
+            transientRawBytes += rawFileBytes;
+            if (m_config->enableDownsampleRawFiles) {
+                // If downsampling is enabled, need to account for the additional bytes created from the downsampled raw file,
+                // which will be present on the disk at the same time as the original tiled raw file and all the untiled raw files
+                uint64_t downsampledRawFileBytes = rawFileBytes / m_config->binFactor;
+                finalAcquisitionBytesEstimate = downsampledRawFileBytes;
+                transientRawBytes += downsampledRawFileBytes;
+                if (m_config->keepOriginalRaw) {
+                    // If keeping the original raw file, need to add that to the final byte count
+                    finalAcquisitionBytesEstimate += rawFileBytes;
+                }
+            }
+        }
+        finalAcquisitionBytesEstimate += additionalFileBytesEstimate;
+        uint64_t totalAcquisitionBytesEstimate = finalAcquisitionBytesEstimate + transientRawBytes;
+
+        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             if (log) {
@@ -1341,15 +1366,16 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             return false;
         }
 
-       if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
+       if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytesEstimate) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             if (log) {
                 spdlog::info(
-                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will use {} bytes",
+                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
                     m_config->path.string(),
                     lpTotalNumberOfFreeBytes.QuadPart,
-                    totalAcquisitionBytes
+                    totalAcquisitionBytes,
+                    finalAcquisitionBytesEstimate
                 );
             }
             ui.startAcquisitionBtn->setStyleSheet("");
@@ -1359,7 +1385,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         //not enough space for acquisition
         if (log) {
             spdlog::error(
-                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require {} bytes",
+                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
                 m_config->path.string(),
                 lpTotalNumberOfFreeBytes.QuadPart,
                 totalAcquisitionBytes
