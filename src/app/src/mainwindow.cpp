@@ -1335,9 +1335,9 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         uint64_t transientRawBytes = 0;
         uint64_t finalAcquisitionBytesEstimate = rawFileBytes;
         if (m_config->autoTile) {
-            // over-estimate of the num bytes of all additional files created as a part of the acquisition.
+            // over-estimate of the num bytes of all additional files created during post-processing.
             // these files will only be ecreated if auto tiling is enabled
-            additionalFileBytesEstimate = rawFileBytes * 0.02;
+            additionalFileBytesEstimate = rawFileBytes * 0.03;
             // If auto tiling is enabled, double the amount of raw file bytes will be written to disk.
             // The untiled raw files will always be deleted, but will exist on the disk at the same time as the tiled raw file
             transientRawBytes += rawFileBytes;
