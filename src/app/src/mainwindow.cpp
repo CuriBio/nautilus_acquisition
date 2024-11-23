@@ -1366,21 +1366,21 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             return false;
         }
 
-       if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytesEstimate) {
+        if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytesEstimate) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             if (log) {
                 spdlog::info(
-                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
-                    m_config->path.string(),
-                    lpTotalNumberOfFreeBytes.QuadPart,
-                    totalAcquisitionBytesEstimate,
-                    finalAcquisitionBytesEstimate
-                );
+                        "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
+                        m_config->path.string(),
+                        lpTotalNumberOfFreeBytes.QuadPart,
+                        totalAcquisitionBytesEstimate,
+                        finalAcquisitionBytesEstimate
+                        );
             }
             ui.startAcquisitionBtn->setStyleSheet("");
             return true;
-       }
+        }
 
         //not enough space for acquisition
         if (log) {
