@@ -1331,30 +1331,30 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
 
         uint64_t rawFileBytes = nStagePositions * fps * duration * frameBytes; // num bytes across all untiled raw files. Equal to the size of the tiled raw file
-        uint64_t additionalFileBytesEstimate = 0;
-        uint64_t transientRawBytes = 0;
+        uint64_t totalAcquisitionBytesEstimate = rawFileBytes;
         uint64_t finalAcquisitionBytesEstimate = rawFileBytes;
+        uint64_t additionalFileBytesEstimate = 0;
         if (m_config->autoTile) {
+            // If auto tiling is enabled, account for the tiled raw file. The untiled raw files will always be deleted,
+            // and thus don't count toward the final num bytes, but will exist on the disk at the same time as the tiled raw file so count towards the total
+            totalAcquisitionBytesEstimate += rawFileBytes;
             // over-estimate of the num bytes of all additional files created during post-processing.
-            // these files will only be ecreated if auto tiling is enabled
-            additionalFileBytesEstimate = rawFileBytes * 0.03;
-            // If auto tiling is enabled, double the amount of raw file bytes will be written to disk.
-            // The untiled raw files will always be deleted, but will exist on the disk at the same time as the tiled raw file
-            transientRawBytes += rawFileBytes;
+            // these files will only be created if auto tiling is enabled
+            uint64_t additionalFileBytesEstimate = rawFileBytes * 0.03;
             if (m_config->enableDownsampleRawFiles) {
                 // If downsampling is enabled, need to account for the additional bytes created from the downsampled raw file,
                 // which will be present on the disk at the same time as the original tiled raw file and all the untiled raw files
                 uint64_t downsampledRawFileBytes = rawFileBytes / m_config->binFactor;
-                finalAcquisitionBytesEstimate = downsampledRawFileBytes;
-                transientRawBytes += downsampledRawFileBytes;
+                totalAcquisitionBytesEstimate += downsampledRawFileBytes;
+                finalAcquisitionBytesEstimate = downsampledRawFileBytes;  // setting final count to this, not adding
                 if (m_config->keepOriginalRaw) {
                     // If keeping the original raw file, need to add that to the final byte count
                     finalAcquisitionBytesEstimate += rawFileBytes;
                 }
             }
         }
+        totalAcquisitionBytesEstimate += additionalFileBytesEstimate;
         finalAcquisitionBytesEstimate += additionalFileBytesEstimate;
-        uint64_t totalAcquisitionBytesEstimate = finalAcquisitionBytesEstimate + transientRawBytes;
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
@@ -1371,12 +1371,12 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             if (log) {
                 spdlog::info(
-                        "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
-                        m_config->path.string(),
-                        lpTotalNumberOfFreeBytes.QuadPart,
-                        totalAcquisitionBytesEstimate,
-                        finalAcquisitionBytesEstimate
-                        );
+                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
+                    m_config->path.string(),
+                    lpTotalNumberOfFreeBytes.QuadPart,
+                    totalAcquisitionBytesEstimate,
+                    finalAcquisitionBytesEstimate
+                );
             }
             ui.startAcquisitionBtn->setStyleSheet("");
             return true;
