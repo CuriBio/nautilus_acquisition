@@ -793,7 +793,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements({});
+    checkStartAcqRequirements({ .space = true });
     return true;
 }
 
