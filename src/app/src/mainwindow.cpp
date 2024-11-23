@@ -1374,7 +1374,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
                     "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
                     m_config->path.string(),
                     lpTotalNumberOfFreeBytes.QuadPart,
-                    totalAcquisitionBytes,
+                    totalAcquisitionBytesEstimate,
                     finalAcquisitionBytesEstimate
                 );
             }
@@ -1388,7 +1388,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
                 "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
                 m_config->path.string(),
                 lpTotalNumberOfFreeBytes.QuadPart,
-                totalAcquisitionBytes
+                totalAcquisitionBytesEstimate
             );
         }
         ui.frameRateEdit->setStyleSheet("border: 2px solid red");
