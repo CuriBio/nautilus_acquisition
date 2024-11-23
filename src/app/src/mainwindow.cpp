@@ -1326,7 +1326,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     };
 
 
-// #ifdef _WIN32
+#ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
 
