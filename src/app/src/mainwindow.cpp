@@ -1326,10 +1326,11 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     };
 
 
-#ifdef _WIN32
+// #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
 
+        // TODO factor in sbin and pbin?
         uint64_t rawFileBytes = nStagePositions * fps * duration * frameBytes; // num bytes across all untiled raw files. Equal to the size of the tiled raw file
         uint64_t additionalFileBytesEstimate = 0;
         uint64_t transientRawBytes = 0;
@@ -1337,7 +1338,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         if (m_config->autoTile) {
             // over-estimate of the num bytes of all additional files created as a part of the acquisition.
             // these files will only be ecreated if auto tiling is enabled
-            additionalFileBytesEstimate = rawFileBytes * 1.02;
+            additionalFileBytesEstimate = rawFileBytes * 0.02;
             // If auto tiling is enabled, double the amount of raw file bytes will be written to disk.
             // The untiled raw files will always be deleted, but will exist on the disk at the same time as the tiled raw file
             transientRawBytes += rawFileBytes;
