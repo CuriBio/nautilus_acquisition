@@ -1330,7 +1330,6 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
 
-        // TODO factor in sbin and pbin?
         uint64_t rawFileBytes = nStagePositions * fps * duration * frameBytes; // num bytes across all untiled raw files. Equal to the size of the tiled raw file
         uint64_t additionalFileBytesEstimate = 0;
         uint64_t transientRawBytes = 0;
