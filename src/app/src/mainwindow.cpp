@@ -793,7 +793,7 @@ bool MainWindow::advSetupOpen() {
 bool MainWindow::advSetupClosed() {
     spdlog::info("Advanced Setup Closed");
     setMask(ENABLE_ALL);
-    checkStartAcqRequirements({});
+    checkStartAcqRequirements({ .space = true });
     return true;
 }
 
@@ -1318,20 +1318,49 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     bool log = opts.space;
     double fps = m_config->fps;
     double duration = m_config->duration;
-    size_t nStagePositions = 0;
+    size_t totalNumStagePositions = 0;
+    size_t numActiveStagePositions = 0;
     for (auto stagePos : m_stageControl->GetPositions()) {
+        totalNumStagePositions++;
         if (!stagePos->skipped) {
-            nStagePositions++;
+            numActiveStagePositions++;
         }
     };
 
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
-        //account for each acquisition and if autotile is enabled
-        uint64_t totalAcquisitionBytes = nStagePositions * fps * duration * frameBytes * (m_config->autoTile ? 2 : 1);
-        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
 
+        uint64_t frameBytesPerStagePos = fps * duration * frameBytes;
+        uint64_t unstitchedRawFileBytes = numActiveStagePositions * frameBytesPerStagePos; // num bytes across all untiled raw files
+
+        uint64_t totalAcquisitionBytesEstimate = unstitchedRawFileBytes;
+        uint64_t finalAcquisitionBytesEstimate = unstitchedRawFileBytes;
+        if (m_config->autoTile) {
+            // If auto tiling is enabled, account for the tiled raw file. The untiled raw files will always be deleted
+            // and thus don't count toward the final num bytes, but will exist on the disk at the same time as the tiled raw file so count towards the total
+            uint64_t stitchedRawFilesBytes = totalNumStagePositions * frameBytesPerStagePos;
+            totalAcquisitionBytesEstimate += stitchedRawFilesBytes;
+            finalAcquisitionBytesEstimate = stitchedRawFilesBytes;  // setting final count to this instead of adding since the unstitched raw files will be deleted
+            if (m_config->enableDownsampleRawFiles) {
+                // If downsampling is enabled, need to account for the additional bytes created from the downsampled raw file,
+                // which will be present on the disk at the same time as the original tiled raw file and all the untiled raw files
+                uint64_t downsampledRawFileBytes = stitchedRawFilesBytes / m_config->binFactor;
+                totalAcquisitionBytesEstimate += downsampledRawFileBytes;
+                finalAcquisitionBytesEstimate = downsampledRawFileBytes;  // setting final count to this instead of adding since the original raw file may be deleted
+                if (m_config->keepOriginalRaw) {
+                    // If keeping the original raw file, need to add that back to the final byte count
+                    finalAcquisitionBytesEstimate += stitchedRawFilesBytes;
+                }
+            }
+            // over-estimate of the num bytes of all additional files created during post-processing.
+            // these files will only be created if auto tiling is enabled
+            uint64_t additionalFileBytesEstimate = stitchedRawFilesBytes * 0.03;
+            totalAcquisitionBytesEstimate += additionalFileBytesEstimate;
+            finalAcquisitionBytesEstimate += additionalFileBytesEstimate;
+        }
+
+        ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             if (log) {
@@ -1341,28 +1370,29 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             return false;
         }
 
-       if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytes) {
+        if (lpTotalNumberOfFreeBytes.QuadPart > totalAcquisitionBytesEstimate) {
             std::stringstream storage_space_string;
             storage_space_string << lpTotalNumberOfFreeBytes.QuadPart;
             if (log) {
                 spdlog::info(
-                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will use {} bytes",
+                    "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
                     m_config->path.string(),
                     lpTotalNumberOfFreeBytes.QuadPart,
-                    totalAcquisitionBytes
+                    totalAcquisitionBytesEstimate,
+                    finalAcquisitionBytesEstimate
                 );
             }
             ui.startAcquisitionBtn->setStyleSheet("");
             return true;
-       }
+        }
 
         //not enough space for acquisition
         if (log) {
             spdlog::error(
-                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require {} bytes",
+                "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
                 m_config->path.string(),
                 lpTotalNumberOfFreeBytes.QuadPart,
-                totalAcquisitionBytes
+                totalAcquisitionBytesEstimate
             );
         }
         ui.frameRateEdit->setStyleSheet("border: 2px solid red");
