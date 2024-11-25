@@ -1318,43 +1318,47 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     bool log = opts.space;
     double fps = m_config->fps;
     double duration = m_config->duration;
-    size_t nStagePositions = 0;
+    size_t totalNumStagePositions = 0;
+    size_t numActiveStagePositions = 0;
     for (auto stagePos : m_stageControl->GetPositions()) {
+        totalNumStagePositions++;
         if (!stagePos->skipped) {
-            nStagePositions++;
+            totalNumStagePositions++;
         }
     };
-
 
 #ifdef _WIN32
     if (m_camera->ctx) {
         uns32 frameBytes = m_camera->ctx->frameBytes;
 
-        uint64_t rawFileBytes = nStagePositions * fps * duration * frameBytes; // num bytes across all untiled raw files. Equal to the size of the tiled raw file
-        uint64_t totalAcquisitionBytesEstimate = rawFileBytes;
-        uint64_t finalAcquisitionBytesEstimate = rawFileBytes;
-        uint64_t additionalFileBytesEstimate = 0;
+        uint64_t frameBytesPerStagePos = fps * duration * frameBytes;
+        uint64_t unstitchedRawFileBytes = numActiveStagePositions * frameBytesPerStagePos; // num bytes across all untiled raw files
+
+        uint64_t totalAcquisitionBytesEstimate = unstitchedRawFileBytes;
+        uint64_t finalAcquisitionBytesEstimate = unstitchedRawFileBytes;
         if (m_config->autoTile) {
-            // If auto tiling is enabled, account for the tiled raw file. The untiled raw files will always be deleted,
+            // If auto tiling is enabled, account for the tiled raw file. The untiled raw files will always be deleted
             // and thus don't count toward the final num bytes, but will exist on the disk at the same time as the tiled raw file so count towards the total
-            totalAcquisitionBytesEstimate += rawFileBytes;
-            // over-estimate of the num bytes of all additional files created during post-processing.
-            // these files will only be created if auto tiling is enabled
-            uint64_t additionalFileBytesEstimate = rawFileBytes * 0.03;
+            uint64_t stitchedRawFilesBytes = totalNumStagePositions * frameBytesPerStagePos;
+            totalAcquisitionBytesEstimate += stitchedRawFilesBytes;
+            finalAcquisitionBytesEstimate = stitchedRawFilesBytes;  // setting final count to this instead of adding since the unstitched raw files will be deleted
             if (m_config->enableDownsampleRawFiles) {
                 // If downsampling is enabled, need to account for the additional bytes created from the downsampled raw file,
                 // which will be present on the disk at the same time as the original tiled raw file and all the untiled raw files
-                uint64_t downsampledRawFileBytes = rawFileBytes / m_config->binFactor;
+                uint64_t downsampledRawFileBytes = stitchedRawFilesBytes / m_config->binFactor;
                 totalAcquisitionBytesEstimate += downsampledRawFileBytes;
-                finalAcquisitionBytesEstimate = downsampledRawFileBytes;  // setting final count to this, not adding
+                finalAcquisitionBytesEstimate = downsampledRawFileBytes;  // setting final count to this instead of adding since the original raw file may be deleted
                 if (m_config->keepOriginalRaw) {
-                    // If keeping the original raw file, need to add that to the final byte count
-                    finalAcquisitionBytesEstimate += rawFileBytes;
+                    // If keeping the original raw file, need to add that back to the final byte count
+                    finalAcquisitionBytesEstimate += stitchedRawFilesBytes;
                 }
             }
+            // over-estimate of the num bytes of all additional files created during post-processing.
+            // these files will only be created if auto tiling is enabled
+            uint64_t additionalFileBytesEstimate = stitchedRawFilesBytes * 0.03;
+            totalAcquisitionBytesEstimate += additionalFileBytesEstimate;
+            finalAcquisitionBytesEstimate += additionalFileBytesEstimate;
         }
-        totalAcquisitionBytesEstimate += additionalFileBytesEstimate;
-        finalAcquisitionBytesEstimate += additionalFileBytesEstimate;
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
         if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
