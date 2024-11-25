@@ -1323,7 +1323,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
     for (auto stagePos : m_stageControl->GetPositions()) {
         totalNumStagePositions++;
         if (!stagePos->skipped) {
-            totalNumStagePositions++;
+            numActiveStagePositions++;
         }
     };
 
