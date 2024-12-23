@@ -24,6 +24,7 @@ import tkinter as tk
 from tkinter import filedialog
 import ijroi
 import struct
+import shutil
 
 
 logger = logging.getLogger(__name__)
@@ -74,6 +75,8 @@ class NautilaiApplication:
         self.roi_index = {}
         self.mode = None
         self.margin = 10
+        self.roi_source = None
+        self.rois = None
         self.roi_preview.bind("<ButtonPress-1>", self.on_click)
         self.roi_preview.bind("<B1-Motion>", self.on_drag) 
         self.roi_preview.bind("<ButtonRelease-1>", self.on_release)
@@ -97,6 +100,9 @@ class NautilaiApplication:
         self.roi_set_button = tk.Button(self.root, text="Load ImageJ ROI set", command=self._choose_roi_set)
         self.roi_set_button.pack()
 
+        self.save_roi_set_button = tk.Button(self.root, text="Save ImageJ ROI set", command=self._save_roi_set)
+        self.save_roi_set_button.pack()
+
         self.use_background_subtraction_value = tk.BooleanVar()
         self.use_background_subtraction_checkbutton = tk.Checkbutton(
             self.root, text="Use Background Subtraction", variable=self.use_background_subtraction_value, command = self.update_background_subtraction
@@ -117,7 +123,9 @@ class NautilaiApplication:
         self.roi_preview.config(xscrollcommand=self.scroll_x.set, yscrollcommand=self.scroll_y.set)
 
 
-       
+    def _save_roi_set(self):
+        _write_ij_rois(self.setup_config["rois"], self.setup_config)
+
     def update_background_subtraction(self):
         self.use_background_subtraction_value = not self.use_background_subtraction_value
         self.setup_config["use_background_subtraction"] = self.use_background_subtraction_value
@@ -129,15 +137,31 @@ class NautilaiApplication:
         with open(self.file_entry.get()) as toml_file:
             self.setup_config = toml.load(toml_file)
         self.setup_config["recording_name"] = os.path.splitext(os.path.basename(self.setup_config["input_path"]))[0]
+        directory_path = os.path.dirname(self.file_entry.get())
+        self.setup_config["input_path"] = os.path.join(directory_path, f"{self.setup_config['recording_name']}.raw")
+        self.setup_config["output_dir_path"] = directory_path
+
         _scale_inputs(self.setup_config)
-        rois = _create_rois(self.setup_config)
-        self.setup_config["rois"] = rois
         self.use_background_subtraction_value = self.setup_config["use_background_subtraction"]
         if self.setup_config["use_background_subtraction"]:
             self.use_background_subtraction_checkbutton.select()
-        rois = self.setup_config["rois"]
-        _write_ij_rois(rois, self.setup_config)
-        self.setup_config["roi_source"] = "Auto"
+        if self.roi_source is None:
+            self.rois = _create_rois(self.setup_config)
+            self.setup_config["rois"] = self.rois
+            # rois = self.setup_config["rois"]
+            _write_ij_rois(self.rois, self.setup_config)
+            self.setup_config["roi_source"] = "Auto"
+            self.roi_source = "Auto"
+        if self.roi_source == "Auto":
+            self.rois = _create_rois(self.setup_config)
+            self.setup_config["rois"] = self.rois
+            # rois = self.setup_config["rois"]
+            _write_ij_rois(self.rois, self.setup_config)
+            self.setup_config["roi_source"] = "Auto"
+            self.roi_source = "Auto"
+        else:
+            self.setup_config["rois"] = self.rois
+            self.setup_config["roi_source"] = "Custom"
         # print(self.setup_config)
         self._create_roi_preview()
 
@@ -148,7 +172,9 @@ class NautilaiApplication:
         if os.path.exists(self.roi_set_entry.get()):
             ij_rois = read_roi_set(self.roi_set_entry.get())
             self.setup_config["rois"] = ij_rois
+            self.rois = ij_rois
             self.setup_config["roi_source"] = "Custom"
+            self.roi_source = "Custom"
             self._create_roi_preview()
 
     def _create_roi_preview(self):
@@ -325,8 +351,10 @@ class NautilaiApplication:
         print("canvas coordinates",self.roi_preview.coords(self.roi_index[self.active_roi]))
         self.stop = event.x, event.y
         self.active_roi = None
-        _write_ij_rois(self.setup_config["rois"], self.setup_config)
+        #_write_ij_rois(self.setup_config["rois"], self.setup_config)
+        self.rois = self.setup_config["rois"]
         self.setup_config["roi_source"] = "Custom"
+        self.roi_source = "Custom"
     def _run_main_function(self):
         main(self.root, self.setup_config)
 
@@ -782,7 +810,7 @@ def _create_time_series_plot_image(time_series_df: pl.DataFrame, setup_config: d
                 ax.tick_params(labelsize=20)
 
         pdf_file.savefig()
-
+    plt.close("all")
 
 def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_config: dict):
     wells = [c for c in time_series_df.columns if c != "time"]
@@ -819,6 +847,7 @@ def _write_time_series_legacy_xlsx_zip(time_series_df: pl.DataFrame, setup_confi
             for file_name in file_names:
                 file_path = os.path.join(dir_name, file_name)
                 zf.write(file_path, os.path.basename(file_path))
+    shutil.rmtree(output_dir)
 
 def _write_ij_rois(rois: dict[str, RoiCoords], setup_config: dict):
     output_dir = os.path.join(setup_config["output_dir_path"], "rois")
@@ -871,6 +900,7 @@ def _write_ij_rois(rois: dict[str, RoiCoords], setup_config: dict):
             for file_name in file_names:
                 file_path = os.path.join(dir_name, file_name)
                 zf.write(file_path, os.path.basename(file_path))
+    shutil.rmtree(output_dir)
 
 def _create_roi_preview(
     setup_config: dict[str, Any]
