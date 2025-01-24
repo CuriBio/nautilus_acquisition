@@ -92,6 +92,9 @@ class Config {
         double theta;
         double scalingFactor;
 
+        //disk
+        std::string hd_serial_num;
+
         //debug
         std::string testImgPath;
         bool ignoreErrors;

@@ -426,6 +426,32 @@ void MainWindow::Initialize() {
         return;
     }
 
+    // E drive serial num check
+    char const* vol_name = "E:\\";
+    DWORD hd_serial_num_dword;
+    auto res = GetVolumeInformationA(vol_name, NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
+    if (res == 0) {
+        spdlog::error("Error checking E:\\ drive serial number: {}", GetLastError());
+        emit sig_show_error("E:\\ drive validation failed, please contact Curi Bio for support");
+        return;
+    } else {
+        std::string actual_hd_serial_num = std::format("{:x}", hd_serial_num_dword);
+        spdlog::info("Found E:\\ drive serial number: {}", actual_hd_serial_num);
+        std::string expected_hd_serial_num = m_config->hd_serial_num;
+        if (expected_hd_serial_num.empty()) {
+            spdlog::info("No E:\\ drive serial number set in config, skipping verification");
+        } else {
+            // verify the E drive has the expected serial num. The serial num in the config will be a hex num
+            // that may contain a '-' char
+            std::erase(expected_hd_serial_num, '-');
+            spdlog::info("Expected E:\\ drive serial number set in config ('-' chars removed): {}", expected_hd_serial_num);
+            if (actual_hd_serial_num != expected_hd_serial_num) {
+                emit sig_show_error("E:\\ drive validation failed, please contact Curi Bio for support");
+                return;
+            }
+        }
+    }
+
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
 

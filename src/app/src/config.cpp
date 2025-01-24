@@ -247,6 +247,8 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         theta = toml::find<double>(machineVars, "stage", "theta");
         scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
+        hd_serial_number = toml::find_or<std::string>(machineVars, "disk", "hd_serial_num", "");
+
     } catch(const std::out_of_range& e) {
         configError = std::format("Missing required config value(s): {}", e.what());
         spdlog::error(configError);
