@@ -91,6 +91,17 @@ int main(int argc, char* argv[]) {
 
     spdlog::info("Nautilai Version: {}", version);
 
+    char const* vol_name = "E:\\";
+    DWORD hd_serial_num_dword;
+    // TODO handle error code returned from this fn
+    auto res = GetVolumeInformationA(vol_name, NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
+    spdlog::info("Res: {}", res); // TODO delete this
+    if (res != 0) {
+        spdlog::error("Error checking volume serial: {}", GetLastError());
+    }
+    std::string hd_serial_num = std::to_string(hd_serial_num_dword);
+    spdlog::info("Hard drive serial number: {}", hd_serial_num); // TODO delete this
+
     if (!std::filesystem::exists(configPath.string())) {
         spdlog::info("Creating {}", configPath.string());
         std::filesystem::create_directory(configPath.string());
