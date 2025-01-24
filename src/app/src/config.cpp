@@ -46,9 +46,6 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 
     try {
         //nautilus table options
-        path = toml::find<std::string>(config, "nautilai", "outdir");
-        if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
-
         prefix = toml::find<std::string>(config, "nautilai", "prefix");
         if (userargs.count("prefix")) { prefix = userargs["prefix"].as<std::string>(); }
 
@@ -247,6 +244,22 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         theta = toml::find<double>(machineVars, "stage", "theta");
         scalingFactor = toml::find<double>(machineVars, "stage", "s");
 
+        //disk
+        disk_name = toml::find_or<std::string>(machineVars, "disk", "name", std::string(""));
+        if (disk_name.empty() {
+            spdlog::info("No disk name set, updating machine.toml");
+            disk_name = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\");
+            spdlog::info("Setting disk name to {} in machine.toml", disk_name);
+            auto file = toml::parse(machineVarsFilePath.string());
+            file["disk"]["name"] = disk_name;
+            std::ofstream outf(machineVarsFilePath.string());
+            outf << std::setw(0) << file << std::endl;
+            outf.close();
+        }
+
+        path = disk_name;
+        if (userargs.count("outdir")) { path = userargs["outdir"].as<std::string>(); }
+
         hd_serial_num = toml::find_or<std::string>(machineVars, "disk", "hd_serial_num", std::string(""));
 
     } catch(const std::out_of_range& e) {
@@ -275,7 +288,6 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 
 void Config::Dump() {
     //nautilai options
-    spdlog::info("nautilai.outdir: {}", path.string());
     spdlog::info("nautilai.prefix: {}", prefix);
     spdlog::info("nautilai.auto_contrast_brightness: {}", !noAutoConBright);
     spdlog::info("nautilai.ext_analysis {}", extAnalysis.string());
@@ -333,6 +345,10 @@ void Config::Dump() {
     spdlog::info("device.tango.step_small: {}", stageStepSizes[0]);
     spdlog::info("device.tango.step_medium: {}", stageStepSizes[1]);
     spdlog::info("device.tango.step_large: {}", stageStepSizes[2]);
+
+    //disk
+    spdlog::info("disk.name {}", disk_name);
+    spdlog::info("disk.hd_serial_num {}", hd_serial_num);
 
     //debug
     spdlog::info("debug.ignore_errors: {}", ignoreErrors);
