@@ -436,7 +436,8 @@ void MainWindow::Initialize() {
         return;
     } else {
         std::string actual_hd_serial_num = std::format("{:x}", hd_serial_num_dword);
-        spdlog::info("Found E:\\ drive serial number: {}", actual_hd_serial_num);
+        std::transform(actual_hd_serial_num.begin(), actual_hd_serial_num.end(), actual_hd_serial_num.begin(), ::toupper);
+        spdlog::info("Found E:\\ drive serial number: '{}'", actual_hd_serial_num);
         std::string expected_hd_serial_num = m_config->hd_serial_num;
         if (expected_hd_serial_num.empty()) {
             spdlog::info("No E:\\ drive serial number set in config, skipping verification");
@@ -444,8 +445,9 @@ void MainWindow::Initialize() {
             // verify the E drive has the expected serial num. The serial num in the config will be a hex num
             // that may contain a '-' char
             std::erase(expected_hd_serial_num, '-');
-            spdlog::info("Expected E:\\ drive serial number set in config ('-' chars removed): {}", expected_hd_serial_num);
+            spdlog::info("Expected E:\\ drive serial number set in config ('-' chars removed): '{}'", expected_hd_serial_num);
             if (actual_hd_serial_num != expected_hd_serial_num) {
+                spdlog::info("Incorrect E:\\ drive serial number");
                 emit sig_show_error("E:\\ drive validation failed, please contact Curi Bio for support");
                 return;
             }
