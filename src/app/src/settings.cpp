@@ -77,7 +77,13 @@ void Settings::on_dirChoiceBtn_clicked() {
     auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", QString::fromStdString(disk_name));
     std::string dir_std = dir.toStdString();
 
-    if (dir_std.starts_with(disk_name)) {
+    std::string expected_prefix = disk_name;
+    std::string::size_type pos = expected_prefix.find(':');
+    if (pos != std::string::npos){
+        expected_prefix = expected_prefix.substr(0, pos + 1);
+    }
+
+    if (dir_std.starts_with(expected_prefix)) {
         spdlog::info("Selected dir: {}", dir_std);
         ui.dirChoice->setPlainText(dir);
     } else {
