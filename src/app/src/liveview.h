@@ -67,12 +67,12 @@ class LiveView : public QOpenGLWidget {
     Q_OBJECT
 
     public:
-        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
+        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip);
         virtual ~LiveView();
 
         void Clear();
-        void UpdateImage(uint16_t* data, float scale, float min);
-        void SetImageFormat(ImageFormat fmt);
+        void UpdateImage(uint8_t* data, float scale, float min);
+        void SetBitDepth(uint16_t bitDepth);
         void SetLevel(int level) { m_level = level; };
         void UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
 
@@ -91,12 +91,15 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_width{0};
         uint32_t m_height{0};
         uint32_t m_totalPx{0};
+        uint16_t m_bitDepth{12};
+        uint16_t m_bytesPerPixel{2};
+        float m_maxPixelIntensity{4095.0f};
         int m_level{4095};
 
         bool m_vflip{false};
         bool m_hflip{false};
 
-        ImageFormat m_imageInFmt;
+        ImageFormat m_imageInFmt{ImageFormat::Mono16};
         QImage m_image;
         QRectF m_target;
         QImage::Format m_imageOutFmt;
@@ -115,10 +118,13 @@ class LiveView : public QOpenGLWidget {
         GLuint m_textures[2];
         GLuint m_blockIndex, m_R;
         GLint m_binding, m_texLoc, m_roisLoc;
+        GLint m_internalformat{GL_R16};
+        GLenum m_type{GL_UNSIGNED_SHORT};
 
         GLuint m_pbo[2];           // IDs of PBOs
         int m_pboIndex{0};
 
+        void SetImageFormat(ImageFormat fmt);
         void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
 };
 

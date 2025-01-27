@@ -153,6 +153,7 @@ namespace pm {
 
         //current bitdepth
         uint16_t bitDepth;
+        uint8_t effectiveBitDepth;
 
         // Sensor type (if not Frame Transfer CCD then camera is Interline CCD or sCMOS).
         // Not relevant for sCMOS sensors.
