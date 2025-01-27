@@ -133,10 +133,9 @@ void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, ui
     //reset texture
     memset(m_roisTex, 0x00, m_width * m_height);
 
-    //TODO uncomment when roi liveview is ready
-    // for (auto roiStart : m_roiOffsets) {
-    //     drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
-    // }
+    for (auto roiStart : m_roiOffsets) {
+        drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
+    }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glActiveTexture(GL_TEXTURE1);
@@ -159,12 +158,12 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     };
 
     for (size_t i = 0; i < height; i++) {
-            if (i < border || i > height-border-1) {
-                memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
-            } else {
-                memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
-                memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
-            }
+        if (i < border || i > height-border-1) {
+            memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
+        } else {
+            memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
+            memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
+        }
     }
 }
 
