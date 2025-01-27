@@ -246,9 +246,9 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 
         //disk
         disk_name = toml::find_or<std::string>(machineVars, "disk", "name", std::string(""));
-        if (disk_name.empty() {
+        if (disk_name.empty()) {
             spdlog::info("No disk name set, updating machine.toml");
-            disk_name = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\");
+            disk_name = toml::find_or<std::string>(config, "nautilai", "outdir", std::string("E:\\"));
             spdlog::info("Setting disk name to {} in machine.toml", disk_name);
             auto file = toml::parse(machineVarsFilePath.string());
             file["disk"]["name"] = disk_name;

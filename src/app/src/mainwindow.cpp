@@ -427,10 +427,10 @@ void MainWindow::Initialize() {
     }
 
     // E drive serial num check
-    char const* vol_name = m_config->disk_name;
+    std::string vol_name = m_config->disk_name;
     spdlog::info("Verifying serial number of {} drive", vol_name);
     DWORD hd_serial_num_dword;
-    auto res = GetVolumeInformationA(vol_name, NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
+    auto res = GetVolumeInformationA((char const*) vol_name.c_str(), NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
     if (res == 0) {
         spdlog::error("Error retrieving {} drive serial number: {}", vol_name, GetLastError());
         emit sig_show_error(std::format("{} drive validation failed, please contact Curi Bio for support", vol_name));

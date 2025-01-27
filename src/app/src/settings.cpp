@@ -74,15 +74,16 @@ void Settings::show() {
  */
 void Settings::on_dirChoiceBtn_clicked() {
     std::string disk_name = m_config->disk_name;
-    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", disk_name);
+    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", QString::fromStdString(disk_name));
+    std::string dir_std = dir.toStdString();
 
-    if (dir.startsWith(disk_name)) {
-        spdlog::info("Selected dir: {}", dir.toStdString());
+    if (dir_std.starts_with(disk_name)) {
+        spdlog::info("Selected dir: {}", dir_std);
         ui.dirChoice->setPlainText(dir);
     } else {
-        spdlog::error("Must use output directory on {} drive, selected {}", disk_name, dir.toStdString());
+        spdlog::error("Must use output directory on {} drive, selected {}", disk_name, dir_std);
         QMessageBox messageBox;
-        messageBox.critical(0, "Error", std::format("Must select output directory on {} drive", disk_name));
+        messageBox.critical(0, "Error", QString::fromStdString(std::format("Must select output directory on {} drive", disk_name)));
         messageBox.setFixedSize(500,200);
     }
 }
