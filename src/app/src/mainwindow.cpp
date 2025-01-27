@@ -1398,12 +1398,13 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         }
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
-        if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
+        std::wstring w_disk_name = std::wstring(m_config->disk_name.begin(), m_config->disk_name.end());
+        if (!GetDiskFreeSpaceEx((const wchar_t*) w_disk_name.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             if (log) {
                 spdlog::error("Default drive could not be found");
             }
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->disk_name)));
             return false;
         }
 
@@ -1413,7 +1414,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             if (log) {
                 spdlog::info(
                     "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
-                    m_config->path.string(),
+                    m_config->disk_name,
                     lpTotalNumberOfFreeBytes.QuadPart,
                     totalAcquisitionBytesEstimate,
                     finalAcquisitionBytesEstimate
@@ -1427,7 +1428,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         if (log) {
             spdlog::error(
                 "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
-                m_config->path.string(),
+                m_config->disk_name,
                 lpTotalNumberOfFreeBytes.QuadPart,
                 totalAcquisitionBytesEstimate
             );
@@ -1436,7 +1437,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         ui.frameRateEdit->setToolTip("Not enough space in drive for these acquisition settings");
         ui.durationEdit->setStyleSheet("border: 2px solid red");
         ui.durationEdit->setToolTip("Not enough space in drive for these acquisition settings");
-        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->disk_name)));
         return false;
     } else {
         ui.startAcquisitionBtn->setToolTip("Camera not found.");
