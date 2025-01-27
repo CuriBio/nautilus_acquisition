@@ -426,7 +426,7 @@ void MainWindow::Initialize() {
         return;
     }
 
-    // E drive serial num check
+    // Hard drive serial num check
     std::string vol_name = m_config->disk_name;
     spdlog::info("Verifying serial number of {} drive", vol_name);
     DWORD hd_serial_num_dword;
@@ -441,7 +441,7 @@ void MainWindow::Initialize() {
         std::transform(actual_hd_serial_num.begin(), actual_hd_serial_num.end(), actual_hd_serial_num.begin(), ::toupper);
         spdlog::info("Found {} drive serial number: '{}'", vol_name, actual_hd_serial_num);
 
-        // verify the E drive has the expected serial num if a serial num is present in the config.
+        // verify the hard drive has the expected serial num if a serial num is present in the config.
         // the value in the cnfig will be an uppercase hex num that may contain a '-' char
         std::string expected_hd_serial_num = m_config->hd_serial_num;
         if (expected_hd_serial_num.empty()) {
