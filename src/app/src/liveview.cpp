@@ -80,9 +80,8 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    //TODO need a uniform to control showing the rois, disable for now since we aren't releasing this feature yet anyway
-    //fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
-    fragColor = texColor;
+    //TODO need a uniform to control showing the rois
+    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
 })";
 
 /*
