@@ -94,6 +94,7 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     // default to img width/height, this will get overwritten in resizeGL when the viewport width/height are known
     m_viewportWidth = width;
     m_viewportHeight = height;
+    m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
 
     m_imageInFmt = fmt;
 
@@ -135,15 +136,13 @@ void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, ui
 }
 
 void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
-    auto viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
-
     //reset texture
-    m_roisTex = new uint8_t[viewportMinSideLen * viewportMinSideLen];
-    memset(m_roisTex, 0x00, viewportMinSideLen * viewportMinSideLen);
+    m_roisTex = new uint8_t[m_viewportMinSideLen * m_viewportMinSideLen];
+    memset(m_roisTex, 0x00, m_viewportMinSideLen * m_viewportMinSideLen);
 
     // scale ROI w/h
-    float scalingFactorW = float(viewportMinSideLen) / float(m_width);
-    float scalingFactorH = float(viewportMinSideLen) / float(m_height);
+    float scalingFactorW = float(m_viewportMinSideLen) / float(m_width);
+    float scalingFactorH = float(m_viewportMinSideLen) / float(m_height);
     // TODO make sure this works with different pbin/sbin
     auto scaledW = static_cast<uint32_t>(float(cfg->width / cfg->scale) * scalingFactorW);
     auto scaledH = static_cast<uint32_t>(float(cfg->height / cfg->scale) * scalingFactorH);
@@ -162,7 +161,7 @@ void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, 
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, viewportMinSideLen, viewportMinSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_viewportMinSideLen, m_viewportMinSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
@@ -174,7 +173,7 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     std::tie(x, y) = offsets;
 
     auto from_xy = [&](int32_t x, int32_t y) {
-        return Rois::roiToOffset(x, y, m_viewportWidth);
+        return Rois::roiToOffset(x, y, m_viewportMinSideLen);
     };
 
     for (size_t i = 0; i < height; i++) {
@@ -471,7 +470,9 @@ void LiveView::paintGL() {
  * @breif Resize live view window
  */
 void LiveView::resizeGL(int w, int h) {
+    spdlog::info("Resizing GL");
     m_viewportWidth = w;
     m_viewportHeight = h;
+    m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
     // TODO createRoiTex() ?
 }
