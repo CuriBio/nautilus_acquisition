@@ -91,6 +91,10 @@ void main() {
 LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt) : QOpenGLWidget(parent) {
     m_width = width;
     m_height = height;
+    // default to img width/height, this will get overwritten in resizeGL when the viewport width/height are known
+    m_viewportWidth = width;
+    m_viewportHeight = height;
+
     m_imageInFmt = fmt;
 
     m_vflip = vflip;
@@ -127,12 +131,20 @@ LiveView::~LiveView() {
 void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
     spdlog::info("Updating roi offsets");
     m_roiOffsets = roiOffsets;
+    createRoiTex(cfg, roiOffsets);
+}
 
+void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
     //reset texture
-    memset(m_roisTex, 0x00, m_width * m_height);
+    m_roisTex = new uint8_t[m_viewportWidth * m_viewportHeight];
+    memset(m_roisTex, 0x00, m_viewportWidth * m_viewportHeight);
+
+    // TODO not sure if viewport width/height will be the same, probably need to use the min here instead
+    auto scaledW = cfg->width / cfg->scale * (m_width / m_viewportWidth);
+    auto scaledH = cfg->height / cfg->scale * (m_height / m_viewportHeight);
 
     for (auto roiStart : m_roiOffsets) {
-        drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
+        drawROI(roiStart, scaledW, scaledH, 1);
     }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -140,7 +152,7 @@ void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, ui
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_width, m_height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_viewportWidth, m_viewportHeight, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
@@ -439,4 +451,15 @@ void LiveView::paintGL() {
     f->glBindTexture(GL_TEXTURE_2D, 0);
 
     m_pboIndex = 1 - m_pboIndex;
+}
+
+
+
+/*
+ * @breif Resize live view window
+ */
+void LiveView::resizeGL(int w, int h) {
+    m_viewportWidth = w;
+    m_viewportHeight = h;
+    // TODO createRoiTex() ?
 }

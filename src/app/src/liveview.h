@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -79,10 +79,10 @@ class LiveView : public QOpenGLWidget {
         //QT Overrides
         void initializeGL();
         void paintGL();
+        void resizeGL(int w, int h);
 
     private:
         uint8_t* m_imageData{nullptr};
-        uint8_t* m_roisTex{nullptr};
         std::vector<std::tuple<uint32_t, uint32_t>> m_roiOffsets;
 
         uint16_t* m_backgroundImage;
@@ -92,6 +92,10 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_height{0};
         uint32_t m_totalPx{0};
         int m_level{4095};
+
+        uint8_t* m_roisTex{nullptr};
+        uint32_t m_viewportWidth{0};
+        uint32_t m_viewportHeight{0};
 
         bool m_vflip{false};
         bool m_hflip{false};
@@ -120,6 +124,7 @@ class LiveView : public QOpenGLWidget {
         int m_pboIndex{0};
 
         void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
+        void createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
 };
 
 #endif //LIVEVIEW_H
