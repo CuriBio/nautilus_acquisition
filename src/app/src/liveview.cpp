@@ -137,14 +137,23 @@ void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, ui
 void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
     //reset texture
     m_roisTex = new uint8_t[m_viewportWidth * m_viewportHeight];
+    // TODO store m_viewportMinSideLen
     memset(m_roisTex, 0x00, m_viewportWidth * m_viewportHeight);
 
-    // TODO not sure if viewport width/height will be the same, probably need to use the min here instead
-    auto scaledW = cfg->width / cfg->scale * (m_width / m_viewportWidth);
-    auto scaledH = cfg->height / cfg->scale * (m_height / m_viewportHeight);
+    auto sideLen = std::min(m_viewportWidth, m_viewportHeight);
+    float scalingFactorW = float(sideLen) / float(m_width);
+    float scalingFactorH = float(sideLen) / float(m_height);
+
+    auto scaledW = static_cast<uint32_t>(float(cfg->width / cfg->scale) * scalingFactorW);
+    auto scaledH = static_cast<uint32_t>(float(cfg->height / cfg->scale) * scalingFactorH);
+    spdlog::info("DEBUG createRoiTex {} -- {} {} -- {} {}", cfg->scale, m_width, m_viewportWidth, m_height, m_viewportHeight);
 
     for (auto roiStart : m_roiOffsets) {
-        drawROI(roiStart, scaledW, scaledH, 1);
+        std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
+            static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
+            static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
+        );
+        drawROI(scaledOffset, scaledW, scaledH, 1);
     }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -163,14 +172,21 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     size_t x, y;
     std::tie(x, y) = offsets;
 
+    spdlog::info("DEBUG drawROI: {} {} -- {} {} -- {} {}", x, y, width,m_viewportWidth, height, m_viewportHeight);
+
     auto from_xy = [&](int32_t x, int32_t y) {
-        return Rois::roiToOffset(x, y, m_width);
+        return Rois::roiToOffset(x, y, m_viewportWidth);
     };
 
     for (size_t i = 0; i < height; i++) {
         if (i < border || i > height-border-1) {
+            // if at top or bottom of ROI, draw one line the full width across
+            // spdlog::info("DEBUG from_xy (1): {}-{} / {}", from_xy(x, i+y), from_xy(x, i+y)+width, max);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
         } else {
+            // spdlog::info("DEBUG from_xy (2): {}-{} / {}", from_xy(x, i+y), from_xy(x, i+y)+border, max);
+            // spdlog::info("DEBUG from_xy (3): {}-{} / {}", from_xy(x + width - border, i+y), from_xy(x + width - border, i+y)+border, max);
+            // if in between top/bottom, draw lines for left/right border
             memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
             memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
         }
