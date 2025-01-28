@@ -64,14 +64,13 @@ vec4 fragCoord = gl_FragCoord;
 
 void main() {
     vec2 uv = vec2(fragCoord.x, iResolution.y - fragCoord.y) / iResolution.xy;
-    uv -= 0.5;
     uv.x *= iResolution.x / iResolution.y;
 
     //TODO This needs to handle flips in config settings
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
-    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
+    float px = clamp(iAuto.x * (texture(u_image, uv).r - iAuto.y), 0.0f, 1.0f);
     vec4 texColor = vec4(px, px, px, 1.0);
 
     if (px < iLevels.x) {
@@ -81,7 +80,7 @@ void main() {
     }
 
     //TODO need a uniform to control showing the rois
-    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
+    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, uv).r)));
 })";
 
 /*
