@@ -112,7 +112,7 @@ namespace PostProcess {
                 size_t currentRow = i * binFactor * width;
                 size_t firstIdx = currentRow + j * binFactor;
 
-                std::vector<T> pixelsToAvg;
+                uint64_t sum = 0;
 
                 for (uint8_t k = 0; k < binFactor; k++) {
 
@@ -120,12 +120,11 @@ namespace PostProcess {
                     size_t end = start + binFactor;
                     
                     for (size_t l = start; l < end; l++) {
-                        pixelsToAvg.push_back(frameData[l]);
+                        sum += frameData[l];
                     }
                 }
 
-                T average = std::reduce(pixelsToAvg.begin(), pixelsToAvg.end()) / static_cast<T>(pixelsToAvg.size());
-                binnedFrameData[(i*binnedWidth) + j] = average;
+                binnedFrameData[(i*binnedWidth) + j] = (T)(sum / (binFactor * binFactor));
             }
         }
 

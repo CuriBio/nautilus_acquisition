@@ -108,7 +108,7 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
-        m_backgroundImage[i] = 0x6000;
+        m_backgroundImage[i] = 0x6060;
     }
 
     m_shader_uniforms.resolution[0] = m_width;
