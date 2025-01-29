@@ -74,7 +74,7 @@ class LiveView : public QOpenGLWidget {
         void UpdateImage(uint16_t* data, float scale, float min);
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
-        void UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
+        void UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
 
         //QT Overrides
         void initializeGL();
@@ -84,6 +84,7 @@ class LiveView : public QOpenGLWidget {
     private:
         uint8_t* m_imageData{nullptr};
         std::vector<std::tuple<uint32_t, uint32_t>> m_roiOffsets;
+        Rois::RoiCfg m_roiCfg;
 
         uint16_t* m_backgroundImage;
         std::mutex m_lock;
@@ -125,7 +126,7 @@ class LiveView : public QOpenGLWidget {
         int m_pboIndex{0};
 
         void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
-        void createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
+        void createRoiTex();
 };
 
 #endif //LIVEVIEW_H

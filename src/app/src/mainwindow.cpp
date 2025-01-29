@@ -977,7 +977,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_roiCfg.h_offset = toml::find<int32_t>(plateFormatFile, "stage", "h_offset");
 
         std::vector<std::tuple<uint32_t, uint32_t>> rois = Rois::roiOffsets(&m_roiCfg, m_width, m_height);
-        m_liveView->UpdateRois(&m_roiCfg, rois);
+        m_liveView->UpdateRois(m_roiCfg, rois);
 
     } catch(const std::exception &e) {
         spdlog::error("Failed to load platemap format values, {}", e.what());

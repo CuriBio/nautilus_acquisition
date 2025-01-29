@@ -130,13 +130,14 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 LiveView::~LiveView() {
 }
 
-void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
+void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
     spdlog::info("Updating roi offsets");
     m_roiOffsets = roiOffsets;
-    createRoiTex(cfg, roiOffsets);
+    m_roiCfg = cfg;
+    createRoiTex();
 }
 
-void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
+void LiveView::createRoiTex() {
     //reset texture
     m_roisTex = new uint8_t[m_viewportMinSideLen * m_viewportMinSideLen];
     memset(m_roisTex, 0x00, m_viewportMinSideLen * m_viewportMinSideLen);
@@ -145,8 +146,8 @@ void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, 
     float scalingFactorW = float(m_viewportMinSideLen) / float(m_width);
     float scalingFactorH = float(m_viewportMinSideLen) / float(m_height);
     // TODO make sure this works with different pbin/sbin
-    auto scaledW = static_cast<uint32_t>(float(cfg->width / cfg->scale) * scalingFactorW);
-    auto scaledH = static_cast<uint32_t>(float(cfg->height / cfg->scale) * scalingFactorH);
+    auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
+    auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
 
     spdlog::info("DEBUG createRoiTex: {} {} -- {} {}", m_width, m_viewportWidth, m_height, m_viewportHeight);
 
@@ -476,14 +477,14 @@ void LiveView::paintGL() {
 }
 
 
-
 /*
  * @breif Resize live view window
  */
 void LiveView::resizeGL(int w, int h) {
-    spdlog::info("Resizing GL");
+    spdlog::info("resizeGL - width: {}, height: {}", width, height);
+    // TODO delete these two?
     m_viewportWidth = w;
     m_viewportHeight = h;
     m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
-    // TODO createRoiTex() ?
+    createRoiTex();
 }
