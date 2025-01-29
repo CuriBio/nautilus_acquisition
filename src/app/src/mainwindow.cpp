@@ -124,7 +124,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
-    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
+    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip);
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
@@ -254,10 +254,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
         std::string cropFilter = Rois::getFFmpegCropFilter(&m_roiCfg, m_width, m_height);
+        std::string pixFmt = "gray12le";
+
+        if (m_camera->ctx->bitDepth == 16) {
+            pixFmt = "gray16le";
+        } else if (m_camera->ctx->bitDepth == 8) {
+            pixFmt = "gray";
+        }
 
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt {} -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
                         m_config->ffmpegDir.string(),
+                        pixFmt,
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
@@ -428,6 +436,12 @@ void MainWindow::Initialize() {
 
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
+
+    m_liveView->SetBitDepth(m_camera->ctx->bitDepth);
+
+    uint32_t levelSliderMax = (((uint32_t)1) << m_camera->ctx->bitDepth) - 1;
+    ui.levelsSlider->setRange(0, levelSliderMax);
+    ui.levelsSlider->setValue(levelSliderMax);
 
     if (!m_db->initDB()) {
         emit sig_show_error("Error initializing plate ID database");
@@ -1442,10 +1456,11 @@ void MainWindow::updateLiveView() noexcept {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
         if (frame != nullptr) {
-            uint16_t* data = static_cast<uint16_t*>(frame->GetData());
+            uint8_t bytes_per_pixel = m_camera->ctx->effectiveBitDepth / 8;
+            uint8_t* data = static_cast<uint8_t*>(frame->GetData());
 
             //Calculate histogram
-            m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
+            m_taskFrameStats->Setup(data, m_hist, m_width, m_height, bytes_per_pixel);
             m_parTask.Start(m_taskFrameStats);
             m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
@@ -1453,8 +1468,10 @@ void MainWindow::updateLiveView() noexcept {
             float autoMin = 0.0f;
 
             if (!m_config->noAutoConBright) {
-                autoMin = static_cast<float>(m_min / 65535.0f);
-                scale = (m_min == m_max) ? 1.0 : 1.0 / ((m_max - m_min) / 65535.0);
+                float maxPixelIntensity = float((((uint32_t)1) << m_camera->ctx->effectiveBitDepth) - 1);
+
+                autoMin = static_cast<float>(m_min / maxPixelIntensity);
+                scale = (m_min == m_max) ? 1.0 : 1.0 / ((m_max - m_min) / maxPixelIntensity);
             }
 
             m_liveView->UpdateImage(data, scale, autoMin);
@@ -1484,19 +1501,17 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
-            spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
-            return;
-            //TODO fix this to use enum values
-        } else if (m_expSettings.storageType != 0 && m_expSettings.storageType != 2) { //single tiff file storage, raw file
-            spdlog::warn("Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
-            return;
-        } else if (m_config->autoTile) {
+        if (m_config->autoTile) {
+            if (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size()) {
+                spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+                return;
+            }
+
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile),
-                    16,
+                    m_camera->ctx->effectiveBitDepth,
                     m_config->cols * m_width,
                     m_config->rows * m_height
                 );
@@ -1506,7 +1521,7 @@ void MainWindow::postProcess() {
             if (m_config->enableDownsampleRawFiles) {
                 rawDownsampled = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFileDownsampled),
-                    16,
+                    m_camera->ctx->effectiveBitDepth,
                     m_config->cols * (m_width / m_config->binFactor),
                     m_config->rows * (m_height / m_config->binFactor)
                 );
@@ -1524,13 +1539,13 @@ void MainWindow::postProcess() {
                 tileEnabled,
                 m_width,
                 m_height,
+                m_camera->ctx->effectiveBitDepth,
                 m_config->vflip,
                 m_config->hflip,
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
                 rawDownsampled,
-                m_expSettings.storageType,
                 m_config->binFactor
             );
 
@@ -1696,7 +1711,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     size_t x, y;
                     std::tie(x, y) = rois[c + r*cls->m_roiCfg.cols];
 
-                    double avg = roiFn(&cls->m_roiCfg, (uint16_t*)(frame->GetData()), x, y, frameCtx->width);
+                    double avg = roiFn(&cls->m_roiCfg, (uint8_t*)(frame->GetData()), x, y, frameCtx->width, frameCtx->bitDepth);
                     wellAvgs[intensityIdx][idx].push_back(avg);
                 }
             }
