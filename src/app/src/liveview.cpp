@@ -143,7 +143,7 @@ void LiveView::createRoiTex() {
     memset(m_roisTex, 0x00, m_roisTexMaxSideLen * m_roisTexMaxSideLen);
 
     // TODO need to store this as a member var and make sure that it never gets larger than max side len
-    int roisTexActualSideLen = std::min(this->size().height(), this->size().width());
+    uint32_t roisTexActualSideLen = std::min(this->size().height(), this->size().width());
 
     // scale ROI w/h
     float scalingFactorW = float(roisTexActualSideLen) / float(m_width);
@@ -168,6 +168,7 @@ void LiveView::createRoiTex() {
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, roisTexActualSideLen, roisTexActualSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
