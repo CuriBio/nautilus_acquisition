@@ -144,31 +144,33 @@ void LiveView::createRoiTex() {
     //reset texture
     memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
 
-    uint32_t minActualSideLen = std::min(this->size().height(), this->size().width());
-    m_roisTexCurrentSideLen = std::min(ROIS_TEX_MAX_SIDE_LEN, minActualSideLen);
+    if (m_displayRois) {
+        uint32_t minActualSideLen = std::min(this->size().height(), this->size().width());
+        m_roisTexCurrentSideLen = std::min(ROIS_TEX_MAX_SIDE_LEN, minActualSideLen);
 
-    // scale ROI w/h
-    float scalingFactorW = float(m_roisTexCurrentSideLen) / float(m_width);
-    float scalingFactorH = float(m_roisTexCurrentSideLen) / float(m_height);
-    auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
-    auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
+        // scale ROI w/h
+        float scalingFactorW = float(m_roisTexCurrentSideLen) / float(m_width);
+        float scalingFactorH = float(m_roisTexCurrentSideLen) / float(m_height);
+        auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
+        auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
 
-    for (auto roiStart : m_roiOffsets) {
-        // scale roi offset
-        std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
-            static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
-            static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
-        );
-        drawROI(scaledOffset, scaledW, scaledH, 3);
+        for (auto roiStart : m_roiOffsets) {
+            // scale roi offset
+            std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
+                static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
+                static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
+            );
+            drawROI(scaledOffset, scaledW, scaledH, 3);
+        }
+
+        QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+        f->glActiveTexture(GL_TEXTURE1);
+        f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
     }
-
-    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
