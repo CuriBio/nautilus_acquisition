@@ -68,7 +68,7 @@ class LiveView : public QOpenGLWidget {
     Q_OBJECT
 
     public:
-        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt);
+        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt, bool displayRois);
         virtual ~LiveView();
 
         void Clear();
@@ -81,6 +81,8 @@ class LiveView : public QOpenGLWidget {
         void initializeGL();
         void paintGL();
         void resizeGL(int w, int h);
+
+        bool m_displayRois;
 
     private:
         uint8_t* m_imageData{nullptr};

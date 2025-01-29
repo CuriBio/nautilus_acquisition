@@ -58,6 +58,7 @@ class Config {
 
         //acquisition.live_view options
         bool enableLiveViewDuringAcquisition;
+        bool displayRoisDuringLiveView;
         bool vflip;
         bool hflip;
 

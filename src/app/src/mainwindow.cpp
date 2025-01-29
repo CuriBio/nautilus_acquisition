@@ -199,6 +199,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDevices);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_display_rois_during_live_view_change, this, &MainWindow::updateDisplayRoisDuringLiveView);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
     //fps, duration update
@@ -1141,6 +1142,12 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
     m_config->enableLiveViewDuringAcquisition = enable;
 }
 
+void MainWindow::updateDisplayRoisDuringLiveView(bool enable) {
+    spdlog::info("display rois during live view updated: {}", enable);
+
+    m_config->displayRoisDuringLiveView = enable;
+    m_liveView->displayRois = enable;
+}
 
 bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
     bool log = opts.framerate_dur;

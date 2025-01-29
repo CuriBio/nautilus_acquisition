@@ -90,7 +90,7 @@ void main() {
  *
  * @param parent QWidget pointer to parent widget.
  */
-LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt) : QOpenGLWidget(parent) {
+LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt, bool displayRois) : QOpenGLWidget(parent) {
     m_width = width;
     m_height = height;
 
@@ -101,6 +101,8 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 
     m_vflip = vflip;
     m_hflip = hflip;
+
+    m_displayRois = displayRois;
 
     m_texData = new uint8_t[m_width * m_height * CHANNEL_COUNT];
     memset(m_texData, 255, m_width * m_height * CHANNEL_COUNT);
