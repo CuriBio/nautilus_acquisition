@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>581</width>
-    <height>360</height>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>310</y>
+     <y>330</y>
      <width>150</width>
      <height>30</height>
     </rect>
@@ -78,22 +78,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkEnableLiveViewDuringAcq">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>130</y>
-     <width>21</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -124,22 +108,6 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkDownsampleRawFiles">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>192</y>
-     <width>21</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -216,10 +184,10 @@
   <widget class="QCheckBox" name="checkKeepOriginalRaw">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>305</x>
      <y>252</y>
      <width>21</width>
-     <height>24</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -300,13 +268,45 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkDownsampleRawFiles">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>190</y>
+     <width>21</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <widget class="QCheckBox" name="checkDisplayRoisDuringLiveView">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>305</x>
      <y>160</y>
      <width>21</width>
-     <height>24</height>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkEnableLiveViewDuringAcq">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>130</y>
+     <width>21</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="layoutDirection">
