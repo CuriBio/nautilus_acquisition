@@ -124,7 +124,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
-    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16);
+    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16, m_config->displayRoisDuringLiveView);
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
@@ -1146,7 +1146,7 @@ void MainWindow::updateDisplayRoisDuringLiveView(bool enable) {
     spdlog::info("display rois during live view updated: {}", enable);
 
     m_config->displayRoisDuringLiveView = enable;
-    m_liveView->displayRois = enable;
+    m_liveView->m_displayRois = enable;
 }
 
 bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
