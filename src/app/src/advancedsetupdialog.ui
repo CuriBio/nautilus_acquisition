@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>40</y>
+     <y>38</y>
      <width>241</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -72,9 +72,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>100</y>
+     <y>98</y>
      <width>241</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -84,7 +84,7 @@
      <x>310</x>
      <y>130</y>
      <width>21</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -104,7 +104,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Enable live view during acquisition:</string>
+    <string>Enable Live View During Acquisition:</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -114,13 +114,13 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>160</y>
+     <y>192</y>
      <width>261</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Downsample raw data file:</string>
+    <string>Downsample Raw Data File:</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -130,9 +130,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>160</y>
+     <y>192</y>
      <width>21</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -146,7 +146,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
+     <y>222</y>
      <width>261</width>
      <height>21</height>
     </rect>
@@ -168,9 +168,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>190</y>
+     <y>222</y>
      <width>91</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
    <item>
@@ -198,7 +198,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>220</y>
+     <y>252</y>
      <width>261</width>
      <height>21</height>
     </rect>
@@ -207,7 +207,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Keep original:</string>
+    <string>Keep Original:</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -217,9 +217,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>220</y>
+     <y>252</y>
      <width>21</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -249,9 +249,9 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>70</y>
+     <y>68</y>
      <width>241</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -259,7 +259,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>250</y>
+     <y>282</y>
      <width>261</width>
      <height>21</height>
     </rect>
@@ -268,7 +268,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Video Quality</string>
+    <string>Video Quality:</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -278,10 +278,42 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>250</y>
+     <y>280</y>
      <width>241</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Display ROIs During Live View:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkDisplayRoisDuringLiveView">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>160</y>
+     <width>21</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
