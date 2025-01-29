@@ -70,8 +70,7 @@ void main() {
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
-    //TODO switch back to texCoord
-    float px = clamp(iAuto.x * (texture(u_image, uv).r - iAuto.y), 0.0f, 1.0f);
+    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
     vec4 texColor = vec4(px, px, px, 1.0);
 
     if (px < iLevels.x) {
@@ -80,9 +79,7 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    //TODO need a uniform to control showing the rois
-    //TODO switch back to texCoord
-    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, uv).r));
+    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
 })";
 
 /*
@@ -94,21 +91,20 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     m_width = width;
     m_height = height;
 
-    m_roisTex = new uint8_t[ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN];
-    memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
-
     m_imageInFmt = fmt;
 
     m_vflip = vflip;
     m_hflip = hflip;
-
-    m_displayRois = displayRois;
 
     m_texData = new uint8_t[m_width * m_height * CHANNEL_COUNT];
     memset(m_texData, 255, m_width * m_height * CHANNEL_COUNT);
 
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
+
+    m_roisTex = new uint8_t[ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN];
+    memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
+    m_displayRois = displayRois;
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -193,12 +189,9 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     for (size_t i = 0; i < height; i++) {
         if (i < border || i > height-border-1) {
             // if at top or bottom of ROI, draw one line the full width across
-            auto res = from_xy(x, i+y);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
         } else {
             // if in between top/bottom, draw lines for left/right border
-            auto res2 = from_xy(x, i+y);
-            auto res3 = from_xy(x + width - border, i+y);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
             memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
         }
