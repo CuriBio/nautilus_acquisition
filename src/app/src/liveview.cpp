@@ -80,7 +80,8 @@ void main() {
     }
 
     //TODO need a uniform to control showing the rois
-    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, uv).r)));
+    //TODO create a new resolution uniform for the viewport
+    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, uv).r));
 })";
 
 /*
@@ -147,7 +148,7 @@ void LiveView::createRoiTex(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, 
     auto scaledW = static_cast<uint32_t>(float(cfg->width / cfg->scale) * scalingFactorW);
     auto scaledH = static_cast<uint32_t>(float(cfg->height / cfg->scale) * scalingFactorH);
 
-    spdlog::info("DEBUG createRoiTex: {} {} -- {} {}", m_width, m_viewportMinSideLen, m_height, m_viewportMinSideLen);
+    spdlog::info("DEBUG createRoiTex: {} {} -- {} {}", m_width, m_viewportWidth, m_height, m_viewportHeight);
 
     for (auto roiStart : m_roiOffsets) {
         // scale roi offset
