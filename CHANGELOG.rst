@@ -1,7 +1,7 @@
 Changelog for Nautilai
 ======================
 
-0.2.5 (unreleased)
+0.2.5 (2025-01-29)
 ------------------
 
 Fixed:
