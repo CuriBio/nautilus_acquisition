@@ -138,6 +138,10 @@ void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uin
 }
 
 void LiveView::createRoiTex() {
+    if (m_roiOffsets.size() == 0) {
+        return;
+    }
+
     //reset texture
     m_roisTex = new uint8_t[m_viewportMinSideLen * m_viewportMinSideLen];
     memset(m_roisTex, 0x00, m_viewportMinSideLen * m_viewportMinSideLen);
@@ -191,9 +195,9 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
         } else {
             // if in between top/bottom, draw lines for left/right border
             auto res2 = from_xy(x, i+y);
-            spdlog::info("DEBUG [2] (x, y): ({}, {})", res2 % m_viewportMinSideLen, res2 / m_viewportMinSideLen);
+            // spdlog::info("DEBUG [2] (x, y): ({}, {})", res2 % m_viewportMinSideLen, res2 / m_viewportMinSideLen);
             auto res3 = from_xy(x + width - border, i+y);
-            spdlog::info("DEBUG [3] (x, y): ({}, {})", res3 % m_viewportMinSideLen, res3 / m_viewportMinSideLen);
+            // spdlog::info("DEBUG [3] (x, y): ({}, {})", res3 % m_viewportMinSideLen, res3 / m_viewportMinSideLen);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
             memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
         }
@@ -440,7 +444,7 @@ void LiveView::paintGL() {
     // bind the texture and PBO
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo[m_pboIndex]);
     // copy pixels from PBO to texture object
-    // Use offset instead of ponter.
+    // Use offset instead of pointer.
     f->glActiveTexture(GL_TEXTURE1);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
 
@@ -481,10 +485,10 @@ void LiveView::paintGL() {
  * @breif Resize live view window
  */
 void LiveView::resizeGL(int w, int h) {
-    spdlog::info("resizeGL - width: {}, height: {}", width, height);
+    spdlog::info("resizeGL - width: {}, height: {}", w, h);
     // TODO delete these two?
     m_viewportWidth = w;
     m_viewportHeight = h;
     m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
-    createRoiTex();
+    // createRoiTex();
 }
