@@ -136,7 +136,7 @@ void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uin
     createRoiTex();
 }
 
-void LiveView::UpdateRois(bool display) {
+void LiveView::UpdateDisplayRois(bool display) {
     m_displayRois = display;
     createRoiTex();
 }
