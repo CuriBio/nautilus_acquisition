@@ -95,9 +95,7 @@ class LiveView : public QOpenGLWidget {
         int m_level{4095};
 
         uint8_t* m_roisTex{nullptr};
-        uint32_t m_viewportWidth{0};
-        uint32_t m_viewportHeight{0};
-        uint32_t m_viewportMinSideLen{0};
+        uint32_t m_roisTexMaxSideLen {5000}; // TODO make this const ?
 
         bool m_vflip{false};
         bool m_hflip{false};

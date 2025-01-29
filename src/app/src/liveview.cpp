@@ -92,13 +92,11 @@ void main() {
 LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt) : QOpenGLWidget(parent) {
     m_width = width;
     m_height = height;
-    // default to img width/height, this will get overwritten in resizeGL when the viewport width/height are known
-    m_viewportWidth = width;
-    m_viewportHeight = height;
-    m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
 
-    m_roisTex = new uint8_t[m_viewportMinSideLen * m_viewportMinSideLen];
-    memset(m_roisTex, 0x00, m_viewportMinSideLen * m_viewportMinSideLen);
+    int min = std::min(this->size().height(), this->size().width());
+
+    m_roisTex = new uint8_t[m_roisTexMaxSideLen * m_roisTexMaxSideLen];
+    memset(m_roisTex, 0x00, m_roisTexMaxSideLen * m_roisTexMaxSideLen);
 
     m_imageInFmt = fmt;
 
@@ -109,7 +107,6 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     memset(m_texData, 255, m_width * m_height * CHANNEL_COUNT);
 
     float aspect = float(m_width) / float(m_height);
-    int min = std::min(this->size().height(), this->size().width());
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -143,17 +140,17 @@ void LiveView::createRoiTex() {
     }
 
     //reset texture
-    m_roisTex = new uint8_t[m_viewportMinSideLen * m_viewportMinSideLen];
-    memset(m_roisTex, 0x00, m_viewportMinSideLen * m_viewportMinSideLen);
+    memset(m_roisTex, 0x00, m_roisTexMaxSideLen * m_roisTexMaxSideLen);
+
+    // TODO need to store this as a member var and make sure that it never gets larger than max side len
+    int roisTexActualSideLen = std::min(this->size().height(), this->size().width());
 
     // scale ROI w/h
-    float scalingFactorW = float(m_viewportMinSideLen) / float(m_width);
-    float scalingFactorH = float(m_viewportMinSideLen) / float(m_height);
+    float scalingFactorW = float(roisTexActualSideLen) / float(m_width);
+    float scalingFactorH = float(roisTexActualSideLen) / float(m_height);
     // TODO make sure this works with different pbin/sbin
     auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
     auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
-
-    spdlog::info("DEBUG createRoiTex: {} {} -- {} {}", m_width, m_viewportWidth, m_height, m_viewportHeight);
 
     for (auto roiStart : m_roiOffsets) {
         // scale roi offset
@@ -171,7 +168,7 @@ void LiveView::createRoiTex() {
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_viewportMinSideLen, m_viewportMinSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, roisTexActualSideLen, roisTexActualSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
@@ -182,22 +179,24 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     size_t x, y;
     std::tie(x, y) = offsets;
 
+    uint32_t roisTexActualSideLen = std::min(this->size().height(), this->size().width());
+
     auto from_xy = [&](int32_t x, int32_t y) {
-        return Rois::roiToOffset(x, y, m_viewportMinSideLen);
+        return Rois::roiToOffset(x, y, roisTexActualSideLen);
     };
 
     for (size_t i = 0; i < height; i++) {
         if (i < border || i > height-border-1) {
             // if at top or bottom of ROI, draw one line the full width across
             auto res = from_xy(x, i+y);
-            spdlog::info("DEBUG [1] (x, y): ({}, {})", res % m_viewportMinSideLen, res / m_viewportMinSideLen);
+            spdlog::info("DEBUG [1] (x, y): ({}, {})", res % roisTexActualSideLen, res / roisTexActualSideLen);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
         } else {
             // if in between top/bottom, draw lines for left/right border
             auto res2 = from_xy(x, i+y);
-            // spdlog::info("DEBUG [2] (x, y): ({}, {})", res2 % m_viewportMinSideLen, res2 / m_viewportMinSideLen);
+            // spdlog::info("DEBUG [2] (x, y): ({}, {})", res2 % roisTexActualSideLen, res2 / roisTexActualSideLen);
             auto res3 = from_xy(x + width - border, i+y);
-            // spdlog::info("DEBUG [3] (x, y): ({}, {})", res3 % m_viewportMinSideLen, res3 / m_viewportMinSideLen);
+            // spdlog::info("DEBUG [3] (x, y): ({}, {})", res3 % roisTexActualSideLen, res3 / roisTexActualSideLen);
             memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
             memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
         }
@@ -305,7 +304,7 @@ void LiveView::initializeGL() {
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_viewportMinSideLen, m_viewportMinSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, min, min, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     spdlog::info("initializeGL - width: {}, height: {}", width, height);
 
@@ -486,9 +485,5 @@ void LiveView::paintGL() {
  */
 void LiveView::resizeGL(int w, int h) {
     spdlog::info("resizeGL - width: {}, height: {}", w, h);
-    // TODO delete these two?
-    m_viewportWidth = w;
-    m_viewportHeight = h;
-    m_viewportMinSideLen = std::min(m_viewportWidth, m_viewportHeight);
-    // createRoiTex();
+    createRoiTex();
 }
