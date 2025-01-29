@@ -440,9 +440,6 @@ void LiveView::paintGL() {
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo[m_pboIndex]);
     // copy pixels from PBO to texture object
     // Use offset instead of pointer.
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-
     f->glActiveTexture(GL_TEXTURE0);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[0]);
     f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_RED, GL_UNSIGNED_SHORT, 0);
@@ -462,8 +459,10 @@ void LiveView::paintGL() {
 
     // unbind buffer
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
+    if (m_displayRois) {
+        f->glActiveTexture(GL_TEXTURE1);
+        f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
+    }
 
     // bind the vao
     fx->glBindVertexArray(m_vao);
