@@ -76,13 +76,13 @@ class LiveView : public QOpenGLWidget {
         void SetImageFormat(ImageFormat fmt);
         void SetLevel(int level) { m_level = level; };
         void UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
+        void UpdateDisplayRois(bool display);
 
         //QT Overrides
         void initializeGL();
         void paintGL();
         void resizeGL(int w, int h);
 
-        bool m_displayRois;
 
     private:
         uint8_t* m_imageData{nullptr};
@@ -97,6 +97,7 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_totalPx{0};
         int m_level{4095};
 
+        bool m_displayRois;
         uint8_t* m_roisTex{nullptr};
         uint32_t m_roisTexCurrentSideLen{ROIS_TEX_MAX_SIDE_LEN};
 

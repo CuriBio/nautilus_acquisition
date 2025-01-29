@@ -136,6 +136,11 @@ void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uin
     createRoiTex();
 }
 
+void LiveView::UpdateRois(bool display) {
+    m_displayRois = display;
+    createRoiTex();
+}
+
 void LiveView::createRoiTex() {
     if (m_roiOffsets.size() == 0) {
         return;

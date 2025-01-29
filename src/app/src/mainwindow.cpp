@@ -1146,7 +1146,7 @@ void MainWindow::updateDisplayRoisDuringLiveView(bool enable) {
     spdlog::info("display rois during live view updated: {}", enable);
 
     m_config->displayRoisDuringLiveView = enable;
-    m_liveView->m_displayRois = enable;
+    m_liveView->UpdateDisplayRois(enable);
 }
 
 bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
