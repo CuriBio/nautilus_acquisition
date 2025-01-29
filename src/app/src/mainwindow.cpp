@@ -1501,14 +1501,12 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
-            spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
-            return;
-            //TODO fix this to use enum values
-        } else if (m_expSettings.storageType != 0 && m_expSettings.storageType != 2) { //single tiff file storage, raw file
-            spdlog::warn("Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
-            return;
-        } else if (m_config->autoTile) {
+        if (m_config->autoTile) {
+            if (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size()) {
+                spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+                return;
+            }
+
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
@@ -1548,7 +1546,6 @@ void MainWindow::postProcess() {
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
                 rawDownsampled,
-                m_expSettings.storageType,
                 m_config->binFactor
             );
 

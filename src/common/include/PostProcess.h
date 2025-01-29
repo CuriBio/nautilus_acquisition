@@ -149,7 +149,6 @@ namespace PostProcess {
         std::function<void(size_t n)> progressCB,
         std::shared_ptr<RawFile<6>> r,
         std::shared_ptr<RawFile<6>> r2,
-        StorageType storageType,
         uint8_t binFactor)
     {
         ThreadPool p(static_cast<concurrency_t>(rows*cols));
@@ -180,20 +179,8 @@ namespace PostProcess {
 
                     auto tileIdx = tileMap[curr];
                     size_t blockStartIdx = blockStart(cols, row, col, width, height, bytesPerPixel);
-                    switch (storageType) {
-                        case StorageType::Tiff:
-                            {
-                                std::string f = fmt::format("{}_{}_{:#04}.tiff", prefix, tileIdx+1, fr);
-                                // p.AddTask(CopyTask, (indir / f).string(), frameData+blockStartIdx, width, height, cols, vflip, hflip);
-                            }
-                            break;
-                        case StorageType::Raw:
-                            {
-                                std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileIdx+1, fr);
-                                p.AddTask(CopyRawTask, (indir / f).string(), frameData+blockStartIdx, width, height, cols, bytesPerPixel, vflip, hflip);
-                            }
-                            break;
-                    };
+                    std::string f = fmt::format("{}_{}_{:#04}.raw", prefix, tileIdx+1, fr);
+                    p.AddTask(CopyRawTask, (indir / f).string(), frameData+blockStartIdx, width, height, cols, bytesPerPixel, vflip, hflip);
                 }
             }
             p.WaitForAll();

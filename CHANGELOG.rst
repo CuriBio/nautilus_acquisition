@@ -4,6 +4,10 @@ Changelog for Nautilai
 0.2.5 (unreleased)
 ------------------
 
+Added:
+^^^^^^
+- 8-bit imaging (high speed mode) support
+
 Fixed:
 ^^^^^^
 - More improvements to acquisition size estimate in drive space check
