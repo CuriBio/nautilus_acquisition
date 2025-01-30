@@ -55,6 +55,7 @@ layout (binding = 0) uniform R {
     vec2 iScreen;
     vec2 iLevels;
     vec2 iAuto;
+    bool iDisplayRois;
 };
 
 uniform sampler2D u_image;
@@ -70,7 +71,8 @@ void main() {
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
-    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
+    // TODO texCoord
+    float px = clamp(iAuto.x * (texture(u_image, uv).r - iAuto.y), 0.0f, 1.0f);
     vec4 texColor = vec4(px, px, px, 1.0);
 
     if (px < iLevels.x) {
@@ -79,7 +81,12 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
+    if (iDisplayRois) {
+        // TODO texCoord
+        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, uv).r));
+    } else {
+        fragColor = texColor;
+    }
 })";
 
 /*
@@ -104,7 +111,7 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 
     m_roisTex = new uint8_t[ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN];
     memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
-    m_displayRois = displayRois;
+    m_shader_uniforms.displayRois = displayRois;
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -133,8 +140,8 @@ void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uin
 }
 
 void LiveView::UpdateDisplayRois(bool display) {
-    m_displayRois = display;
-    createRoiTex();
+    m_shader_uniforms.displayRois = display;
+    this->update();
 }
 
 void LiveView::createRoiTex() {
@@ -145,33 +152,31 @@ void LiveView::createRoiTex() {
     //reset texture
     memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
 
-    if (m_displayRois) {
-        uint32_t minActualSideLen = std::min(this->size().height(), this->size().width());
-        m_roisTexCurrentSideLen = std::min(ROIS_TEX_MAX_SIDE_LEN, minActualSideLen);
+    uint32_t minActualSideLen = std::min(this->size().height(), this->size().width());
+    m_roisTexCurrentSideLen = std::min(ROIS_TEX_MAX_SIDE_LEN, minActualSideLen);
 
-        // scale ROI w/h
-        float scalingFactorW = float(m_roisTexCurrentSideLen) / float(m_width);
-        float scalingFactorH = float(m_roisTexCurrentSideLen) / float(m_height);
-        auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
-        auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
+    // scale ROI w/h
+    float scalingFactorW = float(m_roisTexCurrentSideLen) / float(m_width);
+    float scalingFactorH = float(m_roisTexCurrentSideLen) / float(m_height);
+    auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
+    auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
 
-        for (auto roiStart : m_roiOffsets) {
-            // scale roi offset
-            std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
-                static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
-                static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
-            );
-            drawROI(scaledOffset, scaledW, scaledH, 3);
-        }
-
-        QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-        f->glActiveTexture(GL_TEXTURE1);
-        f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    for (auto roiStart : m_roiOffsets) {
+        // scale roi offset
+        std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
+            static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
+            static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
+        );
+        drawROI(scaledOffset, scaledW, scaledH, 3);
     }
+
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    f->glActiveTexture(GL_TEXTURE1);
+    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
@@ -459,10 +464,8 @@ void LiveView::paintGL() {
 
     // unbind buffer
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-    if (m_displayRois) {
-        f->glActiveTexture(GL_TEXTURE1);
-        f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-    }
+    f->glActiveTexture(GL_TEXTURE1);
+    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
 
     // bind the vao
     fx->glBindVertexArray(m_vao);

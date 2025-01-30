@@ -56,6 +56,7 @@ struct ShaderUniforms {
     float screen[2];
     float levels[2];
     float autoCon[2];
+    bool displayRois;
 };
 
 /*
@@ -97,7 +98,6 @@ class LiveView : public QOpenGLWidget {
         uint32_t m_totalPx{0};
         int m_level{4095};
 
-        bool m_displayRois;
         uint8_t* m_roisTex{nullptr};
         uint32_t m_roisTexCurrentSideLen{ROIS_TEX_MAX_SIDE_LEN};
 
@@ -114,6 +114,7 @@ class LiveView : public QOpenGLWidget {
             .screen = {0.0f},
             .levels = {0.0f, 1.0f},
             .autoCon = {0.0f},
+            .displayRois = false,
         };
 
         GLuint m_vao, m_vbo, m_ibo;
