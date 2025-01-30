@@ -73,17 +73,24 @@ void Settings::show() {
  * Sets the output directory path.
  */
 void Settings::on_dirChoiceBtn_clicked() {
-    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", "E:\\");
-    QString prefix = "E:";
+    std::string disk_name = m_config->disk_name;
+    auto dir = QFileDialog::getExistingDirectory(this, "Select output directory", QString::fromStdString(disk_name));
+    std::string dir_std = dir.toStdString();
 
-    if (!dir.startsWith(prefix)) {
-        spdlog::error("Must use output directory on E:\\ drive, selected {}", dir.toStdString());
-        QMessageBox messageBox;
-        messageBox.critical(0, "Error", "Must select output directory on E:\\ drive");
-        messageBox.setFixedSize(500,200);
-    } else {
-        spdlog::info("Selected dir: {}", dir.toStdString());
+    std::string expected_prefix = disk_name;
+    std::string::size_type pos = expected_prefix.find(':');
+    if (pos != std::string::npos){
+        expected_prefix = expected_prefix.substr(0, pos + 1);
+    }
+
+    if (dir_std.starts_with(expected_prefix)) {
+        spdlog::info("Selected dir: {}", dir_std);
         ui.dirChoice->setPlainText(dir);
+    } else {
+        spdlog::error("Must use output directory on {} drive, selected {}", disk_name, dir_std);
+        QMessageBox messageBox;
+        messageBox.critical(0, "Error", QString::fromStdString(std::format("Must select output directory on {} drive", disk_name)));
+        messageBox.setFixedSize(500,200);
     }
 }
 

@@ -434,6 +434,43 @@ void MainWindow::Initialize() {
         return;
     }
 
+    // Hard drive serial num check
+    std::string vol_name = m_config->disk_name;
+    spdlog::info("Verifying serial number of {} drive", vol_name);
+    DWORD hd_serial_num_dword;
+    auto res = GetVolumeInformationA((char const*) vol_name.c_str(), NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
+    if (res == 0) {
+        spdlog::error("Error retrieving {} drive serial number: {}", vol_name, GetLastError());
+        emit sig_show_error(std::format("{} drive validation failed, please contact Curi Bio for support", vol_name));
+        return;
+    } else {
+        // format hd serial num
+        std::string actual_hd_serial_num = std::format("{:x}", hd_serial_num_dword);
+        std::transform(actual_hd_serial_num.begin(), actual_hd_serial_num.end(), actual_hd_serial_num.begin(), ::toupper);
+        spdlog::info("Found {} drive serial number: '{}'", vol_name, actual_hd_serial_num);
+
+        // verify the hard drive has the expected serial num if a serial num is present in the config.
+        // the value in the cnfig will be an uppercase hex num that may contain a '-' char
+        std::string expected_hd_serial_num = m_config->hd_serial_num;
+        if (expected_hd_serial_num.empty()) {
+            spdlog::info("No hard drive serial number set in config, updating with serial number set on the drive");
+            auto file = toml::parse(m_config->machineVarsFilePath.string());
+            file["disk"]["hd_serial_num"] = actual_hd_serial_num;
+            std::ofstream outf(m_config->machineVarsFilePath.string());
+            outf << std::setw(0) << file << std::endl;
+            outf.close();
+        } else {
+            // remove any '-' chars to compare with actual serial num
+            std::erase(expected_hd_serial_num, '-');
+            spdlog::info("Expected {} drive serial number set in config ('-' chars removed): '{}'", vol_name, expected_hd_serial_num);
+            if (actual_hd_serial_num != expected_hd_serial_num) {
+                spdlog::info("Incorrect {} drive serial number", vol_name);
+                emit sig_show_error(std::format("{} drive validation failed, please contact Curi Bio for support", vol_name));
+                return;
+            }
+        }
+    }
+
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
 
@@ -1375,12 +1412,13 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         }
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
-        if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
+        std::wstring w_disk_name = std::wstring(m_config->disk_name.begin(), m_config->disk_name.end());
+        if (!GetDiskFreeSpaceEx((const wchar_t*) w_disk_name.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             if (log) {
                 spdlog::error("Default drive could not be found");
             }
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->disk_name)));
             return false;
         }
 
@@ -1390,7 +1428,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             if (log) {
                 spdlog::info(
                     "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
-                    m_config->path.string(),
+                    m_config->disk_name,
                     lpTotalNumberOfFreeBytes.QuadPart,
                     totalAcquisitionBytesEstimate,
                     finalAcquisitionBytesEstimate
@@ -1404,7 +1442,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         if (log) {
             spdlog::error(
                 "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
-                m_config->path.string(),
+                m_config->disk_name,
                 lpTotalNumberOfFreeBytes.QuadPart,
                 totalAcquisitionBytesEstimate
             );
@@ -1413,7 +1451,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         ui.frameRateEdit->setToolTip("Not enough space in drive for these acquisition settings");
         ui.durationEdit->setStyleSheet("border: 2px solid red");
         ui.durationEdit->setToolTip("Not enough space in drive for these acquisition settings");
-        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->disk_name)));
         return false;
     } else {
         ui.startAcquisitionBtn->setToolTip("Camera not found.");

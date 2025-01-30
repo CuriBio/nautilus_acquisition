@@ -17,11 +17,12 @@ std::filesystem::path enableLongPath(std::filesystem::path path);
 
 class Config {
     public:
+        std::filesystem::path path;
+
         //nautilai options
         std::string prefix;
         bool noAutoConBright;
         std::filesystem::path userProfile;
-        std::filesystem::path path;
         std::filesystem::path backgroundRecordingDir;
         std::filesystem::path plateFormat;
         std::filesystem::path extAnalysis;
@@ -91,6 +92,10 @@ class Config {
         double dyCal;
         double theta;
         double scalingFactor;
+
+        //disk
+        std::string disk_name;
+        std::string hd_serial_num;
 
         //debug
         std::string testImgPath;

@@ -7,6 +7,16 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - 8-bit imaging (high speed mode) support
+- Verification of drive serial number on start up. Uses new `disk.hd_serial_num` field in machine.toml as the
+  expected value
+
+Changed:
+^^^^^^^^
+- Moved `outdir` from nautilai.toml to `disk.name` in machine.toml
+
+Fixed:
+^^^^^^
+- Some drive checks always using `E:` as the drive name instead of the value set in the config file
 
 
 0.2.5 (2025-01-29)
