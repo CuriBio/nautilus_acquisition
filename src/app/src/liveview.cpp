@@ -56,7 +56,7 @@ layout (binding = 0) uniform R {
     vec2 iLevels;
     vec2 iAuto;
     // Tanner (1/30/25): there is an issue with this value changing unexpectedly at high frames when using a bool.
-    // Current suspicion is that this is an issue with how openGL is laying out the memory and that combined with openGL
+    // Current suspicion is that this is an issue with how openGL is laying out the memory combined with openGL
     // treating any non-zero value as true. To be extra safe, storing the value as an int and use the lsb as the "bool"
     uint iDisplayRois;
 };
