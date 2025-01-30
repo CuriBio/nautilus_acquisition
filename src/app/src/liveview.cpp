@@ -71,8 +71,7 @@ void main() {
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
-    // TODO texCoord
-    float px = clamp(iAuto.x * (texture(u_image, uv).r - iAuto.y), 0.0f, 1.0f);
+    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
     vec4 texColor = vec4(px, px, px, 1.0);
 
     if (px < iLevels.x) {
@@ -82,8 +81,7 @@ void main() {
     }
 
     if (iDisplayRois) {
-        // TODO texCoord
-        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, uv).r));
+        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
     } else {
         fragColor = texColor;
     }
