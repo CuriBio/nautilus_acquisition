@@ -418,6 +418,9 @@ bool pm::Camera<F>::SetupExp(ExpSettings& settings) {
     }
     spdlog::info("Bitdepth set to {}", ctx->bitDepth);
 
+    ctx->effectiveBitDepth = ctx->bitDepth > 8 ? 16 : 8;
+    spdlog::info("Effective bitdepth set to {}", ctx->effectiveBitDepth);
+
     if (PV_OK != pl_get_param_if_exists(ctx->hcam, PARAM_IMAGE_FORMAT, ATTR_CURRENT, (void*)&ctx->info.imageFormat)) {
         spdlog::error("Failed to get IMAGE_FORMAT, ({})", GetError());
     }

@@ -76,25 +76,15 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
         int storage_type = toml::find<int>(config, "acquisition", "storage_type");
         if (userargs.count("storage_type")) { storage_type = userargs["storage_type"].as<int>(); }
 
-
-        switch (storage_type) {
-            case 0:
-                storageType = StorageType::Tiff;
-                storageTypeName = "tiff";
-                break;
-            case 1:
-                storageType = StorageType::BigTiff;
-                storageTypeName = "big tiff";
-                break;
-            case 2:
-                spdlog::info("Storage type: {}", "raw");
-                storageType = StorageType::Raw;
-                storageTypeName = "raw";
-                break;
-            default:
-                spdlog::error("Invalid storage type");
-                if (!ignoreErrors) { exit(0); }
+        if (storage_type != 2) {
+            spdlog::error("Invalid storage type");
+            exit(0);
         }
+
+        spdlog::info("Storage type: {}", "raw");
+        storageType = StorageType::Raw;
+        storageTypeName = "raw";
+
 
         autoTile = toml::find<bool>(config, "acquisition", "auto_tile");
         encodeVideo = toml::find<bool>(config, "acquisition", "encode_video");

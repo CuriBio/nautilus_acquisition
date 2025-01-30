@@ -1,7 +1,15 @@
 Changelog for Nautilai
 ======================
 
-0.2.5 (unreleased)
+0.3.0 (unreleased)
+------------------
+
+Added:
+^^^^^^
+- 8-bit imaging (high speed mode) support
+
+
+0.2.5 (2025-01-29)
 ------------------
 
 Added:
