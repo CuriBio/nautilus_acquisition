@@ -35,27 +35,37 @@
 
 namespace processing {
     template<size_t XW, size_t YW>
-    double roiAvg(Rois::RoiCfg* roi, uint16_t* data, size_t x, size_t y, size_t width) noexcept {
+    double roiAvg(Rois::RoiCfg* roi, uint8_t* data, size_t x, size_t y, size_t width, uint8_t bitDepth) noexcept {
         double out = 0.0;
+        uint8_t bytesPerPixel = bitDepth / 8;
 
-        uint16_t* dataStart = data + Rois::roiToOffset(x, y, width);
+        uint8_t* dataStart = data + Rois::roiToOffset(x, y, width) * bytesPerPixel;
 
         for (size_t j = 0; j < YW; j++) {
             for (size_t i = 0; i < XW; i++) {
-                out += dataStart[i + j * width];
+                if (bytesPerPixel == 1) {
+                    out += dataStart[i + j * width];
+                } else {
+                    out += ((uint16_t*)dataStart)[i + j * width];
+                }
             }
         }
         return out / double((XW * YW));
     }
 
-    double roiAvgGeneric(Rois::RoiCfg* roi, uint16_t* data, size_t x, size_t y, size_t width) noexcept {
+    double roiAvgGeneric(Rois::RoiCfg* roi, uint8_t* data, size_t x, size_t y, size_t width, uint8_t bitDepth) noexcept {
         double out = 0.0;
+        uint8_t bytesPerPixel = bitDepth / 8;
 
-        uint16_t* dataStart = data + Rois::roiToOffset(x, y, width);
+        uint8_t* dataStart = data + Rois::roiToOffset(x, y, width) * bytesPerPixel;
 
         for (size_t j = 0; j < roi->height / roi->scale; j++) {
             for (size_t i = 0; i < roi->width / roi->scale; i++) {
-                out += dataStart[i + j * width];
+                if (bytesPerPixel == 1) {
+                    out += dataStart[i + j * width];
+                } else {
+                    out += ((uint16_t*)dataStart)[i + j * width];
+                }
             }
         }
         return out / double(((roi->width / roi->scale) * (roi->height / roi->scale)));

@@ -124,7 +124,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
-    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, ImageFormat::Mono16, m_config->displayRoisDuringLiveView);
+    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, m_config->displayRoisDuringLiveView);
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
@@ -255,10 +255,18 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
      */
     connect(this, &MainWindow::sig_start_encoding, this, [&] {
         std::string cropFilter = Rois::getFFmpegCropFilter(&m_roiCfg, m_width, m_height);
+        std::string pixFmt = "gray12le";
+
+        if (m_camera->ctx->bitDepth == 16) {
+            pixFmt = "gray16le";
+        } else if (m_camera->ctx->bitDepth == 8) {
+            pixFmt = "gray";
+        }
 
         //run external video encoder command
-        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt gray12le -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
+        std::string encodingCmd = fmt::format("\"{}\" -f rawvideo -pix_fmt {} -r {} -s:v {}:{} -i {} -filter_complex \"{}\" -q:v {} {}",
                         m_config->ffmpegDir.string(),
+                        pixFmt,
                         std::to_string(m_config->fps),
                         std::to_string(m_width * m_config->cols),
                         std::to_string(m_height * m_config->rows),
@@ -427,8 +435,51 @@ void MainWindow::Initialize() {
         return;
     }
 
+    // Hard drive serial num check
+    std::string vol_name = m_config->disk_name;
+    spdlog::info("Verifying serial number of {} drive", vol_name);
+    DWORD hd_serial_num_dword;
+    auto res = GetVolumeInformationA((char const*) vol_name.c_str(), NULL, NULL, &hd_serial_num_dword, NULL, NULL, NULL, NULL);
+    if (res == 0) {
+        spdlog::error("Error retrieving {} drive serial number: {}", vol_name, GetLastError());
+        emit sig_show_error(std::format("{} drive validation failed, please contact Curi Bio for support", vol_name));
+        return;
+    } else {
+        // format hd serial num
+        std::string actual_hd_serial_num = std::format("{:x}", hd_serial_num_dword);
+        std::transform(actual_hd_serial_num.begin(), actual_hd_serial_num.end(), actual_hd_serial_num.begin(), ::toupper);
+        spdlog::info("Found {} drive serial number: '{}'", vol_name, actual_hd_serial_num);
+
+        // verify the hard drive has the expected serial num if a serial num is present in the config.
+        // the value in the cnfig will be an uppercase hex num that may contain a '-' char
+        std::string expected_hd_serial_num = m_config->hd_serial_num;
+        if (expected_hd_serial_num.empty()) {
+            spdlog::info("No hard drive serial number set in config, updating with serial number set on the drive");
+            auto file = toml::parse(m_config->machineVarsFilePath.string());
+            file["disk"]["hd_serial_num"] = actual_hd_serial_num;
+            std::ofstream outf(m_config->machineVarsFilePath.string());
+            outf << std::setw(0) << file << std::endl;
+            outf.close();
+        } else {
+            // remove any '-' chars to compare with actual serial num
+            std::erase(expected_hd_serial_num, '-');
+            spdlog::info("Expected {} drive serial number set in config ('-' chars removed): '{}'", vol_name, expected_hd_serial_num);
+            if (actual_hd_serial_num != expected_hd_serial_num) {
+                spdlog::info("Incorrect {} drive serial number", vol_name);
+                emit sig_show_error(std::format("{} drive validation failed, please contact Curi Bio for support", vol_name));
+                return;
+            }
+        }
+    }
+
     m_camInfo = m_camera->GetInfo();
     m_camera->SetupExp(m_expSettings);
+
+    m_liveView->SetBitDepth(m_camera->ctx->bitDepth);
+
+    uint32_t levelSliderMax = (((uint32_t)1) << m_camera->ctx->bitDepth) - 1;
+    ui.levelsSlider->setRange(0, levelSliderMax);
+    ui.levelsSlider->setValue(levelSliderMax);
 
     if (!m_db->initDB()) {
         emit sig_show_error("Error initializing plate ID database");
@@ -1368,12 +1419,13 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         }
 
         ULARGE_INTEGER  lpTotalNumberOfFreeBytes = {0};
-        if (!GetDiskFreeSpaceEx(m_config->path.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
+        std::wstring w_disk_name = std::wstring(m_config->disk_name.begin(), m_config->disk_name.end());
+        if (!GetDiskFreeSpaceEx((const wchar_t*) w_disk_name.c_str(), nullptr, nullptr, &lpTotalNumberOfFreeBytes)) {
             //default drive could not be found
             if (log) {
                 spdlog::error("Default drive could not be found");
             }
-            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->path.string())));
+            ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Drive {} not found", m_config->disk_name)));
             return false;
         }
 
@@ -1383,7 +1435,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
             if (log) {
                 spdlog::info(
                     "Drive {} has: {} bytes free for acquisition, current acquisition settings will require ~{} bytes while processing and ~{} bytes after completion",
-                    m_config->path.string(),
+                    m_config->disk_name,
                     lpTotalNumberOfFreeBytes.QuadPart,
                     totalAcquisitionBytesEstimate,
                     finalAcquisitionBytesEstimate
@@ -1397,7 +1449,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         if (log) {
             spdlog::error(
                 "Not enough space for acquisition. Drive {} has: {} bytes free for acquisition, current acquisition settings require ~{} bytes",
-                m_config->path.string(),
+                m_config->disk_name,
                 lpTotalNumberOfFreeBytes.QuadPart,
                 totalAcquisitionBytesEstimate
             );
@@ -1406,7 +1458,7 @@ bool MainWindow::availableDriveSpace(StartAcqCheckLogOpts opts) {
         ui.frameRateEdit->setToolTip("Not enough space in drive for these acquisition settings");
         ui.durationEdit->setStyleSheet("border: 2px solid red");
         ui.durationEdit->setToolTip("Not enough space in drive for these acquisition settings");
-        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->path.string())));
+        ui.startAcquisitionBtn->setToolTip(QString::fromStdString(fmt::format("Not enough space in drive {}", m_config->disk_name)));
         return false;
     } else {
         ui.startAcquisitionBtn->setToolTip("Camera not found.");
@@ -1449,10 +1501,11 @@ void MainWindow::updateLiveView() noexcept {
         pm::Frame* frame = m_acquisition->GetLatestFrame();
 
         if (frame != nullptr) {
-            uint16_t* data = static_cast<uint16_t*>(frame->GetData());
+            uint8_t bytes_per_pixel = m_camera->ctx->effectiveBitDepth / 8;
+            uint8_t* data = static_cast<uint8_t*>(frame->GetData());
 
             //Calculate histogram
-            m_taskFrameStats->Setup(data, m_hist, m_width, m_height);
+            m_taskFrameStats->Setup(data, m_hist, m_width, m_height, bytes_per_pixel);
             m_parTask.Start(m_taskFrameStats);
             m_taskFrameStats->Results(m_min, m_max, m_hmax);
 
@@ -1460,8 +1513,10 @@ void MainWindow::updateLiveView() noexcept {
             float autoMin = 0.0f;
 
             if (!m_config->noAutoConBright) {
-                autoMin = static_cast<float>(m_min / 65535.0f);
-                scale = (m_min == m_max) ? 1.0 : 1.0 / ((m_max - m_min) / 65535.0);
+                float maxPixelIntensity = float((((uint32_t)1) << m_camera->ctx->effectiveBitDepth) - 1);
+
+                autoMin = static_cast<float>(m_min / maxPixelIntensity);
+                scale = (m_min == m_max) ? 1.0 : 1.0 / ((m_max - m_min) / maxPixelIntensity);
             }
 
             m_liveView->UpdateImage(data, scale, autoMin);
@@ -1491,19 +1546,17 @@ void MainWindow::postProcess() {
 
         uint16_t rowsxcols = m_config->rows * m_config->cols;
 
-        if (m_config->autoTile && (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size())) {
-            spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
-            return;
-            //TODO fix this to use enum values
-        } else if (m_expSettings.storageType != 0 && m_expSettings.storageType != 2) { //single tiff file storage, raw file
-            spdlog::warn("Auto tile enabled but storage type ({}) is not single image tiff files, skipping", m_expSettings.storageType);
-            return;
-        } else if (m_config->autoTile) {
+        if (m_config->autoTile) {
+            if (rowsxcols != stagePos.size() || rowsxcols != m_config->tileMap.size()) {
+                spdlog::warn("Auto tile enabled but acquisition count {} does not match rows * cols {}, skipping", stagePos.size(), rowsxcols);
+                return;
+            }
+
             spdlog::info("Autotile: {}, rows: {}, cols: {}, frames: {}, positions: {}", m_config->autoTile, m_config->rows, m_config->cols, m_expSettings.frameCount, stagePos.size());
 
             std::shared_ptr<RawFile<6>> raw = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFile),
-                    16,
+                    m_camera->ctx->effectiveBitDepth,
                     m_config->cols * m_width,
                     m_config->rows * m_height
                 );
@@ -1513,7 +1566,7 @@ void MainWindow::postProcess() {
             if (m_config->enableDownsampleRawFiles) {
                 rawDownsampled = std::make_shared<RawFile<6>>(
                     (m_expSettings.acquisitionDir / rawFileDownsampled),
-                    16,
+                    m_camera->ctx->effectiveBitDepth,
                     m_config->cols * (m_width / m_config->binFactor),
                     m_config->rows * (m_height / m_config->binFactor)
                 );
@@ -1531,13 +1584,13 @@ void MainWindow::postProcess() {
                 tileEnabled,
                 m_width,
                 m_height,
+                m_camera->ctx->effectiveBitDepth,
                 m_config->vflip,
                 m_config->hflip,
                 !m_config->noAutoConBright,
                 [&](size_t n) { emit sig_progress_update(n); },
                 raw,
                 rawDownsampled,
-                m_expSettings.storageType,
                 m_config->binFactor
             );
 
@@ -1703,7 +1756,7 @@ void MainWindow::backgroundRecordingThread(MainWindow* cls) {
                     size_t x, y;
                     std::tie(x, y) = rois[c + r*cls->m_roiCfg.cols];
 
-                    double avg = roiFn(&cls->m_roiCfg, (uint16_t*)(frame->GetData()), x, y, frameCtx->width);
+                    double avg = roiFn(&cls->m_roiCfg, (uint8_t*)(frame->GetData()), x, y, frameCtx->width, frameCtx->bitDepth);
                     wellAvgs[intensityIdx][idx].push_back(avg);
                 }
             }

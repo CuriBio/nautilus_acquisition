@@ -16,7 +16,6 @@ On first run the application will create a new config file at `C:\Users\<your us
 [nautilai]
 prefix = "default_"
 auto_contrast_brightness = true
-outdir = "E:\\"
 
 [device.nidaqmx]
 device = "Dev2"

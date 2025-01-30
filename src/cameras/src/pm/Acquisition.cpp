@@ -273,7 +273,7 @@ void pm::Acquisition<F, C>::frameProcessingThread() noexcept {
                             .width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin,
                             .height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin,
                             .index = m_frameIndex,
-                            .bitDepth = 16, //TODO support other bitdepths
+                            .bitDepth = m_camera->ctx->effectiveBitDepth,
                             .path = (m_camera->ctx->curExp->acquisitionDir / "data" / fmt::format("{}{:04}.raw", m_camera->ctx->curExp->filePrefix, m_frameIndex)),
                         };
 
@@ -315,7 +315,7 @@ void pm::Acquisition<F, C>::frameProcessingThread() noexcept {
                         .width = (m_camera->ctx->curExp->region.s2 - m_camera->ctx->curExp->region.s1 + 1) / m_camera->ctx->curExp->region.sbin,
                         .height = (m_camera->ctx->curExp->region.p2 - m_camera->ctx->curExp->region.p1 + 1) / m_camera->ctx->curExp->region.pbin,
                         .index = m_frameIndex,
-                        .bitDepth = 16, //TODO support other bitdepths
+                        .bitDepth = m_camera->ctx->effectiveBitDepth,
                         .path = (m_camera->ctx->curExp->acquisitionDir / "data" / fmt::format("{}{:04}.raw", m_camera->ctx->curExp->filePrefix, m_frameIndex)),
                     };
 

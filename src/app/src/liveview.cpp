@@ -92,11 +92,9 @@ void main() {
  *
  * @param parent QWidget pointer to parent widget.
  */
-LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, ImageFormat fmt, bool displayRois) : QOpenGLWidget(parent) {
+LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, bool displayRois) : QOpenGLWidget(parent) {
     m_width = width;
     m_height = height;
-
-    m_imageInFmt = fmt;
 
     m_vflip = vflip;
     m_hflip = hflip;
@@ -113,13 +111,12 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
-        m_backgroundImage[i] = 0x6000;
+        m_backgroundImage[i] = 0x6060;
     }
 
     m_shader_uniforms.resolution[0] = m_width;
     m_shader_uniforms.resolution[1] = m_height;
 
-    SetImageFormat(m_imageInFmt);
     setAutoFillBackground(false);
 }
 
@@ -201,6 +198,15 @@ void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t 
     }
 }
 
+void LiveView::SetBitDepth(uint16_t bitDepth) {
+    m_bitDepth = bitDepth;
+    m_maxPixelIntensity = float((((uint32_t)1) << m_bitDepth) - 1);
+    m_bytesPerPixel = m_bitDepth > 8 ? 2 : 1;
+    m_internalformat = m_bitDepth > 8 ? GL_R16 : GL_R8;
+    m_type = m_bitDepth > 8 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
+    SetImageFormat(m_bitDepth > 8 ? ImageFormat::Mono16 : ImageFormat::Mono8);
+};
+
 /*
  * @breif Set live view image format.
  *
@@ -248,7 +254,7 @@ void LiveView::Clear() {
  *
  * @param data The raw pixel data to display.
  */
-void LiveView::UpdateImage(uint16_t* data, float scale, float min) {
+void LiveView::UpdateImage(uint8_t* data, float scale, float min) {
     std::unique_lock<std::mutex> lock(m_lock);
     m_shader_uniforms.resolution[0] = m_width;
     m_shader_uniforms.resolution[1] = m_height;
@@ -257,12 +263,12 @@ void LiveView::UpdateImage(uint16_t* data, float scale, float min) {
     m_shader_uniforms.screen[1] = float(this->size().height());
 
     m_shader_uniforms.levels[0] = 0.0f;
-    m_shader_uniforms.levels[1] = float(m_level) / 4095.0f; //TODO Assumes 12-bit images, will need changed to support 8-bit/16-bit images
+    m_shader_uniforms.levels[1] = float(m_level) / m_maxPixelIntensity;
 
     m_shader_uniforms.autoCon[0] = scale;
     m_shader_uniforms.autoCon[1] = min;
 
-    m_imageData = (uint8_t*)(data);
+    m_imageData = data;
     this->update();
 }
 
@@ -297,7 +303,7 @@ void LiveView::initializeGL() {
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     f->glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R16, m_width, m_height, 0, GL_RED, GL_UNSIGNED_SHORT, (GLvoid*)0);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, m_internalformat, m_width, m_height, 0, GL_RED, m_type, (GLvoid*)0);
 
     f->glActiveTexture(GL_TEXTURE1);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
@@ -424,10 +430,8 @@ void LiveView::paintGL() {
     m_shader_uniforms.screen[0] = float(this->size().width());
     m_shader_uniforms.screen[1] = float(this->size().height());
 
-
-    //TODO Assumes 12-bit images, will need changed to support 8-bit/16-bit images
-    m_shader_uniforms.levels[0] = 1.0f / 4095.0f;
-    m_shader_uniforms.levels[1] = float(m_level) / 4095.0f;
+    m_shader_uniforms.levels[0] = 1.0f / m_maxPixelIntensity;
+    m_shader_uniforms.levels[1] = float(m_level) / m_maxPixelIntensity;
 
     if (!m_imageData) {
         m_shader_uniforms.levels[1] = 1.0f;
@@ -445,17 +449,17 @@ void LiveView::paintGL() {
     // Use offset instead of pointer.
     f->glActiveTexture(GL_TEXTURE0);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[0]);
-    f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_RED, GL_UNSIGNED_SHORT, 0);
+    f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_RED, m_type, 0);
 
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo[1 - m_pboIndex]);
-    f->glBufferData(GL_PIXEL_UNPACK_BUFFER, m_width*m_height*CHANNEL_COUNT, 0, GL_STREAM_DRAW);
-    GLubyte* ptr = (GLubyte*)fx->glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, m_width*m_height*CHANNEL_COUNT, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+    f->glBufferData(GL_PIXEL_UNPACK_BUFFER, m_width*m_height*m_bytesPerPixel, 0, GL_STREAM_DRAW);
+    GLubyte* ptr = (GLubyte*)fx->glMapBufferRange(GL_PIXEL_UNPACK_BUFFER, 0, m_width*m_height* m_bytesPerPixel, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
     if(ptr) {
         if (m_imageData) {
-            memcpy(ptr, m_imageData, m_width*m_height*CHANNEL_COUNT);
+            memcpy(ptr, m_imageData, m_width*m_height*m_bytesPerPixel);
         } else {
-            memcpy(ptr, (uint8_t*)m_backgroundImage, m_width*m_height*CHANNEL_COUNT);
+            memcpy(ptr, (uint8_t*)m_backgroundImage, m_width*m_height*m_bytesPerPixel);
         }
         fx->glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);  // release pointer to mapping buffer
     }
