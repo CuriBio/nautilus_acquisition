@@ -7,13 +7,6 @@ Changelog for Nautilai
 Added:
 ^^^^^^
 - 8-bit imaging (high speed mode) support
-
-
-0.2.5 (2025-01-29)
-------------------
-
-Added:
-^^^^^^
 - Verification of drive serial number on start up. Uses new `disk.hd_serial_num` field in machine.toml as the
   expected value
 
@@ -23,8 +16,15 @@ Changed:
 
 Fixed:
 ^^^^^^
-- More improvements to acquisition size estimate in drive space check
 - Some drive checks always using `E:` as the drive name instead of the value set in the config file
+
+
+0.2.5 (2025-01-29)
+------------------
+
+Fixed:
+^^^^^^
+- More improvements to acquisition size estimate in drive space check
 
 
 0.2.4 (2024-11-14)
