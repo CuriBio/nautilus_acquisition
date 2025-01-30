@@ -56,7 +56,7 @@ struct ShaderUniforms {
     float screen[2];
     float levels[2];
     float autoCon[2];
-    bool displayRois;
+    uint32_t displayRois; // issues using bool with high frame rates
 };
 
 /*
@@ -113,11 +113,11 @@ class LiveView : public QOpenGLWidget {
         QImage::Format m_imageOutFmt;
 
         ShaderUniforms m_shader_uniforms = {
-            .resolution = {0.0f},
-            .screen = {0.0f},
+            .resolution = {0.0f, 0.0f},
+            .screen = {0.0f, 0.0f},
             .levels = {0.0f, 1.0f},
-            .autoCon = {0.0f},
-            .displayRois = false,
+            .autoCon = {0.0f, 0.0f},
+            .displayRois = 0,
         };
 
         GLuint m_vao, m_vbo, m_ibo;

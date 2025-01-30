@@ -55,7 +55,10 @@ layout (binding = 0) uniform R {
     vec2 iScreen;
     vec2 iLevels;
     vec2 iAuto;
-    bool iDisplayRois;
+    // Tanner (1/30/25): there is an issue with this value changing unexpectedly at high frames when using a bool.
+    // Current suspicion is that this is an issue with how openGL is laying out the memory and that combined with openGL
+    // treating any non-zero value as true. To be extra safe, storing the value as an int and use the lsb as the "bool"
+    uint iDisplayRois;
 };
 
 uniform sampler2D u_image;
@@ -71,7 +74,9 @@ void main() {
     //account for flipped y-axis viewport
     uv.y += (iScreen.y - iResolution.y) / iResolution.y;
 
-    float px = clamp(iAuto.x * (texture(u_image, texCoord).r - iAuto.y), 0.0f, 1.0f);
+    // TODO change this back to texCoord
+
+    float px = clamp(iAuto.x * (texture(u_image, uv).r - iAuto.y), 0.0f, 1.0f);
     vec4 texColor = vec4(px, px, px, 1.0);
 
     if (px < iLevels.x) {
@@ -80,8 +85,8 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    if (iDisplayRois) {
-        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
+    if ((iDisplayRois & 1) == 1) {
+        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, uv).r));
     } else {
         fragColor = texColor;
     }
@@ -438,7 +443,6 @@ void LiveView::paintGL() {
         m_shader_uniforms.autoCon[0] = 1.0f;
         m_shader_uniforms.autoCon[1] = 0.0f;
     }
-
 
     f->glBufferData(GL_UNIFORM_BUFFER, sizeof(m_shader_uniforms), (void*)&m_shader_uniforms, GL_DYNAMIC_DRAW);
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
