@@ -56,7 +56,7 @@ struct ShaderUniforms {
     float screen[2];
     float levels[2];
     float autoCon[2];
-    uint32_t displayRois; // issues using bool with high frame rates
+    uint32_t displayRois; // there seem to be memory layout issues when using a bool here
 };
 
 /*
