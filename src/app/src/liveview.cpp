@@ -108,8 +108,6 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
 
-    m_roisTex = new uint8_t[ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN];
-    memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
     m_shader_uniforms.displayRois = displayRois;
 
     m_backgroundImage = new uint16_t[m_width*m_height];
@@ -147,15 +145,21 @@ void LiveView::createRoiTex() {
         return;
     }
 
-    //reset texture
-    memset(m_roisTex, 0x00, ROIS_TEX_MAX_SIDE_LEN * ROIS_TEX_MAX_SIDE_LEN);
+    float aspect = float(m_width) / float(m_height);
+    int min = std::min(this->size().height(), this->size().width());
+    m_roisTexCurrentSideLen = min;
 
-    uint32_t minActualSideLen = std::min(this->size().height(), this->size().width());
-    m_roisTexCurrentSideLen = std::min(ROIS_TEX_MAX_SIDE_LEN, minActualSideLen);
+    int32_t width = (min / aspect);
+    int32_t height = min * aspect;
+
+    delete[] m_roisTex;
+    m_roisTex = new uint8_t[width * height];
+    memset(m_roisTex, 0x00, width * height);
 
     // scale ROI w/h
-    float scalingFactorW = float(m_roisTexCurrentSideLen) / float(m_width);
-    float scalingFactorH = float(m_roisTexCurrentSideLen) / float(m_height);
+    float scalingFactorW = float(width) / float(m_width);
+    float scalingFactorH = float(height) / float(m_height);
+
     auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
     auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
 
@@ -174,7 +178,7 @@ void LiveView::createRoiTex() {
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
@@ -308,11 +312,7 @@ void LiveView::initializeGL() {
     f->glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     f->glTexImage2D(GL_TEXTURE_2D, 0, m_internalformat, m_width, m_height, 0, GL_RED, m_type, (GLvoid*)0);
 
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_roisTexCurrentSideLen, m_roisTexCurrentSideLen, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    createRoiTex();
 
     spdlog::info("initializeGL - width: {}, height: {}", width, height);
 
