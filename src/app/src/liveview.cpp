@@ -55,10 +55,7 @@ layout (binding = 0) uniform R {
     vec2 iScreen;
     vec2 iLevels;
     vec2 iAuto;
-    // Tanner (1/30/25): there is an issue with this value changing unexpectedly at high frames when using a bool.
-    // Current suspicion is that this is an issue with how openGL is laying out the memory combined with openGL
-    // treating any non-zero value as true. To be extra safe, storing the value as an int and use the lsb as the "bool"
-    uint iDisplayRois;
+    bool iDisplayRois;
 };
 
 uniform sampler2D u_image;
@@ -83,7 +80,7 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    if ((iDisplayRois & 1) == 1) {
+    if (iDisplayRois) {
         fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
     } else {
         fragColor = texColor;
