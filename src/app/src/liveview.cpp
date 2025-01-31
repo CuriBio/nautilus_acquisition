@@ -55,6 +55,7 @@ layout (binding = 0) uniform R {
     vec2 iScreen;
     vec2 iLevels;
     vec2 iAuto;
+    bool iDisplayRois;
 };
 
 uniform sampler2D u_image;
@@ -64,7 +65,6 @@ vec4 fragCoord = gl_FragCoord;
 
 void main() {
     vec2 uv = vec2(fragCoord.x, iResolution.y - fragCoord.y) / iResolution.xy;
-    uv -= 0.5;
     uv.x *= iResolution.x / iResolution.y;
 
     //TODO This needs to handle flips in config settings
@@ -80,9 +80,11 @@ void main() {
         texColor = vec4(1.0, 0.0, 0.0, 1.0);
     }
 
-    //TODO need a uniform to control showing the rois, disable for now since we aren't releasing this feature yet anyway
-    //fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(ceil(texture(u_rois, texCoord).r)));
-    fragColor = texColor;
+    if (iDisplayRois) {
+        fragColor = mix(texColor, vec4(0.0f, 1.0f, 0.0f, 1.0f), float(texture(u_rois, texCoord).r));
+    } else {
+        fragColor = texColor;
+    }
 })";
 
 /*
@@ -90,7 +92,7 @@ void main() {
  *
  * @param parent QWidget pointer to parent widget.
  */
-LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip) : QOpenGLWidget(parent) {
+LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, bool displayRois) : QOpenGLWidget(parent) {
     m_width = width;
     m_height = height;
 
@@ -103,8 +105,7 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
 
-    m_roisTex = new uint8_t[m_width * m_height];
-    memset(m_roisTex, 0x00, m_width * m_height);
+    m_shader_uniforms.displayRois = displayRois;
 
     m_backgroundImage = new uint16_t[m_width*m_height];
     for (size_t i = 0; i < m_width*m_height; i++) {
@@ -124,45 +125,79 @@ LiveView::LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip,
 LiveView::~LiveView() {
 }
 
-void LiveView::UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
+void LiveView::UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets) {
     spdlog::info("Updating roi offsets");
     m_roiOffsets = roiOffsets;
+    m_roiCfg = cfg;
+    createRoiTex();
+}
 
-    //reset texture
-    memset(m_roisTex, 0x00, m_width * m_height);
+void LiveView::UpdateDisplayRois(bool display) {
+    m_shader_uniforms.displayRois = display;
+    this->update();
+}
 
-    //TODO uncomment when roi liveview is ready
-    // for (auto roiStart : m_roiOffsets) {
-    //     drawROI(roiStart, cfg->width / cfg->scale, cfg->height / cfg->scale, 1);
-    // }
+void LiveView::createRoiTex() {
+    if (m_roiOffsets.size() == 0) {
+        return;
+    }
+
+    float aspect = float(m_width) / float(m_height);
+    int min = std::min(this->size().height(), this->size().width());
+
+    int32_t width = (min / aspect);
+    int32_t height = min * aspect;
+
+    delete[] m_roisTex;
+    m_roisTex = new uint8_t[width * height];
+    memset(m_roisTex, 0x00, width * height);
+
+    // scale ROI w/h
+    float scalingFactorW = float(width) / float(m_width);
+    float scalingFactorH = float(height) / float(m_height);
+
+    auto scaledW = static_cast<uint32_t>(float(m_roiCfg.width / m_roiCfg.scale) * scalingFactorW);
+    auto scaledH = static_cast<uint32_t>(float(m_roiCfg.height / m_roiCfg.scale) * scalingFactorH);
+
+    for (auto roiStart : m_roiOffsets) {
+        // scale roi offset
+        std::tuple<uint32_t, uint32_t> scaledOffset = std::make_tuple(
+            static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
+            static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
+        );
+        drawROI(scaledOffset, scaledW, scaledH, width, 3);
+    }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glActiveTexture(GL_TEXTURE1);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_width, m_height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
 
     this->update();
 }
 
-void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t height, uint8_t border) {
+void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t height, int32_t texWidth, uint8_t border) {
     if (!m_roisTex) { return; }
 
     size_t x, y;
     std::tie(x, y) = offsets;
 
     auto from_xy = [&](int32_t x, int32_t y) {
-        return Rois::roiToOffset(x, y, m_width);
+        return Rois::roiToOffset(x, y, texWidth);
     };
 
     for (size_t i = 0; i < height; i++) {
-            if (i < border || i > height-border-1) {
-                memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
-            } else {
-                memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
-                memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
-            }
+        if (i < border || i > height-border-1) {
+            // if at top or bottom of ROI, draw one line the full width across
+            memset(m_roisTex+from_xy(x, i+y), 0xFF, width);
+        } else {
+            // if in between top/bottom, draw lines for left/right border
+            memset(m_roisTex+from_xy(x, i+y), 0xFF, border);
+            memset(m_roisTex+from_xy(x + width - border, i+y), 0xFF, border);
+        }
     }
 }
 
@@ -272,11 +307,7 @@ void LiveView::initializeGL() {
     f->glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     f->glTexImage2D(GL_TEXTURE_2D, 0, m_internalformat, m_width, m_height, 0, GL_RED, m_type, (GLvoid*)0);
 
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    f->glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_width, m_height, 0, GL_RED, GL_UNSIGNED_BYTE, (GLvoid*)m_roisTex);
+    createRoiTex();
 
     spdlog::info("initializeGL - width: {}, height: {}", width, height);
 
@@ -406,17 +437,13 @@ void LiveView::paintGL() {
         m_shader_uniforms.autoCon[1] = 0.0f;
     }
 
-
     f->glBufferData(GL_UNIFORM_BUFFER, sizeof(m_shader_uniforms), (void*)&m_shader_uniforms, GL_DYNAMIC_DRAW);
     fx->glBindBufferBase(GL_UNIFORM_BUFFER, m_binding, m_R);
 
     // bind the texture and PBO
     f->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_pbo[m_pboIndex]);
     // copy pixels from PBO to texture object
-    // Use offset instead of ponter.
-    f->glActiveTexture(GL_TEXTURE1);
-    f->glBindTexture(GL_TEXTURE_2D, m_textures[1]);
-
+    // Use offset instead of pointer.
     f->glActiveTexture(GL_TEXTURE0);
     f->glBindTexture(GL_TEXTURE_2D, m_textures[0]);
     f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_RED, m_type, 0);
@@ -447,4 +474,12 @@ void LiveView::paintGL() {
     f->glBindTexture(GL_TEXTURE_2D, 0);
 
     m_pboIndex = 1 - m_pboIndex;
+}
+
+
+/*
+ * @breif Resize live view window
+ */
+void LiveView::resizeGL(int w, int h) {
+    createRoiTex();
 }

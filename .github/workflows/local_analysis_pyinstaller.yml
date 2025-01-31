@@ -24,9 +24,9 @@ jobs:
         pip install -r src/requirements-dev.txt
         pip install -r src/requirements.txt
         pyinstaller -i app/icon/logo.ico -F src/local_analysis.py
-  
+
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: local_analysis
         path: src/local_analysis/dist/*

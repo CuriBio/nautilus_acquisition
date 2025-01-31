@@ -426,6 +426,7 @@ class MainWindow : public QMainWindow {
         void settingsChanged(std::filesystem::path path, std::string prefix);
         void updateTriggerMode(int16_t triggerMode);
         void updateEnableLiveViewDuringAcquisition(bool enable);
+        void updateDisplayRoisDuringLiveView(bool enable);
 
         bool checkFrameRateAndDur(StartAcqCheckLogOpts opts);
         bool checkPlateIdRequirements();

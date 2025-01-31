@@ -124,7 +124,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     m_width = (m_config->rgn.s2 - m_config->rgn.s1 + 1) / m_config->rgn.sbin;
     m_height = (m_config->rgn.p2 - m_config->rgn.p1 + 1) / m_config->rgn.pbin;
 
-    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip);
+    m_liveView = new LiveView(parent, m_width, m_height, m_config->vflip, m_config->hflip, m_config->displayRoisDuringLiveView);
     m_liveView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     ui.liveViewLayout->addWidget(m_liveView);
 
@@ -199,6 +199,7 @@ MainWindow::MainWindow(std::shared_ptr<Config> params, QMainWindow *parent) : QM
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_ni_dev_change, this, &MainWindow::setupNIDevices);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_trigger_mode_change, this, &MainWindow::updateTriggerMode);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_enable_live_view_during_acquisition_change, this, &MainWindow::updateEnableLiveViewDuringAcquisition);
+    connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_display_rois_during_live_view_change, this, &MainWindow::updateDisplayRoisDuringLiveView);
     connect(m_advancedSetupDialog, &AdvancedSetupDialog::sig_close_adv_settings, this, [this]() { emit sig_update_state(AdvSetupClosed); });
 
     //fps, duration update
@@ -1028,7 +1029,7 @@ void MainWindow::on_plateFormatDropDown_activated(int index) {
         m_roiCfg.h_offset = toml::find<int32_t>(plateFormatFile, "stage", "h_offset");
 
         std::vector<std::tuple<uint32_t, uint32_t>> rois = Rois::roiOffsets(&m_roiCfg, m_width, m_height);
-        m_liveView->UpdateRois(&m_roiCfg, rois);
+        m_liveView->UpdateRois(m_roiCfg, rois);
 
     } catch(const std::exception &e) {
         spdlog::error("Failed to load platemap format values, {}", e.what());
@@ -1192,6 +1193,12 @@ void MainWindow::updateEnableLiveViewDuringAcquisition(bool enable) {
     m_config->enableLiveViewDuringAcquisition = enable;
 }
 
+void MainWindow::updateDisplayRoisDuringLiveView(bool enable) {
+    spdlog::info("display rois during live view updated: {}", enable);
+
+    m_config->displayRoisDuringLiveView = enable;
+    m_liveView->UpdateDisplayRois(enable);
+}
 
 bool MainWindow::checkFrameRateAndDur(StartAcqCheckLogOpts opts) {
     bool log = opts.framerate_dur;

@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -55,6 +55,7 @@ struct ShaderUniforms {
     float screen[2];
     float levels[2];
     float autoCon[2];
+    uint32_t displayRois;  // glsl expects 32bits for a bool in a uniform block
 };
 
 /*
@@ -67,23 +68,26 @@ class LiveView : public QOpenGLWidget {
     Q_OBJECT
 
     public:
-        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip);
+        LiveView(QWidget* parent, uint32_t width, uint32_t height, bool vflip, bool hflip, bool displayRois);
         virtual ~LiveView();
 
         void Clear();
         void UpdateImage(uint8_t* data, float scale, float min);
         void SetBitDepth(uint16_t bitDepth);
         void SetLevel(int level) { m_level = level; };
-        void UpdateRois(Rois::RoiCfg* cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
+        void UpdateRois(Rois::RoiCfg cfg, std::vector<std::tuple<uint32_t, uint32_t>> roiOffsets);
+        void UpdateDisplayRois(bool display);
 
         //QT Overrides
         void initializeGL();
         void paintGL();
+        void resizeGL(int w, int h);
+
 
     private:
         uint8_t* m_imageData{nullptr};
-        uint8_t* m_roisTex{nullptr};
         std::vector<std::tuple<uint32_t, uint32_t>> m_roiOffsets;
+        Rois::RoiCfg m_roiCfg;
 
         uint16_t* m_backgroundImage;
         std::mutex m_lock;
@@ -96,6 +100,8 @@ class LiveView : public QOpenGLWidget {
         float m_maxPixelIntensity{4095.0f};
         int m_level{4095};
 
+        uint8_t* m_roisTex{nullptr};
+
         bool m_vflip{false};
         bool m_hflip{false};
 
@@ -105,10 +111,11 @@ class LiveView : public QOpenGLWidget {
         QImage::Format m_imageOutFmt;
 
         ShaderUniforms m_shader_uniforms = {
-            .resolution = {0.0f},
-            .screen = {0.0f},
+            .resolution = {0.0f, 0.0f},
+            .screen = {0.0f, 0.0f},
             .levels = {0.0f, 1.0f},
-            .autoCon = {0.0f},
+            .autoCon = {0.0f, 0.0f},
+            .displayRois = false,
         };
 
         GLuint m_vao, m_vbo, m_ibo;
@@ -125,7 +132,8 @@ class LiveView : public QOpenGLWidget {
         int m_pboIndex{0};
 
         void SetImageFormat(ImageFormat fmt);
-        void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
+        void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, int32_t texWidth, uint8_t border);
+        void createRoiTex();
 };
 
 #endif //LIVEVIEW_H

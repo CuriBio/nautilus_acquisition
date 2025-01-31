@@ -9,6 +9,8 @@ Added:
 - 8-bit imaging (high speed mode) support
 - Verification of drive serial number on start up. Uses new `disk.hd_serial_num` field in machine.toml as the
   expected value
+- ROI display in Live View. Can be toggled under Advanced Setup and initialized using
+  `acquisition.live_view.display_rois_during_live_view` bool in nautilai.toml
 
 Changed:
 ^^^^^^^^

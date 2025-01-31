@@ -63,6 +63,7 @@ void AdvancedSetupDialog::setDefaultValues() {
     m_enableDownsampleRawFiles = m_config->enableDownsampleRawFiles;
     m_keepOriginalRaw = m_config->keepOriginalRaw;
     m_enableLiveViewDuringAcquisition = m_config->enableLiveViewDuringAcquisition;
+    m_displayRoisDuringLiveView = m_config->displayRoisDuringLiveView;
 
     for (int i=0; i<ui->ledDeviceList->count(); i++) {
         if (ui->ledDeviceList->itemText(i).toStdString() == m_config->niDev) {
@@ -93,6 +94,7 @@ void AdvancedSetupDialog::setDefaultValues() {
     ui->triggerModeList->setCurrentIndex(currentTrigModeIndex);
 
     ui->checkEnableLiveViewDuringAcq->setChecked(m_enableLiveViewDuringAcquisition);
+    ui->checkDisplayRoisDuringLiveView->setChecked(m_displayRoisDuringLiveView);
 
     ui->binFactorList->setCurrentIndex((m_binFactor / 2) - 1);
     ui->binFactorList->setEnabled(m_enableDownsampleRawFiles);
@@ -111,6 +113,7 @@ void AdvancedSetupDialog::updateAdvancedSetup(){
 
     emit this->sig_trigger_mode_change(m_triggerMode);
     emit this->sig_enable_live_view_during_acquisition_change(m_enableLiveViewDuringAcquisition);
+    emit this->sig_display_rois_during_live_view_change(m_displayRoisDuringLiveView);
 
     m_config->enableDownsampleRawFiles = m_enableDownsampleRawFiles;
     m_config->binFactor = m_binFactor;
@@ -181,6 +184,17 @@ void AdvancedSetupDialog::on_triggerModeList_currentTextChanged(const QString &t
 void AdvancedSetupDialog::on_checkEnableLiveViewDuringAcq_stateChanged(int state) {
     m_enableLiveViewDuringAcquisition = state;
 }
+
+
+/*
+* When user updates this checkbox, save changes to be confirmed later.
+*
+* @param new checked state
+*/
+void AdvancedSetupDialog::on_checkDisplayRoisDuringLiveView_stateChanged(int state) {
+    m_displayRoisDuringLiveView = state;
+}
+
 
 /*
 * When user updates this checkbox, disabled/enable binning factor dropdown accordingly.

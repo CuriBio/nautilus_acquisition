@@ -115,6 +115,7 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 
         //acquisition.live_view
         enableLiveViewDuringAcquisition = toml::find<bool>(config, "acquisition", "live_view", "enable_live_view_during_acquisition");
+        displayRoisDuringLiveView = toml::find_or<bool>(config, "acquisition", "live_view", "display_rois_during_live_view", true);
         vflip = toml::find<bool>(machineVars, "acquisition", "live_view", "vflip");
         hflip = toml::find<bool>(machineVars, "acquisition", "live_view", "hflip");
 
@@ -310,6 +311,8 @@ void Config::Dump() {
 
 
     //acquisition.live_view
+    spdlog::info("acquisition.live_view.enable_live_view_during_acquisition: {}", enableLiveViewDuringAcquisition);
+    spdlog::info("acquisition.live_view.display_rois_during_live_view: {}", displayRoisDuringLiveView);
     spdlog::info("acquisition.live_view.vflip: {}", vflip);
     spdlog::info("acquisition.live_view.hflip: {}", hflip);
 
