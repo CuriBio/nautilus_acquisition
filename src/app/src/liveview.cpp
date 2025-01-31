@@ -144,7 +144,6 @@ void LiveView::createRoiTex() {
 
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
-    m_roisTexCurrentSideLen = min;
 
     int32_t width = (min / aspect);
     int32_t height = min * aspect;
@@ -166,7 +165,7 @@ void LiveView::createRoiTex() {
             static_cast<uint32_t>(float(std::get<0>(roiStart)) * scalingFactorW),
             static_cast<uint32_t>(float(std::get<1>(roiStart)) * scalingFactorH)
         );
-        drawROI(scaledOffset, scaledW, scaledH, 3);
+        drawROI(scaledOffset, scaledW, scaledH, width, 3);
     }
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -180,14 +179,14 @@ void LiveView::createRoiTex() {
     this->update();
 }
 
-void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t height, uint8_t border) {
+void LiveView::drawROI(std::tuple<size_t, size_t> offsets, size_t width, size_t height, int32_t texWidth, uint8_t border) {
     if (!m_roisTex) { return; }
 
     size_t x, y;
     std::tie(x, y) = offsets;
 
     auto from_xy = [&](int32_t x, int32_t y) {
-        return Rois::roiToOffset(x, y, m_roisTexCurrentSideLen);
+        return Rois::roiToOffset(x, y, texWidth);
     };
 
     for (size_t i = 0; i < height; i++) {
@@ -290,7 +289,6 @@ void LiveView::initializeGL() {
 
     float aspect = float(m_width) / float(m_height);
     int min = std::min(this->size().height(), this->size().width());
-    m_roisTexCurrentSideLen = min;
 
     f->glViewport(0, aspect * (this->size().height() - min), min / aspect, min * aspect);
 

@@ -48,7 +48,6 @@
 
 #define MAX_ROIS 4
 const int CHANNEL_COUNT = 2;
-const uint32_t ROIS_TEX_MAX_SIDE_LEN = 5000;
 
 #pragma pack(1)
 struct ShaderUniforms {
@@ -56,7 +55,7 @@ struct ShaderUniforms {
     float screen[2];
     float levels[2];
     float autoCon[2];
-    uint32_t displayRois; // there seem to be memory layout issues when using a bool here
+    uint32_t displayRois;  // glsl expects 32bits for a bool in a uniform block
 };
 
 /*
@@ -102,7 +101,6 @@ class LiveView : public QOpenGLWidget {
         int m_level{4095};
 
         uint8_t* m_roisTex{nullptr};
-        uint32_t m_roisTexCurrentSideLen{ROIS_TEX_MAX_SIDE_LEN};
 
         bool m_vflip{false};
         bool m_hflip{false};
@@ -117,7 +115,7 @@ class LiveView : public QOpenGLWidget {
             .screen = {0.0f, 0.0f},
             .levels = {0.0f, 1.0f},
             .autoCon = {0.0f, 0.0f},
-            .displayRois = 0,
+            .displayRois = false,
         };
 
         GLuint m_vao, m_vbo, m_ibo;
@@ -134,7 +132,7 @@ class LiveView : public QOpenGLWidget {
         int m_pboIndex{0};
 
         void SetImageFormat(ImageFormat fmt);
-        void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, uint8_t border);
+        void drawROI(std::tuple<size_t, size_t> offset, size_t width, size_t height, int32_t texWidth, uint8_t border);
         void createRoiTex();
 };
 
