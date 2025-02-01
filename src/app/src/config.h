@@ -75,7 +75,8 @@ class Config {
         uint16_t spdtable;
 
         //device.kinetix.line_read_times options
-        std::vector<double> lineTimes;
+        std::vector<std::string> simplifiedPortNames = { "sensitivity", "speed", "dynamicrange", "subelectron" };
+        std::map<std::string, double> lineTimes;
 
         //device.nidaqmx
         std::string niDev;

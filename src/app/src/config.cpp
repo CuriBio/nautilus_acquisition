@@ -200,10 +200,10 @@ Config::Config(std::filesystem::path cfg, std::filesystem::path profile, cxxopts
 
         //device.kinetix.line_read_times options
         lineTimes = {
-            toml::find<double>(config, "device", "kinetix", "line_read_times", "sensitivity"),
-            toml::find<double>(config, "device", "kinetix", "line_read_times", "speed"),
-            toml::find<double>(config, "device", "kinetix", "line_read_times", "dynamic_range"),
-            toml::find<double>(config, "device", "kinetix", "line_read_times", "sub_electron")
+            { simplifiedPortNames[0], toml::find<double>(config, "device", "kinetix", "line_read_times", "sensitivity")},
+            { simplifiedPortNames[1], toml::find<double>(config, "device", "kinetix", "line_read_times", "speed")},
+            { simplifiedPortNames[2], toml::find<double>(config, "device", "kinetix", "line_read_times", "dynamic_range")},
+            { simplifiedPortNames[3], toml::find<double>(config, "device", "kinetix", "line_read_times", "sub_electron")}
         };
 
         //device.nidaqmx options
@@ -322,10 +322,10 @@ void Config::Dump() {
     spdlog::info("device.photometrics.speed_table_index: {}", spdtable);
 
     //device.kinetix.line_read_times
-    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[0]);
-    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[1]);
-    spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[2]);
-    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[3]);
+    spdlog::info("device.kinetix.line_read_times.sensitivity: {}", lineTimes[simplifiedPortNames[0]]);
+    spdlog::info("device.kinetix.line_read_times.speed: {}", lineTimes[simplifiedPortNames[1]]);
+    spdlog::info("device.kinetix.line_read_times.dynamic_range: {}", lineTimes[simplifiedPortNames[2]]);
+    spdlog::info("device.kinetix.line_read_times.sub_electron: {}", lineTimes[simplifiedPortNames[3]]);
 
     //device.nidaqmx
     spdlog::info("device.nidaqmx.device: {}", niDev);

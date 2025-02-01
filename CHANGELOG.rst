@@ -15,6 +15,7 @@ Added:
 Changed:
 ^^^^^^^^
 - Moved `outdir` from nautilai.toml to `disk.name` in machine.toml
+- Better handling of line_read_times to allow use of second 8-bit mode
 
 Fixed:
 ^^^^^^
