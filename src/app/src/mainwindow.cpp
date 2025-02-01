@@ -547,8 +547,14 @@ void MainWindow::Initialize() {
     ui.ledIntensityEdit->setValue(m_config->ledIntensity);
 
     //Get max Frame rate
-    double max_fps = 1000000.0 / double(m_config->lineTimes[m_expSettings.spdTableIdx] * abs(m_expSettings.region.p2 - m_expSettings.region.p1));
+    std::string portName = m_camInfo.spdTable[m_expSettings.spdTableIdx].portName;
+    portName.erase(std::remove_if(portName.begin(), portName.end(), std::not_fn(::isalpha)), portName.end());
+    std::transform(portName.begin(), portName.end(), portName.begin(), ::tolower);
+    double lineReadTime = m_config->lineTimes[portName];
+
+    double max_fps = 1000000.0 / double(lineReadTime * abs(m_expSettings.region.p2 - m_expSettings.region.p1));
     emit sig_set_fps_duration(max_fps, (m_config->fps <= max_fps) ? m_config->fps : max_fps, m_config->duration);
+    spdlog::info("Line read time: {}", lineReadTime);
     spdlog::info("Max frame rate: {}", max_fps);
 
     if (m_config->asyncInit) {
